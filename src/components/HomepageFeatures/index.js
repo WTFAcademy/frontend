@@ -5,7 +5,7 @@ import styles from './styles.module.css';
 const FeatureList = [
   {
     title: '极简开源教程',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
         社区自制的极简开源教程，让你更快上手Web3技术。
@@ -14,7 +14,7 @@ const FeatureList = [
   },
   {
     title: 'PR-to-Earn',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    Svg: require('@site/static/img/undraw_version_control.svg').default,
     description: (
       <>
         WTF学院为贡献者提供月度奖励及赏金任务。
