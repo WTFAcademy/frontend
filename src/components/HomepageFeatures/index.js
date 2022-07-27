@@ -14,7 +14,7 @@ const FeatureList = [
   },
   {
     title: 'PR-to-Earn',
-    Svg: require('@site/static/img/undraw_version_control.svg').default,
+    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
         WTF学院为贡献者提供月度奖励及赏金任务。
