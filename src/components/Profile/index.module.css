@@ -1,0 +1,28 @@
+.text {
+  position: fixed;
+  right: 240px;
+  color: #000000;
+  top: 17px;
+  z-index: 300;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  position: fixed;
+  right: 300px;
+  top: 17px;
+  z-index: 300;
+}
+
+@media screen and (max-width: 996px) {
+  .text {
+    right: 20px;
+  }
+  
+  .avatar {
+    right: 80px;
+  }
+}

@@ -79,7 +79,7 @@ const config = {
             href: 'https://github.com/AmazingAng/WTFSolidity',
             label: 'GitHub',
             position: 'right',
-          },
+          }
         ],
       },
       footer: {
