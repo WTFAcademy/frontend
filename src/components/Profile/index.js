@@ -1,26 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "./index.module.css";
 import Link from '@docusaurus/Link';
-import { supabase } from "../../utils/auth";
 import { signout } from "../../utils/auth";
+import { useUser } from "../../hooks/useUser";
 
 // If user has logged in, profile will show avatar, else a login button.
 export const Profile = () => {
-	const [user, setUser] = useState(supabase.auth.user());
+	const user = useUser();
 	const isSignIn = user !== null;
-  console.log(user);
-  useEffect(() => {
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        console.log(event, session);
-				setUser(() => session?.user ?? null);
-      }
-    );
-    return () => {
-      authListener?.unsubscribe();
-    };
-  });
-
+ 
   if (isSignIn) {
     return (
 			<>			
