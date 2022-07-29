@@ -4,3 +4,4 @@ node_modules
 .yarn
 .docusaurus
 build
+.DS_Store
