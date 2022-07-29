@@ -8,9 +8,11 @@ import { signout } from "../../utils/auth";
 export const Profile = () => {
 	const [user, setUser] = useState(supabase.auth.user());
 	const isSignIn = user !== null;
+  console.log(user);
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        console.log(event, session);
 				setUser(() => session?.user ?? null);
       }
     );
