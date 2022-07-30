@@ -17,6 +17,14 @@
   z-index: 300;
 }
 
+.text {
+  color: var(--ifm-text-color);
+}
+
+.text:hover {
+  color: var(--ifm-color-primary-light);
+}
+
 @media screen and (max-width: 996px) {
   .text {
     right: 20px;
