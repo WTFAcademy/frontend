@@ -22,6 +22,14 @@ function HomepageHeader() {
             WTF Solidity极简教程
           </Link>
         </div>
+        <br></br>
+        <div className={styles.buttons}>
+          <Link
+            className="button button--secondary button--lg"
+            to="https://github.com/WTFAcademy/WTFEthers">
+            WTF Ethers极简教程
+          </Link>
+        </div>
       </div>
     </header>
   );
