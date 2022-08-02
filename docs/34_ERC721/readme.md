@@ -1,3 +1,14 @@
+---
+title: 34. ERC721
+tags:
+  - solidity
+  - application
+  - wtfacademy
+  - ERC721
+  - ERC165
+  - openzepplin
+---
+
 # Solidity极简入门: 34. ERC721
 
 我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
@@ -109,7 +120,7 @@ interface IERC721 is IERC165 {
 ### IERC721事件
 `IERC721`包含3个事件，其中`Transfer`和`Approval`事件在`ERC20`中也有。
 - `Transfer`事件：在转账时被释放，记录代币的发出地址`from`，接收地址`to`和`tokenid`。
-- `Approval`事件：在授权时释放，记录授权地址`owner，被授权地址`approved`和`tokenid`。
+- `Approval`事件：在授权时释放，记录授权地址`owner`，被授权地址`approved`和`tokenid`。
 - `ApprovalForAll`事件：在批量授权时释放，记录批量授权的发出地址`owner`，被授权地址`operator`和授权与否的`approved`。
 
 ### IERC721函数
