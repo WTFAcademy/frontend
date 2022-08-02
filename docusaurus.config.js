@@ -60,7 +60,7 @@ const config = {
         title: 'WTF学院',
         logo: {
           alt: 'WTF Logo',
-          src: 'img/logo.svg',
+          src: 'img/wtflogo.png',
         },
         items: [
           {
