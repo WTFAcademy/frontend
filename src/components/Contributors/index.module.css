@@ -1,0 +1,35 @@
+.full {
+    /* width: 100%; */
+    margin-left: 100px;
+    margin-right: 100px;
+    background: #A9D6FF;
+    display: flex;
+    flex-wrap: wrap;
+    /* height: 100px; */
+    overflow: hidden;
+    .bt {
+        float:right;
+    }
+}
+
+  
+.pictureDiv{
+    width: 10%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+.featureSvg {
+    /* float:left;     
+    display:inline;  */
+    height: 50px;
+    width: 50px;
+    /* margin-left: 100px;
+    margin-bottom: 50px; */
+    border-radius: 50%;
+}
+
