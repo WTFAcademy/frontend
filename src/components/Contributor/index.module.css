@@ -1,0 +1,148 @@
+
+.site-section-title  {
+    font-size: 22px;
+    text-align: center;
+    padding-top: 10px;
+    position: relative;
+    color: var(--ifm-text-color);
+    /* background-color: var(--ifm-color-emphasis-100); */
+
+    @media (max-width: 480px) {
+      font-size: 30px;
+    }
+}
+
+.show-list {
+  display: flex;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  height: 20vh;
+  width: 80%;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+  /* background-color: var(--ifm-color-emphasis-100); */
+}
+
+.scroll-parent {
+  position: relative;
+  width: 200vw;
+  height: 30rem;
+  padding: 2rem 0;
+  overflow-x: hidden;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.scroll-element {
+  width: inherit;
+  height: inherit;
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+/* .scroll-element img {
+  width: 15%;
+} */
+
+
+.primary {
+  animation: primary 50s linear infinite;
+}
+
+/* .primary:hover {
+  -webkit-animation-play-state: paused !important;
+  -moz-animation-play-state: paused !important;
+  -o-animation-play-state: paused !important;
+  animation-play-state: paused !important;
+} */
+
+
+@keyframes primary {
+  from {
+    left: 0%;
+  }
+  to {
+    left: -100%;
+  }
+}
+
+
+.contri-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.contri-user {
+  display: flex;
+  flex-direction: column;
+  /* width: 8vw; */
+  height: 10vh;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.contri-user-avatar {
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  overflow: hidden;
+  transition: all 0.15s ease-in-out;
+}
+
+
+.ontri-user:hover {
+  opacity: 0.8;
+}
+
+.contri-user-info {
+  text-align: center;
+  white-space: nowrap;
+  margin: 0 6px;
+}
+
+.contri-user-name {
+  overflow: hidden;
+  max-width: 92px;
+  text-overflow: ellipsis;
+}
+
+.background {
+  background-color: var(--ifm-hover-overlay);
+  padding: 20px 0;
+}
+
+.expand-text {
+  text-align: center;
+  border: 1px solid rgb(220, 222, 224);
+  width: 60px;
+  border-radius: 100px;
+  margin: auto auto;
+}
+
+.expand-text:hover {
+  background-color: var(--ifm-color-secondary);
+}
+
+.expand {
+  margin: 2% 10%;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+}
+
+.expand-all {
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+  height: 100px;
+  align-items: center;
+  justify-content: center;
+}
