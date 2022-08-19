@@ -20,7 +20,7 @@ WTF技术社群discord，内有加微信群方法：[链接](https://discord.gg/
 ## Solidity中的函数
 solidity官方文档里把函数归到数值类型，但我觉得差别很大，所以单独分一类。我们先看一下solidity中函数的形式：
 ```solidity
-    function (<parameter types>) {internal|external} [pure|view|payable] [returns (<return types>)]
+    function (<parameter types>) {internal|external|public|private} [pure|view|payable] [returns (<return types>)]
 ```
 看着些复杂，咱们从前往后一个一个看（方括号中的是可写可不写的关键字）：
 
@@ -62,7 +62,7 @@ solidity官方文档里把函数归到数值类型，但我觉得差别很大，
     contract FunctionTypes{
         uint256 public number = 5;
 ```
-定义一个`add()`函数，每次调用，输出 `number + 1`。
+定义一个`add()`函数，每次调用，每次给`number + 1`。
 ```solidity
     // 默认
     function add() external{
@@ -127,5 +127,5 @@ solidity官方文档里把函数归到数值类型，但我觉得差别很大，
 ![3-2.png](./img/3-2.png)
 
 ## 总结
-在第三讲，我们介绍了`solidity`中的函数类型，比较难理解的是`pure`和`view`，在其他语言中没出现过。`solidity`引入`pure`和`view`关键字主要是为了节省`gas`和控制函数权限，这两种方程都是不消耗`gas`的。
+在这一讲，我们介绍了`solidity`中的函数类型，比较难理解的是`pure`和`view`，在其他语言中没出现过。`solidity`引入`pure`和`view`关键字主要是为了节省`gas`和控制函数权限，这两种方程都是不消耗`gas`的。
 

@@ -19,7 +19,7 @@ WTF技术社群discord，内有加微信群方法：[链接](https://discord.gg/
 -----
 
 ## Solidity简述
-`Solidity`是以太坊虚拟机（`EVM`）智能合约的语言。同时，我也觉得`solidity`是玩链上项目必备的技能：区块链项目大部分是开源的，如果你能读懂代码，能帮你规避很多亏钱项目。
+`Solidity`是以太坊虚拟机（`EVM`）智能合约的语言。同时，我认为`solidity`是玩链上项目必备的技能：区块链项目大部分是开源的，如果你能读懂代码，就可以规避很多亏钱项目。
 
 `Solidity`具有两个特点：
 
@@ -27,7 +27,7 @@ WTF技术社群discord，内有加微信群方法：[链接](https://discord.gg/
 2. 高级：不会`solidity`，在币圈显得很low。
 
 ## 开发工具：remix
-本教程中，我会用`remix`来跑`solidity`合约。`remix`是以太坊官方推荐的智能合约开发IDE，适合新手，可以在浏览器中快速部署测试智能合约，你不需要在本地安装任何程序。
+本教程中，我会用`remix`来跑`solidity`合约。`remix`是以太坊官方推荐的智能合约开发IDE（集成开发环境），适合新手，可以在浏览器中快速部署测试智能合约，你不需要在本地安装任何程序。
 
 网址：[remix.ethereum.org](https://remix.ethereum.org)
 
@@ -41,14 +41,15 @@ WTF技术社群discord，内有加微信群方法：[链接](https://discord.gg/
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 contract HelloWeb3{
-    string public _string = "Hello Web3!";}
+    string public _string = "Hello Web3!";
+}
 ```
 我们拆开分析，学习solidity代码源文件的结构：
 1. 第1行是注释，会写一下这个代码所用的软件许可（license），这里用的是MIT license。如果不写许可，编译时会警告（warning），但程序可以运行。solidity的注释由“//”开头，后面跟注释的内容（不会被程序运行）。
 ```solidity
 // SPDX-License-Identifier: MIT
 ```
-2. 第2行声明源文件所用的solidity版本，因为不同版本语法有差别。这行代码意思是源文件将不允许低于 0.8.4 版本并且不高于 0.9.0 的编译器编译（第二个条件由`^`提供）。
+2. 第2行声明源文件所用的solidity版本，因为不同版本语法有差别。这行代码意思是源文件将不允许低于 0.8.4 版本并且不高于 0.9.0 的编译器编译（第二个条件由`^`提供）。Solidity 语句以分号（;）结尾。
 ```solidity
 pragma solidity ^0.8.4;
 ```
@@ -56,7 +57,8 @@ pragma solidity ^0.8.4;
 3. 第3-4行是合约部分，第3行创建合约（contract），并声明合约的名字 HelloWeb3。第4行是合约的内容，我们声明了一个string（字符串）变量_string，并给他赋值 “Hello Web3!”。
 ```solidity
 contract HelloWeb3{
-    string public _string = "Hello Web3!";}
+    string public _string = "Hello Web3!";
+}
 ```
 以后我们会更细的介绍solidity中的变量。
 
@@ -74,7 +76,7 @@ contract HelloWeb3{
 部署成功后，你会在下面看到名为`HelloWeb3`的合约，点击`_string`，就能看到我们代码中写的 “Hello Web3!” 了。
 
 ## 总结
-第一讲，我们简单介绍了`solidity`，`remix`工具，并完成了第一个`solidity`程序--`HelloWeb3`。下面我们将继续`solidity`旅程！
+这一讲，我们简单介绍了`solidity`，`remix`工具，并完成了第一个`solidity`程序--`HelloWeb3`。下面我们将继续`solidity`旅程！
 
 ### 中文solidity资料推荐：
 1. [Solidity中文文档](https://solidity-cn.readthedocs.io/zh/develop/introduction-to-smart-contracts.html)（官方文档的中文翻译）

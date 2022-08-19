@@ -35,7 +35,7 @@ tags:
 ```
 
 ### `abi.encode`
-将给定参数利用[ABI规则](https://learnblockchain.cn/docs/solidity/abi-spec.html)编码。`ABI`被设计出来跟智能合约交互，他将每个参数转填充为32字节的数据，并拼接在一起。如果你要和合约交互，你要用的就是`abi.encode`。
+将给定参数利用[ABI规则](https://learnblockchain.cn/docs/solidity/abi-spec.html)编码。`ABI`被设计出来跟智能合约交互，他将每个参数填充为32字节的数据，并拼接在一起。如果你要和合约交互，你要用的就是`abi.encode`。
 ```solidity
     function encode() public view returns(bytes memory result) {
         result = abi.encode(x, addr, name, array);
@@ -115,6 +115,22 @@ tags:
         * Call the getAllWaves method from your Smart Contract
         */
     const waves = await wavePortalContract.getAllWaves();
+```
+3. 对不开源合约进行反编译后，某些函数无法查到函数签名，可通过ABI进行调用。
+- 0x533ba33a() 是一个反编译后显示的函数，只有函数编码后的结果，并且无法查到函数签名
+![](./img/27-4.png)
+![](./img/27-5.png)
+- 这种情况无法通过构造interface接口或contract来进行调用
+![](./img/27-6.png)
+
+这种情况下，就可以通过ABI函数选择器来调用
+```solidity
+    bytes memory data = abi.encodeWithSelector(bytes4(0x533ba33a));
+
+    (bool success, bytes memory returnedData) = address(contract).staticcall(data);
+    require(success);
+
+    return abi.decode(returnedData, (uint256));
 ```
 
 ## 总结
