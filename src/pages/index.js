@@ -5,6 +5,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import { Profile } from '../components/Profile/index';
+import { Contributor } from '../components/Contributor/index';
 
 import styles from './index.module.css';
 function HomepageHeader() {
@@ -44,6 +45,7 @@ export default function Home() {
       <HomepageHeader />
       <main>
         <HomepageFeatures />
+        <Contributor />
       </main>
     </Layout>
   );
