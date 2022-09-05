@@ -4,6 +4,40 @@
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
+
+
+/**
+ * Defines a section with overridable defaults
+ * @param {string} section
+ * @param {import('@docusaurus/plugin-content-docs').Options} options
+ */
+function defineSection(section, version = {}, options = {}) {
+  return [
+    '@docusaurus/plugin-content-docs',
+    /** @type {import('@docusaurus/plugin-content-docs').Options} */
+    ({
+      path: `docs/${section}`,
+      routeBasePath: section,
+      id: section,
+      sidebarPath: require.resolve('./sidebars-default.js'),
+      breadcrumbs: false,
+      editUrl: 'https://github.com/WTFAcademy/frontend',
+      versions: version && {
+        current: {
+          label: version.label,
+        },
+      },
+      ...options,
+    }),
+  ];
+}
+
+const SECTIONS = [
+  defineSection('solidity-start'),
+  defineSection('solidity-advanced'),
+  defineSection('ether-start'),
+];
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'WTF学院',
@@ -32,20 +66,32 @@ const config = {
       'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
-        docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/WTFAcademy/frontend',
-        },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/WTFAcademy/frontend',
-        },
+        // docs: {
+        //   sidebarPath: require.resolve('./sidebars.js'),
+        //   // Please change this to your repo.
+        //   // Remove this to remove the "edit this page" links.
+        //   editUrl:
+        //     'https://github.com/WTFAcademy/frontend',
+        // },
+        // blog: {
+        //   showReadingTime: true,
+        //   // Please change this to your repo.
+        //   // Remove this to remove the "edit this page" links.
+        //   editUrl:
+        //     'https://github.com/WTFAcademy/frontend',
+        // },
+        
+        // docs: {
+        //   path: 'docs/home',
+        //   routeBasePath: '/',
+        //   sidebarPath: require.resolve('./sidebars.js'),
+        //   breadcrumbs: false,
+        //   // Please change this to your repo.
+        //   // Remove this to remove the "edit this page" links.
+        //   editUrl: 'https://github.com/WTFAcademy/frontend',
+        // },
+        docs: false,
+        blog: false,
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
@@ -53,6 +99,33 @@ const config = {
     ],
   ],
 
+  plugins: [
+    ...SECTIONS,
+    // [
+    //   '@docusaurus/plugin-content-docs',
+    //   {
+    //     id: 'solidity-start',
+    //     path: 'docs/solidity',
+    //     routeBasePath: 'solidity',
+    //     sidebarPath: require.resolve('./sidebars.js'),
+    //     breadcrumbs: false,
+    //     editUrl: 'https://github.com/WTFAcademy/frontend',
+    //     // ……其他选项
+    //   },
+    // ],
+    // [
+    //   '@docusaurus/plugin-content-docs',
+    //   {
+    //     id: 'ether',
+    //     path: 'docs/ether',
+    //     routeBasePath: 'ether',
+    //     sidebarPath: require.resolve('./sidebars.js'),
+    //     breadcrumbs: false,
+    //     editUrl: 'https://github.com/WTFAcademy/frontend',
+    //     // ……其他选项
+    //   },
+    // ],
+  ],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
@@ -69,8 +142,7 @@ const config = {
             position: 'left',
           },
           {
-            type: 'doc',
-            docId: 'intro',
+            href: '/solidity-start/',
             position: 'left',
             label: 'Solidity入门',
           },
@@ -94,7 +166,7 @@ const config = {
             items: [
               {
                 label: 'WTF Solidity',
-                to: '/docs/intro',
+                to: '/solidity-start/',
               },
             ],
           },

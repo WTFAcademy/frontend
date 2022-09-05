@@ -9,7 +9,7 @@ export default function LearningCenter() {
         {
             title: 'Solidity 入门',
             imgUrl: require('@site/static/img/course_solidity_start.jpg').default,
-            linkUrl: '/docs/intro',
+            linkUrl: '/solidity-start/',
             description: (
                 <>
                 学习solidity基础
@@ -19,7 +19,7 @@ export default function LearningCenter() {
         {
             title: 'Solidity 进阶',
             imgUrl: require('@site/static/img/course_solidity_start.jpg').default,
-            linkUrl: '/docs/intro',
+            linkUrl: '/solidity-advanced/',
             description: (
                 <>
                 学习solidity进阶内容
@@ -29,7 +29,7 @@ export default function LearningCenter() {
         {
             title: 'Ethers.js 入门',
             imgUrl: require('@site/static/img/course_ethers_start.jpg').default,
-            linkUrl: '/docs/intro',
+            linkUrl: '/ether-start/',
             description: (
                 <>
                 学习Ethers.js基础
