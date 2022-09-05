@@ -66,30 +66,6 @@ const config = {
       'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
-        // docs: {
-        //   sidebarPath: require.resolve('./sidebars.js'),
-        //   // Please change this to your repo.
-        //   // Remove this to remove the "edit this page" links.
-        //   editUrl:
-        //     'https://github.com/WTFAcademy/frontend',
-        // },
-        // blog: {
-        //   showReadingTime: true,
-        //   // Please change this to your repo.
-        //   // Remove this to remove the "edit this page" links.
-        //   editUrl:
-        //     'https://github.com/WTFAcademy/frontend',
-        // },
-        
-        // docs: {
-        //   path: 'docs/home',
-        //   routeBasePath: '/',
-        //   sidebarPath: require.resolve('./sidebars.js'),
-        //   breadcrumbs: false,
-        //   // Please change this to your repo.
-        //   // Remove this to remove the "edit this page" links.
-        //   editUrl: 'https://github.com/WTFAcademy/frontend',
-        // },
         docs: false,
         blog: false,
         theme: {
