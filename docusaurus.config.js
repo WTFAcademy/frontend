@@ -70,7 +70,7 @@ const config = {
           },
           {
             type: 'doc',
-            docId: 'ether',
+            docId: 'intro',
             position: 'left',
             label: 'Solidity入门',
           },
