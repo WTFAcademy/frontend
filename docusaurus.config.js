@@ -64,16 +64,20 @@ const config = {
         },
         items: [
           {
-            type: 'doc',
-            docId: 'intro',
+            href: '/learning-center',
+            label: '学习中心',
             position: 'left',
-            label: 'WTFSolidity',
           },
-          //{to: '/blog', label: 'Blog', position: 'left'},
+          {
+            type: 'doc',
+            docId: 'ether',
+            position: 'left',
+            label: 'Solidity入门',
+          },
           {
             href: 'https://github.com/AmazingAng/WTFSolidity/discussions',
             label: '论坛',
-            position: 'right',
+            position: 'left',
           },
           {
             href: 'https://github.com/AmazingAng/WTFSolidity',
