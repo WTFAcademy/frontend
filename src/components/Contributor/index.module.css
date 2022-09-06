@@ -7,11 +7,13 @@
     color: var(--ifm-text-color);
     /* background-color: var(--ifm-color-emphasis-100); */
 
-    @media (max-width: 480px) {
-      font-size: 30px;
-    }
 }
 
+@media (max-width: 480px) {
+  .site-section-title{
+    font-size: 30px;
+  }
+}
 .show-list {
   display: flex;
 }
