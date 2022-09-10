@@ -11,11 +11,21 @@ import {
   Text,
   Textarea,
   NextUIProvider,
-	createTheme
+  createTheme,
+  Checkbox,
 } from "@nextui-org/react";
 import Layout from "@theme/Layout";
+import { useColorMode } from "@docusaurus/theme-common";
+
 
 export default function Me() {
+	return (
+		<Layout>
+			<MeContainer />
+		</Layout>
+	)
+}
+function MeContainer() {
   const [visible, setVisible] = React.useState(true);
   const openEdit = () => setVisible(true);
 
@@ -24,11 +34,7 @@ export default function Me() {
     console.log("closed");
   };
 
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
-  useEffect(() => {
-    const theme = document.documentElement.getAttribute("data-theme");
-    setIsDarkTheme(theme === "dark");
-  }, []);
+  const { colorMode, setColorMode } = useColorMode();
   const darkTheme = createTheme({
     type: "dark",
     theme: {},
@@ -38,8 +44,7 @@ export default function Me() {
     theme: {},
   });
   return (
-    <NextUIProvider theme={isDarkTheme ? darkTheme : lightTheme}>
-      <Layout>
+      <NextUIProvider theme={colorMode === "dark" ? darkTheme : lightTheme}>
         <Grid.Container justify="center">
           <UserInfo openEdit={openEdit} />
         </Grid.Container>
@@ -69,8 +74,7 @@ export default function Me() {
             </Modal.Footer>
           </Modal>
         </div>
-      </Layout>
-    </NextUIProvider>
+      </NextUIProvider>
   );
 }
 
@@ -86,7 +90,7 @@ function UserForm() {
       <Grid xs={16}>
         <Input
           required
-					bordered
+          bordered
           helperText="Required"
           fullWidth
           label="Username"
@@ -95,15 +99,30 @@ function UserForm() {
       </Grid>
       <Grid xs={16}>
         <Input
-					bordered
+          bordered
           fullWidth
           helperText="Required"
           label="Name"
           placeholder="Enter your name"
         />
       </Grid>
+      <Grid xs={16}>
+        <Input
+          bordered
+          fullWidth
+          helperText="Required"
+          label="Role"
+          placeholder="Enter your role"
+        />
+      </Grid>
       <Grid xs={6}>
-        <Input bordered size="lg" helperText="" label="国家/地区" placeholder="" />
+        <Input
+          bordered
+          size="lg"
+          helperText=""
+          label="国家/地区"
+          placeholder=""
+        />
       </Grid>
       <Grid xs={6}>
         <Input bordered size="lg" label="城市/省份" placeholder="" />
@@ -111,7 +130,7 @@ function UserForm() {
       <Grid xs={16}>
         <Textarea
           width="600px"
-					bordered
+          bordered
           helperText="Required"
           label="简介"
           placeholder="eg: solidty, javascript"
