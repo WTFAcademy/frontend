@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./index.module.css";
 import Link from '@docusaurus/Link';
-import { signout } from "../../utils/auth";
-import { useUser } from "../../hooks/useUser";
+import { signout } from "../../../utils/auth";
+import { useUser } from "../../../hooks/useUser";
 
 // If user has logged in, profile will show avatar, else a login button.
 export const Profile = () => {

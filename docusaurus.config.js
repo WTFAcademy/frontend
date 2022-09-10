@@ -128,6 +128,10 @@ const config = {
             position: 'left',
           },
           {
+            type: 'custom-profile',
+            position: 'right'
+          },
+          {
             href: 'https://github.com/AmazingAng/WTFSolidity',
             label: 'GitHub',
             position: 'right',
