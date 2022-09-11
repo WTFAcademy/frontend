@@ -135,20 +135,35 @@ const config = {
         ],
       },
       footer: {
-        style: 'dark',
+        logo: {
+          src: 'img/wtflogo.png',
+          height: '36px',
+        },
         links: [
           {
-            title: '教程',
+            title: '产品',
             items: [
               {
-                label: 'WTF Solidity',
-                to: '/solidity-start/',
+                label: '学习中心',
+                to: '/learning-center',
+              },
+              {
+                label: '课程',
+                to: '/learning-center',
+              },
+              {
+                label: '论坛',
+                href: 'https://github.com/AmazingAng/WTFSolidity/discussions',
               },
             ],
           },
           {
-            title: '社群',
+            title: '社区',
             items: [
+              {
+                label: 'GitHub',
+                href: 'https://github.com/WTFAcademy',
+              },
               {
                 label: 'Discord',
                 href: 'https://discord.gg/5akcruXrsk',
@@ -164,24 +179,20 @@ const config = {
             ],
           },
           {
-            title: 'More',
+            title: '捐款',
             items: [
               {
-                label: '论坛',
-                to: 'https://github.com/AmazingAng/WTFSolidity/discussions',
+                label: 'Gitcoin',
+                href: 'https://gitcoin.co/grants/6090/wtf-solidity',
               },
               {
-                label: 'GitHub',
+                label: 'Mirror',
                 href: 'https://github.com/WTFAcademy',
-              },
-              {
-                label: 'PeopleDAO',
-                href: 'https://people-dao.com/',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} WTF Academy. Built with Docusaurus.`,
+        copyright: `© ${new Date().getFullYear()} WTF Academy.`,
       },
       prism: {
         theme: lightCodeTheme,

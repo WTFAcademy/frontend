@@ -58,16 +58,16 @@ export const Contributor = () => {
   return (
     <section>
       <div className={styles['background']}>
-        <div className={styles["site-section-title"]}>
-          社区贡献者
-        </div>
+          <div className={styles["site-section-title"]}>
+            社区贡献者
+          </div>
+          
+          <span className={styles.learningCenterDesc}>社区贡献者让这一切成为可能</span>
           {expand && expandList()}
           <div className={styles['show-list']}>
           {!expand && scrollList()}
-          <div className={styles['expand-text']}>
-            <a onClick={() => { setExpend(!expand) }}>
-              {expand ? '收起' : '展开'}
-            </a>
+          <div className={styles['expand-text']} onClick={() => { setExpend(!expand) }}>
+            {expand ? '收起' : '展开'}
           </div>
         </div>
       </div>

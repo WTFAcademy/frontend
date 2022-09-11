@@ -98,7 +98,41 @@
 
 
 @media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
+  .learningCenterList{
+    flex-wrap: wrap;
+  }
+  .learningCenterItem{
+    width: 50%;
+  }
+  
+  .learningCenterContent{
+    margin-top: 60px;
+    margin-bottom: 60px;
+  }
+
+  .learningCenterTitle{
+    font-size: 36px;
+    line-height: 1.5;
+  }
+  .learningCenterListTitle{
+    font-size: 28px;
+    line-height: 1.5;
+    padding-left: 24px;
+  }
+  .learningCenterListItemTitle{
+    font-size: 36px;
+    line-height: 1.5;
+  }
+  .learningCenterListItemDesc{
+    font-size: 18px;
+    line-height: 1.5;
+    margin-top: 10px;
+  }
+  .learningCenterDesc{
+    font-size: 20px;
+    line-height: 1.5;
+  }
+  .learningCenterItem{
+    margin: 20px auto;
   }
 }
