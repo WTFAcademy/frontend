@@ -10,6 +10,7 @@ import { Contributor } from '../components/Contributor/index';
 
 import styles from './index.module.css';
 
+
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
 
@@ -17,6 +18,7 @@ function HomepageHeader() {
   const bannerBgImg = require('@site/static/img/home_banner.jpg').default;
   const discordLogoImg = require('@site/static/img/discordlogo.svg').default;
 
+  
   return (
     <header>
       <Profile />

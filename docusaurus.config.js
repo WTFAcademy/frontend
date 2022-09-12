@@ -16,9 +16,10 @@ function defineSection(section, version = {}, options = {}) {
     '@docusaurus/plugin-content-docs',
     /** @type {import('@docusaurus/plugin-content-docs').Options} */
     ({
+      id: section,
       path: `docs/${section}`,
       routeBasePath: section,
-      id: section,
+      include: ['**/*.md', '**/*.mdx'],
       sidebarPath: require.resolve('./sidebars-default.js'),
       breadcrumbs: false,
       editUrl: 'https://github.com/WTFAcademy/frontend',
