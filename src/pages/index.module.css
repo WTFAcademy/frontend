@@ -10,14 +10,155 @@
   overflow: hidden;
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
-}
-
 .buttons {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.wtfBanner{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 135px auto;
+}
+
+.wtfBannerTitle{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-right: 60px;
+}
+
+.wtfBannerMainName{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wtfBannerMainText{
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 72px;
+  line-height: 84px;
+  text-align: center;
+  color: #000000;
+}
+
+.wtfBannerBtnBox{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 60px;
+}
+
+.wtfBannerBtnBox a:hover{
+  text-decoration: none;
+}
+
+.wtfBannerBtn{
+  position: relative;
+  width: 180px;
+  height: 50px;
+  line-height: 50px;
+  color: #fff;
+  text-align: center;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #0A229F;
+  margin: 0 18px;
+  font-family: 'PingFang SC';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.discordBtn{
+  position: relative;
+  width: 180px;
+  height: 50px;
+  color: #0A229F;
+  line-height: 50px;
+  border-radius: 10px;
+  text-align: center;
+  overflow: hidden;
+  background: #fff;
+  margin: 0 18px;
+  border: 1px #0A229F solid;
+  
+  font-family: 'PingFang SC';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.wtfTitle{
+  font-family: 'PingFang SC';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 28px;
+  text-align: center;
+  color: #5B5A62;
+  margin-top: 25px;
+}
+
+.wtfDesc{
+  font-family: 'PingFang SC';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 28px;
+  text-align: center;
+}
+
+.wtfBannerBtn a{
+  color: #fff;
+}
+
+
+
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 2rem;
+  }
+  .wtfBanner{
+    max-width: 85vw;
+    flex-direction: column;
+    margin: 50px auto;
+  }
+  .wtfBannerTitle{
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 30px;
+  }
+  .wtfBannerMainText{
+    white-space: nowrap;
+    font-size: 48px;
+  }
+  .wtfTitle{
+    font-size: 18px;
+    line-height: 1.5;
+  }
+  .wtfDesc{
+    font-size: 18px;
+    line-height: 1.5;
+  }
+  .wtfBannerBtnBox{
+    flex-direction: column;
+    margin-top: 10px;
+  }
+  .wtfBannerBtn{
+    margin: 10px auto;
+  }
+  .wtfBannerMainName img{
+    height: 48px;
+    width: auto;
+  }
 }

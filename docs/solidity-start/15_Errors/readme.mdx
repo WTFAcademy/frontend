@@ -8,7 +8,12 @@ tags:
   - revert/assert/require
 ---
 
+import QuizProgress from '@site/src/components/QuizProgress';
+import QuizForm from '@site/src/components/QuizForm';
+
 # Solidity极简入门: 15. 异常
+
+<QuizProgress lessonId="21656d49-b008-48f8-aa68-0352eb36059e"></QuizProgress>
 
 我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
 
@@ -87,3 +92,4 @@ error TransferNotOwner(); // 自定义error
 ## 总结
 这一讲，我们介绍`solidity`三种抛出异常的方法：`error`，`require`和`assert`，并比较了三种方法的`gas`消耗。结论：`error`既可以告知用户抛出异常的原因，又能省`gas`。
 
+<QuizForm lessonId="21656d49-b008-48f8-aa68-0352eb36059e"></QuizForm>
