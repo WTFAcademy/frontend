@@ -6,12 +6,12 @@ import { BASE_URL, SOLIDITY_COURSE_ID } from '@site/src/configs/request';
 
 export default function QuizForm(props) {
 
-    const [formUrl, setFormUrl] = useState('https://forms.gle/uDgu2thQQkXs9ooP9');
+    const [formUrl, setFormUrl] = useState('#');
 
     useEffect(() => {
         axios.get(`${BASE_URL}/courses/${SOLIDITY_COURSE_ID}/user_lessons/${props.lessonId}`)
             .then((response) => {
-                // setCourseLessons(response.data.data['lesson'][])
+                setFormUrl(response.data.data['lesson']['viewform_url'])
             })
     }, [])
 

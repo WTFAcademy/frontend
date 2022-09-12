@@ -35,15 +35,17 @@ export default function QuizDashboard() {
             })
             .then((response) => {
                 console.log(response);
-            })
+            }).catch((error)=>{
+                console.log(error);
+            });
     }
 
-    function Course({id, sort, estimated_time, title, route_path}) {
+    function Course({id, sort, estimated_time, lesson_title, score_percent, is_finish, route_path}) {
         return (
             <li className={styles.quizListItem}>
                 {/* <Link to={route_path}> */}
-                    <div >{sort}.{title}({estimated_time})</div>
-                    <div></div>
+                    <div className={styles.quizListItemInner}>{sort}.{lesson_title}({estimated_time})</div>
+                    <div className={styles.quizListItemInner}>{is_finish ? '✅' : '❌'}({score_percent}%)</div>
                 {/* </Link> */}
             </li>
         );

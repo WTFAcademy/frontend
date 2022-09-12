@@ -23,7 +23,15 @@ p{
 }
 
 .quizListItem{
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+.quizListItemInner{
+  position: relative;
+  display: inline-block;
 }
 
 .quizGraduateBox{
