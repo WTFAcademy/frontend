@@ -22,10 +22,10 @@ export default function QuizDashboard() {
                 setCourseLessons(response.data.data['list'])
             })
 
-        if (isSignIn) {
-            setAccessToken(JSON.parse(localStorage.getItem('supabase.auth.token'))['currentSession']['access_token']);
-            axios.defaults.headers.post['Authorization'] = `Bearer ${accessToken}`;
-        }
+        // if (isSignIn) {
+        //     setAccessToken(JSON.parse(localStorage.getItem('supabase.auth.token'))['currentSession']['access_token']);
+        //     axios.defaults.headers.post['Authorization'] = `Bearer ${accessToken}`;
+        // }
     }, [])
 
     function applyGraduate(){
