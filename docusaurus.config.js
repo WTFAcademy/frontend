@@ -107,7 +107,6 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'WTF学院',
         logo: {
           alt: 'WTF Logo',
           src: 'img/wtflogo.png',
