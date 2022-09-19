@@ -119,9 +119,14 @@ const config = {
             position: 'left',
           },
           {
-            href: '/solidity-start/',
+            href: '/solidity-start',
             position: 'left',
             label: 'Solidity入门',
+          },
+          {
+            href: '/solidity-advanced',
+            position: 'left',
+            label: 'Solidity进阶',
           },
           {
             href: 'https://github.com/AmazingAng/WTFSolidity/discussions',
