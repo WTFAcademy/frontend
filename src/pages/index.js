@@ -1,11 +1,9 @@
 import React from 'react';
-import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageLearningCenter from '@site/src/components/HomepageLearningCenter';
 import HomepageTarget from '@site/src/components/HomepageTarget';
-import { Profile } from '../components/Profile/index';
 import { Contributor } from '../components/Contributor/index';
 
 import styles from './index.module.css';
@@ -21,7 +19,6 @@ function HomepageHeader() {
   
   return (
     <header>
-      <Profile />
       <div className={styles.wtfBanner}>
         <div className={styles.wtfBannerTitle}>
           <div className={styles.wtfBannerMainName}>
