@@ -10,12 +10,6 @@
   overflow: hidden;
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
-}
-
 .buttons {
   display: flex;
   align-items: center;
@@ -126,4 +120,45 @@
 
 .wtfBannerBtn a{
   color: #fff;
+}
+
+
+
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 2rem;
+  }
+  .wtfBanner{
+    max-width: 85vw;
+    flex-direction: column;
+    margin: 50px auto;
+  }
+  .wtfBannerTitle{
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 30px;
+  }
+  .wtfBannerMainText{
+    white-space: nowrap;
+    font-size: 48px;
+  }
+  .wtfTitle{
+    font-size: 18px;
+    line-height: 1.5;
+  }
+  .wtfDesc{
+    font-size: 18px;
+    line-height: 1.5;
+  }
+  .wtfBannerBtnBox{
+    flex-direction: column;
+    margin-top: 10px;
+  }
+  .wtfBannerBtn{
+    margin: 10px auto;
+  }
+  .wtfBannerMainName img{
+    height: 48px;
+    width: auto;
+  }
 }

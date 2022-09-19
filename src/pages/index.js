@@ -8,6 +8,7 @@ import { Contributor } from '../components/Contributor/index';
 
 import styles from './index.module.css';
 
+
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
 
@@ -15,6 +16,7 @@ function HomepageHeader() {
   const bannerBgImg = require('@site/static/img/home_banner.jpg').default;
   const discordLogoImg = require('@site/static/img/discordlogo.svg').default;
 
+  
   return (
     <header>
       <div className={styles.wtfBanner}>
@@ -31,16 +33,16 @@ function HomepageHeader() {
                   <span>开始学习</span>
               </div>
             </Link>
-            <Link to="https://github.com/AmazingAng/WTFSolidity/discussions">
+            <Link to="https://discord.com/invite/5akcruXrsk">
               <div className={styles.discordBtn}>
                 <span><img src={discordLogoImg} />
-                <discordLogoImg role="img" />
+                  <discordLogoImg src={discordLogoImg} role="img" />
                 加入社区</span>
               </div>
             </Link>
           </div>
         </div>
-        <div class="wtf-banner-img">
+        <div className={styles.wtfBannerImg}>
           <img src={bannerBgImg} />
         </div>
       </div>

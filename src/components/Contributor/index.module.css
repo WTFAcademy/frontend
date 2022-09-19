@@ -1,11 +1,13 @@
 
 .site-section-title  {
-    font-size: 22px;
-    text-align: center;
-    padding-top: 10px;
-    position: relative;
-    color: var(--ifm-text-color);
-    /* background-color: var(--ifm-color-emphasis-100); */
+  position: relative;
+  text-align: center;
+  color: #282938;
+  font-family: 'PingFang SC';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 72px;
+  line-height: 72px;
 
 }
 
@@ -15,7 +17,10 @@
   }
 }
 .show-list {
+  position: relative;
   display: flex;
+  margin-top: 46px;
+  margin-bottom: 64px;
 }
 
 .container {
@@ -86,7 +91,7 @@
   display: flex;
   flex-direction: column;
   /* width: 8vw; */
-  height: 10vh;
+  height: auto;
   align-items: center;
   justify-content: center;
 }
@@ -94,8 +99,8 @@
 
 .contri-user-avatar {
   display: block;
-  width: 40px;
-  height: 40px;
+  width: 90px;
+  height: 90px;
   border-radius: 50px;
   overflow: hidden;
   transition: all 0.15s ease-in-out;
@@ -109,30 +114,44 @@
 .contri-user-info {
   text-align: center;
   white-space: nowrap;
-  margin: 0 6px;
+  margin: 14px 6px;
 }
 
 .contri-user-name {
   overflow: hidden;
-  max-width: 92px;
+  font-family: 'PingFang SC';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 2;
+  text-align: center;
+  color: #5B5A62;
+  max-width: 96px;
   text-overflow: ellipsis;
 }
 
 .background {
-  background-color: var(--ifm-hover-overlay);
   padding: 20px 0;
 }
 
 .expand-text {
-  text-align: center;
-  border: 1px solid rgb(220, 222, 224);
-  width: 60px;
-  border-radius: 100px;
+  position: relative;
   margin: auto auto;
+  font-family: 'PingFang SC';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 45px;
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: color var(--ifm-transition-fast) var(--ifm-transition-timing-default);
 }
 
 .expand-text:hover {
-  background-color: var(--ifm-color-secondary);
+  color: var(--ifm-footer-link-hover-color);
 }
 
 .expand {
@@ -144,7 +163,35 @@
   display: flex;
   flex-direction: column;
   width: 100px;
-  height: 100px;
+  height: auto;
   align-items: center;
   justify-content: center;
+}
+
+.learningCenterDesc{
+  position: relative;
+  font-size: 28px;
+  line-height: 2;
+  color: #747474;
+  text-align: center;
+  display: block;
+  margin-top: 30px;
+}
+
+
+@media screen and (max-width: 996px) {
+
+  .learningCenterDesc{
+    font-size: 18px;
+    line-height: 1.5;
+    margin-top: 10px;
+  }
+
+  .contri-user-avatar {
+    width: 45px;
+    height: 45px;
+  }
+  .contri-user-name{
+    font-size: 16px;
+  }
 }

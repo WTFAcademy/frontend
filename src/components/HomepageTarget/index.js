@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 
 export default function HomepageTarget() {
@@ -23,7 +22,7 @@ export default function HomepageTarget() {
         },
     ];
 
-    function Course({imgUrl, linkUrl, title, description}) {
+    function Course({imgUrl, title}) {
         return (
             <li className={styles.learningCenterItem}>
                 <div className="learning-center-inner">
