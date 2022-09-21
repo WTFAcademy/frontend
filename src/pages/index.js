@@ -55,8 +55,8 @@ export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title={`${siteConfig.title}, Web3 Open University`}
+      description="WTF Academy is Web3 Open University, we create open-source tutorials in Solidity, Ethers.js, and more.">
       <HomepageHeader />
       <main>
         <HomepageLearningCenter />
