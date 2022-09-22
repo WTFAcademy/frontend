@@ -24,9 +24,16 @@ p{
 
 .quizListItem{
   position: relative;
+}
+
+.quizListItem a{
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.quizListItem a:hover{
+  text-decoration: none;
 }
 
 .quizListItemInner{
