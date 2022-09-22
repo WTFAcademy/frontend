@@ -43,10 +43,10 @@ export default function QuizDashboard() {
     function Course({id, sort, estimated_time, lesson_title, score_percent, is_finish, route_path}) {
         return (
             <li className={styles.quizListItem}>
-                {/* <Link to={route_path}> */}
+                <Link to={`/${route_path}`}>
                     <div className={styles.quizListItemInner}>{sort}.{lesson_title}({estimated_time})</div>
                     <div className={styles.quizListItemInner}>{is_finish ? '✅' : '❌'}({score_percent}%)</div>
-                {/* </Link> */}
+                </Link>
             </li>
         );
     }

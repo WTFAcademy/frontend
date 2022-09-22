@@ -12,7 +12,7 @@ export const Profile = () => {
 	const isSignIn = user !== null;
 
   if (isSignIn) {
-    axios.defaults.headers.post['Authorization'] = JSON.parse(localStorage.getItem('supabase.auth.token'))['currentSession']['access_token'];
+    axios.defaults.headers.common['Authorization'] = JSON.parse(localStorage.getItem('supabase.auth.token'))['currentSession']['access_token'];
     return (
 			<div className={clsx('navbar__item navbar__link', styles.box)}>
 				<img className={styles.avatar} src={user?.user_metadata?.avatar_url}/>
