@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
-import axios from 'axios';
-import { BASE_URL, SOLIDITY_COURSE_ID } from '@site/src/configs/request';
+import { instance } from '@site/src/utils/https';
+import { SOLIDITY_COURSE_ID } from '@site/src/configs/request';
 import { useUser } from "../../hooks/useUser";
 
 export default function QuizDashboard() {
@@ -16,21 +16,15 @@ export default function QuizDashboard() {
     const quizCertificationImg = require('@site/static/img/soliditylogo.png').default;
 
     useEffect(() => {
-
-        axios.get(`${BASE_URL}/courses/${SOLIDITY_COURSE_ID}/lessons`)
+        instance.get(`/courses/${SOLIDITY_COURSE_ID}/lessons`)
             .then((response) => {
                 setCourseLessons(response.data.data['list'])
             })
-
-        // if (isSignIn) {
-        //     setAccessToken(JSON.parse(localStorage.getItem('supabase.auth.token'))['currentSession']['access_token']);
-        //     axios.defaults.headers.post['Authorization'] = `Bearer ${accessToken}`;
-        // }
     }, [])
 
     function applyGraduate(){
 
-        axios.post(`${BASE_URL}/courses/${SOLIDITY_COURSE_ID}/graduate`,{
+        instance.post(`/courses/${SOLIDITY_COURSE_ID}/graduate`,{
                 course_id : SOLIDITY_COURSE_ID
             })
             .then((response) => {

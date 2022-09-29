@@ -12,7 +12,7 @@ export const Profile = () => {
 	const isSignIn = user !== null;
 
   if (isSignIn) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('supabase.auth.token'))['currentSession']['access_token']}`;
+    // axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('supabase.auth.token'))['currentSession']['access_token']}`;
     // console.log(axios.defaults.headers.common['Authorization']);
     return (
 			<div className={clsx('navbar__item navbar__link', styles.box)}>
