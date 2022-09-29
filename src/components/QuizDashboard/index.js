@@ -17,7 +17,7 @@ export default function QuizDashboard() {
 
     useEffect(() => {
 
-        axios.get(`${BASE_URL}/courses/${SOLIDITY_COURSE_ID}/lessons`)
+        axios.get(`${BASE_URL}/courses/${SOLIDITY_COURSE_ID}/lessons`, { headers: {'Authorization': JSON.parse(localStorage.getItem('supabase.auth.token'))['currentSession']['access_token']}})
             .then((response) => {
                 setCourseLessons(response.data.data['list'])
             })
