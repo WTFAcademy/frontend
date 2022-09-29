@@ -11,12 +11,6 @@ export const Profile = () => {
 	const user = useUser();
 	const isSignIn = user !== null;
 
-  useEffect(() => {
-    if(isSignIn){
-      reloadRequest();
-    }
-  }, [isSignIn])
-
   if (isSignIn) {
     return (
 			<div className={clsx('navbar__item navbar__link', styles.box)}>
