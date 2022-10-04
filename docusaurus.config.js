@@ -186,7 +186,7 @@ const config = {
               },
               {
                 label: 'Mirror',
-                href: 'https://github.com/WTFAcademy',
+                href: 'https://mirror.xyz/ninjak.eth/collection',
               },
             ],
           },
