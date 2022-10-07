@@ -87,7 +87,7 @@
   font-weight: 400;
   font-size: 28px;
   line-height: 28px;
-  color: #5B5A62;
+  color: var(--custom-title2-color);
 }
 
 

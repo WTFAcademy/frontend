@@ -19,6 +19,7 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
   --custom-footer-background-color: #E2E8F0;
   --custom-title-color: #282938;
+  --custom-title2-color: #5B5A62;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -35,6 +36,7 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
   --custom-footer-background-color: var(--ifm-color-emphasis-100);
   --custom-title-color: #ffffff;
+  --custom-title2-color: #ffffff;
 }
 
 .footer {
