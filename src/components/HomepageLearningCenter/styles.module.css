@@ -23,7 +23,7 @@
   font-size: 72px;
   line-height: 72px;
   text-align: center;
-  color: #282938;
+  color: var(--custom-title-color);
 }
 
 .learningCenterListBox{
@@ -36,7 +36,7 @@
   font-size: 48px;
   line-height: 64px;
   text-align: left;
-  color: #282938;
+  color: var(--custom-title-color);
 }
 
 .learningCenterList {
@@ -58,18 +58,11 @@
   text-decoration: none;
 }
 
-.learningCenterListTitle{
-  font-size: 48px;
-  line-height: 64px;
-  text-align: left;
-  color: #282938;
-}
-
 .learningCenterListItemTitle{
   font-size: 48px;
   line-height: 64px;
   text-align: center;
-  color: #282938;
+  color: var(--custom-title-color);
 }
 
 .learningCenterListItemDesc{
@@ -77,6 +70,12 @@
   font-size: 28px;
   line-height: 28px;
   color: #5B5A62;
+}
+
+.learningCenterImage {
+  width: 322px;
+  height: 155px;
+  object-fit: cover;
 }
 
 
@@ -116,7 +115,7 @@
     padding-left: 24px;
   }
   .learningCenterListItemTitle{
-    font-size: 36px;
+    font-size: 30px;
     line-height: 1.5;
   }
   .learningCenterListItemDesc{

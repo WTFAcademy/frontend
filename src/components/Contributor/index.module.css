@@ -2,20 +2,14 @@
 .site-section-title  {
   position: relative;
   text-align: center;
-  color: #282938;
+  color: var(--custom-title-color);
   font-family: 'PingFang SC';
   font-style: normal;
   font-weight: 600;
   font-size: 72px;
   line-height: 72px;
-
 }
 
-@media (max-width: 480px) {
-  .site-section-title{
-    font-size: 30px;
-  }
-}
 .show-list {
   position: relative;
   display: flex;
@@ -193,5 +187,16 @@
   }
   .contri-user-name{
     font-size: 16px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .site-section-title{
+    font-size: 30px;
+  }
+
+  .expand-text {
+    font-size: 24px;
   }
 }

@@ -23,7 +23,7 @@
   font-size: 72px;
   line-height: 72px;
   text-align: center;
-  color: #282938;
+  color: var(--custom-title-color);
 }
 
 .learningCenterListBox{
