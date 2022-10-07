@@ -46,7 +46,6 @@ function HomepageHeader() {
           <img src={bannerBgImg} />
         </div>
       </div>
-
     </header>
   );
 }

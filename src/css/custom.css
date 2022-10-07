@@ -33,6 +33,7 @@
   --ifm-color-primary-lightest: #4fddbf;
   --ifm-text-color: #ffffff;
   --ifm-button-color: #333333;
+  --ifm-footer-title-color: #ffffff;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
   --custom-footer-background-color: var(--ifm-color-emphasis-100);
   --custom-title-color: #ffffff;
@@ -43,6 +44,10 @@
   background-color: var(--custom-footer-background-color);
   color: #2D3748;
   padding: var(--ifm-footer-padding-vertical) var(--ifm-footer-padding-horizontal);
+}
+
+.footer__title {
+  font-size: 24px;
 }
 
 .menu__list > .menu__list-item--hide {
