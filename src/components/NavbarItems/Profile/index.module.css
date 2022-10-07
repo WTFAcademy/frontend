@@ -23,6 +23,12 @@
   color: var(--ifm-color-primary-light);
 }
 
+.customNavbarItem {
+  color: var(--ifm-navbar-link-color);
+  font-weight: var(--ifm-font-weight-semibold);
+  margin-right: 12px;
+}
+
 @media screen and (max-width: 996px) {
   .text {
     right: 20px;
