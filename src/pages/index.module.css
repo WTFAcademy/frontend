@@ -47,7 +47,7 @@
   font-size: 72px;
   line-height: 84px;
   text-align: center;
-  color: #000000;
+  color: var(--ifm-text-color);
 }
 
 .wtfBannerBtnBox{
