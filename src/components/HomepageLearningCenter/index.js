@@ -15,7 +15,7 @@ export const CourseList = [
     },
     {
         title: 'Solidity 进阶',
-        imgUrl: require('@site/static/img/course_solidity_start.jpg').default,
+        imgUrl: require('@site/static/img/course_solidity_advanced.jpg').default,
         linkUrl: '/solidity-advanced/',
         description: (
             <>
