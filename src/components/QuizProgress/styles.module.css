@@ -11,11 +11,10 @@ p{
   margin: 30px auto;
 }
 
-.quizProgressTime{
+.quizProgressTime, .quizProgressScore{
   position: relative;
   width: auto;
   min-width: 108px;
-  height: 40px;
   border-radius: 10px;
   display: inline-flex;
   justify-content: center;
@@ -23,30 +22,17 @@ p{
   font-family: 'Inter';
   font-style: normal;
   font-weight: 700;
-  font-size: 20px;
+  font-size: 16px;
   color: #FFFFFF;
-  padding: 0 20px;
+  padding: 8px 16px;
+}
 
-  margin-right: 30px;
+.quizProgressTime {
   background: #5594CD;
+  margin-right: 16px;
 }
 
 .quizProgressScore{
-  position: relative;
-  width: auto;
-  min-width: 108px;
-  height: 40px;
-  border-radius: 10px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
-  color: #FFFFFF;
-  padding: 0 20px;
-
   background: #FF8181;
 }
 
