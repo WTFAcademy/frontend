@@ -5,27 +5,27 @@ import request from '@site/src/utils/https';
 import { SOLIDITY_COURSE_ID } from '@site/src/configs/request';
 import { useUser } from "../../hooks/useUser";
 
-export default function QuizDashboard() {
-
+export default function QuizDashboard(props) {
+    const {courseId} = props;
     const [courseLessons, setCourseLessons] = useState([]);
-    const [accessToken, setAccessToken] = useState(null);
 
-	const user = useUser();
+    console.log(courseId);
+
+    const user = useUser();
 	const isSignIn = user !== null;
 
     const quizCertificationImg = require('@site/static/img/soliditylogo.png').default;
 
     useEffect(() => {
-        request.get(`/courses/${SOLIDITY_COURSE_ID}/lessons`)
+        request.get(`/courses/${courseId}/lessons`)
             .then((response) => {
                 setCourseLessons(response.data.data['list'])
             })
     }, [])
 
     function applyGraduate(){
-
-        request.post(`/courses/${SOLIDITY_COURSE_ID}/graduate`,{
-                course_id : SOLIDITY_COURSE_ID
+        request.post(`/courses/${courseId}/graduate`,{
+                course_id : courseId
             })
             .then((response) => {
                 console.log(response);

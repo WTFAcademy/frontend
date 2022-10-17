@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-import { BASE_URL, SOLIDITY_COURSE_ID } from '@site/src/configs/request';
+import { BASE_URL } from '@site/src/configs/request';
 
 let request = axios.create({
     baseURL: BASE_URL,
