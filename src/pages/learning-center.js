@@ -16,7 +16,7 @@ export default function LearningCenter() {
                         ))}
                     </ul>
                 </div>
-            </div>w
+            </div>
         </Layout>
     );
 }
