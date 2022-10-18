@@ -3,9 +3,9 @@ import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 import request from '@site/src/utils/https';
 import { SOLIDITY_COURSE_ID } from '@site/src/configs/request';
+import {useLocation} from "@docusaurus/router";
 
 export default function QuizForm(props) {
-
     const [formUrl, setFormUrl] = useState('#');
 
     useEffect(() => {
