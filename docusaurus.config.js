@@ -36,6 +36,7 @@ function defineSection(section, version = {}, options = {}) {
 const SECTIONS = [
   defineSection('solidity-start'),
   defineSection('solidity-advanced'),
+  defineSection('solidity-application'),
   defineSection('ether-start'),
 ];
 
@@ -126,6 +127,11 @@ const config = {
             href: '/solidity-advanced/',
             position: 'left',
             label: 'Solidity进阶',
+          },
+          {
+            href: '/solidity-application/',
+            position: 'left',
+            label: 'Solidity应用',
           },
           {
             href: 'https://github.com/AmazingAng/WTFSolidity/discussions',
