@@ -24,6 +24,16 @@ export const CourseList = [
         ),
     },
     {
+        title: 'Solidity 应用',
+        imgUrl: require('@site/static/img/course_solidity_apply.jpg').default,
+        linkUrl: '/solidity-application/',
+        description: (
+            <>
+                学习solidity应用内容
+            </>
+        ),
+    },
+    {
         title: 'Ethers.js 入门',
         imgUrl: require('@site/static/img/course_ethers_start.jpg').default,
         linkUrl: '/ether-start/',

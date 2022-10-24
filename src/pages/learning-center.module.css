@@ -9,7 +9,7 @@ p {
 .learningCenterContent {
     position: relative;
     width: 100%;
-    max-width: 1260px;
+    max-width: 1600px;
     margin: 0 auto;
     margin-top: 106px;
     margin-bottom: 170px;
@@ -43,6 +43,7 @@ p {
     position: relative;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     padding: 0;
     width: 100%;
     margin-top: 56px;
@@ -50,8 +51,9 @@ p {
 
 .learningCenterItem {
     list-style: none;
-    width: auto;
+    width: 33.333%;
     text-align: center;
+    margin-bottom: 40px;
 }
 
 .learningCenterItem a {
@@ -72,12 +74,11 @@ p {
     color: #5B5A62;
 }
 
-
-/* .learningCenterItem a:hover,
-.learningCenterItem a:hover{
-  color: var(--ifm-link-hover-color) !improtant;
-} */
-
+@media screen and (max-width: 1600px) {
+    .learningCenterListTitle {
+        padding-left: 50px;
+    }
+}
 
 @media screen and (max-width: 996px) {
     .learningCenterContent {

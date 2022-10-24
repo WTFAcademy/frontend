@@ -36,7 +36,7 @@ function HomepageHeader() {
             <Link to="https://discord.com/invite/5akcruXrsk">
               <div className={styles.discordBtn}>
                 <span><img src={discordLogoImg} />
-                  <discordLogoImg src={discordLogoImg} role="img" />
+                  {/* <discordLogoImg src={discordLogoImg} role="img" /> */}
                 加入社区</span>
               </div>
             </Link>
