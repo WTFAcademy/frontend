@@ -38,4 +38,7 @@ p{
 
 @media screen and (max-width: 996px) {
 
+  .quizProgressTime {
+    margin-bottom: 15px;
+  }
 }

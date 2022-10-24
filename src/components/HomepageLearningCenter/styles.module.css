@@ -84,12 +84,26 @@
   color: var(--ifm-link-hover-color) !improtant;
 } */
 
-
-@media screen and (max-width: 996px) {
-
+@media screen and (max-width: 1600px) {
+  
   .learningCenterList{
     flex-wrap: wrap;
   }
+  .learningCenterItem{
+    width: 33%;
+    margin-bottom: 50px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .learningCenterItem{
+    width: 50%;
+    margin-bottom: 30px;
+  }
+}
+
+@media screen and (max-width: 996px) {
+
   .learningCenterItem{
     width: 100%;
   }

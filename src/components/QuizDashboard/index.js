@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 import request from '@site/src/utils/https';
-import { SOLIDITY_COURSE_ID } from '@site/src/configs/request';
 import { useUser } from "../../hooks/useUser";
 
 export default function QuizDashboard(props) {
     const {courseId} = props;
     const [courseLessons, setCourseLessons] = useState([]);
 
-    console.log(courseId);
+    // console.log(courseId);
 
     const user = useUser();
 	const isSignIn = user !== null;
