@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Link from '@docusaurus/Link';
-import styles from './styles.module.css';
-import request from '@site/src/utils/https';
+import request from '@site/src/api/request';
 import { SOLIDITY_COURSE_ID } from '@site/src/constants/course';
+import styles from './styles.module.css';
 
 export default function QuizProgress(props) {
-
     const [time, setTime] = useState('');
     const [score, setScore] = useState(0);
 

@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Link from '@docusaurus/Link';
+import request from '@site/src/api/request';
 import styles from './styles.module.css';
-import request from '@site/src/utils/https';
-import { useUser } from "../../hooks/useUser";
 
 export default function QuizDashboard(props) {
     const {courseId} = props;
     const [courseLessons, setCourseLessons] = useState([]);
-
-    // console.log(courseId);
-
-    const user = useUser();
-	const isSignIn = user !== null;
-
     const quizCertificationImg = require('@site/static/img/soliditylogo.png').default;
 
     useEffect(() => {

@@ -1,15 +1,14 @@
-import { Octokit } from '@octokit/rest'
+import {Octokit} from '@octokit/rest'
 
 const octokit = new Octokit();
 
 export async function GetContributors(
-    owner =  'wtfacademy',
+    owner = 'wtfacademy',
     repo = 'WTFSolidity',
     page = 1,
     per_page = 100
 ) {
-
-    let { data } = await octokit.repos.listContributors({
+    let {data} = await octokit.repos.listContributors({
         owner,
         repo,
         page,
