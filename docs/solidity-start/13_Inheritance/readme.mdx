@@ -9,10 +9,11 @@ tags:
 
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
+import { SOLIDITY_COURSE_ID, SOLIDITY_BASIC_LESSON_ID_13 } from '@site/src/constants/course';
 
 # Solidity极简入门: 13. 继承
 
-<QuizProgress lessonId="f0868900-c821-4519-8f2c-85b535f4ade2"></QuizProgress>
+<QuizProgress courseId={SOLIDITY_COURSE_ID} lessonId={SOLIDITY_BASIC_LESSON_ID_13}></QuizProgress>
 
 我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
 
@@ -177,4 +178,4 @@ contract C is A {
 ## 总结
 这一讲，我们介绍了`solidity`继承的基本用法，包括简单继承，多重继承，修饰器和构造函数的继承，以及调用父合约中的函数。
 
-<QuizForm lessonId="f0868900-c821-4519-8f2c-85b535f4ade2"></QuizForm>
+<QuizForm courseId={SOLIDITY_COURSE_ID} lessonId={SOLIDITY_BASIC_LESSON_ID_13}></QuizForm>

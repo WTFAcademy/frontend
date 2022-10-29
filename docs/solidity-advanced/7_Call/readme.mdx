@@ -9,10 +9,10 @@ tags:
 ---
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
-import { SOLIDITY_ADVANCED_LESSON_ID_7 } from '@site/src/constants/course';
+import { SOLIDITY_ADVANCED_ID, SOLIDITY_ADVANCED_LESSON_ID_7 } from '@site/src/constants/course';
 
 # Solidity极简入门: 22. Call
-<QuizProgress lessonId={SOLIDITY_ADVANCED_LESSON_ID_7} />
+<QuizProgress courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_7} />
 
 我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
 
@@ -161,4 +161,4 @@ function callNonExist(address _addr) external{
 
 这一讲，我们介绍了如何用`call`这一低级函数来调用其他合约。`call`不是调用合约的推荐方法，因为不安全。但他能让我们在不知道源代码和`ABI`的情况下调用目标合约，很有用。
 
-<QuizForm lessonId={SOLIDITY_ADVANCED_LESSON_ID_7} />
+<QuizForm courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_7} />

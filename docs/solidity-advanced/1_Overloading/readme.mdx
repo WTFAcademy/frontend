@@ -9,11 +9,11 @@ tags:
 
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
-import { SOLIDITY_ADVANCED_LESSON_ID_1 } from '@site/src/constants/course';
+import { SOLIDITY_ADVANCED_ID, SOLIDITY_ADVANCED_LESSON_ID_1 } from '@site/src/constants/course';
 
 # Solidity极简入门: 16. 函数重载
 
-<QuizProgress lessonId={SOLIDITY_ADVANCED_LESSON_ID_1}></QuizProgress>
+<QuizProgress courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_1}></QuizProgress>
 
 我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
 
@@ -62,4 +62,4 @@ function saySomething(string memory something) public pure returns(string memory
 ## 总结
 这一讲，我们介绍了`solidity`中函数重载的基本用法：名字相同但输入参数类型不同的函数可以同时存在，他们被视为不同的函数。
 
-<QuizForm lessonId={SOLIDITY_ADVANCED_LESSON_ID_1}></QuizForm>
+<QuizForm courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_1}></QuizForm>

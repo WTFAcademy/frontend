@@ -1,30 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Link from '@docusaurus/Link';
-import request from '@site/src/api/request';
+import {useRequest} from "ahooks";
+import get from 'lodash/get';
 import styles from './styles.module.css';
+import {getLessons} from "../../api/course";
+
+const quizCertificationImg = require('@site/static/img/soliditylogo.png').default;
 
 export default function QuizDashboard(props) {
     const {courseId} = props;
-    const [courseLessons, setCourseLessons] = useState([]);
-    const quizCertificationImg = require('@site/static/img/soliditylogo.png').default;
-
-    useEffect(() => {
-        request.get(`/courses/${courseId}/lessons`)
-            .then((response) => {
-                setCourseLessons(response.data.data['list'])
-            })
-    }, [])
-
-    function applyGraduate(){
-        request.post(`/courses/${courseId}/graduate`,{
-                course_id : courseId
-            })
-            .then((response) => {
-                console.log(response);
-            }).catch((error)=>{
-                console.log(error);
-            });
-    }
+    const {data} = useRequest(() => getLessons(courseId));
 
     function Course({id, sort, estimated_time, lesson_title, score_percent, is_finish, route_path}) {
         return (
@@ -43,12 +28,12 @@ export default function QuizDashboard(props) {
                 <h2>目录</h2>
                 <div className={styles.quizBox}>
                     <ul className={styles.quizList}>
-                        {courseLessons.map((props, idx) => (
+                        {get(data, 'data.list', []).map((props, idx) => (
                             <Course key={idx} {...props} />
                         ))}
                     </ul>
                     <div className={styles.quizGraduateBox}>
-                        <div className={styles.quizGraduateBtn} onClick={applyGraduate}>
+                        <div className={styles.quizGraduateBtn}>
                             <p>毕业</p>
                         </div>
                     </div>

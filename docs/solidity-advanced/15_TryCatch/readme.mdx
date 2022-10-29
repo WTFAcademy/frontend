@@ -8,10 +8,10 @@ tags:
 ---
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
-import { SOLIDITY_ADVANCED_LESSON_ID_15 } from '@site/src/constants/course';
+import { SOLIDITY_ADVANCED_ID, SOLIDITY_ADVANCED_LESSON_ID_15 } from '@site/src/constants/course';
 
 # Solidity极简入门: 30. Try Catch
-<QuizProgress lessonId={SOLIDITY_ADVANCED_LESSON_ID_15} />
+<QuizProgress courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_15} />
 
 我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
 
@@ -168,4 +168,4 @@ contract OnlyEven{
 - 只能用于外部合约调用和合约创建。
 - 如果`try`执行成功，返回变量必须声明，并且与返回的变量类型相同。
 
-<QuizForm lessonId={SOLIDITY_ADVANCED_LESSON_ID_15} />
+<QuizForm courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_15} />
