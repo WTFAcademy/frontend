@@ -8,11 +8,11 @@ tags:
 ---
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
-import { SOLIDITY_ADVANCED_LESSON_ID_3 } from '@site/src/constants/course';
+import { SOLIDITY_ADVANCED_ID,SOLIDITY_ADVANCED_LESSON_ID_3 } from '@site/src/constants/course';
 
 # Solidity极简入门: 18. Import
 
-<QuizProgress lessonId={SOLIDITY_ADVANCED_LESSON_ID_3}></QuizProgress>
+<QuizProgress courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_3}></QuizProgress>
 
 我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
 
@@ -79,4 +79,4 @@ contract Import {
 ## 总结
 这一讲，我们介绍了利用`import`关键字导入外部源代码的方法。通过`import`关键字，可以引用我们写的其他文件中的合约或者函数，也可以直接导入别人写好的代码，非常方便。
 
-<QuizForm lessonId={SOLIDITY_ADVANCED_LESSON_ID_3} />
+<QuizForm courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_3} />

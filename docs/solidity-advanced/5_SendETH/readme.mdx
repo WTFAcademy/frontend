@@ -8,11 +8,11 @@ tags:
 ---
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
-import { SOLIDITY_ADVANCED_LESSON_ID_5 } from '@site/src/constants/course';
+import { SOLIDITY_ADVANCED_ID, SOLIDITY_ADVANCED_LESSON_ID_5 } from '@site/src/constants/course';
 
 # Solidity极简入门: 20. 发送ETH
 
-<QuizProgress lessonId={SOLIDITY_ADVANCED_LESSON_ID_5} />
+<QuizProgress courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_5} />
 
 我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
 
@@ -145,6 +145,6 @@ function callETH(address payable _to, uint256 amount) external payable{
 - `transfer`有`2300 gas`限制，但是发送失败会自动`revert`交易，是次优选择；
 - `send`有`2300 gas`限制，而且发送失败不会自动`revert`交易，几乎没有人用它。
 
-<QuizForm lessonId={SOLIDITY_ADVANCED_LESSON_ID_5} />
+<QuizForm courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_5} />
 
 
