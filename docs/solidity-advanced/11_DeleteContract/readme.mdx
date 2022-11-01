@@ -9,10 +9,10 @@ tags:
 ---
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
-import { SOLIDITY_ADVANCED_LESSON_ID_11 } from '@site/src/constants/course';
+import { SOLIDITY_ADVANCED_ID, SOLIDITY_ADVANCED_LESSON_ID_11 } from '@site/src/constants/course';
 
 # Solidity极简入门: 26. 删除合约
-<QuizProgress lessonId={SOLIDITY_ADVANCED_LESSON_ID_11} />
+<QuizProgress courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_11} />
 
 我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
 
@@ -84,4 +84,4 @@ contract DeleteContract {
 
 `selfdestruct`是智能合约的紧急按钮，销毁合约并将剩余`ETH`转移到指定账户。当著名的`The DAO`攻击发生时，以太坊的创始人们一定后悔过没有在合约里加入`selfdestruct`来停止黑客的攻击吧。
 
-<QuizForm lessonId={SOLIDITY_ADVANCED_LESSON_ID_11} />
+<QuizForm courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_11} />

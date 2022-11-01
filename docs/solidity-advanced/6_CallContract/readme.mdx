@@ -8,10 +8,10 @@ tags:
 ---
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
-import { SOLIDITY_ADVANCED_LESSON_ID_6 } from '@site/src/constants/course';
+import { SOLIDITY_ADVANCED_ID, SOLIDITY_ADVANCED_LESSON_ID_6 } from '@site/src/constants/course';
 
 # Solidity极简入门: 21. 调用其他合约
-<QuizProgress lessonId={SOLIDITY_ADVANCED_LESSON_ID_6} />
+<QuizProgress courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_6} />
 
 我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
 
@@ -137,4 +137,4 @@ contract OtherContract {
 ## 总结
 这一讲，我们介绍了如何通过目标合约代码（或接口）和地址来创建合约的引用，从而调用目标合约的函数。
 
-<QuizForm lessonId={SOLIDITY_ADVANCED_LESSON_ID_6} />
+<QuizForm courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_6} />

@@ -9,10 +9,11 @@ tags:
 
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
+import { SOLIDITY_COURSE_ID, SOLIDITY_BASIC_LESSON_ID_10 } from '@site/src/constants/course';
 
 # Solidity极简入门: 10. 控制流，用solidity实现插入排序
 
-<QuizProgress lessonId="36b87b91-80cc-473d-8d7d-8581b8b9e97b"></QuizProgress>
+<QuizProgress courseId={SOLIDITY_COURSE_ID} lessonId={SOLIDITY_BASIC_LESSON_ID_10}></QuizProgress>
 
 我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
 
@@ -162,4 +163,4 @@ Remix decoded output 出现错误内容
 ## 总结
 这一讲，我们介绍了`solidity`中控制流，并且用`solidity`写了插入排序。看起来很简单，但实际很难。这就是`solidity`，坑很多，每个月都有项目因为这些小`bug`损失几千万甚至上亿美元。掌握好基础，不断练习，才能写出更好的`solidity`代码。
 
-<QuizForm lessonId="36b87b91-80cc-473d-8d7d-8581b8b9e97b"></QuizForm>
+<QuizForm courseId={SOLIDITY_COURSE_ID} lessonId={SOLIDITY_BASIC_LESSON_ID_10}></QuizForm>

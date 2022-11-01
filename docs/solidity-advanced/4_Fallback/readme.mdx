@@ -9,11 +9,11 @@ tags:
 ---
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
-import { SOLIDITY_ADVANCED_LESSON_ID_4 } from '@site/src/constants/course';
+import { SOLIDITY_ADVANCED_ID, SOLIDITY_ADVANCED_LESSON_ID_4 } from '@site/src/constants/course';
 
 # Solidity极简入门: 19. 接收ETH receive和fallback
 
-<QuizProgress lessonId={SOLIDITY_ADVANCED_LESSON_ID_4} />
+<QuizProgress courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_4} />
 
 我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
 
@@ -102,4 +102,4 @@ receive()   fallback()
 ## 总结
 这一讲，我介绍了`Solidity`中的两种特殊函数，`receive()`和`fallback()`，他们主要在两种情况下被使用，他们主要用于处理接收`ETH`和代理合约`proxy contract`。
 
-<QuizForm lessonId={SOLIDITY_ADVANCED_LESSON_ID_4} />
+<QuizForm courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_4} />

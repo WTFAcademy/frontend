@@ -9,10 +9,11 @@ tags:
 
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
+import { SOLIDITY_COURSE_ID, SOLIDITY_BASIC_LESSON_ID_12 } from '@site/src/constants/course';
 
 # Solidity极简入门: 12. 事件
 
-<QuizProgress lessonId="029e7395-da01-4dea-9b9e-085ce9366289"></QuizProgress>
+<QuizProgress courseId={SOLIDITY_COURSE_ID} lessonId={SOLIDITY_BASIC_LESSON_ID_12}></QuizProgress>
 
 我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
 
@@ -85,4 +86,4 @@ event Transfer(address indexed from, address indexed to, uint256 value);
 这一讲，我们介绍了如何使用和查询`solidity`中的事件。很多链上分析工具包括`Nansen`和`Dune Analysis`都是基于事件工作的。
 
 
-<QuizForm lessonId="029e7395-da01-4dea-9b9e-085ce9366289"></QuizForm>
+<QuizForm courseId={SOLIDITY_COURSE_ID} lessonId={SOLIDITY_BASIC_LESSON_ID_12}></QuizForm>

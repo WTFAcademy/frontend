@@ -9,10 +9,10 @@ tags:
 ---
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
-import { SOLIDITY_ADVANCED_LESSON_ID_10 } from '@site/src/constants/course';
+import { SOLIDITY_ADVANCED_ID, SOLIDITY_ADVANCED_LESSON_ID_10 } from '@site/src/constants/course';
 
 # Solidity极简入门: 25. Create2
-<QuizProgress lessonId={SOLIDITY_ADVANCED_LESSON_ID_10} />
+<QuizProgress courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_10} />
 
 我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
 
@@ -154,4 +154,4 @@ BSC链上的PEOPLE地址:
 这一讲，我们介绍了`CREATE2`操作码的原理，使用方法，并用它完成了极简版的`Uniswap`并提前计算币对合约地址。`CREATE2`让我们可以在部署合约前确定它的合约地址，这也是
 一些`layer2`项目的基础。
 
-<QuizForm lessonId={SOLIDITY_ADVANCED_LESSON_ID_10} />
+<QuizForm courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_10} />
