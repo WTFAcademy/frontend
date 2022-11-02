@@ -8,9 +8,9 @@ tags:
   - Merkle Tree
 ---
 
-# Solidity极简入门: 36. 默克尔树 Merkle Tree
+# WTF Solidity极简入门: 36. 默克尔树 Merkle Tree
 
-我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+我最近在重新学solidity，巩固一下细节，也写一个“WTF Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
 
 欢迎关注我的推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
 
@@ -27,7 +27,9 @@ tags:
 
 ![Merkle Tree](./img/36-1.png)
 
-`Merkle Tree`允许对大型数据结构的内容进行有效和安全的验证（`Merkle Proof`）。对于有`N`个叶子结点的`Merkle Tree`，在已知`root`根值的情况下，验证某个数据是否有效（属于`Merkle Tree`叶子结点）只需要`log(N)`个数据（也叫`proof`），非常高效。如果数据有误，或者给的`proof`错误，则无法还原出`root`根植。下面的例子中，叶子`L1`的`Merkle proof`为`Hash 0-1`和`Hash 1`：知道这两个值，就能验证`L1`的值是不是在`Merkle Tree`的叶子中。
+`Merkle Tree`允许对大型数据结构的内容进行有效和安全的验证（`Merkle Proof`）。对于有`N`个叶子结点的`Merkle Tree`，在已知`root`根值的情况下，验证某个数据是否有效（属于`Merkle Tree`叶子结点）只需要`log(N)`个数据（也叫`proof`），非常高效。如果数据有误，或者给的`proof`错误，则无法还原出`root`根植。
+下面的例子中，叶子`L1`的`Merkle proof`为`Hash 0-1`和`Hash 1`：知道这两个值，就能验证`L1`的值是不是在`Merkle Tree`的叶子中。为什么呢？
+因为通过叶子`L1`我们就可以算出`Hash 0-0`，我们又知道了`Hash 0-1`，那么`Hash 0-0`和`Hash 0-1`就可以联合算出`Hash 0`，然后我们又知道`Hash 1`，`Hash 0`和`Hash 1`就可以联合算出`Top Hash`，也就是root节点的hash。
 
 ![Merkle Proof](./img/36-2.png)
 
@@ -106,11 +108,11 @@ library MerkleProof {
 ```
 `MerkleProof`库有三个函数：
 
-1. `verify()`函数利用`proof`数来验证`leaf`是否属于根为`root`的`Merkle Tree`中，如果是，则返回`true`。它调用了`processProof()`函数。
+1. `verify()`函数：利用`proof`数来验证`leaf`是否属于根为`root`的`Merkle Tree`中，如果是，则返回`true`。它调用了`processProof()`函数。
 
-2. `processProof()`函数利用`proof`和`leaf`依次计算出`Merkle Tree`的`root`。它调用了`_hashPair()`函数。
+2. `processProof()`函数：利用`proof`和`leaf`依次计算出`Merkle Tree`的`root`。它调用了`_hashPair()`函数。
 
-3.  `_hashPair()`函数用`keccak256()`函数计算非根节点对应的两个子节点的哈希（排序后）。
+3.  `_hashPair()`函数：用`keccak256()`函数计算非根节点对应的两个子节点的哈希（排序后）。
 
 我们将`地址0`，`root`和对应的`proof`输入到`verify()`函数，将返回`ture`。因为`地址0`在根为`root`的`Merkle Tree`中，且`proof`正确。如果改变了其中任意一个值，都将返回`false`。
 
@@ -167,10 +169,10 @@ contract MerkleTree is ERC721 {
 
 ### 函数
 合约中共有4个函数：
-- 构造函数初始化`NFT`的名称和代号，还有`Merkle Tree`的`root`。
-- `mint()`函数接受地址`address`，`tokenId`和`proof`三个参数。首先验证`address`是否在白名单中，验证通过则把序号为`tokenId`的`NFT`铸造给该地址，并将它记录到`mintedAddress`。此过程中调用了`_leaf()`和`_verify()`函数。
-- `_leaf()`函数计算了`Merkle Tree`的叶子地址的哈希。
-- `_verify()`函数调用了`MerkleProof`库的`verify()`函数，来进行`Merkle Tree`验证。
+- 构造函数：初始化`NFT`的名称和代号，还有`Merkle Tree`的`root`。
+- `mint()`函数：利用白名单铸造`NFT`。参数为白名单地址`account`，铸造的`tokenId`，和`proof`。首先验证`address`是否在白名单中，验证通过则把序号为`tokenId`的`NFT`铸造给该地址，并将它记录到`mintedAddress`。此过程中调用了`_leaf()`和`_verify()`函数。
+- `_leaf()`函数：计算了`Merkle Tree`的叶子地址的哈希。
+- `_verify()`函数：调用了`MerkleProof`库的`verify()`函数，进行`Merkle Tree`验证。
 
 ### `remix`验证
 

@@ -6,9 +6,9 @@ tags:
 
 ---
 
-# Solidity极简入门: 42. 分账
+# WTF Solidity极简入门: 42. 分账
 
-我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+我最近在重新学solidity，巩固一下细节，也写一个“WTF Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
 
 推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
 
@@ -24,7 +24,7 @@ discord：[WTF Academy](https://discord.gg/5akcruXrsk)
 
 分账就是按照一定比例分钱财。在现实中，经常会有“分赃不均”的事情发生；而在区块链的世界里，`Code is Law`，我们可以事先把每个人应分的比例写在智能合约中，获得收入后，再由智能合约来进行分账。
 
-![分账](.\img\42-1.webp)
+![分账](./img/42-1.webp)
 
 ## 分账合约
 
@@ -33,7 +33,7 @@ discord：[WTF Academy](https://discord.gg/5akcruXrsk)
 1. 在创建合约时定好分账受益人`payees`和每人的份额`shares`。
 2. 份额可以是相等，也可以是其他任意比例。
 3. 在该合约收到的所有`ETH`中，每个受益人将能够提取与其分配的份额成比例的金额。
-4. 分账合约遵循`Pull Payment`模式，付款不会自动转入账户，而是保存在此合约中。受益通过调用`release()`函数触发实际转账。
+4. 分账合约遵循`Pull Payment`模式，付款不会自动转入账户，而是保存在此合约中。受益人通过调用`release()`函数触发实际转账。
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -156,21 +156,21 @@ contract PaymentSplit{
     }
 
     /**
-     * @dev 新增受益人_acount以及对应的份额_acountShares。只能在构造器中被调用，不能修改。
+     * @dev 新增受益人_account以及对应的份额_accountShares。只能在构造器中被调用，不能修改。
      */
-    function _addPayee(address _account, uint256 _acountShares) private {
+    function _addPayee(address _account, uint256 _accountShares) private {
         // 检查_account不为0地址
         require(_account != address(0), "PaymentSplitter: account is the zero address");
-        // 检查_acountShares不为0
-        require(_acountShares > 0, "PaymentSplitter: shares are 0");
+        // 检查_accountShares不为0
+        require(_accountShares > 0, "PaymentSplitter: shares are 0");
         // 检查_account不重复
         require(shares[_account] == 0, "PaymentSplitter: account already has shares");
         // 更新payees，shares和totalShares
         payees.push(_account);
-        shares[_account] = _acountShares;
-        totalShares += _acountShares;
+        shares[_account] = _accountShares;
+        totalShares += _accountShares;
         // 释放增加受益人事件
-        emit PayeeAdded(_account, _acountShares);
+        emit PayeeAdded(_account, _accountShares);
     }
 ```
 
