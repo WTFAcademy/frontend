@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
+import {useHistory} from "@docusaurus/router";
 import {useRequest} from "ahooks";
 import get from 'lodash/get';
 import styles from './styles.module.css';
@@ -10,6 +11,7 @@ const quizCertificationImg = require('@site/static/img/soliditylogo.png').defaul
 export default function QuizDashboard(props) {
     const {courseId} = props;
     const {data} = useRequest(() => getLessons(courseId));
+    const history = useHistory();
 
     function Course({id, sort, estimated_time, lesson_title, score_percent, is_finish, route_path}) {
         return (
@@ -33,7 +35,7 @@ export default function QuizDashboard(props) {
                         ))}
                     </ul>
                     <div className={styles.quizGraduateBox}>
-                        <div className={styles.quizGraduateBtn}>
+                        <div className={styles.quizGraduateBtn} onClick={() => history.push(`/certificate?cid=${courseId}`)}>
                             <p>毕业</p>
                         </div>
                     </div>
