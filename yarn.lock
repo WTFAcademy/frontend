@@ -3618,7 +3618,7 @@ ahooks-v3-count@^1.0.0:
 
 ahooks@^3.7.2:
   version "3.7.2"
-  resolved "https://registry.yarnpkg.com/ahooks/-/ahooks-3.7.2.tgz#0afa42625e77ae1cc4b60b19c45cf12a8cf29b56"
+  resolved "https://registry.npmmirror.com/ahooks/-/ahooks-3.7.2.tgz#0afa42625e77ae1cc4b60b19c45cf12a8cf29b56"
   integrity sha512-nJPsQJcmJnGaNXiqgZdfO7UMs+o926LQg6VyDYt2vzKhXU8Ze/U87NsA/FeIvlIZB0rQr/j7uotFb1bGPp627A==
   dependencies:
     "@types/js-cookie" "^2.x.x"

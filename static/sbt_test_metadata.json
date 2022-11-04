@@ -1,0 +1,17 @@
+{
+    "name": "Did something at ETH Denver",
+    "description": "A custom message for you!",
+    "external_url": "https://mintkudos.xyz/token/9",
+    "image": "https://images.mintkudos.xyz/token/9.png",
+    "attributes": [{
+        "trait_type": "community_name",
+        "value": "Audius"
+    }, {
+        "trait_type": "created_by",
+        "value": "0xc4A959AF92b73B3D783fA2569F1F9776d2136cE9"
+    }, {
+        "display_type": "date",
+        "trait_type": "start_date",
+        "value": 1644969600000
+    }]
+}
