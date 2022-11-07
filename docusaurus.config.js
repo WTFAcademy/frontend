@@ -4,6 +4,7 @@
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const { webpackPlugin } = require('./plugins/webpack-plugin.cjs');
+const tailwindcssPlugin = require('./plugins/tailwind-loader.cjs');
 
 /**
  * Defines a section with overridable defaults
@@ -79,6 +80,7 @@ const config = {
   plugins: [
     ...SECTIONS,
     webpackPlugin,
+    tailwindcssPlugin,
     // [
     //   '@docusaurus/plugin-content-docs',
     //   {

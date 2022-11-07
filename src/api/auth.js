@@ -8,6 +8,6 @@ export async function signOut() {
 	console.log(error);
 }
 
-export async function signInWithGithub() {
-	await supabase.auth.signIn({provider: 'github'});
+export async function signInWithGithub(redirectTo) {
+	await supabase.auth.signIn({provider: 'github'}, {redirectTo: redirectTo});
 }
