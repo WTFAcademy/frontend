@@ -11,8 +11,8 @@ const StepLoginGithub = (props) => {
     const {signInWithGithub, data, isLogin} = useAuth();
 
     const handleLogin = () => {
-        // signInWithGithub(true);
-        next();
+        signInWithGithub(true);
+        // next();
     }
 
     useEffect(() => {
