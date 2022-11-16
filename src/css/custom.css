@@ -23,6 +23,7 @@
   --custom-footer-background-color: #E2E8F0;
   --custom-title-color: #282938;
   --custom-title2-color: #5B5A62;
+  --custom-label-color: #494949;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -41,6 +42,7 @@
   --custom-footer-background-color: var(--ifm-color-emphasis-100);
   --custom-title-color: #ffffff;
   --custom-title2-color: #ffffff;
+  --custom-label-color: #ffffff;
 }
 
 .footer {
@@ -57,8 +59,20 @@
   display: none;
 }
 
+.font-color-gray {
+  color: var(--custom-label-color);
+}
+
 /*tailwind*/
 
 .form-check-input:checked[type=checkbox] {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+}
+
+.title-border {
+  @apply after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-[88px] after:h-[4px] after:bg-[#5CB173] rounded-sm;
+}
+
+.divider {
+  @apply w-full h-[1px] bg-gray-300;
 }

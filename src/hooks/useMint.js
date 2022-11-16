@@ -3,7 +3,7 @@ import {useAccount, useContract, useSigner} from "wagmi";
 import MinterABI from '../constants/abi/WTFSBT1155Minter';
 import {ethers} from "ethers";
 
-const testSign = '0x8f3b316a83090f11fc481134aec6be14eb5d16e765d307152b2ed574a92a88fd4e6b90e1122bf366b10d4fa34de1a8137e2709ed93270d361805a6075102e8241c';
+const mintAddress = process.env.NODE_ENV === "development" ? " 0xDF9C19ceAdf7e4A9db07A57Fc0bFA246938e3BCA" : ""
 
 const ErrorMap = (message) => {
     if (message.includes('Already minted!')) {
@@ -38,20 +38,23 @@ const useMint = (onSuccess = (tx) => {}) => {
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('领取失败，请稍后重试');
     const { address } = useAccount();
-    const { data: signer } = useSigner()
+    const { data: signer } = useSigner();
+
+    console.log(mintAddress);
     const contract = useContract({
-        address: '0x31bF3E1c450714E7a896211eF245A7E94a2D4901',
+        address: '0xfd8A6971aCCB1C05a76274C846E5C9fD0c8b82cb',
         abi: MinterABI,
         signerOrProvider: signer,
     })
 
-    const mint = async (soulId, amount) => {
+    const mint = async (soulId, signData, amount) => {
+        console.log(soulId, signData, amount);
         setLoading(true);
         try {
-            const gasLimit = await contract.estimateGas.mint(address, soulId, testSign, {
+            const gasLimit = await contract.estimateGas.mint(address, soulId, signData, {
                 value: ethers.utils.parseEther(amount + ''),
             });
-            const tx = await contract.mint(address, soulId, testSign, {
+            const tx = await contract.mint(address, soulId, signData, {
                 value: ethers.utils.parseEther(amount + ''),
                 gasLimit: gasLimit.add(1000),
             });
@@ -59,6 +62,7 @@ const useMint = (onSuccess = (tx) => {}) => {
             setLoading(false);
             onSuccess(tx);
         } catch (e) {
+            console.log(e);
             setLoading(false);
             setError(true);
             setErrorMessage(ErrorMap(String(e.message)));
@@ -69,6 +73,8 @@ const useMint = (onSuccess = (tx) => {}) => {
         loading,
         error,
         errorMessage,
+        setError,
+        setErrorMessage,
         mint
     }
 }

@@ -6,3 +6,4 @@ export {default as CertificateSvg} from './Certificate';
 export {default as LoadingSvg} from './Loading';
 export {default as ResetSvg} from './Reset';
 export {default as TipSvg} from './Tips';
+export {default as LookSvg} from './Look';

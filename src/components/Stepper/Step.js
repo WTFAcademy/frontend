@@ -8,7 +8,7 @@ export const StepContext = React.createContext(null);
 const BorderItem = (props) => {
     const {last} = props;
 
-    const {active, completed, disable} = useContext(StepContext);
+    const {active, completed, disabled} = useContext(StepContext);
 
     if (completed || active) {
         return (
@@ -68,7 +68,7 @@ const Step = (props) => {
                     </div>
                 )
             }
-            <div className="flex items-center relative my-[14px]">
+            <div className={clsx('flex items-center relative my-[14px]', {'opacity-25': disabledProp, 'pointer-events-none': disabledProp})}>
                 <StepIcon className="mr-4 text-[22px]"/>
                 <div className="absolute top-[-21px] left-[40px] right-0">
                     {children}
