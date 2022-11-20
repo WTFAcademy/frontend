@@ -58,7 +58,6 @@ const Main = (
 
         const signData = await signer.signMessage(message);
         const res = await bindWallet(message, signData, address);
-        console.log(res);
         if (res.code !== 0) {
             setBindError(true);
             return;

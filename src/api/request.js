@@ -2,6 +2,7 @@ import axios from 'axios';
 import {refreshSession} from "./auth";
 
 export const BASE_URL = process.env.NODE_ENV === "development" ? 'https://wtf.dev.arkhodler.com' : 'https://wtf.arkhodler.com';
+console.log("BASE_URL: ", BASE_URL);
 
 let request = axios.create({
     baseURL: BASE_URL,

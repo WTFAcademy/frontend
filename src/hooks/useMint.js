@@ -3,8 +3,6 @@ import {useAccount, useContract, useSigner} from "wagmi";
 import MinterABI from '../constants/abi/WTFSBT1155Minter';
 import {ethers} from "ethers";
 
-const mintAddress = process.env.NODE_ENV === "development" ? " 0xDF9C19ceAdf7e4A9db07A57Fc0bFA246938e3BCA" : ""
-
 const ErrorMap = (message) => {
     if (message.includes('Already minted!')) {
         return '已铸造完成，请勿重复进行！';
@@ -40,7 +38,6 @@ const useMint = (onSuccess = (tx) => {}) => {
     const { address } = useAccount();
     const { data: signer } = useSigner();
 
-    console.log(mintAddress);
     const contract = useContract({
         address: '0xfd8A6971aCCB1C05a76274C846E5C9fD0c8b82cb',
         abi: MinterABI,
