@@ -2,20 +2,16 @@ import request from "./request";
 import {gql} from "graphql-request";
 import gqlClient from './graph';
 import get from "lodash/get";
-import {ethers} from "ethers";
 
-export const getUserCourseInfo = async (courseId) => {
+export const getUserCourseInfo = async (courseId, needClaimId) => {
     const res = await request.get(`/user_course/${courseId}`).then(res => res.data);
-    // return res;
     const bindWallet = get(res, 'data.user_wallet.wallet');
-    console.log('bindWallet: ', bindWallet);
     if (bindWallet) {
-        const needClaimId = get(res, 'data.course_nft.token_id');
         const tokenInfo = await userTokenInfo(bindWallet);
         const claimedIds = get(tokenInfo, 'user.created', []).map(item => item.id);
         const hasClaimed = claimedIds.includes(needClaimId + '');
         const donationAmount = get(tokenInfo, 'user.amount', 0)
-
+        console.log(hasClaimed)
         return {
             ...res,
             data: {

@@ -5,7 +5,6 @@ import {RainbowKitProvider} from "@rainbow-me/rainbowkit";
 import useRouterQuery from "../hooks/useRouterQuery";
 import {chains, wagmiClient} from "../utils/wagmi";
 import TailwindWrapper from "../components/TailwindWrapper";
-import CourseImage from '@site/static/img/course_ethers_start.jpg';
 import Step from "../components/Stepper/Step";
 import Stepper from "../components/Stepper";
 import StepLoginGithub from "./certificate/_StepLoginGithub";
@@ -15,6 +14,8 @@ import StepEnd from "./certificate/_StepEnd";
 import {useRequest} from "ahooks";
 import {getUserCourseInfo} from "../api/user";
 import get from "lodash/get";
+import TailwindImage from "../components/Image";
+import {getCourseInfo} from "../api/course";
 
 export const CertificateContext = createContext(null)
 
@@ -25,6 +26,8 @@ const Main = () => {
 
     const hasClaimed = get(info, "hasClaimed");
     const canGraduate = get(info, "can_graduate");
+    const title = get(info, 'course_info.course_title');
+    const nftImage = get(info, 'course_info.image_url');
 
     useEffect(() => {
         if (hasClaimed) {
@@ -51,7 +54,7 @@ const Main = () => {
                     <h1 className="text-[28px] font-bold md:text-[40px]">
                         恭喜你，
                         <br className="md:hidden"/>
-                        通过WTF Solidity入门测试
+                        通过WTF {title}测试
                     </h1>
                     <p className="text-md lg:text-2xl lg:mt-3">
                         按照下面步骤领取属于你的认证NFT吧！(WTF Academy 认证系统公测)
@@ -63,7 +66,12 @@ const Main = () => {
                         <div className="font-medium text-[24px] mb-6">
                             NFT证书展示
                         </div>
-                        <img alt="nft-image" src={CourseImage} className="w-full "/>
+                        <div className="lg:w-[602px]">
+                            <TailwindImage
+                                src={nftImage}
+                                imageClass="w-full min-h-[229px] max-h-[400px] lg:w-[602px] lg:h-[302px]"
+                            />
+                        </div>
                     </div>
                     {/*<div className="divider my-6 lg:hidden lg:my-0" />*/}
                     <div className="flex-auto mb-20 mt-6 lg:mt-0 lg:mb-0">
@@ -98,16 +106,21 @@ const Main = () => {
 const Certificate = () => {
     const routerQuery = useRouterQuery();
     const courseId = routerQuery.get("cid");
-    const {data, loading, refresh} = useRequest(() => getUserCourseInfo(courseId));
+    const {data: courseInfoData} = useRequest(() => getCourseInfo(courseId));
+
+    const courseInfo = get(courseInfoData, 'data', {});
+    const tokenId = get(courseInfo, 'course_info.token_id');
+
+    const {data, loading, refresh} = useRequest(() => getUserCourseInfo(courseId, tokenId), {refreshDeps: [tokenId]});
+
     const userInfoWithCourse = get(data, 'data', {});
-    console.log(userInfoWithCourse);
 
     return (
         <TailwindWrapper>
             <Layout noFooter>
                 <WagmiConfig client={wagmiClient}>
                     <RainbowKitProvider chains={chains}>
-                        <CertificateContext.Provider value={{info: {...userInfoWithCourse, courseId}, refreshInfo: refresh, requestInfoLoading: loading}}>
+                        <CertificateContext.Provider value={{info: {...userInfoWithCourse, courseId, ...courseInfo}, refreshInfo: refresh, requestInfoLoading: loading}}>
                             <Main />
                         </CertificateContext.Provider>
                     </RainbowKitProvider>

@@ -109,6 +109,9 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      metadata: [
+        {name: 'twitter:image', content: 'https://wtf.academy/img/wtflogo.png'}
+      ],
       navbar: {
         logo: {
           alt: 'WTF Logo',
