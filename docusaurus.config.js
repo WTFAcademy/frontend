@@ -109,9 +109,7 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      metadata: [
-        {name: 'twitter:image', content: 'https://wtf.academy/img/wtflogo.png'}
-      ],
+      image: 'img/wtflogo.png',
       navbar: {
         logo: {
           alt: 'WTF Logo',
@@ -124,18 +122,21 @@ const config = {
             position: 'left',
           },
           {
-            href: '/solidity-start/',
+            href: '/solidity-start',
             position: 'left',
+            exact: false,
             label: 'Solidity入门',
           },
           {
-            href: '/solidity-advanced/',
+            href: '/solidity-advanced',
             position: 'left',
+            exact: false,
             label: 'Solidity进阶',
           },
           {
-            href: '/solidity-application/',
+            href: '/solidity-application',
             position: 'left',
+            exact: false,
             label: 'Solidity应用',
           },
           {

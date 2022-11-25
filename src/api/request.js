@@ -17,6 +17,7 @@ request.interceptors.request.use(async (config) => {
 
 
         if (+new Date() >= accountInfo.expiresAt * 1000) {
+            console.log('过期')
             access_token = await refreshSession();
         }
 
