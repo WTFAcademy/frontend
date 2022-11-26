@@ -1,3 +1,4 @@
+
 // 入门
 export const SOLIDITY_COURSE_ID  = 'e1faa656-8c53-45f4-bb4f-950db92bee60';  // 入门
 export const SOLIDITY_BASIC_LESSON_ID_1 = 'e7515bff-d35b-4cdd-8af1-9e58027e3456';
@@ -34,3 +35,15 @@ export const SOLIDITY_ADVANCED_LESSON_ID_12 = '39d054d6-10f0-4e2f-916e-06acfc5b1
 export const SOLIDITY_ADVANCED_LESSON_ID_13 = 'e9362149-fe6d-4da9-9dca-ba7ddce92f44';
 export const SOLIDITY_ADVANCED_LESSON_ID_14 = 'cd94e0d1-33e1-47fe-9283-f45a4bd4f879';
 export const SOLIDITY_ADVANCED_LESSON_ID_15 = '79ea90ad-c2bc-450b-af5f-5bd6d5ad6104';
+
+
+
+export const CourseIdAndSuffixLinkMap = {
+    [SOLIDITY_COURSE_ID]: 'solidity-start',
+    [SOLIDITY_ADVANCED_ID]: 'solidity-advanced',
+}
+
+export const CourseIdAndNameMap = {
+    [SOLIDITY_COURSE_ID]: 'Solidity Start',
+    [SOLIDITY_ADVANCED_ID]: 'Solidity Advanced',
+}
