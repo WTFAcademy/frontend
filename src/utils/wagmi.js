@@ -15,8 +15,8 @@ import {
     imTokenWallet
 } from '@rainbow-me/rainbowkit/wallets';
 
-const defaultChain = process.env.NODE_ENV === "development" ? chain.goerli : chain.mainnet;
-const alchemyApiKey = process.env.NODE_ENV === "development" ? "G7IqRtT5-zargmMoC8TW9BWW8828c1zV" : "";
+const defaultChain = process.env.NODE_ENV === "development" ? chain.goerli : chain.goerli;
+const alchemyApiKey = process.env.NODE_ENV === "development" ? "G7IqRtT5-zargmMoC8TW9BWW8828c1zV" : "G7IqRtT5-zargmMoC8TW9BWW8828c1zV";
 
 export const { chains, provider, webSocketProvider } = configureChains(
     [defaultChain],

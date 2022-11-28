@@ -7,3 +7,7 @@ export const getLessons = (courseId) => {
 export const getLesson = (courseId, lessonId) => {
     return request.get(`/courses/${courseId}/user_lessons/${lessonId}`).then(res => res.data);
 }
+
+export const getCourseInfo = (courseId) => {
+    return request.get(`/course/${courseId}`).then(res => res.data);
+}

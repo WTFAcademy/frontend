@@ -4,6 +4,7 @@
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const { webpackPlugin } = require('./plugins/webpack-plugin.cjs');
+const tailwindcssPlugin = require('./plugins/tailwind-loader.cjs');
 
 /**
  * Defines a section with overridable defaults
@@ -79,6 +80,7 @@ const config = {
   plugins: [
     ...SECTIONS,
     webpackPlugin,
+    tailwindcssPlugin,
     // [
     //   '@docusaurus/plugin-content-docs',
     //   {
@@ -107,6 +109,7 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      image: 'img/wtflogo.png',
       navbar: {
         logo: {
           alt: 'WTF Logo',
@@ -119,18 +122,21 @@ const config = {
             position: 'left',
           },
           {
-            href: '/solidity-start/',
+            href: '/solidity-start',
             position: 'left',
+            exact: false,
             label: 'Solidity入门',
           },
           {
-            href: '/solidity-advanced/',
+            href: '/solidity-advanced',
             position: 'left',
+            exact: false,
             label: 'Solidity进阶',
           },
           {
-            href: '/solidity-application/',
+            href: '/solidity-application',
             position: 'left',
+            exact: false,
             label: 'Solidity应用',
           },
           {
@@ -197,7 +203,7 @@ const config = {
               },
               {
                 label: 'Mirror',
-                href: 'https://github.com/WTFAcademy',
+                href: 'https://mirror.xyz/ninjak.eth/collection',
               },
             ],
           },

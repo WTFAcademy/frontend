@@ -13,11 +13,15 @@ const useAuth = () => {
         });
     }, []);
 
+    const handleSignInWithGithub = (useLocationHref) => {
+        useLocationHref ? signInWithGithub(window.location.href) : signInWithGithub();
+    }
+
     return {
         data: user,
         isLogin: user !== null,
         signOut,
-        signInWithGithub
+        signInWithGithub: handleSignInWithGithub
     };
 }
 
