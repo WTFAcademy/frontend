@@ -1,7 +1,9 @@
-import React, {useContext} from "react";
+import React, {useContext, useMemo} from "react";
 import {LookSvg} from "../../svg";
 import {CertificateContext} from "../certificate";
 import get from "lodash/get";
+import {OS_LINK} from "../../constants/nft";
+import {CourseIdAndNameMap, CourseIdAndSuffixLinkMap} from "../../constants/course";
 
 
 const StepEnd = () => {
@@ -9,6 +11,12 @@ const StepEnd = () => {
 
     const donationAmount = get(info, 'donationAmount');
     const title = get(info, 'course_info.course_title');
+    const courseId = get(info, 'courseId');
+
+    const twLink = useMemo(() => {
+        const text = `I completed the ${CourseIdAndNameMap[courseId]} course at WTF Academy and claimed an SBT certificate!\n\nCome join us at https://wtf.academy/${CourseIdAndSuffixLinkMap[courseId]}`
+        return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+    }, [courseId, title]);
 
     return (
         <div className="flex flex-col mb-20">
@@ -21,13 +29,13 @@ const StepEnd = () => {
                 </p>
             )}
             <p className="text-[18px] font-medium my-4">
-                <a className="inline-flex text-[#5CB173] cursor-pointer no-underline items-center" target="_blank" href="https://opensea.io">
+                <a className="inline-flex text-[#5CB173] cursor-pointer no-underline items-center" target="_blank" href={OS_LINK}>
                     <LookSvg className="mr-2" />
                     查看你的NFT
                 </a>
             </p>
             <div className="relative w-3/4 h-16 bg-[#5CB173] text-center overflow-hidden rounded-lg mb-2 mt-8">
-                <a className="flex item-center justify-center w-full h-full leading-[64px] text-2xl cursor-pointer no-underline" target="_blank" href="https://twitter.com/intent/tweet?text=I%20completed%20all%20the%20quizzes%20on%20@WTFAcademy_%20and%20received%20a%20soulbound%20NFT.%0A%0A%20Come%20join%20us.%20https://wtf.academy">
+                <a className="flex item-center justify-center w-full h-full leading-[64px] text-2xl cursor-pointer no-underline" target="_blank" href={twLink}>
                     <span className="font-bold text-white text-[18px]">点击分享至Twitter</span>
                     <i className="relative inline-flex items-center h-16 my-auto ml-2">
                         <svg className="h-6" clipRule="evenodd" fillRule="evenodd"  strokeLinejoin="round" strokeMiterlimit="2" viewBox="-89.00934757 -46.8841404 643.93723344 446.8841404" xmlns="http://www.w3.org/2000/svg">
