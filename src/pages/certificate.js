@@ -23,7 +23,7 @@ const Main = () => {
     const [activeStep, setActiveStep] = React.useState(0);
     const [finish, setFinish] = useState(false);
     const {info} = useContext(CertificateContext);
-
+    console.log(info);
     const hasClaimed = get(info, "hasClaimed");
     const canGraduate = get(info, "can_graduate");
     const title = get(info, 'course_info.course_title');
@@ -111,9 +111,15 @@ const Certificate = () => {
     const courseInfo = get(courseInfoData, 'data', {});
     const tokenId = get(courseInfo, 'course_info.token_id');
 
-    const {data, loading, refresh} = useRequest(() => getUserCourseInfo(courseId, tokenId), {refreshDeps: [tokenId]});
+    const {data, loading, refresh} = useRequest(() => getUserCourseInfo(courseId, tokenId), {manual: true});
 
     const userInfoWithCourse = get(data, 'data', {});
+
+    useEffect(() => {
+        if (tokenId || tokenId === 0) {
+            refresh();
+        }
+    },[tokenId])
 
     return (
         <TailwindWrapper>
