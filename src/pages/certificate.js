@@ -82,7 +82,7 @@ const Main = () => {
                             {!finish && (
                                 <Stepper activeStep={activeStep}>
                                     <Step>
-                                        <StepLoginGithub canGradute={canGraduate} next={handleNext}/>
+                                        <StepLoginGithub next={handleNext}/>
                                     </Step>
                                     <Step disabled={!canGraduate}>
                                         <StepConnectWallet info={info} next={handleNext}/>
