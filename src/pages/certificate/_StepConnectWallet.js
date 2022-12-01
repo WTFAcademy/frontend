@@ -36,6 +36,8 @@ const Main = (
     const {address} = useAccount();
     const {data: signer} = useSigner();
 
+    console.log('user', user);
+
     // 钱包连接状态
     const ready = mounted && authenticationStatus !== 'loading';
     const connected =
@@ -51,10 +53,15 @@ const Main = (
     const [isBinding, setIsBinding] = useState(!!get(courseInfo, 'user_wallet.wallet'))
     const isErrorWallet = connected && isBinding && !isEqualWallet(address, get(courseInfo, 'user_wallet.wallet', ''));
     const [bindError, setBindError] = useState(false);
+    const githubName = get(user, "user_metadata.user_name");
 
     const handleBinding = async () => {
+        if (!githubName) {
+            console.log('githubName', githubName);
+        }
+
         const nonce = await signer.getTransactionCount();
-        const message = `Welcome To WTF Academy \n\nWallet Address: ${address} \n\nGithub ID: chongqiangchen\n\nNonce: ${nonce}`;
+        const message = `Welcome To WTF Academy \n\nWallet Address: ${address} \n\nGithub ID: ${githubName}\n\nNonce: ${nonce}`;
 
         const signData = await signer.signMessage(message);
         const res = await bindWallet(message, signData, address);

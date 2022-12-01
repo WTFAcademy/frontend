@@ -40,7 +40,6 @@ const StepLoginGithub = (props) => {
             </StepLabel>
             {isLogin && !canGraduate && <p className="ml-1 mt-2 text-[#D03838]">请先完成相关课程！</p>}
         </>
-
     )
 }
 
