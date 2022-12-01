@@ -7,11 +7,13 @@ import get from "lodash/get";
 import {CertificateContext} from "../certificate";
 
 const StepLoginGithub = (props) => {
-    const {next, canGraduate} = props;
+    const {next} = props;
     const {active, completed} = useContext(StepContext);
-    const {refreshInfo, requestInfoLoading} = useContext(CertificateContext);
+    const {refreshInfo, info, requestInfoLoading} = useContext(CertificateContext);
     const {signInWithGithub, data, isLogin} = useAuth();
 
+    const canGraduate = get(info, "can_graduate");
+    console.log(canGraduate);
     const handleLogin = () => {
         signInWithGithub(true);
         // next();
