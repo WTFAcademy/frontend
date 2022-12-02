@@ -13,7 +13,6 @@ const StepLoginGithub = (props) => {
     const {signInWithGithub, data, isLogin} = useAuth();
 
     const canGraduate = get(info, "can_graduate");
-    console.log(canGraduate);
     const handleLogin = () => {
         signInWithGithub(true);
         // next();
@@ -40,7 +39,7 @@ const StepLoginGithub = (props) => {
                     <div className="font-color-gray">{get(data, "user_metadata.user_name", "未知用户名")}</div>
                 )}
             </StepLabel>
-            {isLogin && !canGraduate && <p className="ml-1 mt-2 text-[#D03838]">请先完成相关课程！</p>}
+            {isLogin && !requestInfoLoading && !canGraduate && <p className="ml-1 mt-2 text-[#D03838]">请先完成相关课程！</p>}
         </>
     )
 }

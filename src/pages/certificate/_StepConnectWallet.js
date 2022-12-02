@@ -1,12 +1,10 @@
-import {RightArrowSvg, SwitchSvg} from "../../svg";
 import React, {useContext, useEffect, useMemo, useState} from "react";
 import {StepContext} from "../../components/Stepper/Step";
 import {ConnectButton} from '@rainbow-me/rainbowkit';
 import StepLabel from "../../components/Stepper/StepLabel";
-import {useAccount, useSigner, useSignMessage} from "wagmi";
-import {ethers} from "ethers";
+import {useAccount, useSigner} from "wagmi";
 import TailwindButton from "../../components/TailwindButton";
-import {bindWallet, getUserCourseSign} from "../../api/user";
+import {bindWallet} from "../../api/user";
 import useAuth from "../../hooks/useAuth";
 import clsx from "clsx";
 import get from "lodash/get";
@@ -36,8 +34,8 @@ const Main = (
     const {address} = useAccount();
     const {data: signer} = useSigner();
 
-    console.log('user', user);
-
+    const [currentBingWallet, setCurrentBingWallet] = useState(null);
+    console.log(currentBingWallet);
     // 钱包连接状态
     const ready = mounted && authenticationStatus !== 'loading';
     const connected =
@@ -51,7 +49,7 @@ const Main = (
 
     // 钱包与Github关联状态
     const [isBinding, setIsBinding] = useState(!!get(courseInfo, 'user_wallet.wallet'))
-    const isErrorWallet = connected && isBinding && !isEqualWallet(address, get(courseInfo, 'user_wallet.wallet', ''));
+    const isErrorWallet = connected && isBinding && !isEqualWallet(address, currentBingWallet);
     const [bindError, setBindError] = useState(false);
     const githubName = get(user, "user_metadata.user_name");
 
@@ -69,6 +67,7 @@ const Main = (
             setBindError(true);
             return;
         }
+        setCurrentBingWallet(address);
         setIsBinding(true);
     }
 
@@ -86,6 +85,10 @@ const Main = (
     useEffect(() => {
         setIsBinding(!!get(courseInfo, 'user_wallet.wallet'))
     }, [!!get(courseInfo, 'user_wallet.wallet')])
+
+    useEffect(() => {
+        setCurrentBingWallet(get(courseInfo, 'user_wallet.wallet', ''));
+    }, [get(courseInfo, 'user_wallet.wallet')])
 
     const errorMessage = useMemo( () => {
         if (isErrorWallet) {
