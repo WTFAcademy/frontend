@@ -35,7 +35,6 @@ const Main = (
     const {data: signer} = useSigner();
 
     const [currentBingWallet, setCurrentBingWallet] = useState(null);
-    console.log(currentBingWallet);
     // 钱包连接状态
     const ready = mounted && authenticationStatus !== 'loading';
     const connected =
@@ -78,7 +77,7 @@ const Main = (
 
         if (connected && !chain.unsupported && isBinding && !isErrorWallet) {
             console.log('connected');
-            next();
+            next(2);
         }
     }, [connected, unsupported, disabled, isBinding, isErrorWallet])
 
@@ -92,7 +91,7 @@ const Main = (
 
     const errorMessage = useMemo( () => {
         if (isErrorWallet) {
-            return "请切换已绑定钱包"
+            return "连接钱包与绑定钱包不一致"
         }
 
         if (unsupported) {

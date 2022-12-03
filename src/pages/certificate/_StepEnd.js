@@ -6,10 +6,11 @@ import {OS_LINK} from "../../constants/nft";
 import {CourseIdAndNameMap, CourseIdAndSuffixLinkMap} from "../../constants/course";
 
 
-const StepEnd = () => {
+const StepEnd = (props) => {
+    const {txInfo} = props;
     const {info} = useContext(CertificateContext);
 
-    const donationAmount = get(info, 'donationAmount');
+    const donationAmount = get(txInfo, 'amount') || get(info, 'donationAmount', 0);
     const title = get(info, 'course_info.course_title');
     const courseId = get(info, 'courseId');
 

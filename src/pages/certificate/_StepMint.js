@@ -88,7 +88,7 @@ const StepMint = (props) => {
                                 <TailwindInputNumber className="w-[80px]" value={donationAmount}
                                                      onChange={e => setDonationAmount(e.target.value)}/>
                                 <span className="inline-flex ml-1 text-[16px] font-bold">ETH</span>
-                                <TailwindCheckbox className={`inline-flex ml-3 mr-0 ${error && '!bg-[#D03838]'}`}
+                                <TailwindCheckbox className={`inline-flex ml-3 mr-0 ${error && '!bg-white checked:!bg-[#D03838]'}`}
                                                   checked={donation} onChange={handleCheckboxChange}/>
                             </div>
                         </div>

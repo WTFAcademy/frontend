@@ -15,14 +15,14 @@ const StepLoginGithub = (props) => {
     const canGraduate = get(info, "can_graduate");
     const handleLogin = () => {
         signInWithGithub(true);
-        // next();
+        // next(1);
     }
 
     useEffect(() => {
         if (isLogin) {
             refreshInfo();
             setTimeout(() => {
-                next();
+                next(1);
             }, 1000);
         }
     }, [isLogin]);

@@ -22,8 +22,9 @@ export const CertificateContext = createContext(null)
 const Main = () => {
     const [activeStep, setActiveStep] = React.useState(0);
     const [finish, setFinish] = useState(false);
+    const [finishTxInfo, setFinishTxInfo] = useState(null);
     const {info} = useContext(CertificateContext);
-    console.log(info);
+
     const hasClaimed = get(info, "hasClaimed");
     const canGraduate = get(info, "can_graduate");
     const title = get(info, 'course_info.course_title');
@@ -45,6 +46,7 @@ const Main = () => {
 
     const handleFinish = (info) => {
         setFinish(true);
+        setFinishTxInfo(info);
     }
 
     return (
@@ -93,7 +95,7 @@ const Main = () => {
                                 </Stepper>
                             )}
                             {finish && (
-                                <StepEnd/>
+                                <StepEnd txInfo={finishTxInfo} />
                             )}
                         </div>
                     </div>
