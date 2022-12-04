@@ -91,7 +91,7 @@ const Main = (
 
     const errorMessage = useMemo( () => {
         if (isErrorWallet) {
-            return "连接钱包与绑定钱包不一致"
+            return "请切换已绑定钱包"
         }
 
         if (unsupported) {
