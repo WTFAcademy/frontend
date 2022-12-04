@@ -6,10 +6,11 @@ import {OS_LINK} from "../../constants/nft";
 import {CourseIdAndNameMap, CourseIdAndSuffixLinkMap} from "../../constants/course";
 
 
-const StepEnd = () => {
+const StepEnd = (props) => {
+    const {txInfo} = props;
     const {info} = useContext(CertificateContext);
 
-    const donationAmount = get(info, 'donationAmount');
+    const donationAmount = Number(get(txInfo, 'amount')) || Number(get(info, 'donationAmount', 0));
     const title = get(info, 'course_info.course_title');
     const courseId = get(info, 'courseId');
 
@@ -23,11 +24,13 @@ const StepEnd = () => {
             <p className="text-[20px]">
                 恭喜你在{title}课程中毕业。
             </p>
-            {donationAmount && (
-                <p className="mt-3 mb-2 text-[20px]">
-                    感谢您为WTF团队捐赠的<span className="mx-3 font-bold text-[#5CB173]">{donationAmount}</span>ETH！
-                </p>
-            )}
+            {
+                !!donationAmount && (
+                    <p className="mt-3 mb-2 text-[20px]">
+                        感谢您为WTF团队捐赠的<span className="mx-3 font-bold text-[#5CB173]">{donationAmount}</span>ETH！
+                    </p>
+                )
+            }
             <p className="text-[18px] font-medium my-4">
                 <a className="inline-flex text-[#5CB173] cursor-pointer no-underline items-center" target="_blank" href={OS_LINK}>
                     <LookSvg className="mr-2" />
