@@ -44,7 +44,7 @@ const Step = (props) => {
     } else if (activeStep > index) {
         completed = completedProp !== undefined ? completedProp : true;
     } else if (activeStep < index) {
-        disabled = disabledProp !== undefined ? disabledProp : true;
+        disabled = disabledProp || true;
     }
 
     const contextValue = useMemo(() => ({

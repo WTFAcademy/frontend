@@ -8,7 +8,7 @@ export const getUserCourseInfo = async (courseId, needClaimId) => {
     const bindWallet = get(res, 'data.user_wallet.wallet');
     if (bindWallet) {
         const tokenInfo = await userTokenInfo(bindWallet);
-        const claimedIds = get(tokenInfo, 'user.created', []).map(item => item.id);
+        const claimedIds = get(tokenInfo, 'user.created', []).map(item => item.soulId);
         const hasClaimed = claimedIds.includes(needClaimId + '');
         const donationAmount = get(tokenInfo, 'user.amount', 0)
         console.log(hasClaimed)
@@ -42,7 +42,7 @@ export const userTokenInfo = async (address) => {
        query getTokenInfo($address: String!) {
           user(id: $address) {
             created {
-              id
+              soulId
             }
             amount
           }
