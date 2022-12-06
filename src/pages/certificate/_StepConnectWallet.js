@@ -58,7 +58,7 @@ const Main = (
         }
 
         const nonce = await signer.getTransactionCount();
-        const message = `Welcome To WTF Academy \n\nWallet Address: ${address} \n\nGithub ID: ${githubName}\n\nNonce: ${nonce}`;
+        const message = `You are binding the wallet address to your github ID in WTF Academy. \n\nThis binding can not be changed later. \nPlease confirm the binding operation. \n\nGithub ID: ${githubName}\n\nWallet Address: ${address}\n\nNonce: ${nonce}`;
 
         const signData = await signer.signMessage(message);
         const res = await bindWallet(message, signData, address);

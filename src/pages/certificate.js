@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useEffect, useMemo, useState} from 'react';
+import React, {createContext, useContext, useEffect, useState} from 'react';
 import Layout from '@theme/Layout';
 import {WagmiConfig} from "wagmi";
 import {RainbowKitProvider} from "@rainbow-me/rainbowkit";
@@ -16,6 +16,9 @@ import {getUserCourseInfo} from "../api/user";
 import get from "lodash/get";
 import TailwindImage from "../components/Image";
 import {getCourseInfo} from "../api/course";
+import useAuth from "../hooks/useAuth";
+import Link from '@docusaurus/Link';
+import {CourseIdAndSuffixLinkMap} from "../constants/course";
 
 export const CertificateContext = createContext(null)
 
@@ -23,12 +26,14 @@ const Main = () => {
     const [activeStep, setActiveStep] = React.useState(0);
     const [finish, setFinish] = useState(false);
     const [finishTxInfo, setFinishTxInfo] = useState(null);
-    const {info} = useContext(CertificateContext);
+    const {info, requestInfoLoading} = useContext(CertificateContext);
+    const {isLogin} = useAuth();
 
     const hasClaimed = get(info, "hasClaimed");
     const canGraduate = get(info, "can_graduate");
     const title = get(info, 'course_info.course_title');
     const nftImage = get(info, 'course_info.image_url');
+    const courseId = get(info, 'courseId');
 
     useEffect(() => {
         if (hasClaimed) {
@@ -49,17 +54,71 @@ const Main = () => {
         setFinishTxInfo(info);
     }
 
+    const Title = () => {
+        if (!isLogin) {
+            return (
+                <>领取WTF Solidity入门的技能认证NFT</>
+            )
+        }
+
+        if (requestInfoLoading) {
+            return (
+                <>数据加载中...</>
+            )
+        }
+
+        if (!canGraduate) {
+            return (
+                <>你尚未完成WTF Solidity入门课程</>
+            )
+        }
+
+        return (
+            <>
+                恭喜你，
+                <br className="md:hidden"/>
+                通过WTF {title}测试
+            </>
+        )
+    }
+
+    const SubTitle = () => {
+        if (!isLogin) {
+            return (
+                <>请登录后完成下面步骤领取技能认证NFT吧！</>
+            )
+        }
+
+        if (requestInfoLoading) {
+            return <>耐心等待！</>;
+        }
+
+        if (!canGraduate) {
+            return (
+                <>
+                    进入
+                    <Link to={CourseIdAndSuffixLinkMap[courseId]}>课程页面</Link>
+                    继续学习并通过测试吧！
+                </>
+            )
+        }
+
+        return (
+            <>
+                按照下面步骤领取技能认证NFT吧！（公测）
+            </>
+        )
+    }
+
     return (
         <>
             <div className="container">
                 <div className="flex flex-col mt-10 md:items-center">
                     <h1 className="text-[28px] font-bold md:text-[40px]">
-                        恭喜你，
-                        <br className="md:hidden"/>
-                        通过WTF {title}测试
+                        <Title />
                     </h1>
                     <p className="text-md lg:text-2xl lg:mt-3">
-                        按照下面步骤领取属于你的认证NFT吧！(WTF Academy 认证系统公测)
+                        <SubTitle />
                     </p>
                 </div>
                 <div className="w-full bg-[#7A7A7A99] m-auto h-px my-8 lg:mt-[54px] lg:mb-[90px]"/>
