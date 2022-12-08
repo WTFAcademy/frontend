@@ -34,11 +34,11 @@ export default function QuizDashboard(props) {
                             <Course key={idx} {...props} />
                         ))}
                     </ul>
-                    {/*<div className={styles.quizGraduateBox}>*/}
-                    {/*    <div className={styles.quizGraduateBtn} onClick={() => history.push(`/certificate?cid=${courseId}`)}>*/}
-                    {/*        <p>毕业</p>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
+                    <div className={styles.quizGraduateBox}>
+                        <div className={styles.quizGraduateBtn} onClick={() => history.push(`/certificate?cid=${courseId}`)}>
+                            <p>毕业</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className={styles.quizCertification}>
