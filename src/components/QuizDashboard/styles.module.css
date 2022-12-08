@@ -60,6 +60,7 @@ p{
   justify-content: center;
   align-items: center;
   margin: 20px auto;
+  cursor: pointer;
 }
 
 .quizGraduateBtn p{
