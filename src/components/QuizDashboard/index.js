@@ -36,7 +36,7 @@ export default function QuizDashboard(props) {
                             <Course key={idx} {...props} />
                         ))}
                     </ul>
-                    if( courseId == SOLIDITY_COURSE_ID){
+                    { courseId == SOLIDITY_COURSE_ID &&
                         <div className={styles.quizGraduateBox}>
                             <div className={styles.quizGraduateBtn} onClick={() => history.push(`/certificate?cid=${courseId}`)}>
                                 <p>毕业</p>
