@@ -15,7 +15,7 @@ const StepEnd = (props) => {
     const courseId = get(info, 'courseId');
 
     const twLink = useMemo(() => {
-        const text = `I completed the ${CourseIdAndNameMap[courseId]} course at WTF Academy and claimed an SBT certificate!\n\nCome join us at https://wtf.academy/${CourseIdAndSuffixLinkMap[courseId]}`
+        const text = `I completed the ${CourseIdAndNameMap[courseId]} course at @WTFAcademy_ and claimed an SBT certificate!\n\nCome join us at https://wtf.academy/${CourseIdAndSuffixLinkMap[courseId]}`
         return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
     }, [courseId, title]);
 
