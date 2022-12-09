@@ -16,8 +16,8 @@ const StepEnd = (props) => {
 
     const twLink = useMemo(() => {
         const text = `I completed the ${CourseIdAndNameMap[courseId]} course at WTF Academy and claimed an on-chain certificate (SBT)! @WTFAcademy_
-        
-        Join us at https://wtf.academy/${CourseIdAndSuffixLinkMap[courseId]}`;
+
+Join us at https://wtf.academy/${CourseIdAndSuffixLinkMap[courseId]}`;
         
         return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
     }, [courseId, title]);
