@@ -6,6 +6,8 @@ import get from 'lodash/get';
 import styles from './styles.module.css';
 import {getLessons} from "../../api/course";
 
+import { SOLIDITY_COURSE_ID } from '@site/src/constants/course';
+
 const quizCertificationImg = require('@site/static/img/soliditylogo.png').default;
 
 export default function QuizDashboard(props) {
@@ -34,11 +36,13 @@ export default function QuizDashboard(props) {
                             <Course key={idx} {...props} />
                         ))}
                     </ul>
-                    <div className={styles.quizGraduateBox}>
-                        <div className={styles.quizGraduateBtn} onClick={() => history.push(`/certificate?cid=${courseId}`)}>
-                            <p>毕业</p>
+                    if( courseId == SOLIDITY_COURSE_ID){
+                        <div className={styles.quizGraduateBox}>
+                            <div className={styles.quizGraduateBtn} onClick={() => history.push(`/certificate?cid=${courseId}`)}>
+                                <p>毕业</p>
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
             <div className={styles.quizCertification}>
