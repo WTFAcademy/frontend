@@ -44,6 +44,6 @@ export const CourseIdAndSuffixLinkMap = {
 }
 
 export const CourseIdAndNameMap = {
-    [SOLIDITY_COURSE_ID]: 'Solidity Start',
+    [SOLIDITY_COURSE_ID]: 'Solidity Intro',
     [SOLIDITY_ADVANCED_ID]: 'Solidity Advanced',
 }
