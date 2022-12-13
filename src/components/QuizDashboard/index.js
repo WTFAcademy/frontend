@@ -6,8 +6,6 @@ import get from 'lodash/get';
 import styles from './styles.module.css';
 import {getLessons} from "../../api/course";
 
-import { SOLIDITY_COURSE_ID } from '@site/src/constants/course';
-
 const quizCertificationImg = require('@site/static/img/soliditylogo.png').default;
 
 export default function QuizDashboard(props) {
@@ -25,7 +23,7 @@ export default function QuizDashboard(props) {
             </li>
         );
     }
-    
+
     return (
         <div className={styles.quizDashboard}>
             <div className={styles.quizToc}>
@@ -36,19 +34,19 @@ export default function QuizDashboard(props) {
                             <Course key={idx} {...props} />
                         ))}
                     </ul>
-                    { courseId == SOLIDITY_COURSE_ID &&
-                        <div className={styles.quizGraduateBox}>
-                            <div className={styles.quizGraduateBtn} onClick={() => history.push(`/certificate?cid=${courseId}`)}>
-                                <p>毕业</p>
-                            </div>
+
+                    <div className={styles.quizGraduateBox}>
+                        <div className={styles.quizGraduateBtn}
+                             onClick={() => history.push(`/certificate?cid=${courseId}`)}>
+                            <p>毕业</p>
                         </div>
-                    }
+                    </div>
                 </div>
             </div>
             <div className={styles.quizCertification}>
                 <h2>技术认证</h2>
                 <div className={styles.quizCertificationContent}>
-                    <img src={quizCertificationImg} />
+                    <img src={quizCertificationImg}/>
                     <div className={styles.quizCertificationText}>
                         <p>赢取SBT技术认证 🔥</p>
                         <p>通过全部考试，赢取灵魂绑定（SBT）的技术认证！你可以在社交媒体上炫耀，并把它添加到你的简历中！</p>

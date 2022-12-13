@@ -8,10 +8,11 @@ export const getUserCourseInfo = async (courseId, needClaimId) => {
     const bindWallet = get(res, 'data.user_wallet.wallet');
     if (bindWallet) {
         const tokenInfo = await userTokenInfo(bindWallet);
-        const claimedIds = get(tokenInfo, 'user.created', []).map(item => item.soulId);
-        const hasClaimed = claimedIds.includes(needClaimId + '');
-        const donationAmount = get(tokenInfo, 'user.amount', 0)
-        console.log(hasClaimed)
+        const curTokenInfo = get(tokenInfo, 'user.created', []).find(item => item.soulId === needClaimId + '');
+        console.log(curTokenInfo);
+        const hasClaimed = !!curTokenInfo;
+        const donationAmount = get(curTokenInfo, 'creator.amount', 0)
+        console.log(hasClaimed, donationAmount);
         return {
             ...res,
             data: {
@@ -43,6 +44,9 @@ export const userTokenInfo = async (address) => {
           user(id: $address) {
             created {
               soulId
+               creator {
+                amount
+              }
             }
             amount
           }
