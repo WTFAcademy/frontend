@@ -18,7 +18,7 @@ tags:
 
 -----
 
-这一讲，我们将介绍智能合约的签名重放（Signature Replay）攻击，它曾间接导致了著名做市商 Wintermute 被盗2000万枚 $OP。
+这一讲，我们将介绍智能合约的签名重放（Signature Replay）攻击和预防方法，它曾间接导致了著名做市商 Wintermute 被盗2000万枚 $OP。
 
 ## 签名重放
 
@@ -56,7 +56,7 @@ contract SigReplay is ERC20 {
     }
     
     /**
-     * 有签名重访漏洞的铸造函数
+     * 有签名重放漏洞的铸造函数
      * to: 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4
      * amount: 1000
      * 签名： 0x5a4f1ad4d8bd6b5582e658087633230d9810a0b7b8afa791e3f94cc38947f6cb1069519caf5bba7b975df29cbfdb4ada355027589a989435bf88e825841452f61b

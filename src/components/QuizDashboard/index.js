@@ -34,6 +34,7 @@ export default function QuizDashboard(props) {
                             <Course key={idx} {...props} />
                         ))}
                     </ul>
+
                     <div className={styles.quizGraduateBox}>
                         <div className={styles.quizGraduateBtn}
                              onClick={() => history.push(`/certificate?cid=${courseId}`)}>
