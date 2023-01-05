@@ -42,8 +42,8 @@ const SECTIONS = [
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'WTF学院',
-  tagline: '面向Web2程序员的Web3开源学院',
+  title: 'WTF Academy',
+  tagline: 'Web3 Open Academy for Web2 Devloper',
   url: 'https://wtf.academy',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -59,13 +59,20 @@ const config = {
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: 'zh-Hans',
-    locales: ['zh-Hans'],
+    defaultLocale: 'en',
+    locales: ['en', 'zh'],
+    localeConfigs: {
+      en: {
+        label: 'English',
+      },
+      zh: {
+        label: '简体中文',
+      },
+    },
   },
-
   presets: [
     [
-      'classic',
+      '@docusaurus/preset-classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: false,
@@ -76,35 +83,10 @@ const config = {
       }),
     ],
   ],
-
   plugins: [
     ...SECTIONS,
     webpackPlugin,
     tailwindcssPlugin,
-    // [
-    //   '@docusaurus/plugin-content-docs',
-    //   {
-    //     id: 'solidity-start',
-    //     path: 'docs/solidity',
-    //     routeBasePath: 'solidity',
-    //     sidebarPath: require.resolve('./sidebars.js'),
-    //     breadcrumbs: false,
-    //     editUrl: 'https://github.com/WTFAcademy/frontend',
-    //     // ……其他选项
-    //   },
-    // ],
-    // [
-    //   '@docusaurus/plugin-content-docs',
-    //   {
-    //     id: 'ether',
-    //     path: 'docs/ether',
-    //     routeBasePath: 'ether',
-    //     sidebarPath: require.resolve('./sidebars.js'),
-    //     breadcrumbs: false,
-    //     editUrl: 'https://github.com/WTFAcademy/frontend',
-    //     // ……其他选项
-    //   },
-    // ],
   ],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
@@ -118,31 +100,35 @@ const config = {
         items: [
           {
             href: '/learning-center',
-            label: '学习中心',
+            label: 'Center',
             position: 'left',
           },
           {
             href: '/solidity-start',
             position: 'left',
             exact: false,
-            label: 'Solidity入门',
+            label: 'Solidity101',
           },
           {
             href: '/solidity-advanced',
             position: 'left',
             exact: false,
-            label: 'Solidity进阶',
+            label: 'Solidity102',
           },
           {
             href: '/solidity-application',
             position: 'left',
             exact: false,
-            label: 'Solidity应用',
+            label: 'Solidity103',
           },
           {
             href: 'https://github.com/AmazingAng/WTFSolidity/discussions',
-            label: '论坛',
+            label: 'Forum',
             position: 'left',
+          },
+          {
+            type: 'localeDropdown',
+            position: 'right',
           },
           {
             type: 'custom-profile',
@@ -157,24 +143,24 @@ const config = {
         },
         links: [
           {
-            title: '产品',
+            title: 'Products',
             items: [
               {
-                label: '学习中心',
+                label: 'Learning Center',
                 to: '/learning-center',
               },
               {
-                label: '课程',
+                label: 'Courses',
                 to: '/learning-center',
               },
               {
-                label: '论坛',
+                label: 'Forum',
                 href: 'https://github.com/AmazingAng/WTFSolidity/discussions',
               },
             ],
           },
           {
-            title: '社区',
+            title: 'Community',
             items: [
               {
                 label: 'GitHub',
@@ -189,13 +175,13 @@ const config = {
                 href: 'https://twitter.com/0xAA_Science',
               },
               {
-                label: '微信群',
+                label: 'Wechat',
                 href: 'https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform',
               },
             ],
           },
           {
-            title: '捐款',
+            title: 'Donation',
             items: [
               {
                 label: 'Gitcoin',
