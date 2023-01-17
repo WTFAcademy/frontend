@@ -249,5 +249,117 @@
   "theme.docs.sidebar.expandButtonAriaLabel": {
     "message": "展开侧边栏",
     "description": "The ARIA label and title attribute for expand button of doc sidebar"
+  },
+  "home.title": {
+    "message": "学院",
+    "description": "The title of the home page"
+  },
+  "home.tagline.1": {
+    "message": "面向Web2开发者的Web3开源学院",
+    "description": "The tagline of the home page"
+  },
+  "home.tagline.2": {
+    "message": "学习，贡献，并获得链上技术认证",
+    "description": "The tagline of the home page"
+  },
+  "home.StartLearning": {
+    "message": "开始学习",
+    "description": "The label of the button to start learning"
+  },
+  "home.joinDiscord": {
+    "message": "加入社区",
+    "description": "The label of the button to join Discord"
+  },
+  "home.learningCenter.title": {
+    "message": "学习中心",
+    "description": "The title of the learning center section"
+  },
+  "home.learningCenter.solidity101.title": {
+    "message": "Solidity 入门",
+    "description": "The title of the Solidity 101 learning center"
+  },
+  "home.learningCenter.solidity101.description": {
+    "message": "学习solidity基础",
+    "description": "The description of the Solidity 101 learning center"
+  },
+  "home.learningCenter.solidity102.title": {
+    "message": "Solidity 进阶",
+    "description": "The title of the Solidity 101 learning center"
+  },
+  "home.learningCenter.solidity102.description": {
+    "message": "学习solidity进阶内容",
+    "description": "The description of the Solidity 101 learning center"
+  },
+  "home.learningCenter.solidity103.title": {
+    "message": "Solidity 应用",
+    "description": "The title of the Solidity 101 learning center"
+  },
+  "home.learningCenter.solidity103.description": {
+    "message": "学习solidity应用内容",
+    "description": "The description of the Solidity 101 learning center"
+  },
+  "home.learningCenter.ethers101.title": {
+    "message": "Ethers.js 入门",
+    "description": "The title of the Solidity 101 learning center"
+  },
+  "home.learningCenter.ethers101.description": {
+    "message": "学习Ethers.js基础",
+    "description": "The description of the Solidity 101 learning center"
+  },
+  "home.goals.title": {
+    "message": "目标",
+    "description": "The title of the goals section"
+  },
+  "home.goals.desc": {
+    "message": "为Web3培养10,000个开发者",
+    "description": "The title of the first goal"
+  },
+  "home.goals.1": {
+    "message": "开源免费教程",
+    "description": "The title of the first goal"
+  },
+  "home.goals.2": {
+    "message": "链上技术认证",
+    "description": "The title of the second goal"
+  },
+  "home.goals.3": {
+    "message": "PR-to-Earn",
+    "description": "The title of the third goal"
+  },
+  "home.goals.4": {
+    "message": "社区共同学习",
+    "description": "The title of the fourth goal"
+  },
+  "home.WTFContributors.title": {
+    "message": "社区贡献者",
+    "description": "The title of the contributors section"
+  },
+  "home.WTFContributors.desc": {
+    "message": "社区贡献者让这一切成为可能",
+    "description": "The description of the contributors section"
+  },
+  "home.WTFContributors.expansion": {
+    "message": "展开",
+    "description": "The description of the contributors section"
+  },
+  "home.WTFContributors.collapse": {
+    "message": "收起",
+    "description": "The description of the contributors section"
+  },
+  "learningCenter.title": {
+    "message": "学习中心",
+    "description": "The title of the learning center page"
+  },
+  "learningCenter.progress": {
+    "message": "进度",
+    "description": "progress"
+  },
+  "customNavItem.label.login": {
+    "message": "登录",
+    "description": "Navbar item with label 登录"
+  },
+  "customNavItem.label.logout": {
+    "message": "退出",
+    "description": "Navbar item with label 退出"
   }
 }

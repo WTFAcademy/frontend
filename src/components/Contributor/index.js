@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import styles from "./index.module.css";
 import {SimpleGrid} from '@mantine/core';
 import {GetContributors} from '../../utils/contributors';
+import Translate from '@docusaurus/Translate';
 
 export const Contributor = () => {
     const [expand, setExpend] = useState(false);
@@ -58,15 +59,23 @@ export const Contributor = () => {
     return (
         <section>
             <div className={styles['background']}>
-                <div className={styles["site-section-title"]}>社区贡献者</div>
-                <span className={styles.learningCenterDesc}>社区贡献者让这一切成为可能</span>
+                <div className={styles["site-section-title"]}>
+                    <Translate id="home.WTFContributors.title">WTF Contributors</Translate>
+                </div>
+                <span className={styles.learningCenterDesc}>
+                    <Translate id="home.WTFContributors.desc">Contributors Make WTF Academy Come True</Translate>
+                </span>
                 {expand && expandList()}
                 <div className={styles['show-list']}>
                     {!expand && scrollList()}
                     <div className={styles['expand-text']} onClick={() => {
                         setExpend(!expand)
                     }}>
-                        {expand ? '收起' : '展开'}
+                        {
+                            expand ?
+                                <Translate id="home.WTFContributors.collapse">Collapse</Translate> :
+                                <Translate id="home.WTFContributors.expansion">Expansion</Translate>
+                        }
                     </div>
                 </div>
             </div>

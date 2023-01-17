@@ -13,8 +13,8 @@ const useAuth = () => {
         });
     }, []);
 
-    const handleSignInWithGithub = (useLocationHref) => {
-        useLocationHref ? signInWithGithub(window.location.href) : signInWithGithub();
+    const handleSignInWithGithub = (useLocationHref, customPath) => {
+        useLocationHref ? signInWithGithub(customPath || window.location.href) : signInWithGithub();
     }
 
     return {
