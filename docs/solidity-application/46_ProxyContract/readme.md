@@ -1,5 +1,5 @@
 ---
-title: 46. 代理合约
+title: 46. Proxy Contract
 tags:
   - solidity
   - proxy

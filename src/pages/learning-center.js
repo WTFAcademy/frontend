@@ -9,7 +9,6 @@ export default function LearningCenter() {
         <Layout>
             <div className={styles.learningCenterContent}>
                 <p className={styles.learningCenterTitle}>
-                    学习中心
                     <Translate id="learningCenter.title">Learning Center</Translate>
                 </p>
                 <div className={styles.learningCenterListBox}>
