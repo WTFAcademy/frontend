@@ -1,3 +1,7 @@
+---
+title: 19. 监听Mempool
+---
+
 # Ethers极简入门: 19. 监听Mempool
 
 我最近在重新学`ethers.js`，巩固一下细节，也写一个`WTF Ethers极简入门`，供小白们使用。
@@ -67,8 +71,9 @@ provider.on("pending", listener)
 3. 监听`mempool`的未决交易，并打印交易哈希。
 
     ```js
+    let i = 0
     provider.on("pending", async (txHash) => {
-        if (txHash && j < 100) {
+        if (txHash && i < 100) {
             // 打印txHash
             console.log(`[${(new Date).toLocaleTimeString()}] 监听Pending交易 ${i}: ${txHash} \r`);
             i++

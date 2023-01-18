@@ -1,3 +1,7 @@
+---
+title: 1. HelloVitalik (6行代码)
+---
+
 # Ethers极简入门: 1. HelloVitalik (6行代码)
 
 我最近在重新学`ethers.js`，巩固一下细节，也写一个`WTF Ethers极简入门`，供小白们使用。
@@ -86,7 +90,7 @@ const provider = ethers.getDefaultProvider();
 
 ### 3. 声明`async`函数
 
-由于和区块链交互不是实时的我们需要用到js的`async/await`语法糖。每次和链交互的调用需要用到`await`，再把这些这些用`async`函数包裹起来，最后再调用这个函数。
+由于和区块链交互不是实时的我们需要用到js的`async/await`语法糖。每次和链交互的调用需要用到`await`，再把这些用`async`函数包裹起来，最后再调用这个函数。
 ```javascript
 const main = async () => {
     //...
