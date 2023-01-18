@@ -1,3 +1,8 @@
+---
+sidebar_position: 0
+slug: /
+---
+
 # WTF-HTML
 
 WTF HTML教程，总结/搬运自MDN HTML教程，帮助新人快速入门HTML，并完成一个极简版[Uniswap页面](https://github.com/WTFAcademy/WTF-HTML/blob/main/09_UniswapHTML/readme.md)。
