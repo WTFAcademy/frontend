@@ -40,6 +40,7 @@ const SECTIONS = [
   defineSection('solidity-attacks'),
   defineSection('ether-start'),
   defineSection('html101'),
+  defineSection('javascript101'),
 ];
 
 /** @type {import('@docusaurus/types').Config} */

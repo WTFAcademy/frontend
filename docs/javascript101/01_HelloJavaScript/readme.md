@@ -1,4 +1,4 @@
-# JavaScript极简入门: 22. Hello JavaScript (2行代码)
+# JavaScript极简入门: 1. Hello JavaScript (2行代码)
 
 WTF JavaScript 教程，帮助新人快速入门 JavaScript。
 
@@ -86,6 +86,8 @@ console.log(hello);
 
 ## 习题
 
+将 `Hello Javascript` 程序中变量 `hello` 的值改为 `“Hello WTF Academy!”`，并观察控制台的输出。
+
 将下面程序中变量 `hello` 的值改为 `“Hello WTF Academy!”`，并观察控制台的输出：
 
 ```jsx live
@@ -94,7 +96,6 @@ function Test01(props) {
     return (hello);
 }
 ```
-
 
 ## 总结
 
