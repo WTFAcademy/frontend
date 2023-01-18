@@ -361,5 +361,21 @@
   "customNavItem.label.logout": {
     "message": "退出",
     "description": "Navbar item with label 退出"
+  },
+  "component.QuizProgress.time": {
+    "message": "花费时间：",
+    "description": "The label of the time"
+  },
+  "component.QuizProgress.score": {
+    "message": "成绩：",
+    "description": "The label of the score"
+  },
+  "component.QuizForm.button.test": {
+    "message": "测试",
+    "description": "The label of the next button"
+  },
+  "component.QuizDashboard.title": {
+    "message": "目录",
+    "description": "title"
   }
 }

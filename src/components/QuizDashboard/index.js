@@ -5,6 +5,7 @@ import {useRequest} from "ahooks";
 import get from 'lodash/get';
 import styles from './styles.module.css';
 import {getLessons} from "../../api/course";
+import Translate from '@docusaurus/Translate';
 
 const quizCertificationImg = require('@site/static/img/soliditylogo.png').default;
 
@@ -27,7 +28,7 @@ export default function QuizDashboard(props) {
     return (
         <div className={styles.quizDashboard}>
             <div className={styles.quizToc}>
-                <h2>目录</h2>
+                <h2><Translate id="component.QuizDashboard.title">Catalogue</Translate></h2>
                 <div className={styles.quizBox}>
                     <ul className={styles.quizList}>
                         {get(data, 'data.list', []).map((props, idx) => (
