@@ -1,6 +1,6 @@
 # WTF HTML 极简教程: 7. 图像
 
-WTF HTML 教程，总结/搬运自[MDN HTML 教程](<(https://developer.mozilla.org/zh-CN/docs/Learn/HTML)>)，帮助新人快速入门 HTML。
+WTF HTML 教程，总结/搬运自[MDN HTML 教程](https://developer.mozilla.org/zh-CN/docs/Learn/HTML)，帮助新人快速入门 HTML。
 
 **推特**：[@WTFAcademy_](https://twitter.com/WTFAcademy_) ｜ [@0xAA_Science](https://twitter.com/0xAA_Science)
 
