@@ -1,3 +1,7 @@
+---
+title: 3. 常用类型
+---
+
 # WTF JavaScript 极简教程: 3. 常用类型
 
 WTF JavaScript 教程，帮助新人快速入门 JavaScript。

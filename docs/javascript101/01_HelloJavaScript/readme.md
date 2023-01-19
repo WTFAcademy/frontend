@@ -1,3 +1,7 @@
+---
+title: 1. Hello JavaScript
+---
+
 # JavaScript极简入门: 1. Hello JavaScript (2行代码)
 
 WTF JavaScript 教程，帮助新人快速入门 JavaScript。

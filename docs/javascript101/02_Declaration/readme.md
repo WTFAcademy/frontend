@@ -1,3 +1,7 @@
+---
+title: 2. 声明变量
+---
+
 # WTF JavaScript 极简教程: 2. 声明变量
 
 WTF JavaScript 教程，帮助新人快速入门 JavaScript。
