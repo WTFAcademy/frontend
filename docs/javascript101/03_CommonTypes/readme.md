@@ -76,15 +76,18 @@ const bool2 = false;
 
 ## 习题
 
-请补全下面的代码，让它正常运行。注意，`nickname` 为字符串， `age` 为数值，`isDev` 为布尔值。你可以在[链接](https://playcode.io/1059248)上找到这段代码。
+请补全下面的代码，让它正常运行。注意，`nickname` 为字符串， `age` 为数值，`isDev` 为布尔值。
 
-```js
-const nickname = ; // 昵称
-const age = ; // 年龄
-const isDev = ; // 是否为开发者
-const template = `欢迎 ${age} 岁的 ${nickname} 来到 WTF Academy！
-你是开发者吗？ ${isDev}`;
-console.log(template);
+```jsx live
+function Test03(props) {
+  const nickname = ; // 昵称
+  const age = ; // 年龄
+  const isDev = ; // 是否为开发者
+  const template = `欢迎 ${age} 岁的 ${nickname} 来到 WTF Academy！
+  你是开发者吗？ ${isDev}`;
+
+  return (template);
+}
 ```
 
 ## 总结

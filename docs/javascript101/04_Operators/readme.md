@@ -160,17 +160,19 @@ false && false; // false
 
 ## 习题
 
-给出下面 `6` 个变量的值。你可以在[链接](https://playcode.io/1061414)上找到这段代码。
+给出下面 `6` 个变量的值。
 
-```js
-let a = 69;
-let b = a++ + a;
-let c = a * 2;
-let d = (b === c);
-let e = true;
-let f = e && d;
+```jsx live
+function Test04(props) {
+    let a = 69;
+    let b = a++ + a;
+    let c = a * 2;
+    let d = (b === c);
+    let e = true;
+    let f = e && d;
 
-console.log(f);
+    return (f.toString());
+}
 ```
 
 ## 总结

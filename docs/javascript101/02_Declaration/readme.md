@@ -62,12 +62,15 @@ ES6 之后新增的 `let` 和 `const` 关键字很好地解决了过时的 `var`
 
 ## 习题
 
-下面的代码是否会报错？如果会，请修改它，让它正确运行。你可以在[链接](https://playcode.io/1058216)上找到这段代码。
+下面的代码是否会报错？如果会，请修改它，让它正确运行。
 
-```js
-const fruit = 'apple'
-fruit = 'orange'
-console.log(fruit)
+```jsx live
+function Test02(props) {
+    const fruit = 'apple'
+    fruit = 'orange'
+
+    return (fruit);
+}
 ```
 
 ## 总结

@@ -86,8 +86,6 @@ console.log(hello);
 
 ## 习题
 
-将 `Hello Javascript` 程序中变量 `hello` 的值改为 `“Hello WTF Academy!”`，并观察控制台的输出。
-
 将下面程序中变量 `hello` 的值改为 `“Hello WTF Academy!”`，并观察控制台的输出：
 
 ```jsx live
