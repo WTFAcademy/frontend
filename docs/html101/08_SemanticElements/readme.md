@@ -67,7 +67,7 @@ WTF HTML教程，总结/搬运自[MDN HTML教程](https://developer.mozilla.org/
 
 下面我们来简单介绍一下这些标签。
 
-`<header>` 用于展示介绍性内容，通常包含一组介绍性的或是辅助导航的实用元素。它可能包含一些标题元素，但也可能包含其他元素，比如 Logo、搜索框、作者名称，等等。
+`<header>` 用于展示介绍性内容，通常包含一组介绍性的或是辅助导航的实用元素。它可能包含一些标题元素，但也可能包含其他元素，比如 Logo、搜索框、作者名称，等等。注意不要和 `<head>` 元素混淆。
 
 `<nav>` 表示页面的一部分，其目的是在当前文档或其他文档中提供导航链接。导航部分的常见示例是菜单，目录和索引。
 
@@ -85,13 +85,49 @@ WTF HTML教程，总结/搬运自[MDN HTML教程](https://developer.mozilla.org/
 
 了解更多[语义元素](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element)。
 
-
-
 ## 为什么需要语义元素？
 1. 更便于开发。如上所述，你所编写的 HTML 代码更易于理解，可读性更高。
 2. 方便其他设备解析（如屏幕阅读器、盲人阅读器、移动设备）以语义的方式来渲染网页。
 3. 更便于 SEO 优化。比起使用非语义化的 `<div>` 标签，使用语义化可使网页更容易被用户搜索到。
 
+## 习题
+
+给下面代码中的语义元素填充内容，并在 `<article>` 元素中写一个你最喜欢的 NFT 项目的介绍。原生 HTML 页面可能看起来不太美观，不过没关系，你可以学习 [WTF-CSS](https://github.com/WTFAcademy/WTF-CSS) 然后让它变得更美。
+
+```jsx live
+function TestHTML08(props) {
+    let body = 
+    <body>
+        <header>
+          <nav>
+            <ul>
+              <li><a href="#home"></a></li>
+              <li><a href="#contact"></a></li>
+            </ul>
+          </nav>
+        </header>
+        
+        <main>
+          <article>
+            <h1></h1>
+            <p></p>
+          </article>
+          <aside>
+            <h2></h2>
+            <ul>
+              <li><a href="#recent-posts"></a></li>
+              <li><a href="#popular-tags"></a></li>
+            </ul>
+          </aside>
+        </main>
+        
+        <footer>
+          <p></p>
+        </footer>
+      </body>;
+    return body;
+}
+```
 
 ## 总结
 

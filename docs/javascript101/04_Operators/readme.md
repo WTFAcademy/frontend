@@ -175,7 +175,7 @@ function Test04(props) {
     let e = true;
     let f = e && d;
 
-    return (f.toString());
+    return f.toString();
 }
 ```
 

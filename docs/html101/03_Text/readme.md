@@ -97,6 +97,25 @@ I am counting on you. **Do not** be late!
 <p>I am counting on you. <strong>Do not</strong> be late!</p>
 ```
 
+## 习题
+
+请用文本标签调整下面的唐诗文本，使得它排版优美。
+
+```jsx live
+function TestHTML03(props) {
+    let body = 
+        <body>
+        静夜思
+        李白
+        床前明月光，
+        疑是地上霜。
+        举头望明月，
+        低头思故乡。
+        </body>
+    return body;
+}
+```
+
 ## 总结
 
 这一讲我们介绍了如何在 HTML 中标记文本，并介绍了一些最重要的元素。在这一领域还有许多语义元素，我们将在后面的文章中看到更多的语义元素。

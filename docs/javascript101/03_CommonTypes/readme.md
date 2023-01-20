@@ -90,7 +90,7 @@ function Test03(props) {
   const template = `欢迎 ${age} 岁的 ${nickname} 来到 WTF Academy！
   你是开发者吗？ ${isDev}`;
 
-  return (template);
+  return template;
 }
 ```
 

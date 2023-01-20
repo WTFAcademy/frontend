@@ -1,4 +1,4 @@
-# WTF HTML 极简教程: 7. 图像
+# WTF HTML极简教程: 7. 图像
 
 WTF HTML 教程，总结/搬运自[MDN HTML 教程](https://developer.mozilla.org/zh-CN/docs/Learn/HTML)，帮助新人快速入门 HTML。
 
@@ -69,5 +69,20 @@ height（高度）与 width（宽度）属性用于设置图像的高度与宽�
 给图片设置宽度与高度的好处是，在页面加载的时会保留指定的尺寸，以确保图像被加载之前页面的布局是稳定的。
 不过我们通常不会在 `<img>` 元素中直接设置宽度与高度，后续学习过CSS后，我们一般通过CSS来指定图像的宽度与高度。
 
+## 习题
+
+修改下面的代码，展示你喜欢的NFT（小图片），并调整大小。
+
+```jsx live
+function TestHTML06(props) {
+  let body = 
+    <img src = "https://ipfs.io/ipfs/QmPbxeGcXhYQQNgsC6a36dDyYUcHgMLnGKnF8pVFmGsvqi"
+    width = "250"
+    height = "250"/>
+  return body;
+}
+```
+
 ## 总结
+
 这一讲我们学习了如何通过img标签在页面中嵌入图像，以及它的常用属性。更详细内容你可以阅读[MDN HTML基础](https://developer.mozilla.org/zh-CN/docs/Learn/HTML/Multimedia_and_embedding/Images_in_HTML)。

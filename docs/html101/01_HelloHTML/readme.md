@@ -73,6 +73,20 @@ Hello HTML中包括以下元素：
 - `<body></body>` — `body` 元素。该元素包含期望让用户在访问页面时看到的内容，包括文本、图像、视频、游戏、可播放的音轨或其他内容。
 - `<p></p>` - 段落元素，表示文本的一个段落，通常表现为一整块与相邻文本分离的文本，或以垂直的空白隔离或以首行缩进。
 
+## 习题
+
+修改下面的代码，使得显示的文本为 `Hello WTF`，并将加粗效果去除。
+
+```jsx live
+function TestHTML01(props) {
+    let hello = 
+    <body>
+      <p>Hello <strong>HTML</strong>.</p>
+    </body>;
+    return hello;
+}
+```
+
 ## 总结
 
 这一讲我们介绍了什么是HTML，HTML的元素和开发工具，并且写了第一个HTML程序：Hello HTML。

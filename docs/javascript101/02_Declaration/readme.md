@@ -73,7 +73,7 @@ function Test02(props) {
     const fruit = 'apple'
     fruit = 'orange'
 
-    return (fruit);
+    return fruit;
 }
 ```
 

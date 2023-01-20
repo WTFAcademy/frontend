@@ -1,4 +1,4 @@
-# WTF HTML极简教程: 6. Hyperlink 超链接
+# WTF HTML极简教程: 6. 超链接
 
 WTF HTML教程，总结/搬运自[MDN HTML教程](https://developer.mozilla.org/zh-CN/docs/Learn/HTML)，帮助新人快速入门HTML。
 
@@ -111,10 +111,22 @@ WTF HTML教程，总结/搬运自[MDN HTML教程](https://developer.mozilla.org/
 
 ### 创建下载链接
 
-<a href="https://github.com/WTFAcademy/WTF-HTML/blob/main/06_Hyperlink/img/6-2.png" download="wtflogo">下载 WTFAcademy logo</a>
+<a href="https://wtf.academy/img/wtflogo.png" download="wtflogo">下载 WTFAcademy logo</a>
 
 ```html
-<a href="https://github.com/WTFAcademy/WTF-HTML/blob/main/06_Hyperlink/img/6-2.png" download="wtflogo">下载 WTFAcademy logo</a>
+<a href="https://wtf.academy/img/wtflogo.png" download="wtflogo">下载 WTFAcademy logo</a>
+```
+
+## 习题
+
+用 `<a>` 标签写一个跳转到你推特主页的超链接。
+
+```jsx live
+function TestHTML06(props) {
+  let body = 
+    <a href="">我的推特</a>
+  return body;
+}
 ```
 
 ## 总结

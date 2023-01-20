@@ -29,15 +29,15 @@ WTF HTML教程，总结/搬运自[MDN HTML教程](https://developer.mozilla.org/
 
 常用的属性：
 
-1. `id`:为元素提供一个唯一标识符。
-2. `class`：为元素提供一个或多个类名，不同的元素可以添加相同的类名。
-3. `style`:为元素提供内联样式。
+1. `id`: 为元素提供一个唯一标识符。
+2. `class`: 为元素提供一个或多个类名，不同的元素可以添加相同的类名。
+3. `style`: 为元素提供内联样式。
 
-**备注**： 不包含 ASCII 空格(以及`"` `'` `=` `<` `>`)的简单属性值可以不使用引号，但是建议将所有属性值用引号括起来，这样的代码一致性更佳，更易于阅读。
+**备注**： 不包含 ASCII 空格（以及`"` `'` `=` `<` `>`）的简单属性值可以不使用引号，但是建议将所有属性值用引号括起来，这样的代码一致性更佳，更易于阅读。
 
 ## 嵌套元素
 
-也可以将一个元素置于其他元素之中 —— 称作**嵌套**。要表明猫咪非常暴躁，可以将`very`用`<strong>`元素包围，`very`将突出显示：
+**嵌套**：开发者可以将一个元素置于其他元素之中。比如，要表明猫咪非常暴躁，可以将`very`用`<strong>`元素包围，将`very`突出显示：
 
 ```html
 <p>My cat is <strong>very</strong> grumpy.</p>
@@ -100,7 +100,26 @@ WTF HTML教程，总结/搬运自[MDN HTML教程](https://developer.mozilla.org/
 
 ![效果](./img/2-5.jpg)
 
-常见的行内元素有：span、a、strong、em、img、input
+常见的行内元素有：`span`、`a`、`strong`、`em`、`img`、`input`。
+
+## 习题
+
+下面的 HTML 代码没有被正确的闭合，请加入适当的标签，让它能够正常运行，并感受 `<div>` 和 `<span>` 的不同。
+
+```jsx live
+function TestHTML02(props) {
+    let body = 
+        <body>
+            <div>我是div</div>
+            <div>我也是div
+            
+            我是span</span>
+            <span>我也是span</span>
+        </body>
+    return body;
+}
+```
+
 
 ## 总结
 

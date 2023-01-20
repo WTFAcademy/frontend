@@ -256,6 +256,23 @@ WTF HTML教程，总结/搬运自[MDN HTML教程](https://developer.mozilla.org/
   </tr>
 </table>
 
+## 习题
+
+你的持仓有`BTC`, `ETH`, `USDT`,和`PEOPLE`，请修改下列代码，制作一个带有圆点列表符号的列表来展示他们。
+
+```jsx live
+function TestHTML04(props) {
+  let body = 
+      <body>
+      我的持仓
+        BTC
+        ETH
+        USDT
+        PEOPLE
+      </body>
+  return body;
+}
+```
 
 ## 总结
 

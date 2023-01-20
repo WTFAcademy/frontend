@@ -95,7 +95,7 @@ console.log(hello);
 ```jsx live
 function Test01(props) {
     let hello = "Hello JavaScript!";
-    return (hello);
+    return hello;
 }
 ```
 

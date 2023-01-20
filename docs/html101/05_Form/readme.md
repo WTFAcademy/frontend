@@ -28,7 +28,8 @@ WTF HTML教程，总结/搬运自[MDN HTML教程](https://developer.mozilla.org/
 
 ```html
 <form>
-First name: <input type="text" name="firstname"><br>
+First name: <input type="text" name="firstname">
+<br>
 Last name: <input type="text" name="lastname">
 </form>
 ```
@@ -132,12 +133,38 @@ name：表单的名称。该值不能是空字符串，并且在它所在的表�
 
 method：定义表单数据的提交方式，可以是以下值：
 
-* **post**：HTTP POST 方法，表单数据会包含在表单体内发送给服务器，可以用于提交敏感数据，如用户名与密码等
-* **get**：默认值， HTTP GET 方法，表单数据会附加在 **action** 属性的 URL 中，并以 **?** 作为分隔符，一般用于不敏感信息，如分页等。例如：https://www.wtfacademy.com/?currentPage=1，这里的 currentPage=1 就是 get 方法提交的数据
+* **post**：HTTP POST 方法，表单数据会包含在表单体内发送给服务器，可以用于提交敏感数据，如用户名与密码等。
+* **get**：默认值， HTTP GET 方法，表单数据会附加在 **action** 属性的 URL 中，并以 **?** 作为分隔符，一般用于不敏感信息，如分页等。例如：https://www.wtfacademy.com/?currentPage=1，这里的 currentPage=1 就是 get 方法提交的数据。
 
 浏览器展示：
 
 ![img](./img/5-6.jpg)
+
+## 习题
+
+使用表单元素将下面的注册页面补全。注意，下面的代码是 `react` 代码，每个元素都必须闭合： `<br>` 改为 `<br/>`，`<input ...>` 改为 `<input ... />`
+
+```jsx live
+function TestHTML05(props) {
+  let body = 
+    <body>
+      <h2>注册信息</h2>
+      <form name="注册">
+        用户名: 
+        <br/>
+        密码:
+        <br/>
+        性别: 男/女
+        <br/> 
+        技术栈: HTML/CSS/JS/Solidity/Go
+        <br/> 
+        <input type="submit" value="登录"/>
+      </form>
+    </body>
+  return body;
+}
+```
+
 
 ## 总结
 
