@@ -90,7 +90,7 @@ console.log(hello);
 
 ## 习题
 
-将下面程序中变量 `hello` 的值改为 `“Hello WTF Academy!”`，并观察控制台的输出：
+将下面程序中变量 `hello` 的值改为 `“Hello WTF Academy!”`，并观察控制台的输出。习题[链接](https://frontend-31e3o5fuh-wtfacademy.vercel.app/javascript101/HelloJavaScript/#%E4%B9%A0%E9%A2%98)。
 
 ```jsx live
 function Test01(props) {
