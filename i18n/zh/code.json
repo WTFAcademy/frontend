@@ -338,7 +338,7 @@
     "message": "社区贡献者让这一切成为可能",
     "description": "The description of the contributors section"
   },
-  "home.WTFContributors.expansion": {
+  "home.WTFContributors.expand": {
     "message": "展开",
     "description": "The description of the contributors section"
   },
@@ -378,9 +378,9 @@
     "message": "目录",
     "description": "title"
   },
-  "component.QuizDashboard.graduationButton": {
+  "component.QuizDashboard.graduateButton": {
     "message": "毕业",
-    "description": "graduationButton"
+    "description": "graduateButton"
   },
   "component.QuizDashboard.introduction.title": {
     "message": "技术认证",

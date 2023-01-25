@@ -40,7 +40,7 @@ export default function QuizDashboard(props) {
                         <div className={styles.quizGraduateBtn}
                              onClick={() => history.push(`/certificate?cid=${courseId}`)}>
                             <p>
-                                <Translate id="component.QuizDashboard.graduationButton">Graduation</Translate>
+                                <Translate id="component.QuizDashboard.graduateButton">Graduate</Translate>
                             </p>
                         </div>
                     </div>
@@ -48,16 +48,16 @@ export default function QuizDashboard(props) {
             </div>
             <div className={styles.quizCertification}>
                 <h2>
-                    <Translate id="component.QuizDashboard.introduction.title">Technical Certification</Translate>
+                    <Translate id="component.QuizDashboard.introduction.title">On-chain Certificates</Translate>
                 </h2>
                 <div className={styles.quizCertificationContent}>
                     <img src={quizCertificationImg}/>
                     <div className={styles.quizCertificationText}>
                         <p>
-                           <Translate id="component.QuizDashboard.introduction.desc.1">Get SBT Technology Certification</Translate> 🔥
+                           <Translate id="component.QuizDashboard.introduction.desc.1">Get Solidity Developer Certificates</Translate> 🔥
                         </p>
                         <p>
-                            <Translate id="component.QuizDashboard.introduction.desc.2">Pass all the exams and get the technical certification of Soul binding (SBT)! You can show off on social media and add it to your resume!</Translate>
+                            <Translate id="component.QuizDashboard.introduction.desc.2">Pass all the exams and win the Solidity Developer Certificate! You can show off on social media and add it to your resume!</Translate>
                         </p>
                     </div>
                 </div>

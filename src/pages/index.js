@@ -30,7 +30,7 @@ function HomepageHeader() {
             </span>
                     </div>
                     <h2 className={styles.wtfTitle}>
-                        <Translate id="home.tagline.1">Web3 Open Academy for Web2 Devloper</Translate>
+                        <Translate id="home.tagline.1">Web3 Open University for Developers</Translate>
                     </h2>
                     <h4 className={styles.wtfDesc}>
                         <Translate id="home.tagline.2">Learn, Contribute, and Get Certificates</Translate>

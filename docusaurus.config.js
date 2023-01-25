@@ -43,7 +43,7 @@ const SECTIONS = [
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'WTF Academy',
-  tagline: 'Web3 Open Academy for Web2 Devloper',
+  tagline: 'Web3 Open University for Developers',
   url: 'https://wtf.academy',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -107,19 +107,19 @@ const config = {
             href: '/solidity-start',
             position: 'left',
             exact: false,
-            label: 'Solidity101',
+            label: 'Solidity 101',
           },
           {
             href: '/solidity-advanced',
             position: 'left',
             exact: false,
-            label: 'Solidity102',
+            label: 'Solidity 102',
           },
           {
             href: '/solidity-application',
             position: 'left',
             exact: false,
-            label: 'Solidity103',
+            label: 'Solidity 103',
           },
           {
             href: 'https://github.com/AmazingAng/WTFSolidity/discussions',

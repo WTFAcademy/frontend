@@ -6,7 +6,7 @@ export default function HomepageTarget() {
 
     const CourseList = [
         {
-            title: <Translate id="home.goals.1">Free & Open-Source</Translate>,
+            title: <Translate id="home.goals.1">Open-Source</Translate>,
             imgUrl: require('@site/static/img/home_target1.png').default,
         },
         {
@@ -18,7 +18,7 @@ export default function HomepageTarget() {
             imgUrl: require('@site/static/img/home_target3.png').default,
         },
         {
-            title: <Translate id="home.goals.4">Grow with the Community</Translate>,
+            title: <Translate id="home.goals.4">Community Driven</Translate>,
             imgUrl: require('@site/static/img/home_target4.png').default,
         },
     ];

@@ -20,7 +20,7 @@ export const CourseList = [
         linkUrl: '/solidity-advanced/',
         description: (
             <Translate id="home.learningCenter.solidity102.description">
-                Learn Solidity Advanced Techniques
+                Learn Advanced Solidity Topics
             </Translate>
         ),
     },

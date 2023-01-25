@@ -63,7 +63,7 @@ export const Contributor = () => {
                     <Translate id="home.WTFContributors.title">WTF Contributors</Translate>
                 </div>
                 <span className={styles.learningCenterDesc}>
-                    <Translate id="home.WTFContributors.desc">Contributors Make WTF Academy Come True</Translate>
+                    <Translate id="home.WTFContributors.desc">Contributors Are the Basis of WTF Academy.</Translate>
                 </span>
                 {expand && expandList()}
                 <div className={styles['show-list']}>
@@ -74,7 +74,7 @@ export const Contributor = () => {
                         {
                             expand ?
                                 <Translate id="home.WTFContributors.collapse">Collapse</Translate> :
-                                <Translate id="home.WTFContributors.expansion">Expansion</Translate>
+                                <Translate id="home.WTFContributors.expand">Expand</Translate>
                         }
                     </div>
                 </div>
