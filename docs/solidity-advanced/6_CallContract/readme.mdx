@@ -1,71 +1,72 @@
 ---
-title: 21. 调用其他合约
+title: 21. Interact with Contract
 tags:
-  - solidity
-  - advanced
-  - wtfacademy
-  - call contract
+    - solidity
+    - advanced
+    - wtfacademy
+    - call contract
 ---
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
 import { SOLIDITY_ADVANCED_ID, SOLIDITY_ADVANCED_LESSON_ID_6 } from '@site/src/constants/course';
 
-# Solidity极简入门: 21. 调用其他合约
+# WTF Solidity Tutorial: 21. Interact with other Contract
+
 <QuizProgress courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_6} />
 
-我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
-欢迎关注我的推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
+Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
 
-WTF技术社群discord，内有加微信群方法：[链接](https://discord.gg/5akcruXrsk)
+Community: [Discord](https://discord.wtf.academy)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
 
-所有代码和教程开源在github（1024个star发课程认证，2048个star发社群NFT）: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
 
 -----
 
-## 调用已部署合约
+## Interact with deployed contract
 
-开发者写智能合约来调用其他合约，这让以太坊网络上的程序可以复用，从而建立繁荣的生态。很多`web3`项目依赖于调用其他合约，比如收益农场（`yield farming`）。这一讲，我们介绍如何在已知合约代码（或接口）和地址情况下调用目标合约的函数。
+Interactions between contracts not only make the programs re-usable on the blockchain, also enrich the Ethereum ecosystem. Many `web3` Dapps rely on other contract to work, for example `yield farming`. In this tutorial, we will talk about how to interact with contract that source code (or ABI) and address are available.
 
-## 目标合约
-我们先写一个简单的合约`OtherContract`来调用。
+## Target Contract
+Lets write a simple contract `OtherContract` to work with.
 
 ```solidity
 contract OtherContract {
-    uint256 private _x = 0; // 状态变量_x
-    // 收到eth的事件，记录amount和gas
+    uint256 private _x = 0; // state variable x
+    // Receiving ETH event, log the amount and gas
     event Log(uint amount, uint gas);
     
-    // 返回合约ETH余额
+    // get the balance of the contract
     function getBalance() view public returns(uint) {
         return address(this).balance;
     }
 
-    // 可以调整状态变量_x的函数，并且可以往合约转ETH (payable)
+    // set the value of x, as well as receiving ETH (payable)
     function setX(uint256 x) external payable{
         _x = x;
-        // 如果转入ETH，则释放Log事件
+        // emit Log event when receiving ETH
         if(msg.value > 0){
             emit Log(msg.value, gasleft());
         }
     }
 
-    // 读取_x
+    // read the value of x
     function getX() external view returns(uint x){
         x = _x;
     }
 }
 ```
 
-这个合约包含一个状态变量`_x`，一个事件`Log`在收到`ETH`时触发，三个函数：
-- `getBalance()`: 返回合约`ETH`余额。
-- `setX()`: `external payable`函数，可以设置`_x`的值，并向合约发送`ETH`。
-- `getX()`: 读取`_x`的值。
+This contract includes a state variable `_x`, a `Log` event which will emit when receiving `ETH`, and three functions:
+- `getBalance()`: return the balance of the contract.
+- `setX()`: `external payable` function, set the value of `_x`, as well as receiving `ETH`.
+- `getX()`: read the value of `_x`
 
-## 调用`OtherContract`合约
-我们可以利用合约的地址和合约代码（或接口）来创建合约的引用：`_Name(_Address)`，其中`_Name`是合约名，`_Address`是合约地址。然后用合约的引用来调用它的函数：`_Name(_Address).f()`，其中`f()`是要调用的函数。
+## Interact with `OtherContract`
+We can create a reference to the contract with the contract address and source code (or ABI): `_Name(_Address)`, `_Name` is the contract name which should be consistent with the contract source code (or ABI), `_Address` is the contract address. Then we can call the functions in the contract like this: `_Name(_Address).f()`, `f()` is the function you want to call.
 
-下面我们介绍4个调用合约的例子，在remix中编译合约后，分别部署`OtherContract`和`CallContract`：
+Here are four examples of interacting with contracts, compile and deploy these two contracts: `OtherContract` and `CallContract`:
 
 ![deploy contract0 in remix](./img/21-1.png)
 
@@ -73,8 +74,8 @@ contract OtherContract {
 
 ![deploy contract2 in remix](./img/21-3.png)
 
-### 1. 传入合约地址
-我们可以在函数里传入目标合约地址，生成目标合约的引用，然后调用目标函数。以调用`OtherContract`合约的`setX`函数为例，我们在新合约中写一个`callSetX`函数，传入已部署好的`OtherContract`合约地址`_Address`和`setX`的参数`x`：
+### 1. Pass the contract address
+We can pass the contract address as parameter and create a reference of `OtherContract`, then call the function of `OtherContract`. For example, here we create a `callSetX` function which will call `setX` from `OtherContract`, pass the deployed contract address `_Address` and the `x` value as parameter:
 
 ```solidity
     function callSetX(address _Address, uint256 x) external{
@@ -82,16 +83,16 @@ contract OtherContract {
     }
 ```
 
-复制`OtherContract`合约的地址，填入`callSetX`函数的参数中，成功调用后，调用`OtherContract`合约中的`getX`验证`x`变为123
+Copy the address of `OtherContract`, and pass it as the first parameter of `callSetX`, after the transaction succeeded, we can call `getX` from `OtherContract` and the value of `x` is 123.
 
 ![call contract1 in remix](./img/21-4.png)
 
 ![call contract2 in remix](./img/21-5.png)
 
-### 2. 传入合约变量
-我们可以直接在函数里传入合约的引用，只需要把上面参数的`address`类型改为目标合约名，比如`OtherContract`。下面例子实现了调用目标合约的`getX()`函数。
+### 2. Pass the contract variable
+We can also pass the reference of the contract as parameter, just change the type from `address` to the contract name, i.e. `OtherContract`. The following example shows how to call `getX()` from `OtherContract`.
 
-**注意**该函数参数`OtherContract _Address`底层类型仍然是`address`，生成的`ABI`中、调用`callGetX`时传入的参数都是`address`类型
+**Note:** The parameter `OtherContract _Address` is still `address` type behind the scene. You will find it's `address` type in the generated `ABI` and when passing the parameter to `callGetX`.
 
 ```solidity
     function callGetX(OtherContract _Address) external view returns(uint x){
@@ -99,42 +100,42 @@ contract OtherContract {
     }
 ```
 
-复制`OtherContract`合约的地址，填入`callGetX`函数的参数中，调用后成功获取`x`的值
+Copy the address of `OtherContract`, and pass it as the parameter of `callGetX`, after the transaction succeeded, we can get the value of `x`.
 
 ![call contract3 in remix](./img/21-6.png)
 
-### 3. 创建合约变量
-我们可以创建合约变量，然后通过它来调用目标函数。下面例子，我们给变量`oc`存储了`OtherContract`合约的引用：
+### 3. Create contract variable
+We can create a contract variable and call its functions. The following example shows how to create a reference of `OtherContract` and save to `oc`:
+
 ```solidity
     function callGetX2(address _Address) external view returns(uint x){
         OtherContract oc = OtherContract(_Address);
         x = oc.getX();
     }
 ```
-
-复制`OtherContract`合约的地址，填入`callGetX2`函数的参数中，调用后成功获取`x`的值
+Copy the address of `OtherContract`, and pass it as the parameter of `callGetX2 `, after the transaction succeeded, we can get the value of `x`.
 
 ![call contract4 in remix](./img/21-7.png)
 
-### 4. 调用合约并发送`ETH`
-如果目标合约的函数是`payable`的，那么我们可以通过调用它来给合约转账：`_Name(_Address).f{value: _Value}()`，其中`_Name`是合约名，`_Address`是合约地址，`f`是目标函数名，`_Value`是要转的`ETH`数额（以`wei`为单位）。
+### 4. Interact with contract and send `ETH`
+If the target function is `payable`, then we can also send `ETH` to that contract: `_Name(_Address).f{value: _Value}()`, `_Name`is the contract name, `_Address` is the contract address, `f` is the function to call, and `_Value` is the value of `ETH` to send (in `wei`).
 
-`OtherContract`合约的`setX`函数是`payable`的，在下面这个例子中我们通过调用`setX`来往目标合约转账。
+`OtherContract` has a `payable` function `setX`, in the following example we will send `ETH` to the contract by calling `setX`.
 ```solidity
     function setXTransferETH(address otherContract, uint256 x) payable external{
         OtherContract(otherContract).setX{value: msg.value}(x);
     }
 ```
 
-复制`OtherContract`合约的地址，填入`setXTransferETH`函数的参数中，并转入10ETH
+Copy the address of `OtherContract`, and pass it as the parameter of `setXTransferETH `, in addition we send 10ETH.
 
 ![call contract5 in remix](./img/21-8.png)
 
-转账后，我们可以通过`Log`事件和`getBalance()`函数观察目标合约`ETH`余额的变化。
+After the transaction is confirmed, we can check the balance of the contract by reading the `Log` event or by calling `getBalance()`.
 
 ![call contract6 in remix](./img/21-9.png)
 
-## 总结
-这一讲，我们介绍了如何通过目标合约代码（或接口）和地址来创建合约的引用，从而调用目标合约的函数。
+## Summary
+In this tutorial, we talked about how to create contract reference with its source code (or ABI) and address, then call its functions. 
 
 <QuizForm courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_6} />

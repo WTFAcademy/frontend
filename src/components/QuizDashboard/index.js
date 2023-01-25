@@ -5,6 +5,7 @@ import {useRequest} from "ahooks";
 import get from 'lodash/get';
 import styles from './styles.module.css';
 import {getLessons} from "../../api/course";
+import Translate from '@docusaurus/Translate';
 
 const quizCertificationImg = require('@site/static/img/soliditylogo.png').default;
 
@@ -27,7 +28,7 @@ export default function QuizDashboard(props) {
     return (
         <div className={styles.quizDashboard}>
             <div className={styles.quizToc}>
-                <h2>目录</h2>
+                <h2><Translate id="component.QuizDashboard.title">Catalogue</Translate></h2>
                 <div className={styles.quizBox}>
                     <ul className={styles.quizList}>
                         {get(data, 'data.list', []).map((props, idx) => (
@@ -38,18 +39,26 @@ export default function QuizDashboard(props) {
                     <div className={styles.quizGraduateBox}>
                         <div className={styles.quizGraduateBtn}
                              onClick={() => history.push(`/certificate?cid=${courseId}`)}>
-                            <p>毕业</p>
+                            <p>
+                                <Translate id="component.QuizDashboard.graduationButton">Graduation</Translate>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
             <div className={styles.quizCertification}>
-                <h2>技术认证</h2>
+                <h2>
+                    <Translate id="component.QuizDashboard.introduction.title">Technical Certification</Translate>
+                </h2>
                 <div className={styles.quizCertificationContent}>
                     <img src={quizCertificationImg}/>
                     <div className={styles.quizCertificationText}>
-                        <p>赢取SBT技术认证 🔥</p>
-                        <p>通过全部考试，赢取灵魂绑定（SBT）的技术认证！你可以在社交媒体上炫耀，并把它添加到你的简历中！</p>
+                        <p>
+                           <Translate id="component.QuizDashboard.introduction.desc.1">Get SBT Technology Certification</Translate> 🔥
+                        </p>
+                        <p>
+                            <Translate id="component.QuizDashboard.introduction.desc.2">Pass all the exams and get the technical certification of Soul binding (SBT)! You can show off on social media and add it to your resume!</Translate>
+                        </p>
                     </div>
                 </div>
             </div>

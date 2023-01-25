@@ -1,46 +1,47 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
+import Translate from '@docusaurus/Translate';
 
 export const CourseList = [
     {
-        title: 'Solidity 入门',
+        title: <Translate id="home.learningCenter.solidity101.title">Solidity 101</Translate>,
         imgUrl: require('@site/static/img/course_solidity_start.jpg').default,
         linkUrl: '/solidity-start/',
         description: (
-            <>
-                学习solidity基础
-            </>
+            <Translate id="home.learningCenter.solidity101.description">
+                Learn Solidity Basics
+            </Translate>
         ),
     },
     {
-        title: 'Solidity 进阶',
+        title: <Translate id="home.learningCenter.solidity102.title">Solidity 102</Translate>,
         imgUrl: require('@site/static/img/course_solidity_advanced.jpg').default,
         linkUrl: '/solidity-advanced/',
         description: (
-            <>
-                学习solidity进阶内容
-            </>
+            <Translate id="home.learningCenter.solidity102.description">
+                Learn Solidity Advanced Techniques
+            </Translate>
         ),
     },
     {
-        title: 'Solidity 应用',
+        title: <Translate id="home.learningCenter.solidity103.title">Solidity 103</Translate>,
         imgUrl: require('@site/static/img/course_solidity_apply.jpg').default,
         linkUrl: '/solidity-application/',
         description: (
-            <>
-                学习solidity应用内容
-            </>
+            <Translate id="home.learningCenter.solidity103.description">
+                Learn Solidity Application
+            </Translate>
         ),
     },
     {
-        title: 'Ethers.js 入门',
+        title: <Translate id="home.learningCenter.ethers101.title">Ethers.js 101</Translate>,
         imgUrl: require('@site/static/img/course_ethers_start.jpg').default,
         linkUrl: '/ether-start/',
         description: (
-            <>
-                学习Ethers.js基础
-            </>
+            <Translate id="home.learningCenter.ethers101.description">
+                Learn Ethers.js Basics
+            </Translate>
         ),
     },
 ];
@@ -60,7 +61,11 @@ export function Course({imgUrl, linkUrl, title, description}) {
 export default function HomepageLearningCenter() {
     return (
         <div className={styles.learningCenterContent}>
-            <p className={styles.learningCenterTitle}>学习中心</p>
+            <p className={styles.learningCenterTitle}>
+                <Translate id="home.learningCenter.title">
+                    Learning Center
+                </Translate>
+            </p>
             <div className={styles.learningCenterListBox}>
                 <ul className={styles.learningCenterList}>
                     {CourseList.map((props, idx) => (

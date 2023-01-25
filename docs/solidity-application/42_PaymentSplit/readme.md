@@ -1,5 +1,5 @@
 ---
-title: 42. 分账
+title: 42. Payment Split
 tags:
   - solidity
   - application

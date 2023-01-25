@@ -19,6 +19,7 @@ import {getCourseInfo} from "../api/course";
 import useAuth from "../hooks/useAuth";
 import Link from '@docusaurus/Link';
 import {CourseIdAndSuffixLinkMap} from "../constants/course";
+import Translate from "@docusaurus/core/lib/client/exports/Translate";
 
 export const CertificateContext = createContext(null)
 
@@ -78,6 +79,9 @@ const Main = () => {
                 恭喜你，
                 <br className="md:hidden"/>
                 通过WTF {title}测试
+                {/*<Translate id="certificate.title.finish.1">恭喜你，</Translate>*/}
+                {/*<br className="md:hidden"/>*/}
+                {/*<Translate id="certificate.title.finish.2" values={{title: title}}>{'通过WTF {title}测试'}</Translate>*/}
             </>
         )
     }

@@ -1,18 +1,19 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.4;
+pragma solidity ^0.8.15;
 contract Mapping {
-    mapping(uint => address) public idToAddress; // id映射到地址
-    mapping(address => address) public swapPair; // 币对的映射，地址到地址
-    
-    // 规则1. _KeyType不能是自定义的 下面这个例子会报错
-    // 我们定义一个结构体 Struct
-    // struct Student{
-    //    uint256 id;
-    //    uint256 score; 
-    //}
-    // mapping(Struct => uint) public testVar;
+      mapping(uint => address) public idToAddress; // id maps to address
+      mapping(address => address) public swapPair; // Mapping of token pairs, from address to address
 
-    function writeMap (uint _Key, address _Value) public{
+
+      //Rule 1. _KeyType cannot be custom types. The following example will throw an error
+      //Define a struct
+      //struct Student{
+      //    uint256 id;
+      //    uint256 score;
+      //}
+      //mapping(struct => uint) public testVar;
+
+      function writeMap (uint _Key, address _Value) public {
         idToAddress[_Key] = _Value;
-    }
+      }
 }

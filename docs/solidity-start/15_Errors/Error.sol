@@ -5,10 +5,10 @@ pragma solidity ^0.8.4;
 error TransferNotOwner();
 
 contract Errors{
-    // 一组映射，记录每个TokenId的Owner
+    // A set of mappings that record the Owner of each TokenId
     mapping(uint256 => address) private _owners;
 
-    // Error方法: gas cost 24445
+    // Error : gas cost 24445
     function transferOwner1(uint256 tokenId, address newOwner) public {
         if(_owners[tokenId] != msg.sender){
             revert TransferNotOwner();
@@ -16,13 +16,13 @@ contract Errors{
         _owners[tokenId] = newOwner;
     }
 
-    // require方法: gas cost 24743
+    // require : gas cost 24743
     function transferOwner2(uint256 tokenId, address newOwner) public {
         require(_owners[tokenId] == msg.sender, "Transfer Not Owner");
         _owners[tokenId] = newOwner;
     }
 
-    // assert方法: gas cost 24446
+    // assert : gas cost 24446
     function transferOwner3(uint256 tokenId, address newOwner) public {
         assert(_owners[tokenId] == msg.sender);
         _owners[tokenId] = newOwner;

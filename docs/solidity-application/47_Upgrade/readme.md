@@ -1,5 +1,5 @@
 ---
-title: 47. 可升级合约
+title: 47. Upgrade
 tags:
   - solidity
   - proxy

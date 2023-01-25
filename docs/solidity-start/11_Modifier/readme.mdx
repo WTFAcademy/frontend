@@ -1,93 +1,96 @@
 ---
-title: 11. 构造函数和修饰器
+title: 11. Modifier
 tags:
-  - solidity
-  - basic
-  - wtfacademy
-  - constructor
-  - modifier
+- solidity
+- basic
+- wtfacademy
+- constructor
+- modifier
 ---
 
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
 import { SOLIDITY_COURSE_ID, SOLIDITY_BASIC_LESSON_ID_11 } from '@site/src/constants/course';
 
-# Solidity极简入门: 11. 构造函数和修饰器
+# WTF Solidity Tutorial: 11. Constructor & Modifier
 
 <QuizProgress courseId={SOLIDITY_COURSE_ID} lessonId={SOLIDITY_BASIC_LESSON_ID_11}></QuizProgress>
 
-我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
-欢迎关注我的推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
+Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
 
-WTF技术社群discord，内有加微信群方法：[链接](https://discord.gg/5akcruXrsk)
+Community: [Discord](https://discord.wtf.academy)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
 
-所有代码和教程开源在github（1024个star发课程认证，2048个star发社群NFT）: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
 
 -----
 
-这一讲，我们将用合约权限控制（`Ownable`）的例子介绍`solidity`语言中构造函数（`constructor`）和独有的修饰器（`modifier`）。
+In this section, we will introduce `constructor` and `modifier` in solidity with a control contract for access control（`Ownable`）.
 
-## 构造函数
-构造函数（`constructor`）是一种特殊的函数，每个合约可以定义一个，并在部署合约的时候自动运行一次。它可以用来初始化合约的一些参数，例如初始化合约的`owner`地址：
+## Constructor
+`constructor` is a special and optional function, which will automatically run once during contract deployment. It can be used to initialize parameters of a contract. For example, it can initialize `owner` address in the below contract:
+
 ```solidity
-   address owner; // 定义owner变量
+   address owner; // define owner variable
 
-   // 构造函数
+   // constructor
    constructor() {
-      owner = msg.sender; // 在部署合约的时候，将owner设置为部署者的地址
+      owner = msg.sender; //  set owner to the address of deployer when contract is being deployed
    }
 ```
 
-**注意**⚠️：构造函数在不同的solidity版本中的语法并不一致，在Solidity 0.4.22之前，构造函数不使用 `constructor` 而是使用与合约名同名的函数作为构造函数而使用，由于这种旧写法容易使开发者在书写时发生疏漏（例如合约名叫 `Parents`，构造函数名写成 `parents`），使得构造函数变成普通函数，引发漏洞，所以0.4.22版本及之后，采用了全新的 `constructor` 写法。
+**Note**：The syntax of constructor in solidity is not consistent for different versions: Before `solidity 0.4.22`, constructors did not use the `constructor` keyword. Instead, the constructor function has the same name as the contract name. This old syntax is prone to mistakes: the developer may mistakenly name the contract as `Parents`, while the constructor as `parents`. So in `0.4.22` and later version, new syntax of `constructor` is used.
 
-构造函数的旧写法代码示例：
+Example of constructor prior to `solidity 0.4.22`：
 ```solidity
 pragma solidity =0.4.21;
 contract Parents {
-    // 与合约名Parents同名的函数就是构造函数
+    // The function with the same name as the contract name(Parents) is constructor
     function Parents () public {
     }
 }
 ```
-## 修饰器
-修饰器（`modifier`）是`solidity`特有的语法，类似于面向对象编程中的`decorator`，声明函数拥有的特性，并减少代码冗余。它就像钢铁侠的智能盔甲，穿上它的函数会带有某些特定的行为。`modifier`的主要使用场景是运行函数前的检查，例如地址，变量，余额等。
+
+## Modifier
+`modifier` is similar to `decorator` in object-oriented programming, which is used to declare dedicated properties of functions and reduce code redundancy. It's like Iron Man Armor for functions: the function with it will have some magic properties. The popular use case of modiferie is to control the access for functions, which can only be called by dedicated address, such as contract owner.
 
 
-![钢铁侠的modifier](https://images.mirror-media.xyz/publication-images/nVwXsOVmrYu8rqvKKPMpg.jpg?height=630&width=1200)
+![Iron Man's modifier](https://images.mirror-media.xyz/publication-images/nVwXsOVmrYu8rqvKKPMpg.jpg?height=630&width=1200)
 
-我们来定义一个叫做onlyOwner的modifier：
+Let's define a modifier called `onlyOwner`：
 ```solidity
-   // 定义modifier
+   // define modifier
    modifier onlyOwner {
-      require(msg.sender == owner); // 检查调用者是否为owner地址
-      _; // 如果是的话，继续运行函数主体；否则报错并revert交易
+      require(msg.sender == owner); // check whether caller is address of owner
+      _; // if true，continue to run the body of function；otherwise throw an error and revert transaction
    }
 ```
-代有`onlyOwner`修饰符的函数只能被`owner`地址调用，比如下面这个例子：
+
+Functions with `onlyOwner` modifier can only be called by `owner` address：
 ```solidity
    function changeOwner(address _newOwner) external onlyOwner{
-      owner = _newOwner; // 只有owner地址运行这个函数，并改变owner
+      owner = _newOwner; // only owner address can run this function and change owner
    }
 ```
-我们定义了一个`changeOwner`函数，运行他可以改变合约的`owner`，但是由于`onlyOwner`修饰符的存在，只有原先的`owner`可以调用，别人调用就会报错。这也是最常用的控制智能合约权限的方法。
+We define a `changeOwner` function, which can change the `owner` of the contract. However, due to the `onlyOwner` modifier, only original contract `owner` can call it; errors will be thrown if others call it. This is the most common way to control smart contract privilege.
 
-### OppenZepplin的Ownable标准实现：
-`OppenZepplin`是一个维护`solidity`标准化代码库的组织，他的`Ownable`标准实现如下：
+### OppenZepplin's implementation of Ownable：
+`OppenZepplin` is an organization that maintains a standardized code base for `Solidity`, Their standard implementation of `Ownable` is as follows：
 [https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol)
 
-## Remix 演示示例
-以 `Owner.sol` 为例。
-1. 在 Remix 上编译部署代码。
-2. 点击 `owner` 按钮查看当前 owner 变量。
-    ![](img/11-1.jpg)
-3. 以 owner 地址的用户身份，调用 `changeOwner` 函数，交易成功。
-    ![](img/11-2.jpg)
-4. 以非 owner 地址的用户身份，调用 `changeOwner` 函数，交易失败，因为modifier onlyOwner 的检查语句不满足。
-    ![](img/11-3.jpg)
+## Remix Demo example
+Here, we take `Owner.sol` as an example.
+1. compile and deploy the code in Remix.
+2. click `owner` button to view current owner.
+    ![](img/11-1_en.jpg)
+3. The transaction succeeds when `changeOwner` function is called by the owner address user.
+    ![](img/11-2_en.jpg)
+4. The transaction fails when `changeOwner` function is called by other addresses.
+    ![](img/11-3_en.jpg)
 
 
-## 总结
-这一讲，我们介绍了`solidity`中的构造函数和修饰符，并举了一个控制合约权限的`Ownable`合约。
+## Summary
+In this lecture, we introduced constructor and modifier in `solidity`, and wrote an `Ownable` contract that controls contract privilege.
 
 <QuizForm courseId={SOLIDITY_COURSE_ID} lessonId={SOLIDITY_BASIC_LESSON_ID_11}></QuizForm>

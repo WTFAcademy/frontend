@@ -1,5 +1,5 @@
 ---
-title: 33. 空投合约
+title: 33. Airdrop
 tags:
   - solidity
   - application

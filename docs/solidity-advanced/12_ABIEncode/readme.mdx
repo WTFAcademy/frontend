@@ -1,36 +1,37 @@
 ---
-title: 27. ABI编码解码
+title: 27. ABIEncode
 tags:
-  - solidity
-  - advanced
-  - wtfacademy
-  - abi encoding
-  - abi decoding
+- solidity
+- advanced
+- wtfacademy
+- abi encoding
+- abi decoding
 ---
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
 import { SOLIDITY_ADVANCED_ID, SOLIDITY_ADVANCED_LESSON_ID_12 } from '@site/src/constants/course';
 
-# Solidity极简入门: 27. ABI编码解码
+# Solidity Minimalist Tutorial: 27. ABIEncode&Decode
 <QuizProgress courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_12} />
 
-我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
-欢迎关注我的推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
+Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
 
-欢迎加入WTF科学家社区，内有加微信群方法：[链接](https://discord.gg/5akcruXrsk)
+Community: [Discord](https://discord.wtf.academy)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
 
-所有代码和教程开源在github（1024个star发课程认证，2048个star发社群NFT）: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
 
 -----
 
-`ABI` (Application Binary Interface，应用二进制接口)是与以太坊智能合约交互的标准。数据基于他们的类型编码；并且由于编码后不包含类型信息，解码时需要注明它们的类型。
+`ABI`(Application Binary Interface) is the standard for interacting with Ethereum smart contracts. Data is encoded based on its type, and because the encoded result doesn't contain type information, it is necessary to indicate their types when decoding.
 
-`Solidity`中，`ABI编码`有4个函数：`abi.encode`, `abi.encodePacked`, `abi.encodeWithSignature`, `abi.encodeWithSelector`。而`ABI解码`有1个函数：`abi.decode`，用于解码`abi.encode`的数据。这一讲，我们将学习如何使用这些函数。
+In Solidity, `ABI encode` has four functions: `abi.encode`, `abi.encodePacked`, `abi.encodeWithSignature`, `abi.encodeWithSelector`. While `ABI decode` has one function: `abi.decode`, which is used to decode the data of `abi.encode`.
 
-## ABI编码
+In this chapter, We will learn how to use these functions.
 
-我们将用编码4个变量，他们的类型分别是`uint256`, `address`, `string`, `uint256[2]`：
+## ABI encode
+We will encode four variables, their types are `uint256` (alias `uint`), `address`, `string`, `uint256[2]`:
 ```solidity
     uint x = 10;
     address addr = 0x7A58c0Be72BE218B41C608b7Fe7C5bB630736C71;
@@ -39,36 +40,35 @@ import { SOLIDITY_ADVANCED_ID, SOLIDITY_ADVANCED_LESSON_ID_12 } from '@site/src/
 ```
 
 ### `abi.encode`
-将给定参数利用[ABI规则](https://learnblockchain.cn/docs/solidity/abi-spec.html)编码。`ABI`被设计出来跟智能合约交互，他将每个参数填充为32字节的数据，并拼接在一起。如果你要和合约交互，你要用的就是`abi.encode`。
+Use [ABI rules](https://learnblockchain.cn/docs/solidity/abi-spec.html) to encode the given parameters. `ABI` is designed to interact with smart contract by filling each parameter with 32 bytes data and splicing them together. If you want to interact with contracts, you should use `abi.encode`.
 ```solidity
     function encode() public view returns(bytes memory result) {
         result = abi.encode(x, addr, name, array);
     }
 ```
-编码的结果为`0x000000000000000000000000000000000000000000000000000000000000000a0000000000000000000000007a58c0be72be218b41c608b7fe7c5bb630736c7100000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000005000000000000000000000000000000000000000000000000000000000000000600000000000000000000000000000000000000000000000000000000000000043078414100000000000000000000000000000000000000000000000000000000`，由于`abi.encode`将每个数据都填充为32字节，中间有很多`0`。
+The result of encoding is`0x000000000000000000000000000000000000000000000000000000000000000a0000000000000000000000007a58c0be72be218b41c608b7fe7c5bb630736c7100000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000005000000000000000000000000000000000000000000000000000000000000000600000000000000000000000000000000000000000000000000000000000000043078414100000000000000000000000000000000000000000000000000000000`. Since `abi.encode` fills each data with 32 bytes data, there are a lot of `0` in middle
 
 ### `abi.encodePacked`
-将给定参数根据其所需最低空间编码。它类似 `abi.encode`，但是会把其中填充的很多`0`省略。比如，只用1字节来编码`uint`类型。当你想省空间，并且不与合约交互的时候，可以使用`abi.encodePacked`，例如算一些数据的`hash`时。
-
+Encode given parameters according to their minimum required space. It is similar to `abi.encode`, but omits a lot of `0` filled in. For example, only 1 byte is used to encode the `uint` type. You can use `abi.encodePacked` when you want to save space and don't interact with contracts. For example when computing `hash` of some data.
 ```solidity
     function encodePacked() public view returns(bytes memory result) {
         result = abi.encodePacked(x, addr, name, array);
     }
 ```
-编码的结果为`0x000000000000000000000000000000000000000000000000000000000000000a7a58c0be72be218b41c608b7fe7c5bb630736c713078414100000000000000000000000000000000000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000006`，由于`abi.encodePacked`对编码进行了压缩，长度比`abi.encode`短很多。
+The result of encoding is`0x000000000000000000000000000000000000000000000000000000000000000a7a58c0be72be218b41c608b7fe7c5bb630736c713078414100000000000000000000000000000000000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000006`. Because `abi.encodePacked` compacts encoding, the length of result is much shorter than `abi.encode`.
 
 ### `abi.encodeWithSignature`
-与`abi.encode`功能类似，只不过第一个参数为`函数签名`，比如`"foo(uint256,address)"`。当调用其他合约的时候可以使用。
+Similar with `abi.encode` function, but the first parameter is `function signatures`, such as `"foo(uint256, address, string, uint256[2])"`. It can be used when calling other contracts.
 ```solidity
     function encodeWithSignature() public view returns(bytes memory result) {
         result = abi.encodeWithSignature("foo(uint256,address,string,uint256[2])", x, addr, name, array);
     }
 ```
-编码的结果为`0xe87082f1000000000000000000000000000000000000000000000000000000000000000a0000000000000000000000007a58c0be72be218b41c608b7fe7c5bb630736c7100000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000005000000000000000000000000000000000000000000000000000000000000000600000000000000000000000000000000000000000000000000000000000000043078414100000000000000000000000000000000000000000000000000000000`，等同于在`abi.encode`编码结果前加上了4字节的`函数选择器`[^说明]。
-[^说明]: 函数选择器就是通过函数名和参数进行签名处理(Keccak–Sha3)来标识函数，可以用于不同合约之间的函数调用
+The result of encoding is`0xe87082f1000000000000000000000000000000000000000000000000000000000000000a0000000000000000000000007a58c0be72be218b41c608b7fe7c5bb630736c7100000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000005000000000000000000000000000000000000000000000000000000000000000600000000000000000000000000000000000000000000000000000000000000043078414100000000000000000000000000000000000000000000000000000000`. This is equivalent to adding 4 bytes `function selector` to the front of result of `abi.encode`[^note].
+[^note]: Function selectors identify functions by signature processing(Keccak–Sha3) using function names and arguments, which can be used for function call between different contracts.
 
 ### `abi.encodeWithSelector`
-与`abi.encodeWithSignature`功能类似，只不过第一个参数为`函数选择器`，为`函数签名`Keccak哈希的前4个字节。
+Similar to `abi.encodeWithSignature`, except that first argument is a `function selector` which is the first 4 bytes of `function signature` Keccak hash.
 
 ```solidity
     function encodeWithSelector() public view returns(bytes memory result) {
@@ -76,33 +76,33 @@ import { SOLIDITY_ADVANCED_ID, SOLIDITY_ADVANCED_LESSON_ID_12 } from '@site/src/
     }
 ```
 
-编码的结果为`0xe87082f1000000000000000000000000000000000000000000000000000000000000000a0000000000000000000000007a58c0be72be218b41c608b7fe7c5bb630736c7100000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000005000000000000000000000000000000000000000000000000000000000000000600000000000000000000000000000000000000000000000000000000000000043078414100000000000000000000000000000000000000000000000000000000`，与`abi.encodeWithSignature`结果一样。
+The result of encoding is`0xe87082f1000000000000000000000000000000000000000000000000000000000000000a0000000000000000000000007a58c0be72be218b41c608b7fe7c5bb630736c7100000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000005000000000000000000000000000000000000000000000000000000000000000600000000000000000000000000000000000000000000000000000000000000043078414100000000000000000000000000000000000000000000000000000000`. The result is the same as `abi.encodeWithSignature`
 
-## ABI解码
+## ABI decode
 ### `abi.decode`
-`abi.decode`用于解码`abi.encode`生成的二进制编码，将它还原成原本的参数。
+`abi.decode` is used to decode the binary code generated by `abi.encode` and restore it to its original parameters.
 
 ```solidity
     function decode(bytes memory data) public pure returns(uint dx, address daddr, string memory dname, uint[2] memory darray) {
         (dx, daddr, dname, darray) = abi.decode(data, (uint, address, string, uint[2]));
     }
 ```
-我们将`abi.encode`的二进制编码输入给`decode`，将解码出原来的参数：
+We input binary encoding of `abi.encode` into `decode`, which will decode the original parameters:
 
 ![](https://images.mirror-media.xyz/publication-images/jboRaaq0U57qVYjmsOgbv.png?height=408&width=624)
 
 ## 在remix上验证
-- 部署合约查看abi.encode方法的编码结果
-![](./img/27-1.png)
+- deploy contract to check the encodeing result of `abi.encode`
+![](./img/27-1_en.png)
 
-- 对比验证四种编码方法的异同点
-![](./img/27-2.png)
+- compare and verify the similarities and differences of four encoding functions
+![](./img/27-2_en.png)
 
-- 查看abi.decode方法的解码结果
-![](./img/27-3.png)
+- check the decodeing result of `abi.decode`
+![](./img/27-3_en.png)
 
 ## ABI的使用场景
-1. 在合约开发中，ABI常配合call来实现对合约的底层调用。
+1. In contract development, ABI is often paired with call to implement low-level call to contract.
 ```solidity  
     bytes4 selector = contract.getValue.selector;
 
@@ -112,7 +112,7 @@ import { SOLIDITY_ADVANCED_ID, SOLIDITY_ADVANCED_LESSON_ID_12 } from '@site/src/
 
     return abi.decode(returnedData, (uint256));
 ```
-2. ethers.js中常用ABI实现合约的导入和函数调用。
+2. ABI is often used in ethers.js to implement contract import and function call.
 ```solidity
     const wavePortalContract = new ethers.Contract(contractAddress, contractABI, signer);
     /*
@@ -120,14 +120,14 @@ import { SOLIDITY_ADVANCED_ID, SOLIDITY_ADVANCED_LESSON_ID_12 } from '@site/src/
         */
     const waves = await wavePortalContract.getAllWaves();
 ```
-3. 对不开源合约进行反编译后，某些函数无法查到函数签名，可通过ABI进行调用。
-- 0x533ba33a() 是一个反编译后显示的函数，只有函数编码后的结果，并且无法查到函数签名
-![](./img/27-4.png)
-![](./img/27-5.png)
-- 这种情况无法通过构造interface接口或contract来进行调用
-![](./img/27-6.png)
+3. After decompiling a non-open source contract, some functions cannot find function signature but can be called through ABI.
+- 0x533ba33a() is a function which show after decompiled, we can only get function encoded results, and can't find function signature.
+![](./img/27-4_en.png)
+![](./img/27-5_en.png)
+- in this case we can't call through constructing an interface or contract
+![](./img/27-6_en.png)
 
-这种情况下，就可以通过ABI函数选择器来调用
+In this case, we can call through ABI function selector.
 ```solidity
     bytes memory data = abi.encodeWithSelector(bytes4(0x533ba33a));
 
@@ -137,7 +137,7 @@ import { SOLIDITY_ADVANCED_ID, SOLIDITY_ADVANCED_LESSON_ID_12 } from '@site/src/
     return abi.decode(returnedData, (uint256));
 ```
 
-## 总结
-在以太坊中，数据必须编码成字节码才能和智能合约交互。这一讲，我们介绍了4种`abi编码`方法和1种`abi解码`方法。
+## Summary
+In Ethereum, data must be encoded into bytecode to interact with smart contracts. In this chapter, we introduced four `abi encoding` functions and one `abi decoding` function.
 
 <QuizForm courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_12} />
