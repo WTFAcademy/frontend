@@ -41,14 +41,14 @@ contract InsertionSort {
         return(sum);
     }
 
-    // 三元运算符 ternary/conditional operator
+    // Ternary/Conditional operator
     function ternaryTest(uint256 x, uint256 y) public pure returns(uint256){
         // return the max of x and y
         return x >= y ? x: y; 
     }
 
 
-    // 插入排序 错误版
+    // Insertion Sort(Wrong version）
     function insertionSortWrong(uint[] memory a) public pure returns(uint[] memory) {
         // note that uint can not take negative value
         for (uint i = 1;i < a.length;i++){
@@ -63,7 +63,7 @@ contract InsertionSort {
         return(a);
     }
 
-    // 插入排序 正确版
+    // Insertion Sort（Correct Version）
     function insertionSort(uint[] memory a) public pure returns(uint[] memory) {
         // note that uint can not take negative value
         for (uint i = 1;i < a.length;i++){

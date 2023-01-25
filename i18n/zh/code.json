@@ -377,5 +377,41 @@
   "component.QuizDashboard.title": {
     "message": "目录",
     "description": "title"
+  },
+  "component.QuizDashboard.graduationButton": {
+    "message": "毕业",
+    "description": "graduationButton"
+  },
+  "component.QuizDashboard.introduction.title": {
+    "message": "技术认证",
+    "description": "title"
+  },
+  "component.QuizDashboard.introduction.desc.1": {
+    "message": "赢取SBT技术认证",
+    "description": "desc"
+  },
+  "component.QuizDashboard.introduction.desc.2": {
+    "message": "通过全部考试，赢取灵魂绑定（SBT）的技术认证！你可以在社交媒体上炫耀，并把它添加到你的简历中！",
+    "description": "desc"
+  },
+  "certificate.title.noLogin": {
+    "message": "领取WTF Solidity入门的技能认证NFT",
+    "description": "title"
+  },
+  "certificate.title.loading": {
+    "message": "数据加载中...",
+    "description": "title"
+  },
+  "certificate.title.noFinish": {
+    "message": "你尚未完成WTF Solidity入门课程",
+    "description": "title"
+  },
+  "certificate.title.finish.1": {
+    "message": "恭喜你",
+    "description": "title"
+  },
+  "certificate.title.finish.2": {
+    "message": "通过WTF {title}测试",
+    "description": "title"
   }
 }

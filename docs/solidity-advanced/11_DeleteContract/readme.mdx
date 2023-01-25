@@ -1,41 +1,44 @@
 ---
 title: 26. DeleteContract
 tags:
-  - solidity
-  - advanced
-  - wtfacademy
-  - selfdestruct
-  - delete contract
+- solidity
+- advanced
+- wtfacademy
+- selfdestruct
+- delete contract
 ---
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
 import { SOLIDITY_ADVANCED_ID, SOLIDITY_ADVANCED_LESSON_ID_11 } from '@site/src/constants/course';
 
-# Solidity极简入门: 26. 删除合约
+# WTF Solidity Tutorial: 26. DeleteContract
 <QuizProgress courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_11} />
 
-我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
-欢迎关注我的推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
+Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
 
-欢迎加入WTF科学家社区，内有加微信群方法：[链接](https://discord.gg/5akcruXrsk)
+Community: [Discord](https://discord.wtf.academy)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
 
-所有代码和教程开源在github（1024个star发课程认证，2048个star发社群NFT）: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
-
------
+Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+---
 
 ## `selfdestruct`
 
-`selfdestruct`命令可以用来删除智能合约，并将该合约剩余`ETH`转到指定地址。`selfdestruct`是为了应对合约出错的极端情况而设计的。它最早被命名为`suicide`（自杀），但是这个词太敏感。为了保护抑郁的程序员，改名为`selfdestruct`。
+The `selfdestruct` operation is the only way to delete a smart contract and the remaining Ether stored at that address is sent to a designated target. The `selfdestruct` operation is designed to deal with the extreme case of contract errors. Originally the opcode was named `suicide` but the Ethereum community decided to rename it as `selfdestruct` because suicide is a heavy subject and we should make every effort possible to not affect the programmer who suffer from depression.
 
-### 如何使用`selfdestruct`
-`selfdestruct`使用起来非常简单：
+### How to use `selfdestruct`
+
+It's simple to use `selfdestruct`：
+
 ```solidity
-selfdestruct(_addr)；
+selfdestruct(_addr);
 ```
-其中`_addr`是接收合约中剩余`ETH`的地址。
 
-### 例子
+ `_addr` is the address to store the remaining `ETH` in the contract.
+
+### Example:
+
 ```solidity
 contract DeleteContract {
 
@@ -46,7 +49,7 @@ contract DeleteContract {
     receive() external payable {}
 
     function deleteContract() external {
-        // 调用selfdestruct销毁合约，并把剩余的ETH转给msg.sender
+        // use selfdestruct to delete the contract and send the remaining ETH to msg.sender
         selfdestruct(payable(msg.sender));
     }
 
@@ -55,33 +58,32 @@ contract DeleteContract {
     }
 }
 ```
-在`DeleteContract`合约中，我们写了一个`public`状态变量`value`，两个函数：`getBalance()`用于获取合约`ETH`余额，`deleteContract()`用于自毁合约，并把`ETH`转入给发起人。
 
-部署好合约后，我们向`DeleteContract`合约转入1 `ETH`。这时，`getBalance()`会返回1 `ETH`，`value`变量是10。
+In `DeleteContract`，we define a public state variable named `value` and two functions：`getBalance()` which is used to get ETH balance of the contract，`deleteContract()` which is used to delete the contract and transfer the remaining ETH to the sender of message.
 
-当我们调用`deleteContract()`函数，合约将自毁，所有变量都清空，此时`value`变为默认值`0`，`getBalance()`也返回空值。
+After the contract is deployed，we send 1 ETH to the contract. The result should be 1 ETH while we call `getBalance()` and the `value` should be 10.
 
-### 注意事项
-1. 对外提供合约销毁接口时，最好设置为只有合约所有者可以调用，可以使用函数修饰符`onlyOwner`进行函数声明。
+Then we call `deleteContract().` The contract will self-destruct and all variables will be cleared. At this time, `value` is equal to  `0` which is the default value, and `getBalance()` also returns an empty value.
 
-2. 当合约被销毁后与智能合约的交互也能成功，并且返回0。
+### Attention
 
-3. 当合约中有`selfdestruct`功能时常常会带来安全问题和信任问题，合约中的Selfdestruct功能会为攻击者打开攻击向量(例如使用`selfdestruct`向一个合约频繁转入token进行攻击，这将大大节省了GAS的费用，虽然很少人这么做)，此外，此功能还会降低用户对合约的信心。
+1. When providing the contract destruction function externally, it is best to declare the function to only be called by the contract onwer such as using the  function modifier `onlyOwner`.
+2. When the contract is destructed, the interaction with the smart contract can also succeed and return `0` .
+3. Security and trust issues often arise when there is a `selfdestruct` function in a contract. The function of  `selfdestruct`  in the contract opens up attack vectors for attackers. For example, using `selfdestruct` to frequently transfer tokens to a contract to attack, this will greatly save the cost of GAS, although few people do this. In addition, this `selfdestruct`  feature reduces users' confidence in the contract.
 
-###  在remix上验证
-1. 部署合约并且转入1ETH，查看合约状态
+### Example from Remix
+
+1. Deploy the contract and send 1 ETH to the contract. Check the status of contract.
 
 ![deployContract.png](./img/26-2.png)
 
-2. 销毁合约，查看合约状态
+2. Delete the contract and check the status of contract.
 
 ![deleteContract.png](./img/26-1.png)
 
-从测试中观察合约状态可以发现合约销毁后的ETH返回给了指定的地址，并且在合约销毁后依然可以请求交互，所以我们不能根据这个来判断合约是否已经销毁。
+By checking the contract state, we know that ETH is sent to the specified address after the contract is destroyed. After the contract is deleted, we can still interact with the contract. So we cannot confirm whether the contract has been destroyed based on this condition.
 
+## Summary
 
-## 总结
-
-`selfdestruct`是智能合约的紧急按钮，销毁合约并将剩余`ETH`转移到指定账户。当著名的`The DAO`攻击发生时，以太坊的创始人们一定后悔过没有在合约里加入`selfdestruct`来停止黑客的攻击吧。
-
+`selfdestruct` is the emergency button for smart contracts. It will delete the contract and transfer the remaining `ETH` to the designated account. When the famous `The DAO` hack happened, the founders of Ethereum must have regretted not adding `selfdestruct` to the contract to stop the hacker attack.
 <QuizForm courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_11} />

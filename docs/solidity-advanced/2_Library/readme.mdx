@@ -1,47 +1,54 @@
 ---
 title: 17. Library
 tags:
-  - solidity
-  - advanced
-  - wtfacademy
-  - library
-  - using for
+- solidity
+- advanced
+- wtfacademy
+- library
+- using for
 ---
 
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
 import { SOLIDITY_ADVANCED_ID, SOLIDITY_ADVANCED_LESSON_ID_2 } from '@site/src/constants/course';
 
-# Solidity极简入门: 17. 库合约 站在巨人的肩膀上
+# WTF Solidity Tutorial: 17. Library : Standing on the shoulders of giants
 
 <QuizProgress courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_2}></QuizProgress>
 
-我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
-欢迎关注我的推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
+Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
 
-WTF技术社群discord，内有加微信群方法：[链接](https://discord.gg/5akcruXrsk)
+Community: [Discord](https://discord.wtf.academy)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
 
-所有代码和教程开源在github（1024个star发课程认证，2048个star发社群NFT）: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
 
 -----
-这一讲，我们用`ERC721`的引用的库合约`String`为例介绍`solidity`中的库合约（`library`），并总结了常用的库函数。
 
-## 库函数
-库函数是一种特殊的合约，为了提升`solidity`代码的复用性和减少`gas`而存在。库合约一般都是一些好用的函数合集（`库函数`），由大神或者项目方创作，咱们站在巨人的肩膀上，会用就行了。
+In this section, we use the library contract `String` referenced by `ERC721` as an example to introduce the library contract in `solidity`, 
+and then summarize the commonly used library functions.
 
+## Library Functions
 
-![库合约：站在巨人的肩膀上](https://images.mirror-media.xyz/publication-images/HJC0UjkALdrL8a2BmAE2J.jpeg?height=300&width=388)
+A library function is a special contract that exists to improve the reusability of `solidity` and reduce `gas` consumption. 
+Library contracts are generally a collection of useful functions (`library functions`), 
+which are created by the masters or the project party. 
+We only need to stand on the shoulders of giants and use those functions.
 
-他和普通合约主要有以下几点不同：
+![Library contracts：Standing on the shoulders of giants](https://images.mirror-media.xyz/publication-images/HJC0UjkALdrL8a2BmAE2J.jpeg?height=300&width=388)
 
-1. 不能存在状态变量
-2. 不能够继承或被继承
-3. 不能接收以太币
-4. 不可以被销毁
+It differs from ordinary contracts in the following points:
 
-## String库合约
-`String库合约`是将`uint256`类型转换为相应的`string`类型的代码库，样例代码如下：
+1. State variables are not allowed 
+2. Cannot inherit or be inherited
+3. Cannot receive ether
+4. Cannot be destroyed
+
+## String Library Contract
+
+`String Library Contract` is a code library that converts a `uint256` to the corresponding `string` type. The sample code is as follows:
+
 ```solidity
 library Strings {
     bytes16 private constant _HEX_SYMBOLS = "0123456789abcdef";
@@ -103,40 +110,52 @@ library Strings {
     }
 }
 ```
-他主要包含两个函数，`toString()`将`uint256`转为`string`，`toHexString()`将`uint256`转换为`16进制`，在转换为`string`。
 
-### 如何使用库合约
-我们用String库函数的toHexString()来演示两种使用库合约中函数的办法。
+It mainly contains two functions, `toString()` converts `uint256` to `string`, 
+`toHexString()` converts `uint256` to `hexadecimal`, and then converts it to `string`.
 
-**1. 利用using for指令**
+### How to use library contracts
+We use the toHexString() function in String library function to demonstrate two ways of using the functions in the library contract.
 
-指令`using A for B;`可用于附加库函数（从库 A）到任何类型（B）。添加完指令后，库`A`中的函数会自动添加为`B`类型变量的成员，可以直接调用。注意：在调用的时候，这个变量会被当作第一个参数传递给函数：
+**1. `using for` command**
+
+Command `using A for B` can be used to attach library functions (from library A) to any type (B). After the instruction, 
+the function in the library `A` will be automatically added as a member of the `B` type variable,
+which can be called directly. Note: When calling, this variable will be passed to the function as the first parameter:
+
 ```solidity
-    // 利用using for指令
+    // Using the library with the "using for" 
+    {
     using Strings for uint256;
     function getString1(uint256 _number) public pure returns(string memory){
-        // 库函数会自动添加为uint256型变量的成员
+        // Library functions are automatically added as members of uint256 variables
         return _number.toHexString();
     }
 ```
-**2. 通过库合约名称调用库函数**
+**2. Called directly by the library contract name**
 ```solidity
-    // 直接通过库合约名调用
+    // Called directly by the library contract name
     function getString2(uint256 _number) public pure returns(string memory){
         return Strings.toHexString(_number);
     }
 ```
-我们部署合约并输入`170`测试一下，两种方法均能返回正确的`16进制string` “0xaa”。证明我们调用库函数成功！
+We deploy the contract and enter `170` to test, 
+both methods can return the correct `hexadecimal string` "0xaa", 
+proving that we call the library function successfully!
 
+![Call library function successfully](https://images.mirror-media.xyz/publication-images/bzB_JDC9f5VWHRjsjQyQa.png?height=750&width=580)
 
-![成功调用库函数](https://images.mirror-media.xyz/publication-images/bzB_JDC9f5VWHRjsjQyQa.png?height=750&width=580)
-## 总结
-这一讲，我们用`ERC721`的引用的库函数`String`为例介绍`solidity`中的库函数（`Library`）。99%的开发者都不需要自己去写库合约，会用大神写的就可以了。我们只需要知道什么情况该用什么库合约。常用的有：
+## Summary
 
-1. [String](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/4a9cc8b4918ef3736229a5cc5a310bdc17bf759f/contracts/utils/Strings.sol)：将`uint256`转换为`String`
-2. [Address](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/4a9cc8b4918ef3736229a5cc5a310bdc17bf759f/contracts/utils/Address.sol)：判断某个地址是否为合约地址
-3. [Create2](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/4a9cc8b4918ef3736229a5cc5a310bdc17bf759f/contracts/utils/Create2.sol)：更安全的使用`Create2 EVM opcode`
-4. [Arrays](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/4a9cc8b4918ef3736229a5cc5a310bdc17bf759f/contracts/utils/Arrays.sol)：跟数组相关的库函数
+In this lecture, we use the referenced library function `String` of `ERC721` as an example to introduce the library function (`Library`) in `solidity`. 
+99% of developers have no need to write library contracts themselves, 
+who can use the ones written by masters. 
+The only thing we need to know is that which library contract to use and where the library is suitable.
+
+Some commonly used libraries are:
+1. [String](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/4a9cc8b4918ef3736229a5cc5a310bdc17bf759f/contracts/utils/Strings.sol)：Convert `uint256` to `String`
+2. [Address](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/4a9cc8b4918ef3736229a5cc5a310bdc17bf759f/contracts/utils/Address.sol)：Determine whether an address is a contract address
+3. [Create2](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/4a9cc8b4918ef3736229a5cc5a310bdc17bf759f/contracts/utils/Create2.sol)：Safer use of `Create2 EVM opcode`
+4. [Arrays](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/4a9cc8b4918ef3736229a5cc5a310bdc17bf759f/contracts/utils/Arrays.sol)：Library functions related to arrays
 
 <QuizForm courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_2}></QuizForm>
-

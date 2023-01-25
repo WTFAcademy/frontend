@@ -1,42 +1,44 @@
 ---
 title: 15. Errors
 tags:
-  - solidity
-  - advanced
-  - wtfacademy
-  - error
-  - revert/assert/require
+- solidity
+- advanced
+- wtfacademy
+- error
+- revert/assert/require
 ---
 
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
 import { SOLIDITY_COURSE_ID, SOLIDITY_BASIC_LESSON_ID_15 } from '@site/src/constants/course';
 
-# Solidity极简入门: 15. 异常
+# WTF Solidity Tutorial: 15. Errors
 
 <QuizProgress courseId={SOLIDITY_COURSE_ID} lessonId={SOLIDITY_BASIC_LESSON_ID_15}></QuizProgress>
 
-我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
-欢迎关注我的推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
+Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
 
-WTF技术社群discord，内有加微信群方法：[链接](https://discord.gg/5akcruXrsk)
+Community: [Discord](https://discord.wtf.academy)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
 
-所有代码和教程开源在github（1024个star发课程认证，2048个star发社群NFT）: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
 
 -----
 
-这一讲，我们介绍`solidity`三种抛出异常的方法：`error`，`require`和`assert`，并比较三种方法的`gas`消耗。
+In this chapter, we will introduce three ways to throw exceptions in solidity: `error`, `require`, and `assert`. We will also compare their `gas` consumption.
 
-## 异常
-写智能合约经常会出`bug`，`solidity`中的异常命令帮助我们`debug`。
+## Errors
+Solidity has many functions for error handling. Errors can occur at compile time or runtime. 
 
 ### Error
-`error`是`solidity 0.8版本`新加的内容，方便且高效（省`gas`）地向用户解释操作失败的原因。人们可以在`contract`之外定义异常。下面，我们定义一个`TransferNotOwner`异常，当用户不是代币`owner`的时候尝试转账，会抛出错误：
+`error` command is a new feature in solidity version `0.8`, which is both convenient and gas-saving to explain to users why the operation failed. It is the recommended way to throw error in solidity.
+Custom errors are defined using the error statement, which can be used inside and outside of contracts. Below, we created a `TransferNotOwner` error, which will throw an error when the caller is not the token `owner` during transfer:
+
 ```solidity
-error TransferNotOwner(); // 自定义error
+error TransferNotOwner(); // custom error
 ```
-在执行当中，`error`必须搭配`revert`（回退）命令使用。
+During execution, `error` must be used with the `revert` command.
 ```solidity
     function transferOwner1(uint256 tokenId, address newOwner) public {
         if(_owners[tokenId] != msg.sender){
@@ -45,12 +47,21 @@ error TransferNotOwner(); // 自定义error
         _owners[tokenId] = newOwner;
     }
 ```
-我们定义了一个`transferOwner1()`函数，它会检查代币的`owner`是不是发起人，如果不是，就会抛出`TransferNotOwner`异常；如果是的话，就会转账。
+The `transferOwner1()` function will check if the caller is the owner of the token; if not, it will throw a `TransferNotOwner` exception and the transaction will revert.
 
 ### Require
-`require`命令是`solidity 0.8版本`之前抛出异常的常用方法，目前很多主流合约仍然还在使用它。它很好用，唯一的缺点就是`gas`随着描述异常的字符串长度增加，比`error`命令要高。使用方法：`require(检查条件，"异常的描述")`，当检查条件不成立的时候，就会抛出异常。
+`require` command was the most commonly used method for throwing exceptions prior to solidity version `0.8`. It is still popular among developers. 
 
-我们用`require`命令重写一下上面的`transferOwner`函数：
+Syntax of `require`: 
+```
+require(condition, "error message");
+```
+
+An exception will be thrown when the condition is not met.
+
+Despite its simplicity, the gas consumption is higher than  `error` command: the gas consumption grows linearly as the length of the error message increases. 
+
+Now, let's rewrite the above `transferOwner` function with the `require` command:
 ```solidity
     function transferOwner2(uint256 tokenId, address newOwner) public {
         require(_owners[tokenId] == msg.sender, "Transfer Not Owner");
@@ -59,9 +70,14 @@ error TransferNotOwner(); // 自定义error
 ```
 
 ### Assert
-`assert`命令一般用于程序员写程序`debug`，因为它不能解释抛出异常的原因（比`require`少个字符串）。它的用法很简单，`assert(检查条件）`，当检查条件不成立的时候，就会抛出异常。
+The `assert` command is generally used for debugging purposes, because it does not include error message.
+Syntax of `asset`: 
+```solidity
+`assert (condition to be checked);
+```
+When the  condition is not met, an exception will be thrown.
 
-我们用`assert`命令重写一下上面的`transferOwner`函数：
+Let's rewrite the above `transferOwner` function with the `assert` command:
 ```solidity
     function transferOwner3(uint256 tokenId, address newOwner) public {
         assert(_owners[tokenId] == msg.sender);
@@ -69,28 +85,34 @@ error TransferNotOwner(); // 自定义error
     }
 ```
 
-## 在remix上验证
+## Remix Demo
+After deploying `Error` contract.
+
+1. `error`: Enter any `uint256` number and non-zero address, call the `transferOwner1()` function. The console will throw an custom `TransferNotOwner` error.
+
+![15 1.png](./img/15-1.png)
    
-1. 输入任意`uint256`数字和非0地址，调用`transferOwner1`，也就是`error`方法，控制台抛出了异常并显示我们自定义的`TransferNotOwner`。
-   ![13 1.png](./img/15-1.png)
+2. `require`: Enter any `uint256` number and a non-zero address and call the `transferOwner2()` call. The console will throw an exception and print the error message `"Transfer Not Owner"`.
+
+![15 2.png](./img/15-2.png)
    
-2. 输入任意`uint256`数字和非0地址，调用`transferOwner2`，也就是`require`方法，控制台抛出了异常并打印出`require`中的字符串。
-   ![13 2.png](./img/15-2.png)
-   
-3. 输入任意`uint256`数字和非0地址，调用`transferOwner3`，也就是`assert`方法，控制台只抛出了异常。
-   ![13 3.png](./img/15-3.png)
+3. `assert`: Enter any `uint256` number and non-zero address and call the `transferOwner3` function. The console will throw an exception but do not print any error messages.
+
+![15 3.png](./img/15-3.png)
    
 
-## 三种方法的gas比较
-我们比较一下三种抛出异常的`gas`消耗，通过remix控制台的Debug按钮，能查到每次函数调用的`gas`消耗分别如下：
+## Gas comparison of three methods
+Let's compare the gas consumption of `error`, `require`, and `assert`. 
+You can find the gas consumption for each function call with the Debug button of the remix console:
 
-1. **`error`方法`gas`消耗**：24445
-2. **`require`方法`gas`消耗**：24743
-3. **`assert`方法`gas`消耗**：24446
+1. **gas for `error`**：24445 `wei`
+2. **gas for `require`**：24743 `wei`
+3. **gas for `assert`**：24446 `wei`
 
-我们可以看到，`error`方法`gas`最少，其次是`assert`，`require`方法消耗`gas`最多！因此，`error`既可以告知用户抛出异常的原因，又能省`gas`，大家要多用！（注意，由于部署测试时间的不同，每个函数的`gas`消耗会有所不同，但是比较结果会是一致的。）
+We can see that the `error` consumes the least gas, followed by the `assert`, while the `require` consumes the most gas!
+Therefore, `error` not only informs the user about the error message, but also saves gas.
 
-## 总结
-这一讲，我们介绍`solidity`三种抛出异常的方法：`error`，`require`和`assert`，并比较了三种方法的`gas`消耗。结论：`error`既可以告知用户抛出异常的原因，又能省`gas`。
+## Summary
+In this chapter, we introduced 3 ways to throw exceptions in solidity: `error`, `require`, and `assert`. After comparing their gas consumption, `error` is the cheapest, `require` has the highest gas consumption, and `assert` is in the middle.
 
 <QuizForm courseId={SOLIDITY_COURSE_ID} lessonId={SOLIDITY_BASIC_LESSON_ID_15}></QuizForm>

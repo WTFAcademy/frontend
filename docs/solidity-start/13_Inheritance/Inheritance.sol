@@ -1,51 +1,51 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-// 合约继承
-contract Yeye {
+// Inheritance contract
+contract Grandfather {
     event Log(string msg);
 
-    // 定义3个function: hip(), pop(), man()，Log值为Yeye。
+    // Apply inheritance to the following 3 functions: hip(), pop(), man()，then log "Grandfather".
     function hip() public virtual{
-        emit Log("Yeye");
+        emit Log("Grandfather");
     }
 
     function pop() public virtual{
-        emit Log("Yeye");
+        emit Log("Grandfather");
     }
 
-    function yeye() public virtual {
-        emit Log("Yeye");
+    function grandfather() public virtual {
+        emit Log("Grandfather");
     }
 }
 
-contract Baba is Yeye{
-    // 继承两个function: hip()和pop()，输出改为Baba。
+contract Father is Grandfather{
+    // Apply inheritance to the following 2 functions: hip() and pop()，then change the log value to "Father".
     function hip() public virtual override{
-        emit Log("Baba");
+        emit Log("Father");
     }
 
     function pop() public virtual override{
-        emit Log("Baba");
+        emit Log("Father");
     }
 
-    function baba() public virtual{
-        emit Log("Baba");
+    function father() public virtual{
+        emit Log("Father");
     }
 }
 
-contract Erzi is Yeye, Baba{
-    // 继承两个function: hip()和pop()，输出改为Erzi。
-    function hip() public virtual override(Yeye, Baba){
-        emit Log("Erzi");
+contract Son is Grandfather, Father{
+    // Define the following 2 functions: hip() and pop()，then change the output value to "Son"。
+    function hip() public virtual override(Grandfather, Father){
+        emit Log("Son");
     }
 
-    function pop() public virtual override(Yeye, Baba) {
-        emit Log("Erzi");
+    function pop() public virtual override(Grandfather, Father) {
+        emit Log("Son");
     }
 
     function callParent() public{
-        Yeye.pop();
+        Grandfather.pop();
     }
 
     function callParentSuper() public{
@@ -53,7 +53,7 @@ contract Erzi is Yeye, Baba{
     }
 }
 
-// 构造函数的继承
+// Applying inheritance to the constructor functions
 abstract contract A {
     uint public a;
 

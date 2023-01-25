@@ -1,73 +1,76 @@
 ---
 title: 18. Import
 tags:
-  - solidity
-  - advanced
-  - wtfacademy
-  - import
+    - solidity
+    - advanced
+    - wtfacademy
+    - import
 ---
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
 import { SOLIDITY_ADVANCED_ID,SOLIDITY_ADVANCED_LESSON_ID_3 } from '@site/src/constants/course';
 
-# Solidity极简入门: 18. Import
+# WTF Solidity Tutorial: 18. Import
 
 <QuizProgress courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_3}></QuizProgress>
 
-我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
-欢迎关注我的推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
+Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
 
-欢迎加入WTF科学家社区，内有加微信群方法：[链接](https://discord.gg/5akcruXrsk)
+Community: [Discord](https://discord.wtf.academy)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
 
-所有代码和教程开源在github（1024个star发课程认证，2048个star发社群NFT）: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
 
 -----
 
-`solidity`支持利用`import`关键字导入其他源代码中的合约，让开发更加模块化。
+`solidity` supports the use of `import` keyword to import global symbols in other contracts 
+(simply understood as external source code), making development more modular. Generally, 
+if not specified, all global symbols of the imported file will be imported into the current global scope.
 
-## `import`用法
+## Usage of `import`
 
-- 通过源文件相对位置导入，例子：
+- Import by relative location of source file. For example：
 
 ```
-文件结构
+Hierarchy
 ├── Import.sol
 └── Yeye.sol
 
-// 通过文件相对位置import
+// Import by relative location of source file
 import './Yeye.sol';
 ```
 
-- 通过源文件网址导入网上的合约，例子：
+- Import the global symbols of contracts on the Internet through the source file URL. For example：
 ```
-// 通过网址引用
+// Import by URL
 import 'https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Address.sol';
 ```
 
-- 通过`npm`的目录导入，例子：
+- Import via `npm` directory. For example:
 ```solidity
 import '@openzeppelin/contracts/access/Ownable.sol';
 ```
 
-- 通过`全局符号`导入特定的合约，例子：
+- Import contract-specific global symbols by specifying `global symbols`. For example:：
 ```solidity
 import {Yeye} from './Yeye.sol';
 ```
 
-- 引用(`import`)在代码中的位置为：在声明版本号之后，在其余代码之前。
+- The location of the reference (`import`) in the code: after declaring the version, and before the rest of the code.
 
-## 测试导入结果
+## Test `import`
 
-我们可以用下面这段代码测试是否成功导入了外部源代码：
+We can use the following code to test whether the external source code was successfully imported:
+
 ```solidity
 contract Import {
-    // 成功导入Address库
+    // Successfully import the Address library
     using Address for address;
-    // 声明yeye变量
+    // declare variable "yeye"
     Yeye yeye = new Yeye();
 
-    // 测试是否能调用yeye的函数
+    // Test whether the function of "yeye" can be called
     function test() external{
         yeye.hip();
     }
@@ -76,7 +79,9 @@ contract Import {
 
 ![result](./img/18-1.png)
 
-## 总结
-这一讲，我们介绍了利用`import`关键字导入外部源代码的方法。通过`import`关键字，可以引用我们写的其他文件中的合约或者函数，也可以直接导入别人写好的代码，非常方便。
+## Summary
+In this lecture, we introduced the method of importing external source code using the `import` keyword. Through the `import`, 
+you can refer to contracts or functions in other files written by us, 
+or directly import code written by others, which is very convenient.
 
 <QuizForm courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_3} />

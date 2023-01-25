@@ -5,34 +5,34 @@ contract FunctionTypes{
     
     constructor() payable {}
 
-    // 函数类型
+    // function type
     // function (<parameter types>) {internal|external} [pure|view|payable] [returns (<return types>)]
-    // 默认function
+    // default function
     function add() external{
         number = number + 1;
     }
 
-    // pure: 纯纯牛马
+    // pure: not only does the function not save any data to the blockchain, but it also doesn't read any data from the blockchain.
     function addPure(uint256 _number) external pure returns(uint256 new_number){
         new_number = _number+1;
     }
     
-    // view: 看客
+    // view: no data will be changed
     function addView() external view returns(uint256 new_number) {
         new_number = number + 1;
     }
 
-    // internal: 内部
+    // internal: the function can only be called within the contract itself and any derived contracts
     function minus() internal {
         number = number - 1;
     }
 
-    // 合约内的函数可以调用内部函数
+    // external: function can be called by EOA/other contract
     function minusCall() external {
         minus();
     }
 
-    // payable: 递钱，能给合约支付eth的函数
+    //payable: money (ETH) can be sent to the contract via this function
     function minusPayable() external payable returns(uint256 balance) {
         minus();    
         balance = address(this).balance;

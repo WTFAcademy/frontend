@@ -1,61 +1,67 @@
 ---
 title: 5. DataStorage
 tags:
-  - solidity
-  - basic
-  - wtfacademy
-  - storage/memory/calldata
+- solidity
+- basic
+- wtfacademy
+- storage/memory/calldata
 ---
 
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
 import { SOLIDITY_COURSE_ID, SOLIDITY_BASIC_LESSON_ID_5 } from '@site/src/constants/course';
 
-# Solidity极简入门: 5. 变量数据存储和作用域 storage/memory/calldata
+# WTF Solidity Tutorial: 5. Data Storage and Scope
 
 <QuizProgress courseId={SOLIDITY_COURSE_ID} lessonId={SOLIDITY_BASIC_LESSON_ID_5}></QuizProgress>
 
-我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+Recently, I have been relearning Solidity, consolidating the finer details, and also writing a "WTF Solidity Tutorial" for newbies to learn. Lectures are updated 1~3 times weekly. 
 
-欢迎关注我的推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
+Everyone is welcomed to follow my Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-WTF技术社群discord，内有加微信群方法：[链接](https://discord.gg/5akcruXrsk)
+WTF Academy Discord: [Link](https://discord.gg/5akcruXrsk)
 
-所有代码和教程开源在github（1024个star发课程认证，2048个star发社群NFT）: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+All codebase and tutorial notes are open source and available on GitHub (At 1024 repo stars, course certification is unlocked. At 2048 repo stars, community NFT is unlocked.): [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)\
 
 -----
 
-## Solidity中的引用类型
-**引用类型(Reference Type)**：包括数组（`array`），结构体（`struct`）和映射（`mapping`），这类变量占空间大，赋值时候直接传递地址（类似指针）。由于这类变量比较复杂，占用存储空间大，我们在使用时必须要声明数据存储的位置。
+## Reference types in Solidity
+**Reference Type**: Reference types differ from value types in that they do not store values directly on their own. Instead, reference types store the address/pointer of the data’s location and do not directly share the data. You can modify the underlying data with different variable names. Reference types `array`, `struct` and `mapping`, which take up a lot of storage space. We need to deal with the location of the data storage when using them.
 
-## 数据位置
-solidity数据存储位置有三类：`storage`，`memory`和`calldata`。不同存储位置的`gas`成本不同。`storage`类型的数据存在链上，类似计算机的硬盘，消耗`gas`多；`memory`和`calldata`类型的临时存在内存里，消耗`gas`少。大致用法：
+## Data location
+There are three types of data storage locations in solidity: `storage`, `memory` and `calldata`. Gas costs are different for different storage locations. 
 
-1. `storage`：合约里的状态变量默认都是`storage`，存储在链上。
+The data of a `storage` variable is stored on-chain, similar to the hard disk of a computer, and consumes a lot of `gas`; while the data of `memory` and `calldata` varialbes are temporarily stored in memory, consumes less `gas`. 
 
-2. `memory`：函数里的参数和临时变量一般用`memory`，存储在内存中，不上链。
+General usage:
 
-3. `calldata`：和`memory`类似，存储在内存中，不上链。与`memory`的不同点在于`calldata`变量不能修改（`immutable`），一般用于函数的参数。例子：
+1. `storage`: The state variables are `storage` by default, which are stored on-chain. 
+
+2. `memory`: The parameters and temporary variables in the function generally use `memory` label, which is stored in memory and not on-chain. 
+
+3. `calldata`: Similar to `memory`, stored in memory, not on-chain. The difference from `memory` is that `calldata` variables cannot be modified, and is generally used for function parameters. Example:
 
 ```solidity
     function fCalldata(uint[] calldata _x) public pure returns(uint[] calldata){
-        //参数为calldata数组，不能被修改
-        // _x[0] = 0 //这样修改会报错
+        //The parameter is the calldata array, which cannot be modified.
+        // _x[0] = 0 //This modification will report an error.
         return(_x);
     }
 ```
+
 **Example:**
 ![5-1.png](./img/5-1.png)
 
-### 数据位置和赋值规则
-在不同存储类型相互赋值时候，有时会产生独立的副本（修改新变量不会影响原变量），有时会产生引用（修改新变量会影响原变量）。规则如下：
+### Data location and assignment behaviour
 
-1. `storage`（合约的状态变量）赋值给本地`storage`（函数里的）时候，会创建引用，改变新变量会影响原变量。例子：
+Data locations are not only relevant for persistency of data, but also for the semantics of assignments:
+
+1. When `storage` (a state variable of the contract) is assigned to the local `storage` (in a function), a reference will be created, and changing value of the new variable will affect the original one. Example:
 ```solidity
-    uint[] x = [1,2,3]; // 状态变量：数组 x
+    uint[] x = [1,2,3]; // state variable: array x
 
     function fStorage() public{
-        //声明一个storage的变量 xStorage，指向x。修改xStorage也会影响x
+        //Declare a storage variable xStorage, pointing to x. Modifying xStorage will also affect x
         uint[] storage xStorage = x;
         xStorage[0] = 100;
     }
@@ -63,31 +69,30 @@ solidity数据存储位置有三类：`storage`，`memory`和`calldata`。不同
 **Example:**
 ![5-2.png](./img/5-2.png)
 
-2. `storage`赋值给`memory`，会创建独立的复本，修改其中一个不会影响另一个；反之亦然。例子：
+2. Assigning `storage` to `memory` creates independent copies, and changes to one will not affect the other; and vice versa. Example:
 ```solidity
-    uint[] x = [1,2,3]; // 状态变量：数组 x
+    uint[] x = [1,2,3]; // state variable: array x
     
     function fMemory() public view{
-        //声明一个Memory的变量xMemory，复制x。修改xMemory不会影响x
+        //Declare a variable xMemory of Memory, copy x. Modifying xMemory will not affect x
         uint[] memory xMemory = x;
         xMemory[0] = 100;
-        xMemory[1] = 200;
-        uint[] memory xMemory2 = x;
-        xMemory2[0] = 300;
     }
 ```
 **Example:**
 ![5-3.png](./img/5-3.png)
 
-3. `memory`赋值给`memory`，会创建引用，改变新变量会影响原变量。
+3. Assigning `memory` to `memory` will create a reference, and changing the new variable will affect the original variable.
 
-4. 其他情况，变量赋值给`storage`，会创建独立的复本，修改其中一个不会影响另一个。
+4. Otherwise, assigning a variable to `storage` will create independent copies, and modifying one will not affect the other.
 
-## 变量的作用域
-`Solidity`中变量按作用域划分有三种，分别是状态变量（state variable），局部变量（local variable）和全局变量(global variable)
-### 1. 状态变量
-状态变量是数据存储在链上的变量，所有合约内函数都可以访问
-，`gas`消耗高。状态变量在合约内、函数外声明：
+## Variable scope
+There are three types of variables in `Solidity` according to their scope: state variables, local variables, and global variables.
+
+### 1. State variables
+State variables are variables whose data is stored on-chain and can be accessed by in-contract functions, but their `gas` consumption is high. 
+
+State variables are declared inside the contract and outside the functions:
 ```solidity
 contract Variables {
     uint public x = 1;
@@ -95,18 +100,21 @@ contract Variables {
     string public z;
 ```
 
-我们可以在函数里更改状态变量的值：
+We can change the value of the state variable in a function:
+
 ```solidity
     function foo() external{
-        // 可以在函数里更改状态变量的值
+        // You can change the value of the state variable in the function
         x = 5;
         y = 2;
         z = "0xAA";
     }
 ```
 
-### 2. 局部变量
-局部变量是仅在函数执行过程中有效的变量，函数退出后，变量无效。局部变量的数据存储在内存里，不上链，`gas`低。局部变量在函数内声明：
+### 2. Local variable
+Local variables are variables that are only valid during function execution; they are invalid after function exit. The data of local variables are stored in memory, not on-chain, and their `gas` consumption is low. 
+
+Local variables are declared inside a function:
 ```solidity
     function bar() external pure returns(uint){
         uint xx = 1;
@@ -116,8 +124,8 @@ contract Variables {
     }
 ```
 
-### 3. 全局变量
-全局变量是全局范围工作的变量，都是`solidity`预留关键字。他们可以在函数内不声明直接使用：
+### 3. Global variable
+Global variables are variables that work in the global scope and are reserved keywords for `solidity`. They can be used directly in functions without declaring them:
 
 ```solidity
     function global() external view returns(address, uint, bytes memory){
@@ -127,22 +135,25 @@ contract Variables {
         return(sender, blockNum, data);
     }
 ```
-在上面例子里，我们使用了3个常用的全局变量：`msg.sender`, `block.number`和`msg.data`，他们分别代表请求发起地址，当前区块高度，和请求数据。下面是一些常用的全局变量，更完整的列表请看这个[链接](https://learnblockchain.cn/docs/solidity/units-and-global-variables.html#special-variables-and-functions)：
+In the above example, we use three global variables: `msg.sender`, `block.number` and `msg.data`, which represent the sender of the message (current call), current block height, and complete calldata. 
 
-- `blockhash(uint blockNumber)`: (`bytes32`)给定区块的哈希值 – 只适用于256最近区块, 不包含当前区块。
-- `block.coinbase`: (`address payable`) 当前区块矿工的地址
-- `block.gaslimit`: (`uint`)	当前区块的gaslimit
-- `block.number`: (`uint`)	当前区块的number
-- `block.timestamp`: (`uint`)	当前区块的时间戳，为unix纪元以来的秒
-- `gasleft()`: (`uint256`)	剩余 gas
-- `msg.data`: (`bytes calldata`)	完整call data
-- `msg.sender`: (`address payable`)	消息发送者 (当前 caller)
-- `msg.sig`: (`bytes4`)	calldata的前四个字节 (function identifier)
-- `msg.value`: (`uint`)	当前交易发送的`wei`值
+Below are some commonly used global variables:
+
+- `blockhash(uint blockNumber)`: (`bytes32`)         The hash of the given block - only applies to the 256 most recent block. 
+- `block.coinbase`             : (`address payable`) The address of the current block miner
+- `block.gaslimit`             : (`uint`)            The gaslimit of the current block
+- `block.number`               : (`uint`)            Current block number
+- `block.timestamp`            : (`uint`)            The timestamp of the current block, in seconds since the unix epoch
+- `gasleft()`                  : (`uint256`)         Remaining gas
+- `msg.data`                   : (`bytes calldata`)  Complete calldata
+- `msg.sender`                 : (`address payable`) Message sender (current caller)
+- `msg.sig`                    : (`bytes4`)          first four bytes of the calldata (i.e. function identifier)
+- `msg.value`                  : (`bytes4`)          number of wei sent with the message
 
 **Example:**
 ![5-4.png](./img/5-4.png)
-## 总结
-在这一讲，我们介绍了`solidity`中的引用类型，数据位置和变量的作用域。重点是`storage`, `memory`和`calldata`三个关键字的用法。他们出现的原因是为了节省链上有限的存储空间和降低`gas`。下一讲我们会介绍引用类型中的数组。
+
+## Summary
+In this chapter, we introduced reference types, data storage locations and variable scopes in `solidity`. There are three types of data storage locations: `storage`, `memory` and `calldata`. Gas costs are different for different storage locations. The variable scope include state variables, local variables and global variables.
 
 <QuizForm courseId={SOLIDITY_COURSE_ID} lessonId={SOLIDITY_BASIC_LESSON_ID_5}></QuizForm>

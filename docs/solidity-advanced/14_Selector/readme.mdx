@@ -1,95 +1,105 @@
 ---
-title: 29. Selector
+title: 29. Function Selector
 tags:
-  - solidity
-  - advanced
-  - wtfacademy
-  - selector
+- solidity
+- advanced
+- wtfacademy
+- selector
 ---
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
 import { SOLIDITY_ADVANCED_ID, SOLIDITY_ADVANCED_LESSON_ID_14 } from '@site/src/constants/course';
 
-# Solidity极简入门: 29. 函数选择器Selector
+# WTF Solidity Tutorial: 29. Function Selector
 <QuizProgress courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_14} />
 
-我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
-欢迎关注我的推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
+Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
 
-欢迎加入WTF科学家社区，内有加微信群方法：[链接](https://discord.gg/5akcruXrsk)
+Community: [Discord](https://discord.wtf.academy)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
 
-所有代码和教程开源在github（1024个star发课程认证，2048个star发社群NFT）: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
-
------
-
+Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+---
 
 ## `selector`
-当我们调用智能合约时，本质上是向目标合约发送了一段`calldata`，在remix中发送一次交易后，可以在详细信息中看见`input`即为此次交易的`calldata`
+
+When we call a smart contract, we essentially send a `calldata` to the target contract. After sending a transaction in remix, we can see in the details that `input` is the `calldata` of this transaction.
 
 ![tx input in remix](./img/29-1.png)
 
-发送的`calldata`中前4个字节是`selector`（函数选择器）。这一讲，我们将介绍`selector`是什么，以及如何使用。
+The first 4 bytes of calldata is called a function selector. In this section, we will introduce what `selector` is and how to use it.
 
 ### `msg.data`
-`msg.data`是`solidity`中的一个全局变量，值为完整的`calldata`（调用函数时传入的数据）。
 
-在下面的代码中，我们可以通过`Log`事件来输出调用`mint`函数的`calldata`：
+`msg.data` is a global variable in `solidity`. The value of `msg.data` is the full `calldata` (the data passed in when the function is called).
+
+In the following code, we can output the `calldata` that calls the `mint` function through the `Log` event:
+
 ```solidity
-    // event 返回msg.data
+    // event returns msg.data
     event Log(bytes data);
 
     function mint(address to) external{
         emit Log(msg.data);
     }
 ```
-当参数为`0x2c44b726ADF1963cA47Af88B284C06f30380fC78`时，输出的`calldata`为
+
+When the parameter is `0x2c44b726ADF1963cA47Af88B284C06f30380fC78`, the output `calldata` is
+
 ```
 0x6a6278420000000000000000000000002c44b726adf1963ca47af88b284c06f30380fc78
 ```
-这段很乱的字节码可以分成两部分：
+
+This messy bytecode can be divided into two parts:
+
 ```
-前4个字节为函数选择器selector：
+The first 4 bytes are the selector:
 0x6a627842
 
-后面32个字节为输入的参数：
+The next 32 bytes are the input parameters:
 0x0000000000000000000000002c44b726adf1963ca47af88b284c06f30380fc78
 ```
-其实`calldata`就是告诉智能合约，我要调用哪个函数，以及参数是什么。
 
-### `method id`、`selector`和`函数签名`
-`method id`定义为`函数签名`的`Keccak`哈希后的前4个字节，当`selector`与`method id`相匹配时，即表示调用该函数，那么`函数签名`是什么？
+Actually, this  `calldata` is to tell the smart contract which function I want to call and what the parameters are.
 
-其实在第21讲中，我们简单介绍了函数签名，为`"函数名（逗号分隔的参数类型)"`。举个例子，上面代码中`mint`的函数签名为`"mint(address)"`。在同一个智能合约中，不同的函数有不同的函数签名，因此我们可以通过函数签名来确定要调用哪个函数。
+### `method id`、`selector` and `Function Signatures`
 
-**注意**，在函数签名中，`uint`和`int`要写为`uint256`和`int256`。
+The `method id` is defined as the first 4 bytes after the `Keccak` hash of the `function signature`. The function is called when the `selector` matches the `method id`.
 
-我们写一个函数，来验证`mint`函数的`method id`是否为`0x6a627842`。大家可以运行下面的函数，看看结果。
+Then what is the `function signature` ? In section 21, we introduced function signature. The function signature is `"function_name(comma-separated parameter types)"`. For example, the function signature of `mint` in the code above is `"mint(address)"`. In the same smart contract, different functions have different function signatures, so we can determine which function to call by the function signature.
+
+Please note that `uint` and `int` are written as `uint256` and `int256` in the function signature.
+
+Let's define a function to verify that the `method id` of the `mint` function is `0x6a627842`. You can call the function below and see the result.
+
 ```solidity
     function mintSelector() external pure returns(bytes4 mSelector){
         return bytes4(keccak256("mint(address)"));
     }
 ```
 
-结果正是`0x6a627842`：
+The result is `0x6a627842`:
 
 ![method id in remix](./img/29-2.png)
 
-### 使用`selector`
-我们可以利用`selector`来调用目标函数。例如我想调用`mint`函数，我只需要利用`abi.encodeWithSelector`将`mint`函数的`method id`作为`selector`和参数打包编码，传给`call`函数：
+### how to use `selector`
 
-```solidity
-    function callWithSignature() external returns(bool, bytes memory){
-        (bool success, bytes memory data) = address(this).call(abi.encodeWithSelector(0x6a627842, "0x2c44b726ADF1963cA47Af88B284C06f30380fC78"));
-        return(success, data);
-    }
-```
+We can use `selector` to call the target function. For example, if I want to call the `mint` function, I just need to use `abi.encodeWithSelector` to pack and encode the `mint` function's `method id` as the `selector` and parameters, and pass it to the `call` function:
 
-在日志中，我们可以看到`mint`函数被成功调用，并输出`Log`事件。
+````solidity
+     function callWithSignature() external returns(bool, bytes memory){
+         (bool success, bytes memory data) = address(this).call(abi.encodeWithSelector(0x6a627842, "0x2c44b726ADF1963cA47Af88B284C06f30380fC78"));
+         return(success, data);
+     }
+````
+
+We can see in the log that the `mint` function was successfully called and the `Log` event was output.
 
 ![logs in remix](./img/29-3.png)
 
-## 总结
-这一讲，我们介绍了什么是`函数选择器`（`selector`），它和`msg.data`、`函数签名`的关系，以及如何使用它调用目标函数。
+## Summary
+
+In this section, we introduce what is `selector` and its relationship with `msg.data`, `function signature`, and how to use it to call the target function.
 
 <QuizForm courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_14} />

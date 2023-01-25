@@ -8,13 +8,13 @@ contract DataStorage {
     uint[] x = [1,2,3];
 
     function fStorage() public{
-        //声明一个storage的变量xStorage，指向x。修改xStorage也会影响x
+        //Declare a storage variable xStorage, pointing to x. Modifying xStorage also affects x
         uint[] storage xStorage = x;
         xStorage[0] = 100;
     }
 
     function fMemory() public view{
-        //声明一个Memory的变量xMemory，复制x。修改xMemory不会影响x
+        //Declare a variable xMemory of Memory, copying x. Modifying xMemory does not affect x
         uint[] memory xMemory = x;
         xMemory[0] = 100;
         xMemory[1] = 200;
@@ -23,8 +23,8 @@ contract DataStorage {
     }
 
     function fCalldata(uint[] calldata _x) public pure returns(uint[] calldata){
-        //参数为calldata数组，不能被修改
-        // _x[0] = 0 //这样修改会报错
+        //The parameter is the calldata array, which cannot be modified
+        // _x[0] = 0 //This modification will report an error
         return(_x);
     }
 }
@@ -35,7 +35,7 @@ contract Variables {
     string public z;
 
     function foo() external{
-        // 可以在函数里更改状态变量的值
+        // You can change the value of the state variable in the function
         x = 5;
         y = 2;
         z = "0xAA";
@@ -55,6 +55,3 @@ contract Variables {
         return(sender, blockNum, data);
     }
 }
-
-
-
