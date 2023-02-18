@@ -65,13 +65,12 @@ function HomepageHeader() {
 export default function Home() {
     const isBrowser = useIsBrowser();
     const {siteConfig} = useDocusaurusContext();
-    // const [isRedirect, setIsRedirect] = useState(false);
-    
+    const [isRedirect, setIsRedirect] = useState(false);
     const lang = isBrowser ? window.navigator.language || window.navigator.userLanguage : null;
     const langInConfig = siteConfig.i18n.locales.includes(lang);
-    if(langInConfig && (lang != siteConfig.defaultLocale)){
-        // setIsRedirect(true);
-        return (<Redirect to={useBaseUrl(lang)}></Redirect>)
+    if(langInConfig && (lang != siteConfig.defaultLocale && !isRedirect)){
+        setIsRedirect(true);
+        return (<Redirect to={useBaseUrl(`${lang}/`)}></Redirect>)
     }
     return (
         <Layout
