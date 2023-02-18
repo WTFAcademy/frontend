@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import Translate from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
 import {Redirect} from '@docusaurus/router';
-import BrowserOnly from '@docusaurus/BrowserOnly';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
@@ -63,29 +63,26 @@ function HomepageHeader() {
 }
 
 export default function Home() {
+    const isBrowser = useIsBrowser();
+    const {siteConfig} = useDocusaurusContext();
+    // const [isRedirect, setIsRedirect] = useState(false);
+    
+    const lang = isBrowser ? window.navigator.language || window.navigator.userLanguage : null;
+    const langInConfig = siteConfig.i18n.locales.includes(lang);
+    if(langInConfig && (lang != siteConfig.defaultLocale)){
+        // setIsRedirect(true);
+        return (<Redirect to={useBaseUrl(lang)}></Redirect>)
+    }
     return (
-        <BrowserOnly>
-            {() => {
-                    const [isRedirect, setIsRedirect] = useState(false);
-                    const {siteConfig} = useDocusaurusContext();
-                    const lang = window.navigator.language || window.navigator.userLanguage;
-                    const langInConfig = siteConfig.i18n.locales.includes(lang);
-                    if(langInConfig && (lang != siteConfig.defaultLocale) && !isRedirect){
-                        setIsRedirect(true);
-                        return <Redirect to={useBaseUrl(lang)}></Redirect>
-                    }
-                    return <Layout
-                            title={`${siteConfig.title}, Web3 Open University`}
-                            description="WTF Academy is Web3 Open University, we create open-source tutorials in Solidity, Ethers.js, and more.">
-                            <HomepageHeader/>
-                            <main>
-                                <HomepageLearningCenter/>
-                                <HomepageTarget/>
-                                <Contributor/>
-                            </main>
-                        </Layout>
-                }
-            }
-        </BrowserOnly>
+        <Layout
+            title={`${siteConfig.title}, Web3 Open University`}
+            description="WTF Academy is Web3 Open University, we create open-source tutorials in Solidity, Ethers.js, and more.">
+            <HomepageHeader/>
+            <main>
+                <HomepageLearningCenter/>
+                <HomepageTarget/>
+                <Contributor/>
+            </main>
+        </Layout>
     );
 }
