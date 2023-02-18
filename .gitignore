@@ -4,5 +4,6 @@ node_modules
 .yarn
 .docusaurus
 build
+yarn.lock
 .DS_Store
 **/.DS_Store

@@ -1,6 +1,8 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Translate from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
+import {Redirect} from '@docusaurus/router';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageLearningCenter from '@site/src/components/HomepageLearningCenter';
@@ -60,7 +62,16 @@ function HomepageHeader() {
 }
 
 export default function Home() {
+    const [isRedirect, setIsRedirect] = useState(false);
     const {siteConfig} = useDocusaurusContext();
+    const lang = window.navigator.language || window.navigator.userLanguage;
+    const langInConfig = siteConfig.i18n.locales.includes(lang);
+    if(langInConfig && (lang != siteConfig.defaultLocale) && !isRedirect){
+        setIsRedirect(true);
+        return (
+            <Redirect to={useBaseUrl(lang)}></Redirect>
+        )
+    }
     return (
         <Layout
             title={`${siteConfig.title}, Web3 Open University`}
