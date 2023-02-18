@@ -62,17 +62,6 @@ function HomepageHeader() {
 
 export default function Home() {
     const {siteConfig} = useDocusaurusContext();
-    // const isBrowser = useIsBrowser();
-    // const location = useLocation();
-    
-    // const lang = isBrowser ? window.navigator.language || window.navigator.userLanguage : null;
-    // const langInConfig = siteConfig.i18n.locales.includes(lang);
-    // if(langInConfig && (lang != siteConfig.defaultLocale) && !location.pathname.includes(lang)){
-    //     return (
-    //         <Redirect to={`${lang}/learning-center`}></Redirect>
-    //     )
-    // }
-    
     return (
         <Layout
             title={`${siteConfig.title}, Web3 Open University`}
