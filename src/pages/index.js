@@ -15,8 +15,7 @@ import {DiscordLogoSvg} from "../svg";
 
 
 function HomepageHeader() {
-    const {siteConfig} = useDocusaurusContext();
-
+    
     const bannerTitleImg = require('@site/static/img/home_banner_title.png').default;
     const bannerBgImg = require('@site/static/img/home_banner.jpg').default;
 
@@ -63,15 +62,18 @@ function HomepageHeader() {
 }
 
 export default function Home() {
-    const isBrowser = useIsBrowser();
     const {siteConfig} = useDocusaurusContext();
-    const [isRedirect, setIsRedirect] = useState(false);
+    const isBrowser = useIsBrowser();
+    // const [isRedirect, setIsRedirect] = useState(false);
     const lang = isBrowser ? window.navigator.language || window.navigator.userLanguage : null;
     const langInConfig = siteConfig.i18n.locales.includes(lang);
-    if(langInConfig && (lang != siteConfig.defaultLocale) && !isRedirect){
-        setIsRedirect(true);
-        return (<Redirect to={useBaseUrl(`${lang}/`)}></Redirect>)
+    if(langInConfig && (lang != siteConfig.defaultLocale)){
+        // setIsRedirect(true);
+        return (
+            <Redirect to={useBaseUrl(`${lang}/`)}></Redirect>
+        )
     }
+    
     return (
         <Layout
             title={`${siteConfig.title}, Web3 Open University`}
@@ -84,4 +86,5 @@ export default function Home() {
             </main>
         </Layout>
     );
+        
 }
