@@ -81,7 +81,8 @@
 
 .discordBtn{
   position: relative;
-  width: 180px;
+  min-width: 180px;
+  padding: 0 18px;
   height: 50px;
   color: #0A229F;
   line-height: 50px;
@@ -91,11 +92,20 @@
   background: #fff;
   margin: 0 18px;
   border: 1px #0A229F solid;
-  
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
   font-family: 'PingFang SC';
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
+}
+
+.discordLogo {
+  font-size: 30px;
+  margin-right: 6px;
+  display: inline-block;
 }
 
 .wtfTitle{

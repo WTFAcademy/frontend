@@ -1,0 +1,22 @@
+{
+  "item.label.Center": {
+    "message": "学习中心",
+    "description": "Navbar item with label Center"
+  },
+  "item.label.Solidity101": {
+    "message": "Solidity入门",
+    "description": "Navbar item with label Solidity入门"
+  },
+  "item.label.Solidity102": {
+    "message": "Solidity进阶",
+    "description": "Navbar item with label Solidity进阶"
+  },
+  "item.label.Solidity103": {
+    "message": "Solidity应用",
+    "description": "Navbar item with label Solidity应用"
+  },
+  "item.label.Forum": {
+    "message": "论坛",
+    "description": "Navbar item with label 论坛"
+  }
+}

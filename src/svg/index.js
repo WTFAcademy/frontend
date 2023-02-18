@@ -7,3 +7,4 @@ export {default as LoadingSvg} from './Loading';
 export {default as ResetSvg} from './Reset';
 export {default as TipSvg} from './Tips';
 export {default as LookSvg} from './Look';
+export {default as DiscordLogoSvg} from './DiscordLogo';

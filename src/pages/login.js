@@ -12,7 +12,7 @@ export default function Login() {
             <div className={styles.container}>
                 <div className={styles.bigText}>Log in to WTFAcademy</div>
                 <button
-                    onClick={signInWithGithub}
+                    onClick={() => signInWithGithub(true, 'https://wtfacademy.com')}
                     className={`button button--secondary button--lg ${styles.loginButton}`}
                 >
                     <GithubIcon className={styles.githubIcon}/>

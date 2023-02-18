@@ -1,5 +1,5 @@
 ---
-title: 32. 代币水龙头
+title: 32. Faucet
 tags:
   - solidity
   - application
