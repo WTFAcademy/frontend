@@ -70,7 +70,7 @@ export default function Home() {
     if(langInConfig && (lang != siteConfig.defaultLocale)){
         // setIsRedirect(true);
         return (
-            <Redirect to={useBaseUrl(`${lang}/`)}></Redirect>
+            <Redirect to={useBaseUrl(`${lang}`)}></Redirect>
         )
     }
     
