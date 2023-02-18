@@ -8,54 +8,54 @@ contract OnlyEven{
     }
 
     function onlyEven(uint256 b) external pure returns(bool success){
-        // revert when an odd number is entered
+        // 输入奇数时revert
         require(b % 2 == 0, "Ups! Reverting");
         success = true;
     }
 }
 
 contract TryCatch {
-    // success event
+    // 成功event
     event SuccessEvent();
-    // failure event
+    // 失败event
     event CatchEvent(string message);
     event CatchByte(bytes data);
 
-    // declare OnlyEven contract variable
+    // 声明OnlyEven合约变量
     OnlyEven even;
 
     constructor() {
         even = new OnlyEven(2);
     }
     
-    // use try-catch in external call
-    // execute(0) will succeed and emit `SuccessEvent`
-    // execute(1) will fail and emit `CatchEvent`
+    // 在external call中使用try-catch
+    // execute(0)会成功并释放`SuccessEvent`
+    // execute(1)会失败并释放`CatchEvent`
     function execute(uint amount) external returns (bool success) {
         try even.onlyEven(amount) returns(bool _success){
-            // if call succeeds
+            // call成功的情况下
             emit SuccessEvent();
             return _success;
         } catch Error(string memory reason){
-            // if call fails
+            // call不成功的情况下
             emit CatchEvent(reason);
         }
     }
 
-    // use try-catch when creating new contract(Contract creation is considered an external call)
-    // executeNew(0) will fail and emit `CatchEvent`
-    // executeNew(1) will fail and emit `CatchByte`
-    // executeNew(2) will succeed and emit `SuccessEvent`
+    // 在创建新合约中使用try-catch （合约创建被视为external call）
+    // executeNew(0)会失败并释放`CatchEvent`
+    // executeNew(1)会失败并释放`CatchByte`
+    // executeNew(2)会成功并释放`SuccessEvent`
     function executeNew(uint a) external returns (bool success) {
         try new OnlyEven(a) returns(OnlyEven _even){
-            // if call succeeds
+            // call成功的情况下
             emit SuccessEvent();
             success = _even.onlyEven(a);
         } catch Error(string memory reason) {
-            // catch revert("reasonString") and require(false, "reasonString")
+            // catch失败的 revert() 和 require()
             emit CatchEvent(reason);
         } catch (bytes memory reason) {
-            // catch assert() of failure, the error type of assert is Panic(uint256) instead of Error(string), so it will go into this branch
+            // catch失败的 assert()
             emit CatchByte(reason);
         }
     }

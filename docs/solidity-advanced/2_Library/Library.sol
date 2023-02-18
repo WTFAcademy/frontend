@@ -62,16 +62,16 @@ library Strings {
 }
 
 
-// Call another library contract with a function
+// 用函数调用另一个库合约
 contract UseLibrary{    
-    // Using the library with the "using for" 
+    // 利用using for操作使用库
     using Strings for uint256;
     function getString1(uint256 _number) public pure returns(string memory){
-        // Library functions are automatically added as members of uint256 variables
+        // 库函数会自动添加为uint256型变量的成员
         return _number.toHexString();
     }
 
-    // Called directly by the library contract name
+    // 直接通过库合约名调用
     function getString2(uint256 _number) public pure returns(string memory){
         return Strings.toHexString(_number);
     }

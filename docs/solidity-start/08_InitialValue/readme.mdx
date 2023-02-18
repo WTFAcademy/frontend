@@ -1,48 +1,46 @@
 ---
-title: 8. InitialValue
+title: 8. 变量初始值
 tags:
-- solidity
-- basic
-- wtfacademy
+  - solidity
+  - basic
+  - wtfacademy
 ---
 
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
 import { SOLIDITY_COURSE_ID, SOLIDITY_BASIC_LESSON_ID_8 } from '@site/src/constants/course';
 
-# WTF Solidity Tutorial: 8. Initial Value
+# Solidity极简入门: 8. 变量初始值
 
 <QuizProgress courseId={SOLIDITY_COURSE_ID} lessonId={SOLIDITY_BASIC_LESSON_ID_8}></QuizProgress>
 
-Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
+我最近在重新学solidity，巩固一下细节，也写一个“WTF Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
 
-Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
+推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
 
-Community: [Discord](https://discord.wtf.academy)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
+社区：[Discord](https://discord.wtf.academy)｜[微信群](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[官网 wtf.academy](https://wtf.academy)
 
-Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
-
+所有代码和教程开源在github: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
 
 -----
 
-## Initial values of variables
+## 变量初始值
 
-In Solidity, variables declared but not assigned have their initial/default values. In this tutorial, we will introduce the initial values of common variable types.
+在`solidity`中，声明但没赋值的变量都有它的初始值或默认值。这一讲，我们将介绍常用变量的初始值。
 
-### Initial values of value types
+### 值类型初始值
 
 - `boolean`: `false`
 - `string`: `""`
 - `int`: `0`
 - `uint`: `0`
-- `enum`: first element in enumeration
-- `address`: `0x0000000000000000000000000000000000000000` (or `address(0)`)
+- `enum`: 枚举中的第一个元素
+- `address`: `0x0000000000000000000000000000000000000000` (或 `address(0)`)
 - `function`
-    - `internal`: blank equation
-    - `external`: blank equation
+    - `internal`: 空白方程
+    - `external`: 空白方程
 
-You can use `getter` function of `public` variables to confirm the above initial values:
-
+可以用`public`变量的`getter`函数验证上面写的初始值是否正确：
 ```solidity
     bool public _bool; // false
     string public _string; // ""
@@ -50,30 +48,29 @@ You can use `getter` function of `public` variables to confirm the above initial
     uint public _uint; // 0
     address public _address; // 0x0000000000000000000000000000000000000000
 
-    enum ActionSet {Buy, Hold, Sell}
-    ActionSet public _enum; // first element 0
+    enum ActionSet { Buy, Hold, Sell}
+    ActionSet public _enum; // 第1个内容Buy的索引0
 
-    function fi() internal{} // internal blank equation
-    function fe() external{} // external blank equation
+    function fi() internal{} // internal空白方程 
+    function fe() external{} // external空白方程 
 ```
 
-### Initial values of reference types
+### 引用类型初始值
+- 映射`mapping`: 所有元素都为其默认值的`mapping`
 
-- `mapping`: a `mapping` which all members set to their default values
-- `struct`: a `struct` which all members set to their default values
+- 结构体`struct`: 所有成员设为其默认值的结构体
 
-- `array`
-    - dynamic array: `[]`
-    - static array（fixed-length): a static array where all members set to their default values.
+- 数组`array`
+    - 动态数组: `[]`
+    - 静态数组（定长）: 所有成员设为其默认值的静态数组
 
-You can use `getter` function of `public` variables to confirm initial values:
-
+可以用`public`变量的`getter`函数验证上面写的初始值是否正确：
 ```solidity
-    // reference types
-    uint[8] public _staticArray; // a static array which all members set to their default values[0,0,0,0,0,0,0,0]
+    // Reference Types
+    uint[8] public _staticArray; // 所有成员设为其默认值的静态数组[0,0,0,0,0,0,0,0]
     uint[] public _dynamicArray; // `[]`
-    mapping(uint => address) public _mapping; // a mapping which all members set to their default values
-    // a struct which all members set to their default values 0, 0
+    mapping(uint => address) public _mapping; // 所有元素都为其默认值的mapping
+    // 所有成员设为其默认值的结构体 0, 0
     struct Student{
         uint256 id;
         uint256 score; 
@@ -81,30 +78,23 @@ You can use `getter` function of `public` variables to confirm initial values:
     Student public student;
 ```
 
-### `delete` operator
-
-`delete a` will change the value of variable `a` to its initial value.
-
+### `delete`操作符
+`delete a`会让变量`a`的值变为初始值。
 ```solidity
-    // delete operator
+    // delete操作符
     bool public _bool2 = true; 
     function d() external {
-        delete _bool2; // delete will make _bool2 change to default(false)
+        delete _bool2; // delete 会让_bool2变为默认值，false
     }
 ```
+## 在remix上验证
+- 部署合约查看值类型、引用类型的初始值
+![](./img/8-1.png)
 
-## Verify on Remix
+- 值类型、引用类型delete操作后的默认值
+![](./img/8-2.png)
 
-- Deploy `InitialValue.sol` and check the initial values of the different types.
-
-    ![](./img/8-1_en.jpg)
-
-- After using the `delete` operator, the value of the variables are reset to their initial values.
-
-    ![](./img/8-2_en.jpg)
-
-## Summary
-
-In this section, we introduced the initial values of variables in Solidity. When a variable is declared but not assigned, its value defaults to the initial value, which is equivalent as `0` represented in its type. The `delete` operator can reset the value of the variable to the initial value.
+## 总结
+这一讲，我们介绍了`solidity`中变量的初始值。变量被声明但没有赋值的时候，它的值默认为初始值。不同类型的变量初始值不同，`delete`操作符可以删除一个变量的值并代替为初始值。
 
 <QuizForm courseId={SOLIDITY_COURSE_ID} lessonId={SOLIDITY_BASIC_LESSON_ID_8}></QuizForm>

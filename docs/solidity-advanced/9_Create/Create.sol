@@ -2,9 +2,9 @@
 pragma solidity ^0.8.4;
 
 contract Pair{
-    address public factory; // factory contract address
-    address public token0; // token1
-    address public token1; // token2
+    address public factory; // 工厂合约地址
+    address public token0; // 代币1
+    address public token1; // 代币2
 
     constructor() payable {
         factory = msg.sender;
@@ -19,15 +19,15 @@ contract Pair{
 }
 
 contract PairFactory{
-    mapping(address => mapping(address => address)) public getPair; // get Pair's address based on 2 tokens' addresses
-    address[] public allPairs; // store all Pairs' addresses
+    mapping(address => mapping(address => address)) public getPair; // 通过两个代币地址查Pair地址
+    address[] public allPairs; // 保存所有Pair地址
 
     function createPair(address tokenA, address tokenB) external returns (address pairAddr) {
-        // create a new contract
+        // 创建新合约
         Pair pair = new Pair(); 
-        // call initialized method of the new contract
+        // 调用新合约的initialize方法
         pair.initialize(tokenA, tokenB);
-        // update getPair and allPairs
+        // 更新地址map
         pairAddr = address(pair);
         allPairs.push(pairAddr);
         getPair[tokenA][tokenB] = pairAddr;

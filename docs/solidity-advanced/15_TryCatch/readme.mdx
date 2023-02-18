@@ -1,73 +1,67 @@
 ---
 title: 30. Try Catch
 tags:
-- solidity
-- advanced
-- wtfacademy
-- try catch
+  - solidity
+  - advanced
+  - wtfacademy
+  - try catch
 ---
 import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
 import { SOLIDITY_ADVANCED_ID, SOLIDITY_ADVANCED_LESSON_ID_15 } from '@site/src/constants/course';
 
-# Solidity Minimalist Tutorial: 30. Try Catch
+# Solidity极简入门: 30. Try Catch
 <QuizProgress courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_15} />
 
-Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
+我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
 
-Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
+欢迎关注我的推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
 
-Community: [Discord](https://discord.wtf.academy)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
+欢迎加入WTF科学家社区，内有加微信群方法：[链接](https://discord.gg/5akcruXrsk)
 
-Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+所有代码和教程开源在github（1024个star发课程认证，2048个star发社群NFT）: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
 
 -----
 
-`try-catch` is a standard way of handling exceptions that is almost ubiquitous in modern programming languages. Besides, it's added to `solidity`0.6.
-
-In this chapter, we will introduce you how to use `try-catch` to handle exceptions in smart contracts. 
+`try-catch`是现代编程语言几乎都有的处理异常的一种标准方式，`solidity`0.6版本也添加了它。这一讲，我们将介绍如何利用`try-catch`处理智能合约中的异常。
 
 ## `try-catch`
-In `solidity`, `try-catch` can only be used for `external` function or call `constructor` (considered `external` function) when creating contracts. The basic syntax is as follows:
+在`solidity`中，`try-catch`只能被用于`external`函数或创建合约时`constructor`（被视为`external`函数）的调用。基本语法如下：
 ```solidity
         try externalContract.f() {
-            // if call succeeds, run some codes
+            // call成功的情况下 运行一些代码
         } catch {
-            // if call fails, run some codes
+            // call失败的情况下 运行一些代码
         }
 ```
-`externalContract.f()` is function call of an external contract, `try` module runs if call succeeds, while `catch` module runs if call fails.
+其中`externalContract.f()`是某个外部合约的函数调用，`try`模块在调用成功的情况下运行，而`catch`模块则在调用失败时运行。
 
-You can also use `this.f()` instead of `externalContract.f()`. `this.f()` is also considered as an external call, but can't be used in constructor because the contract has not been created at that time.
+同样可以使用`this.f()`来替代`externalContract.f()`，`this.f()`也被视作为外部调用，但不可在构造函数中使用，因为此时合约还未创建。
 
-If the called function has a return value, then `returns(returnType val)` must be declared after `try`, and the returned variable can be used in `try` module. In the case of contract creation, the returned value is newly created contract variable.
+如果调用的函数有返回值，那么必须在`try`之后声明`returns(returnType val)`，并且在`try`模块中可以使用返回的变量；如果是创建合约，那么返回值是新创建的合约变量。
 ```solidity
         try externalContract.f() returns(returnType val){
-            // if call succeeds, run some codes
+            // call成功的情况下 运行一些代码
         } catch {
-            // if call fails, run some codes
+            // call失败的情况下 运行一些代码
         }
 ```
 
-Besides, `catch` module supports catching special exception causes:
+另外，`catch`模块支持捕获特殊的异常原因：
 
 ```solidity
         try externalContract.f() returns(returnType){
-            // if call succeeds, run some codes
-        } catch Error(string memory /*reason*/) {
-            // catch revert("reasonString") and require(false, "reasonString")
-        } catch Panic(uint /*errorCode*/) {
-            // Catch errors caused by Panic, such as assert failures, overflows, division by zero, array access out of bounds
-        } catch (bytes memory /*lowLevelData*/) {
-            // If a revert occurs and the above two exception types fail to match, it will go into this branch
-            // such as revert(), require(false), revert a custom type error
+            // call成功的情况下 运行一些代码
+        } catch Error(string memory reason) {
+            // 捕获失败的 revert() 和 require()
+        } catch (bytes memory reason) {
+            // 捕获失败的 assert()
         }
 ```
 
-## `try-catch` actual combat
+## `try-catch`实战
 ### `OnlyEven`
-We create an external contract `OnlyEven` and use `try-catch` to handle exceptions:
-
+我们创建一个外部合约`OnlyEven`，并使用`try-catch`来处理异常：
 ```solidity
 contract OnlyEven{
     constructor(uint a){
@@ -76,100 +70,102 @@ contract OnlyEven{
     }
 
     function onlyEven(uint256 b) external pure returns(bool success){
-        // revert when an odd number is entered
+        // 输入奇数时revert
         require(b % 2 == 0, "Ups! Reverting");
         success = true;
     }
 }
 ```
-`OnlyEven` contract contains a constructor and an `onlyEven` function.
+`OnlyEven`合约包含一个构造函数和一个`onlyEven`函数。
 
-- constructor has one argument `a`, when `a=0`, `require` will throw an exception; When `a=1`, `assert` will throw an exception. All other conditions are normal.
-- `onlyEven` function has one argument `b`, when `b` is odd, `require` will throw an exception.
+- 构造函数有一个参数`a`，当`a=0`时，`require`会抛出异常；当`a=1`时，`assert`会抛出异常；其他情况均正常。
+- `onlyEven`函数有一个参数`b`，当`b`为奇数时，`require`会抛出异常。
 
-### Handle external function call exceptions
-First, define some events and state variables in `TryCatch` contract:
+### 处理外部函数调用异常
+首先，在`TryCatch`合约中定义一些事件和状态变量：
 ```solidity
-    // success event
+    // 成功event
     event SuccessEvent();
 
-    // failure event
+    // 失败event
     event CatchEvent(string message);
     event CatchByte(bytes data);
 
-    // declare OnlyEven contract variable
+    // 声明OnlyEven合约变量
     OnlyEven even;
 
     constructor() {
         even = new OnlyEven(2);
     }
 ```
-`SuccessEvent` is the event that will be released when call succeeds, while `CatchEvent` and `CatchByte` are the events that will be released when an exception is thrown, corresponding to `require/revert` and `assert` exceptions respectively. `even` is a state variable of `OnlyEven` contract type.
+`SuccessEvent`是调用成功会释放的事件，而`CatchEvent`和`CatchByte`是抛出异常时会释放的事件，分别对应`require/revert`和`assert`异常的情况。`even`是个`OnlyEven`合约类型的状态变量。
 
-Then we use `try-catch` in `execute` function to handle exception in the call to external function `onlyEven`:
+然后我们在`execute`函数中使用`try-catch`处理调用外部函数`onlyEven`中的异常：
 
 ```solidity
-    // use try-catch in external call
+    // 在external call中使用try-catch
     function execute(uint amount) external returns (bool success) {
         try even.onlyEven(amount) returns(bool _success){
-            // if call succeeds
+            // call成功的情况下
             emit SuccessEvent();
             return _success;
         } catch Error(string memory reason){
-            // if call fails
+            // call不成功的情况下
             emit CatchEvent(reason);
         }
     }
 ```
-### verify on remix
+### 在remix上验证
 
-When running `execute(0)`, because `0` is even, satisfy `require(b % 2 == 0, "Ups! Reverting");`, so no exception is thrown. The call succeeds and `SuccessEvent` is released.
+当运行`execute(0)`的时候，因为`0`为偶数，满足`require(b % 2 == 0, "Ups! Reverting");`，没有异常抛出，调用成功并释放`SuccessEvent`事件。
 
-![](./img/30-1_en.jpg)
+![](./img/30-1.png)
 
-When running `execute(1)`, because `1` is odd, doesn't satisfy `require(b % 2 == 0, "Ups! Reverting");`, so exception is thrown. The call fails and `CatchEvent` is released.
+当运行`execute(1)`的时候，因为`1`为奇数，不满足`require(b % 2 == 0, "Ups! Reverting");`，异常抛出，调用失败并释放`CatchEvent`事件。
 
-![](./img/30-2_en.jpg)
+![](./img/30-2.png)
 
-### Handle contract creation exceptions
+### 处理合约创建异常
 
-Here we use `try-catch` to handle exceptions when a contract is created. Just need to rewrite `try` module to the creation of `OnlyEven` contract
+这里，我们利用`try-catch`来处理合约创建时的异常。只需要把`try`模块改写为`OnlyEven`合约的创建就行：
 
 ```solidity
-    // use try-catch when creating new contract(Contract creation is considered an external call)
-    // executeNew(0) will fail and emit `CatchEvent`
-    // executeNew(1) will fail and emit `CatchByte`
-    // executeNew(2) will succeed and emit `SuccessEvent`
+    // 在创建新合约中使用try-catch （合约创建被视为external call）
+    // executeNew(0)会失败并释放`CatchEvent`
+    // executeNew(1)会失败并释放`CatchByte`
+    // executeNew(2)会成功并释放`SuccessEvent`
     function executeNew(uint a) external returns (bool success) {
         try new OnlyEven(a) returns(OnlyEven _even){
-            // if call succeeds
+            // call成功的情况下
             emit SuccessEvent();
             success = _even.onlyEven(a);
         } catch Error(string memory reason) {
-            // catch revert("reasonString") and require(false, "reasonString")
+            // catch失败的 revert() 和 require()
             emit CatchEvent(reason);
         } catch (bytes memory reason) {
-            // catch assert() of failure, the error type of assert is Panic(uint256) instead of Error(string), so it will go into this branch
+            // catch失败的 assert()
             emit CatchByte(reason);
         }
     }
 ```
 
-### verify on remix
+### 在remix上验证
 
-When running `executeNew(0)`, because `0` doesn't satisfy `require(a != 0, "invalid number");`, the call will fail and `CatchEvent` is released.
+当运行`executeNew(0)`时，因为`0`不满足`require(a != 0, "invalid number");`，会失败并释放`CatchEvent`事件。
 
-![](./img/30-3_en.jpg)
+![](./img/30-3.png)
 
-When running `executeNew(1)`, because `1` doesn't satisfy `assert(a != 1);`, the call will fail and `CatchByte` is released.
+当运行`executeNew(1)`时，因为`1`不满足`assert(a != 1);`，会失败并释放`CatchByte`事件。
 
-![](./img/30-4_en.jpg)
+![](./img/30-4.png)
 
-When running `executeNew(2)`, because `2` satisfy `require(a != 0, "invalid number");` and `assert(a != 1);`, the call succeeds and `SuccessEvent` is released.
+当运行`executeNew(2)`时，因为`2`满足`require(a != 0, "invalid number");`和`assert(a != 1);`，会成功并释放`SuccessEvent`事件。
 
-![](./img/30-5_en.jpg)
+![](./img/30-5.png)
 
-## Summary
-In this chapter, we introduced how to use `try-catch` in `solidity` to handle exceptions in the operation of smart contracts.
+## 总结
+在这一讲，我们介绍了如何在`solidity`使用`try-catch`来处理智能合约运行中的异常：
+- 只能用于外部合约调用和合约创建。
+- 如果`try`执行成功，返回变量必须声明，并且与返回的变量类型相同。
 
 <QuizForm courseId={SOLIDITY_ADVANCED_ID} lessonId={SOLIDITY_ADVANCED_LESSON_ID_15} />
