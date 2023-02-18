@@ -1,9 +1,8 @@
 import React,{useState} from 'react';
 import Translate from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
-import {Redirect} from '@docusaurus/router';
+import {useHistory, useLocation, Redirect, matchPath} from '@docusaurus/router';
 import useIsBrowser from '@docusaurus/useIsBrowser';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageLearningCenter from '@site/src/components/HomepageLearningCenter';
@@ -63,16 +62,16 @@ function HomepageHeader() {
 
 export default function Home() {
     const {siteConfig} = useDocusaurusContext();
-    const isBrowser = useIsBrowser();
-    // const [isRedirect, setIsRedirect] = useState(false);
-    const lang = isBrowser ? window.navigator.language || window.navigator.userLanguage : null;
-    const langInConfig = siteConfig.i18n.locales.includes(lang);
-    if(langInConfig && (lang != siteConfig.defaultLocale)){
-        // setIsRedirect(true);
-        return (
-            <Redirect to={useBaseUrl(`${lang}`)}></Redirect>
-        )
-    }
+    // const isBrowser = useIsBrowser();
+    // const location = useLocation();
+    
+    // const lang = isBrowser ? window.navigator.language || window.navigator.userLanguage : null;
+    // const langInConfig = siteConfig.i18n.locales.includes(lang);
+    // if(langInConfig && (lang != siteConfig.defaultLocale) && !location.pathname.includes(lang)){
+    //     return (
+    //         <Redirect to={`${lang}/learning-center`}></Redirect>
+    //     )
+    // }
     
     return (
         <Layout
