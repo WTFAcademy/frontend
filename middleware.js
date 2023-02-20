@@ -14,8 +14,8 @@ export default function middleware(request) {
   // You can also get the country using dot notation on the function
   // const country = geolocation(request).country;
 
-  if (BLOCKED_COUNTRY.includes(country)) {
-    url.pathname = '/zh';
+  if (!BLOCKED_COUNTRY.includes(country)) {
+    url.pathname = '/en';
   } else {
     url.pathname = '/index.html';
   }
