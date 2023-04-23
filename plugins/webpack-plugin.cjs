@@ -6,6 +6,9 @@ function webpackPlugin(context, options) {
         name: 'webpack-plugin',
         configureWebpack(config) {
             return {
+                experiments: {
+                    "topLevelAwait": true,
+                },
                 module: {
                     rules: [
                         {

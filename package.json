@@ -40,17 +40,28 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-tooltip": "^4.4.3",
+    "solive-docusaurus-theme-code": "0.0.5",
     "wagmi": "^0.7.9"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.0.0-rc.1",
+    "assert": "^2.0.0",
+    "browserify-zlib": "^0.2.0",
     "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.0",
+    "events": "^3.3.0",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "postcss-import": "15.0.0",
     "postcss-preset-env": "7.8.2",
     "process": "0.11.10",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
     "tailwindcss": "^3.2.2",
-    "url": "^0.11.0"
+    "tty-browserify": "^0.0.1",
+    "url": "^0.11.0",
+    "util": "^0.12.5"
   },
   "browserslist": {
     "production": [
