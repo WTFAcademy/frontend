@@ -54,7 +54,7 @@ const config = {
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'WTFAcademy', // Usually your GitHub org/user name.
   projectName: 'frontend', // Usually your repo name.
-
+  themes: ['solive-docusaurus-theme-code'],
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
