@@ -18,8 +18,8 @@ export default function QuizProgress(props) {
                 {get(data, 'data.lesson.estimated_time')}
             </div>
             <div className={styles.quizProgressScore}>
-                <Translate id="component.QuizProgress.score">Score: </Translate>
-                {get(data, 'data.lesson.score_percent')}%
+                <Translate id="component.QuizProgress.score">Best Score: </Translate>
+                {get(data, 'data.lesson.score_percent')}
             </div>
         </div>
     );
