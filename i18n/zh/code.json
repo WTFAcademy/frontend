@@ -367,8 +367,8 @@
     "description": "The label of the time"
   },
   "component.QuizProgress.score": {
-    "message": "成绩：",
-    "description": "The label of the score"
+    "message": "最好成绩：",
+    "description": "The label of the best score"
   },
   "component.QuizForm.button.test": {
     "message": "测试",
