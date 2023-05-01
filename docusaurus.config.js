@@ -189,7 +189,7 @@ const config = {
               },
               {
                 label: 'Mirror',
-                href: 'https://mirror.xyz/ninjak.eth/collection',
+                href: 'https://mirror.xyz/wtfacademy.eth/collection',
               },
             ],
           },

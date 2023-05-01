@@ -45,7 +45,7 @@
   },
   "link.item.label.Mirror": {
     "message": "Mirror",
-    "description": "The label of footer link with label=Mirror linking to https://mirror.xyz/ninjak.eth/collection"
+    "description": "The label of footer link with label=Mirror linking to https://mirror.xyz/wtfacademy.eth/collection"
   },
   "copyright": {
     "message": "© 2023 WTF Academy.",
