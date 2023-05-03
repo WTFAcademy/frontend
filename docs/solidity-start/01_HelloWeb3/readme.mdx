@@ -81,6 +81,18 @@ contract HelloWeb3{
 
 部署成功后，你会在下面看到名为`HelloWeb3`的合约，点击`_string`，就能看到我们代码中写的 “Hello Web3!” 了。
 
+## 使用 SoLive 编译部署合约
+
+[SoLive](https://solive.wtf) 是一个开源的轻量级 Solidity 试验场，你可以使用它编辑、编译、部署、并和智能合约交互。快点尝试一下吧！
+
+```solidity solive height=400px
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
+contract HelloWeb3{
+    string public _string = "Hello Web3!";
+}
+```
+
 ## 总结
 这一讲，我们简单介绍了`solidity`，`remix`工具，并完成了第一个`solidity`程序--`HelloWeb3`。下面我们将继续`solidity`旅程！
 
