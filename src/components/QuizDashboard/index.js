@@ -28,7 +28,7 @@ export default function QuizDashboard(props) {
     return (
         <div className={styles.quizDashboard}>
             <div className={styles.quizToc}>
-                <h2><Translate id="component.QuizDashboard.title">Catalogue</Translate></h2>
+                <h2><Translate id="component.QuizDashboard.title">Dashboard</Translate></h2>
                 <div className={styles.quizBox}>
                     <ul className={styles.quizList}>
                         {get(data, 'data.list', []).map((props, idx) => (
