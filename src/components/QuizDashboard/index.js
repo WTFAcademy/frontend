@@ -6,6 +6,7 @@ import get from 'lodash/get';
 import styles from './styles.module.css';
 import {getLessons} from "../../api/course";
 import Translate from '@docusaurus/Translate';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 const quizCertificationImg = require('@site/static/img/soliditylogo.png').default;
 
@@ -13,12 +14,13 @@ export default function QuizDashboard(props) {
     const {courseId} = props;
     const {data} = useRequest(() => getLessons(courseId));
     const history = useHistory();
+    const { i18n } = useDocusaurusContext();
 
-    function Course({id, sort, estimated_time, lesson_title, score_percent, is_finish, route_path}) {
+    function Course({ id, sort, estimated_time, lesson_title, score_percent, is_finish, route_path, en_title}) {
         return (
             <li className={styles.quizListItem}>
                 <Link to={`/${route_path}`}>
-                    <div className={styles.quizListItemInner}>{sort}.{lesson_title}({estimated_time})</div>
+                    <div className={styles.quizListItemInner}>{sort}.{i18n.currentLocale === 'zh' ? lesson_title : en_title}({i18n.currentLocale === 'zh' ? estimated_time : estimated_time.replace('分钟', 'min')})</div>
                     <div className={styles.quizListItemInner}>{is_finish ? '✅' : '❌'}({score_percent}%)</div>
                 </Link>
             </li>
