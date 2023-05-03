@@ -1,5 +1,5 @@
 ---
-title: 9. 常数
+title: 9. Constant and Immutable
 tags:
   - solidity
   - basic
@@ -11,43 +11,55 @@ import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
 import { SOLIDITY_COURSE_ID, SOLIDITY_BASIC_LESSON_ID_9 } from '@site/src/constants/course';
 
-# Solidity极简入门: 9. 常数 constant和immutable
+# WTF Solidity: 9. Constant and Immutable
 
 <QuizProgress  courseId={SOLIDITY_COURSE_ID} lessonId={SOLIDITY_BASIC_LESSON_ID_9}></QuizProgress>
 
-我最近在重新学solidity，巩固一下细节，也写一个“WTF Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
-推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
+Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
 
-社区：[Discord](https://discord.wtf.academy)｜[微信群](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[官网 wtf.academy](https://wtf.academy)
+Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
 
-所有代码和教程开源在github: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+
 
 -----
-这一讲，我们介绍`solidity`中两个关键字，`constant`（常量）和`immutable`（不变量）。状态变量声明这个两个关键字之后，不能在合约后更改数值；并且还可以节省`gas`。另外，只有数值变量可以声明`constant`和`immutable`；`string`和`bytes`可以声明为`constant`，但不能为`immutable`。
 
-## constant和immutable
+In this section, we will introduce two keywords to restrict modifications to their state in Solidity: `constant` and `immutable`. If a state variable is declared with `constant` or `immutable`, its value cannot be modified after contract compilation.
+
+Value-typed variables can be declared as `constant` and `immutable`; `string` and `bytes` can be declared as `constant`, but not `immutable`.
+
+## constant and immutable
+
 ### constant
-`constant`变量必须在声明的时候初始化，之后再也不能改变。尝试改变的话，编译不通过。
+
+`constant` variable must be initialized during declaration and cannot be changed afterwards. Any modification attempt will result in error at compilation. 
+
 ``` solidity
-    // constant变量必须在声明的时候初始化，之后不能改变
+    // The constant variable must be initialized when declared and cannot be changed after that
     uint256 constant CONSTANT_NUM = 10;
     string constant CONSTANT_STRING = "0xAA";
     bytes constant CONSTANT_BYTES = "WTF";
     address constant CONSTANT_ADDRESS = 0x0000000000000000000000000000000000000000;
 ```
-### immutable
-`immutable`变量可以在声明时或构造函数中初始化，因此更加灵活。
+
+### Immutable
+
+The `immutable` variable can be initialized during declaration or in the constructor, which is more flexible.
+
 ``` solidity
-    // immutable变量可以在constructor里初始化，之后不能改变
+    // The immutable variable can be initialized in the constructor and cannot be changed later
     uint256 public immutable IMMUTABLE_NUM = 9999999999;
     address public immutable IMMUTABLE_ADDRESS;
     uint256 public immutable IMMUTABLE_BLOCK;
     uint256 public immutable IMMUTABLE_TEST;
 ```
-你可以使用全局变量例如`address(this)`，`block.number` ，或者自定义的函数给`immutable`变量初始化。在下面这个例子，我们利用了`test()`函数给`IMMUTABLE_TEST`初始化为`9`：
+
+You can initialize the `immutable` variable using a global variable such as `address(this)`, `block.number`, or a custom function. In the following example, we use the `test()` function to initialize the `IMMUTABLE_TEST` variable to a value of `9`:
+
 ``` solidity
-    // 利用constructor初始化immutable变量，因此可以利用
+    // The immutable variables are initialized with constructor, so that could use
     constructor(){
         IMMUTABLE_ADDRESS = address(this);
         IMMUTABLE_BLOCK = block.number;
@@ -60,21 +72,23 @@ import { SOLIDITY_COURSE_ID, SOLIDITY_BASIC_LESSON_ID_9 } from '@site/src/consta
     }
 ```
 
-## 在remix上验证
-1. 部署好合约之后，通过remix上的`getter`函数，能获取到`constant`和`immutable`变量初始化好的值。
+
+## Verify on Remix
+
+1. After the contract is deployed, You can obtain the values of the `constant` and `immutable` variables through the `getter` function. 
 
    ![9-1.png](./img/9-1.png)   
    
-2. `constant`变量初始化之后，尝试改变它的值，会编译不通过并抛出`TypeError: Cannot assign to a constant variable.`的错误。
-
+2. After `constant` variable is initialized, any attempt to change its value will result. In the example, the compiler throws: `TypeError: Cannot assign to a constant variable.`
 
    ![9-2.png](./img/9-2.png)   
    
-3. `immutable`变量初始化之后，尝试改变它的值，会编译不通过并抛出`TypeError: Immutable state variable already initialized.`的错误。
+3. After `immutable` variable is initialized, any attempt to change its value will result. In the example, the compiler throws: `TypeError: Immutable state variable already initialized.`
 
    ![9-3.png](./img/9-3.png)
 
-## 总结
-这一讲，我们介绍`solidity`中两个关键字，`constant`（常量）和`immutable`（不变量），让不应该变的变量保持不变。这样的做法能在节省`gas`的同时提升合约的安全性。
+## Summary
+
+In this section, we introduced two keywords to restrict modifications to their state in Solidity: `constant` and `immutable`. They keep the variables that should not be changed unchanged. It will help to save `gas` while improving the contract's security.
 
 <QuizForm  courseId={SOLIDITY_COURSE_ID} lessonId={SOLIDITY_BASIC_LESSON_ID_9}></QuizForm>

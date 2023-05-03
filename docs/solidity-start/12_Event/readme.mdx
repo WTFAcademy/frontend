@@ -1,5 +1,5 @@
 ---
-title: 12. 事件
+title: 12. Events
 tags:
   - solidity
   - basic
@@ -11,96 +11,105 @@ import QuizProgress from '@site/src/components/QuizProgress';
 import QuizForm from '@site/src/components/QuizForm';
 import { SOLIDITY_COURSE_ID, SOLIDITY_BASIC_LESSON_ID_12 } from '@site/src/constants/course';
 
-# Solidity极简入门: 12. 事件
+# WTF Solidity: 12. Events
 
 <QuizProgress courseId={SOLIDITY_COURSE_ID} lessonId={SOLIDITY_BASIC_LESSON_ID_12}></QuizProgress>
 
-我最近在重新学solidity，巩固一下细节，也写一个“WTF Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
-推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
+Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
 
-社区：[Discord](https://discord.wtf.academy)｜[微信群](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[官网 wtf.academy](https://wtf.academy)
+Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
 
-所有代码和教程开源在github: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
 
 -----
 
-这一讲，我们用转账ERC20代币为例来介绍`solidity`中的事件（`event`）。
+In this section, we introduce `event` in Solidity, using transfer events in ERC20 tokens as an example .
 
-## 事件
-`Solidity`中的事件（`event`）是`EVM`上日志的抽象，它具有两个特点：
+## Events
+The event in `solidity` are the transaction logs stored on the `EVM` (Ethereum Virtual Machine). They can be emitted during function calls and are accessible with the contract address. Events have two characteristics：
 
-- 响应：应用程序（[`ethers.js`](https://learnblockchain.cn/docs/ethers.js/api-contract.html#id18)）可以通过`RPC`接口订阅和监听这些事件，并在前端做响应。
-- 经济：事件是`EVM`上比较经济的存储数据的方式，每个大概消耗2,000 `gas`；相比之下，链上存储一个新变量至少需要20,000 `gas`。
+- Responsive: Applications (e.g. [`ether.js`](https://learnblockchain.cn/docs/ethers.js/api-contract.html#id18)) can subscribe and listen to these events through `RPC` interface and respond at frontend.
+- Economical: It is cheap to store data in events, costing about 2,000 `gas` each. In comparison, store a new variable on-chain takes at least 20,000 `gas`.
 
-### 声明事件
-事件的声明由`event`关键字开头，接着是事件名称，括号里面写好事件需要记录的变量类型和变量名。以`ERC20`代币合约的`Transfer`事件为例：
+### Declare events
+The events are declared with the `event` keyword, followed by event name, then the type and name of each parameter to be recorded. Let's take the `Transfer` event from the `ERC20` token contract as an example：
 ```solidity
 event Transfer(address indexed from, address indexed to, uint256 value);
 ```
-我们可以看到，`Transfer`事件共记录了3个变量`from`，`to`和`value`，分别对应代币的转账地址，接收地址和转账数量，其中`from`和`to`前面带有`indexed`关键字，他们会保存在以太坊虚拟机日志的`topics`中，方便之后检索。
+`Transfer` event records three parameters: `from`，`to`, and `value`，which correspond to the address where the tokens are sent, the receiving address, and the number of tokens being transferred. Parameter `from` and `to` are marked with `indexed` keywords, which will be stored at a special data structure known as `topics` and easily queried by programs.
 
-### 释放事件
-我们可以在函数里释放事件。在下面的例子中，每次用`_transfer()`函数进行转账操作的时候，都会释放`Transfer`事件，并记录相应的变量。
+
+### Emit events
+
+We can emit events in functions. In the following example, each time the `_transfer()` function is called, `Transfer` events will be emitted and corresponding parameters will be recorded.
 ```solidity
-    // 定义_transfer函数，执行转账逻辑
+    // define _transfer function，execute transfer logic
     function _transfer(
         address from,
         address to,
         uint256 amount
     ) external {
 
-        _balances[from] = 10000000; // 给转账地址一些初始代币
+        _balances[from] = 10000000; // give some initial tokens to transfer address
 
-        _balances[from] -=  amount; // from地址减去转账数量
-        _balances[to] += amount; // to地址加上转账数量
+        _balances[from] -=  amount; // "from" address minus the number of transfer
+        _balances[to] += amount; // "to" address adds the number of transfer
 
-        // 释放事件
+        // emit event
         emit Transfer(from, to, amount);
     }
 ```
 
-## EVM日志 `Log`
+## EVM Log
 
-以太坊虚拟机（EVM）用日志`Log`来存储`Solidity`事件，每条日志记录都包含主题`topics`和数据`data`两部分。
+EVM uses `Log` to store Solidity events. Each log contains two parts: `topics` and `data`.
 
-![](img/12-3.png)
+![](img/12-3.jpg)
 
-### 主题 `Topics`
+### `Topics`
 
-日志的第一部分是主题数组，用于描述事件，长度不能超过`4`。它的第一个元素是事件的签名（哈希）。对于上面的`Transfer`事件，它的签名就是：
+`Topics` is used to describe events. Each event contains a maximum of 4 `topics`. Typically, the first `topic` is the event hash: the hash of the event signature. The event hash of `Transfer` event is calculated as follows:
+
 ```solidity
 keccak256("Transfer(addrses,address,uint256)")
 
 //0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef
 ```
-除了事件签名，主题还可以包含至多`3`个`indexed`参数，也就是`Transfer`事件中的`from`和`to`。
 
-`indexed`标记的参数可以理解为检索事件的索引“键”，方便之后搜索。每个 `indexed` 参数的大小为固定的256比特，如果参数太大了（比如字符串），就会自动计算哈希存储在主题中。
+Besides event hash, `topics` can include 3 `indexed` parameters, such as the `from` and `to` parameters in `Transfer` event. The anonymous event is special: it does not have a event name and can have 4 `indexed` parameters at maximum.
 
-### 数据 `Data`
+`indexed` parameters can be understood as the indexed "key" for events, which can be easily queried by programs. The size of each `indexed` parameter is 32 bytes. For the parameter is larger than 32 bytes, such as `array` and `string`, the hash of the underlying data is stored.
 
-事件中不带 `indexed`的参数会被存储在 `data` 部分中，可以理解为事件的“值”。`data` 部分的变量不能被直接检索，但可以存储任意大小的数据。因此一般 `data` 部分可以用来存储复杂的数据结构，例如数组和字符串等等，因为这些数据超过了256比特，即使存储在事件的 `topic` 部分中，也是以哈希的方式存储。另外，`data` 部分的变量在存储上消耗的gas相比于 `topic` 更少。
+### `Data`
 
-## `Remix`演示
-以 `Event.sol` 合约为例，编译部署。
+Non-indexed parameters will be stored in the `data` section of the log. They can be interpreted as "value" of the event and can't be retrieved directly. But they can store data with larger size. Therefore, `data` section can be used to store complex data structures, such as `array` and `string`. Moreovrer, `data` consumes less gas compared to `topic`.
 
-然后调用 `_transfer` 函数。
-![](img/12-1.jpg)
+## Remix Demo
+Let's take `Event.sol` contract as an example.
 
-点击右侧的交易查看详情，可以看到日志的具体内容。
-![](img/12-2.jpg)
+1. Deploy the `Event` contract.
 
-### 在etherscan上查询事件
-我们尝试用`_transfer()`函数在`Rinkeby`测试网络上转账100代币，可以在`etherscan`上查询到相应的`tx`：[网址](https://rinkeby.etherscan.io/tx/0x8cf87215b23055896d93004112bbd8ab754f081b4491cb48c37592ca8f8a36c7)。
+2. Call `_transfer` function to emit `Transfer` event.
 
-点击`Logs`按钮，就能看到事件明细：
+![](./img/12-1_en.jpg)
 
-![Event明细](https://images.mirror-media.xyz/publication-images/gx6_wDMYEl8_Gc_JkTIKn.png?height=980&width=1772)
+3. Check transaction details to check the emitted event.
 
-`Topics`里面有三个元素，`[0]`是这个事件的哈希，`[1]`和`[2]`是我们定义的两个`indexed`变量的信息，即转账的转出地址和接收地址。`Data`里面是剩下的不带`indexed`的变量，也就是转账数量。
+![](./img/12-1_en.jpg)
 
-## 总结
-这一讲，我们介绍了如何使用和查询`solidity`中的事件。很多链上分析工具包括`Nansen`和`Dune Analysis`都是基于事件工作的。
+### Query event on etherscan
+
+Etherscan is a block explorer that lets you view public data on transactions, smart contracts, and more on the Ethereum blockchain. First, I deployed the contract to an ethereum testnet (Rinkeby or Goerli). Second, I called the `_transfer` function to transfer 100 tokens. After that, you can check the transaction details on `etherscan`：[URL](https://rinkeby.etherscan.io/tx/0x8cf87215b23055896d93004112bbd8ab754f081b4491cb48c37592ca8f8a36c7)
+
+Click `Logs` button to check the details of the event：
+
+![details of event](https://images.mirror-media.xyz/publication-images/gx6_wDMYEl8_Gc_JkTIKn.png?height=980&width=1772)
+
+There are 3 elements in `Topics`: `[0]` is hash of the event, `[1]` and `[2]` are the `indexed` parameters defined in `Transfer` event (`from` and `to`). The element in `Data` is the non-indexed parameter `amount`.
+
+## Summary
+In this lecture, we introduced how to use and query events in `solidity`. Many on-chain analysis tools are based on solidity events, such as `Dune Analytics`.
 
 <QuizForm courseId={SOLIDITY_COURSE_ID} lessonId={SOLIDITY_BASIC_LESSON_ID_12}></QuizForm>
