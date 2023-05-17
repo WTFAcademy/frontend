@@ -57,3 +57,8 @@ import { cn } from "@/lib/utils" --> import { cn } from "@site/src/utils/class-u
 ```
 使用@site开头的别名路径
 ```
+
+2. pages书写规范
+```
+根据docusaurus的规范，pages下的文件夹名为路由名，使用"_"标记的组件不会当做一个页面来创建路由
+```

@@ -1,8 +1,8 @@
-.navbar__link > svg {
-    display: inline-block;
+.navbar__inner {
+    @apply md:container;
 }
 
-
+.navbar__link > svg,
 .footer__link-item > svg {
-    display: inline-block;
+    @apply inline-block;
 }
