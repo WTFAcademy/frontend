@@ -6,6 +6,7 @@ import {Toaster} from "react-hot-toast";
 export default function Root({children}) {
     const [uid, setUid] = useState(undefined);
 
+
     return (
         <GlobalContext.Provider value={{uid, setUid}}>
             {children}

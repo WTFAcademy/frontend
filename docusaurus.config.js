@@ -78,9 +78,9 @@ const config = {
                 blog: false,
                 theme: {
                     customCss: [
-                        require.resolve('./src/css/custom.css'),
-                        require.resolve('./src/css/tailwind.css'),
-                        require.resolve('./src/css/other.css'),
+                        require.resolve('./src/styles/docusaurus.css'),
+                        require.resolve('./src/styles/tailwind.css'),
+                        require.resolve('./src/styles/other.css'),
                     ],
                 },
             }),

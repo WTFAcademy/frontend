@@ -6,7 +6,6 @@
     "paths": {
       "@theme/*": ["src/theme/*"],
       "@site/*": ["*"],
-      "@src/*": ["src/*"],
     }
   }
 }

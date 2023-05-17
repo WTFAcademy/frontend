@@ -1,0 +1,8 @@
+.navbar__link > svg {
+    display: inline-block;
+}
+
+
+.footer__link-item > svg {
+    display: inline-block;
+}
