@@ -6,7 +6,6 @@ specifiers:
   '@docusaurus/preset-classic': 2.4.0
   '@docusaurus/theme-common': ^2.4.0
   '@docusaurus/types': ^2.4.0
-  '@headlessui/react': ^1.7.14
   '@heroicons/react': ^2.0.17
   '@mdx-js/react': ^1.6.22
   '@radix-ui/react-slot': ^1.0.1
@@ -51,7 +50,6 @@ dependencies:
   '@docusaurus/core': 2.4.0_zcl4wkdn7kwt6i7wor67svjm24
   '@docusaurus/preset-classic': 2.4.0_jgxnvbe4faw3ohf4h6p42qq6oy
   '@docusaurus/theme-common': 2.4.0_zcl4wkdn7kwt6i7wor67svjm24
-  '@headlessui/react': 1.7.14_sfoxds7t5ydpegc3knd667wn6m
   '@heroicons/react': 2.0.17_react@17.0.2
   '@mdx-js/react': r2.cnpmjs.org/@mdx-js/react/1.6.22_react@17.0.2
   '@radix-ui/react-slot': 1.0.1_react@17.0.2

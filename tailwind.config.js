@@ -10,10 +10,34 @@ module.exports = {
             padding: "2rem",
             screens: {
                 "2xl": "1400px"
-            }
+            },
         },
         extend: {
             colors: {
+                // WTF 基础变量
+                gray: {
+                    DEFAULT: "var(--wtf-gray)",
+                    50: "var(--wtf-gray-50)",
+                    100: "var(--wtf-gray-100)",
+                    200: "var(--wtf-gray-200)",
+                    300: "var(--wtf-gray-300)",
+                    400: "var(--wtf-gray-400)",
+                    500: "var(--wtf-gray-500)",
+                    600: "var(--wtf-gray-600)",
+                    700: "var(--wtf-gray-700)",
+                    800: "var(--wtf-gray-800)",
+                    900: "var(--wtf-gray-900)"
+                },
+                blue: {
+                    DEFAULT: "var(--wtf-blue)",
+                    50: "var(--wtf-blue-50)",
+                    100: "var(--wtf-blue-100)",
+                    200: "var(--wtf-blue-200)",
+                    600: "var(--wtf-blue-600)",
+                    700: "var(--wtf-blue-700)",
+                    800: "var(--wtf-blue-800)"
+                },
+                // UI 变量
                 background: "var(--ui-background)",
                 foreground: "var(--ui-background-foreground)",
                 primary: {
