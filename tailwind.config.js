@@ -15,6 +15,13 @@ module.exports = {
         extend: {
             colors: {
                 // WTF 基础变量
+                white: "var(--wtf-white)",
+                black: "var(--wtf-black)",
+                transparent: "var(--wtf-transparent)",
+                brand: {
+                    primary: "var(--wtf-brand-primary)",
+                    secondary: "var(--wtf-brand-secondary)",
+                },
                 gray: {
                     DEFAULT: "var(--wtf-gray)",
                     50: "var(--wtf-gray-50)",

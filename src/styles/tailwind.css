@@ -186,7 +186,6 @@
     }
 }
 
-
 @layer utilities {
     .h-safe-screen {
         height: calc(100vh - 60px);
