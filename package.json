@@ -40,7 +40,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-tooltip": "^4.4.3",
-    "solive-docusaurus-theme-code": "0.0.5",
+    "solive-docusaurus-theme-code": "*",
     "wagmi": "^0.7.9"
   },
   "devDependencies": {
