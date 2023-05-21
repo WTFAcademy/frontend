@@ -95,7 +95,9 @@ module.exports = {
                 sm: "calc(var(--ui-radius) - 4px)"
             },
             fontFamily: {
-                sans: ["var(--font-sans)", ...fontFamily.sans]
+                sans: ["var(--font-sans)", ...fontFamily.sans],
+                ubuntu: ["Ubuntu", ...fontFamily.sans],
+                press_start_2p: ["PressStart2P", ...fontFamily.sans]
             },
             keyframes: {
                 "accordion-down": {
@@ -110,10 +112,6 @@ module.exports = {
             animation: {
                 "accordion-down": "accordion-down 0.2s ease-out",
                 "accordion-up": "accordion-up 0.2s ease-out"
-            },
-            boxShadow: {
-                "chat-shadow": "0px 0px 8px -2px rgba(0, 0, 0, 0.25)",
-                "role-tag-shadow": "0px 0px 6px -2px rgba(0, 0, 0, 0.25)",
             }
         }
     },

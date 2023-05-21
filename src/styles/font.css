@@ -1,0 +1,34 @@
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('/static/fonts/Ubuntu-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('/static/fonts/Ubuntu-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('/static/fonts/Ubuntu-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('/static/fonts/Ubuntu-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PressStart2P';
+    src: url("/static/fonts/PressStart2P-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}

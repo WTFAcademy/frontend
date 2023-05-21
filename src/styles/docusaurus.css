@@ -1,3 +1,8 @@
+
+.navbar__logo {
+    height: 40px;
+}
+
 .navbar__inner {
     @apply md:container;
 }

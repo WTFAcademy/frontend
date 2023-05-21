@@ -94,11 +94,12 @@ const config = {
     themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
         ({
-            image: 'img/wtflogo.png',
+            image: 'img/logo.png',
             navbar: {
                 logo: {
                     alt: 'WTF Logo',
-                    src: 'img/wtflogo.png',
+                    src: 'img/logo.png',
+                    height: '40px',
                 },
                 items: [
                     // {
@@ -141,8 +142,8 @@ const config = {
             },
             footer: {
                 logo: {
-                    src: 'img/wtflogo.png',
-                    height: '36px',
+                    src: 'img/logo.png',
+                    height: '40px',
                 },
                 links: [
                     {
