@@ -1,0 +1,219 @@
+@import "font.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ================================================== */
+/* ==================== WTF UI变量 =================== */
+/* ================================================== */
+
+/**
+ *  WTF基础变量（此处不需要考虑暗黑模式，变量为最基础的变量）
+ *  注意：由于UI库和Docusaurus有各自的命名规范，故考虑提取WTF设计基础变量，在两个命名规范下使用我们自由的变量颜色以达到统一
+ */
+@layer base {
+    :root {
+        --wtf-brand-secondary: #274BC9;
+        --wtf-brand-primary: #F85800;
+
+        --wtf-white: #fff;
+        --wtf-black: #000;
+        --wtf-transparent: transparent;
+
+        --wtf-gray-50: #F9FAFB;
+        --wtf-gray-100: #F3F4F6;
+        --wtf-gray-200: #E5E7EB;
+        --wtf-gray-300: #D1D5DB;
+        --wtf-gray-400: #9CA3AF;
+        --wtf-gray-500: #6B7280;
+        --wtf-gray-600: #4B5563;
+        --wtf-gray-700: #374151;
+        --wtf-gray-800: #1F2937;
+        --wtf-gray-900: #111827;
+
+        --wtf-blue-50: #EFF6FF;
+        --wtf-blue-100: #DBEAFE;
+        --wtf-blue-200: #BFDBFE;
+        --wtf-blue-600: #2563EB;
+        --wtf-blue-700: #1D4ED8;
+        --wtf-blue-800: #1E40AF;
+
+        --wtf-red-600: #DC2626;
+        --wtf-red-800: #991B1B;
+
+        --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+    }
+}
+
+/* UI变量 */
+@layer base {
+    :root {
+        /* primary */
+        --ui-primary: var(--wtf-brand-secondary);
+        --ui-primary-foreground: var(--wtf-white);
+
+        /* secondary */
+        --ui-secondary: var(--wtf-gray-500);
+        --ui-secondary-foreground: var(--wtf-white);
+
+        /* background */
+        --ui-background: var(--wtf-gray-50);
+        --ui-background-foreground: var(--wtf-gray-900);
+
+        /* muted (Muted backgrounds such as <TabsList />, <Skeleton /> and <Switch />) */
+        --ui-muted: #F1F5F9;
+        --ui-muted-foreground: #64748B;
+
+        /* card */
+        --ui-card: var(--wtf-white);
+        --ui-card-foreground: var(--wtf-gray-900);
+
+        /* popover */
+        --ui-popover: var(--wtf-white);
+        --ui-popover-foreground: var(--wtf-gray-900);
+
+        /* border */
+        --ui-border: var(--wtf-gray-200);
+        /* Border color for inputs such as <Input />, <Select />, <Textarea /> */
+        --ui-border-input: var(--wtf-gray-300);
+
+        /* accents(hover effects on <DropdownMenuItem>, <SelectItem>...etc) */
+        --ui-accents: var(--wtf-gray-200);
+        --ui-accents-foreground: var(--wtf-gray-900);
+
+        /* destructive (Used for destructive actions such as <Button variant="destructive">) */
+        --ui-destructive: var(--wtf-red-600);
+        --ui-destructive-foreground: var(--wtf-white);
+
+        /* ring */
+        --ui-ring: #94A3B8;
+
+        /* switch */
+        --ui-switch: var(--ui-primary);
+        --ui-switch-foreground: var(--wtf-white);
+
+        /* radius */
+        --ui-radius: 8px;
+    }
+
+    [data-theme='dark'] {
+        /* primary */
+        --ui-primary: var(--wtf-white);
+        --ui-primary-foreground: var(--wtf-brand-secondary);
+
+        /* secondary */
+        --ui-secondary: var(--wtf-gray-500);
+        --ui-secondary-foreground: var(--wtf-white);
+
+        /* background */
+        --ui-background: #040311;
+        --ui-background-foreground: var(--wtf-white);
+
+        /* muted (Muted backgrounds such as <TabsList />, <Skeleton /> and <Switch />) */
+        --ui-muted: #0F1229;
+        --ui-muted-foreground: #808EA3;
+
+        /* card */
+        --ui-card: #030711;
+        --ui-card-foreground: var(--wtf-white);
+
+        /* popover */
+        --ui-popover: #030711;
+        --ui-popover-foreground: var(--wtf-white);
+
+        /* border */
+        --ui-border: #1D283A;
+        /* Border color for inputs such as <Input />, <Select />, <Textarea /> */
+        --ui-border-input: #1D283A;
+
+        /* accents(hover effects on <DropdownMenuItem>, <SelectItem>...etc) */
+        --ui-accents: #1D283A;
+        --ui-accents-foreground: var(--wtf-white);
+
+        /* destructive (Used for destructive actions such as <Button variant="destructive">) */
+        --ui-destructive: #811D1D;
+        --ui-destructive-foreground: var(--wtf-white);
+
+        /* ring */
+        --ui-ring: #1D283A;
+
+        /* switch */
+        --ui-switch: var(--ui-primary);
+        --ui-switch-foreground: var(--wtf-white);
+
+        /* radius */
+        --ui-radius: 8px;
+    }
+}
+
+/* Docusaurus变量覆写 */
+@layer base {
+    :root {
+        --ifm-color-primary: var(--wtf-brand-secondary);
+        --ifm-color-primary-dark: var(--wtf-blue-600);
+        --ifm-color-primary-darker: var(--wtf-blue-700);
+        --ifm-color-primary-darkest: var(--wtf-blue-800);
+        --ifm-color-primary-light: var(--wtf-blue-200);
+        --ifm-color-primary-lighter: var(--wtf-blue-100);
+        --ifm-color-primary-lightest: var(--wtf-blue-50);
+        --ifm-hover-overlay: var(--wtf-gray-200);
+        --ifm-code-font-size: 95%;
+        --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+    }
+
+    [data-theme='dark'] {
+        --ifm-color-primary: var(--wtf-brand-secondary);
+        --ifm-color-primary-dark: var(--wtf-blue-600);
+        --ifm-color-primary-darker: var(--wtf-blue-700);
+        --ifm-color-primary-darkest: var(--wtf-blue-800);
+        --ifm-color-primary-light: var(--wtf-blue-200);
+        --ifm-color-primary-lighter: var(--wtf-blue-100);
+        --ifm-color-primary-lightest: var(--wtf-blue-50);
+        --ifm-hover-overlay: var(--wtf-gray-200);
+        --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* ================================================== */
+/* ==================== 自定义样式类 ================== */
+/* ================================================== */
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground text-gray-900;
+        font-feature-settings: "rlig" 1, "calt" 1;
+    }
+}
+
+@layer components {
+    .bg-image {
+        background-image: url('/static/img/banner.png');
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+    }
+
+    .container-md {
+        width: 100%;
+        margin-right: auto;
+        margin-left: auto;
+        padding-right: 2rem/* 32px */;
+        padding-left: 2rem/* 32px */;
+    }
+    @media (min-width: 1400px) {
+        .container-md {
+            max-width: 1028px;
+        }
+    }
+}
+
+@layer utilities {
+    .h-safe-screen {
+        height: calc(100vh - 60px);
+    }
+}
