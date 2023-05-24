@@ -11,7 +11,7 @@ function PersonalList() {
             <TabsContent value="certificates">
                 <div className="relative w-[300px] h-[180px] rounded-xl overflow-hidden">
                     <div className="absolute w-full h-full">
-                        <img src={require('@site/static/img/soliditypass1.jpg').default} className="object-cover w-full h-full" alt="Solidity Pass 1" />
+                        <img src={require('@site/static/img/solidity-pass-1.jpg').default} className="object-cover w-full h-full" alt="Solidity Pass 1" />
                     </div>
                     <div className="absolute w-full h-full bg-black opacity-50 z-0"></div>
                     <div className="absolute p-3 h-full flex flex-col items-start justify-end z-10">
@@ -27,7 +27,7 @@ function PersonalList() {
                 </div>
                 <div className="relative w-[300px] h-[180px] rounded-xl overflow-hidden">
                     <div className="absolute w-full h-full">
-                        <img src={require('@site/static/img/soliditypass2.jpg').default} className="object-cover w-full h-full" alt="Solidity Pass 2" />
+                        <img src={require('@site/static/img/solidity-pass-2.jpg').default} className="object-cover w-full h-full" alt="Solidity Pass 2" />
                     </div>
                     <div className="absolute w-full h-full bg-black opacity-50 z-0"></div>
                     <div className="absolute p-3 h-full flex flex-col items-start justify-end z-10">
