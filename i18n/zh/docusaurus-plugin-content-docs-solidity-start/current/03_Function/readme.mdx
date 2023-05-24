@@ -146,6 +146,25 @@ solidity官方文档里把函数归到数值类型，但我觉得差别很大，
 **Example:**
 ![3-2.png](./img/3-2.png)
 
+
+## 代码练习
+
+[SoLive](https://solive.wtf) 是第一个开源轻量级的Solidity集成开发环境，可轻松整合到网站、文档和教程中。由 WTF Academy 开发，受 Remix IDE 和 react-live 启发。
+
+尝试补全下面的合约，让它成功通过编译！
+
+```solidity solive height=400px
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
+contract Quiz3{
+    // 补全下面的函数，让它计算 x 和 y的和
+    function sum(uint x, uint y) external{
+
+    }
+}
+```
+
+
 ## 总结
 在这一讲，我们介绍了`solidity`中的函数类型，比较难理解的是`pure`和`view`，在其他语言中没出现过。`solidity`引入`pure`和`view`关键字主要是为了节省`gas`和控制函数权限：如果用户直接调用`pure`/`view`方程是不消耗`gas`的（合约中非`pure`/`view`函数调用它们则会改写链上状态，需要付gas）。
 
