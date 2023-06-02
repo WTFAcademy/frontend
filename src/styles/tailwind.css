@@ -205,6 +205,14 @@
         padding-right: 2rem/* 32px */;
         padding-left: 2rem/* 32px */;
     }
+
+    .personal-bg-image {
+        background-image: url('/static/img/personalbanner.jpg');
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+    }
+
     @media (min-width: 1400px) {
         .container-md {
             max-width: 1028px;

@@ -1,6 +1,6 @@
 import React from "react";
 import Tag from "@site/src/components/ui/Tag";
-import ProfileIcon from "@site/src/icons/profile";
+import ProfileIcon from "@site/src/icons/Profile";
 import CertificateIcon from "@site/src/icons/Certificate";
 import PrToEarnIcon from "@site/src/icons/PrToEarn";
 import CommunityIcon from "@site/src/icons/Community";
