@@ -8,20 +8,19 @@ import GithubIcon from '@site/src/icons/Github';
 import TwitterIcon from '@site/src/icons/Twitter';
 
 function copyToClipboard(text) {
-  const textarea = document.createElement('textarea');
-  textarea.value = text;
-  document.body.appendChild(textarea);
-  textarea.select();
-  document.execCommand('copy');
-  document.body.removeChild(textarea);
+  navigator.clipboard.writeText(text).then(() => {
+    console.log("Copied to clipboard successfully!");
+  }, (error) => {
+    console.error("Failed to copy text: ", error);
+  });
 }
 
 function PersonalInfo() {
   
     const address = '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045';
 
-    const firstFive = _.slice(address, 0, 5); // 获取前4位字符
-    const lastFour = _.slice(address, -4); // 获取后5位字符
+    const firstFive = _.slice(address, 0, 5);
+    const lastFour = _.slice(address, -4);
 
     const handleCopy = () => {
         copyToClipboard(address);
