@@ -27,9 +27,9 @@ function PersonalInfo() {
     };
 
     return (
-      <div className="w-[280px] p-8 mr-12 flex flex-col flex-shrink-0 box-border border border-gray-300 rounded-md overflow-hidden">
-          <p className="text-gray-500 text-sm leading-5 mb-6">DAO, AGI Researcher | Ex-Tencent Cloud (DevOps) Sr. Prod. Designer → Web3 Builder | Figma Developer - Quick Commands</p>
-          <div className="text-gray-700 mb-6 flex items-center">
+      <div className="box-border flex flex-col flex-shrink-0 w-full p-8 mr-12 overflow-hidden border border-gray-300 rounded-md md:w-[280px]">
+          <p className="mb-6 text-sm leading-5 text-gray-500">DAO, AGI Researcher | Ex-Tencent Cloud (DevOps) Sr. Prod. Designer → Web3 Builder | Figma Developer - Quick Commands</p>
+          <div className="flex items-center mb-6 text-gray-700">
               <EthereumIcon />
               <p className="mx-2">{firstFive}...{lastFour}</p>
               <div className="cursor-pointer" onClick={handleCopy}>
@@ -37,7 +37,7 @@ function PersonalInfo() {
               </div>
           </div>
           <div className="w-full h-px mb-6 bg-gray-200"></div>
-          <div className="mb-6 flex flex-col">
+          <div className="flex flex-col mb-6">
               <div className="flex items-center justify-start">
                   <GithubIcon />
                   <p className="ml-2.5">tank@wtf.academy</p>
