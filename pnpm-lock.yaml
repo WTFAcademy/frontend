@@ -12,6 +12,7 @@ specifiers:
   '@radix-ui/react-switch': ^1.0.2
   '@radix-ui/react-tabs': ^1.0.3
   '@rainbow-me/rainbowkit': ^0.12.12
+  '@supabase/supabase-js': ^2.24.0
   '@tsconfig/docusaurus': ^1.0.5
   ahooks: ^3.7.7
   assert: ^2.0.0
@@ -21,7 +22,7 @@ specifiers:
   class-variance-authority: ^0.6.0
   clsx: ^1.2.1
   crypto-browserify: ^3.12.0
-  ethers: ^6.3.0
+  ethers: ^5.7.2
   events: ^3.3.0
   https-browserify: ^1.0.0
   lodash: ^4.17.21
@@ -45,6 +46,7 @@ specifiers:
   typescript: ^4.7.4
   url: ^0.11.0
   util: ^0.12.5
+  viem: ^0.3.50
   wagmi: ^0.12.13
 
 dependencies:
@@ -56,12 +58,13 @@ dependencies:
   '@radix-ui/react-slot': 1.0.1_react@17.0.2
   '@radix-ui/react-switch': 1.0.2_sfoxds7t5ydpegc3knd667wn6m
   '@radix-ui/react-tabs': 1.0.3_sfoxds7t5ydpegc3knd667wn6m
-  '@rainbow-me/rainbowkit': 0.12.12_325w6ngc7uks4zwgsiuef4cega
+  '@rainbow-me/rainbowkit': 0.12.12_o27usjj44iiidk5onbzj6jglue
+  '@supabase/supabase-js': 2.24.0
   ahooks: 3.7.7_react@17.0.2
   axios: 1.4.0
   class-variance-authority: 0.6.0_typescript@4.9.5
   clsx: 1.2.1
-  ethers: 6.3.0
+  ethers: 5.7.2
   lodash: r2.cnpmjs.org/lodash/4.17.21
   lucide-react: 0.217.0_react@17.0.2
   prism-react-renderer: 1.3.5_react@17.0.2
@@ -71,7 +74,8 @@ dependencies:
   solive-docusaurus-theme-code: 0.0.5_l3eo7xfrawddqs4og2iuwguiwe
   tailwind-merge: 1.12.0
   tailwindcss-animate: 1.0.5_tailwindcss@3.3.2
-  wagmi: 0.12.13_ue7w7z34dijkdnmajmmpixwwcy
+  viem: 0.3.50_typescript@4.9.5
+  wagmi: 0.12.13_zhtkikzigq3ompb2z6oclgzjoq
 
 devDependencies:
   '@docusaurus/module-type-aliases': 2.4.0_sfoxds7t5ydpegc3knd667wn6m
@@ -1841,7 +1845,7 @@ packages:
       react-dev-utils: 12.0.1_63sp3xclhi244az6p5twxmey5m
       react-dom: r2.cnpmjs.org/react-dom/17.0.2_react@17.0.2
       react-helmet-async: 1.3.0_sfoxds7t5ydpegc3knd667wn6m
-      react-loadable: /@docusaurus/react-loadable/5.5.2_react@17.0.2
+      react-loadable: r2.cnpmjs.org/@docusaurus/react-loadable/5.5.2_react@17.0.2
       react-loadable-ssr-addon-v5-slorber: r2.cnpmjs.org/react-loadable-ssr-addon-v5-slorber/1.0.1_dpxzlqk3ugnt6bpv3ms25bb35q
       react-router: 5.3.4_react@17.0.2
       react-router-config: r2.cnpmjs.org/react-router-config/5.1.1_2dl5roaqnyqqppnjni7uetnb3a
@@ -1947,7 +1951,7 @@ packages:
       react: r2.cnpmjs.org/react/17.0.2
       react-dom: r2.cnpmjs.org/react-dom/17.0.2_react@17.0.2
       react-helmet-async: 1.3.0_sfoxds7t5ydpegc3knd667wn6m
-      react-loadable: /@docusaurus/react-loadable/5.5.2_react@17.0.2
+      react-loadable: r2.cnpmjs.org/@docusaurus/react-loadable/5.5.2_react@17.0.2
     transitivePeerDependencies:
       - '@swc/core'
       - esbuild
@@ -2282,15 +2286,6 @@ packages:
       - webpack-cli
     dev: false
 
-  /@docusaurus/react-loadable/5.5.2_react@17.0.2:
-    resolution: {integrity: sha512-A3dYjdBGuy0IGT+wyLIGIKLRE+sAk1iNk0f1HjNDysO7u8lhL4N3VEm+FAubmJbAztn94F7MxBTPmnixbiyFdQ==}
-    peerDependencies:
-      react: '*'
-    dependencies:
-      '@types/react': 18.2.6
-      prop-types: 15.8.1
-      react: r2.cnpmjs.org/react/17.0.2
-
   /@docusaurus/theme-classic/2.4.0_jgxnvbe4faw3ohf4h6p42qq6oy:
     resolution: {integrity: sha512-GMDX5WU6Z0OC65eQFgl3iNNEbI9IMJz9f6KnOyuMxNUR6q0qVLsKCNopFUDfFNJ55UU50o7P7o21yVhkwpfJ9w==}
     engines: {node: '>=16.14'}
@@ -2527,14 +2522,6 @@ packages:
       - uglify-js
       - webpack-cli
     dev: false
-
-  /@emotion/is-prop-valid/0.8.8:
-    resolution: {integrity: sha512-u5WtneEAr5IDG2Wv65yhunPSMLIpuKsbuOktRojfrEiEvRyC85LgPMZI63cr7NUqT8ZIGdSVg8ZKGxIug4lXcA==}
-    requiresBuild: true
-    dependencies:
-      '@emotion/memoize': r2.cnpmjs.org/@emotion/memoize/0.7.4
-    dev: false
-    optional: true
 
   /@ethereumjs/block/4.2.2:
     resolution: {integrity: sha512-kMxjeUwJSuLMwnavok5W17ayMNXXsu3hWsllK33XtZgoqt4ywvGo6ABh+xVEqwq/nn/iKuryCpDYYKEyXeFOlA==}
@@ -3274,10 +3261,6 @@ packages:
     resolution: {integrity: sha512-iR8GBkDt0Q3GyaVcIu7mSsVIqnFbkbRzGLWlvhwunacoLwt4J3swfKhfaM6rN6WY+TBGoYT1GtT1mIh2/jGbRQ==}
     dev: false
 
-  /@noble/hashes/1.1.2:
-    resolution: {integrity: sha512-KYRCASVTv6aeUi1tsF8/vpyR7zpfs3FUzy2Jqm+MU+LmUKhQ0y2FpfwqkCcxSg2ua4GALJd8k2R76WxwZGbQpA==}
-    dev: false
-
   /@noble/hashes/1.3.0:
     resolution: {integrity: sha512-ilHEACi9DwqJB0pw7kv+Apvh50jiiSyR/cQ3y4W7lOR5mhvn/50FLUfsnfJz0BDZtl/RR16kXvptiv6q1msYZg==}
     dev: false
@@ -3483,7 +3466,7 @@ packages:
       react: r2.cnpmjs.org/react/17.0.2
     dev: false
 
-  /@rainbow-me/rainbowkit/0.12.12_325w6ngc7uks4zwgsiuef4cega:
+  /@rainbow-me/rainbowkit/0.12.12_o27usjj44iiidk5onbzj6jglue:
     resolution: {integrity: sha512-9PxYjX8Z/FOdYkzJe7BCa1qsr8hsdw8ZIOrQvB5EyolI1mdmKVIsPFTjXx85D6GY8v9P6Ax9elDDT/PdPPhgCw==}
     engines: {node: '>=12.4'}
     peerDependencies:
@@ -3496,12 +3479,12 @@ packages:
       '@vanilla-extract/dynamic': r2.cnpmjs.org/@vanilla-extract/dynamic/2.0.2
       '@vanilla-extract/sprinkles': 1.5.0_@vanilla-extract+css@1.9.1
       clsx: r2.cnpmjs.org/clsx/1.1.1
-      ethers: 6.3.0
+      ethers: 5.7.2
       qrcode: r2.cnpmjs.org/qrcode/1.5.0
       react: r2.cnpmjs.org/react/17.0.2
       react-dom: r2.cnpmjs.org/react-dom/17.0.2_react@17.0.2
       react-remove-scroll: 2.5.4_react@17.0.2
-      wagmi: 0.12.13_ue7w7z34dijkdnmajmmpixwwcy
+      wagmi: 0.12.13_zhtkikzigq3ompb2z6oclgzjoq
     transitivePeerDependencies:
       - '@types/react'
     dev: false
@@ -3698,6 +3681,62 @@ packages:
       '@stablelib/keyagreement': r2.cnpmjs.org/@stablelib/keyagreement/1.0.1
       '@stablelib/random': 1.0.2
       '@stablelib/wipe': r2.cnpmjs.org/@stablelib/wipe/1.0.1
+    dev: false
+
+  /@supabase/functions-js/2.1.1:
+    resolution: {integrity: sha512-bIR1Puae6W+1/MzPfYBWOG/SCWGo4B5CB7c0ZZksvliNEAzhxNBJ0UFKYINcGdGtxG8ZC+1xr3utWpNZNwnoRw==}
+    dependencies:
+      cross-fetch: 3.1.5
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /@supabase/gotrue-js/2.28.1:
+    resolution: {integrity: sha512-i2IR8IRDhcrWfBjC7o5T0F8liOA1X6+moqCam6F5pIURI5PM+087hH+tDZ9dKu0AqAFgT0TpLmWK82fKWQlkfg==}
+    dependencies:
+      cross-fetch: 3.1.5
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /@supabase/postgrest-js/1.7.0:
+    resolution: {integrity: sha512-wLADHZ5jm7LljF4GigK0H2vc1wGupBY2hGYfb4fVo0UuyMftmA6tOYy+ZpMH/vPq01CUFwXGwvIke6kyqh/QDg==}
+    dependencies:
+      cross-fetch: 3.1.5
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /@supabase/realtime-js/2.7.2:
+    resolution: {integrity: sha512-Fi6xAl5PUkqnjl3wo4rdcQIbMG3+yTRX1aUZe/yfvTG84RMvmCXJ1yN6MmafVLeZpU1xkaz5Vx4L0tnHcLiy6w==}
+    dependencies:
+      '@types/phoenix': 1.6.0
+      '@types/websocket': 1.0.5
+      websocket: r2.cnpmjs.org/websocket/1.0.34
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@supabase/storage-js/2.5.1:
+    resolution: {integrity: sha512-nkR0fQA9ScAtIKA3vNoPEqbZv1k5B5HVRYEvRWdlP6mUpFphM9TwPL2jZ/ztNGMTG5xT6SrHr+H7Ykz8qzbhjw==}
+    dependencies:
+      cross-fetch: 3.1.5
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /@supabase/supabase-js/2.24.0:
+    resolution: {integrity: sha512-zrAm+hp6DBICqZ7xVPk+KofmlfjJWQzXuf2sHAyPz8XVjpha84z2OVWcow2aI10YkMOrPwhRtBBQYJOnh/fx2w==}
+    dependencies:
+      '@supabase/functions-js': 2.1.1
+      '@supabase/gotrue-js': 2.28.1
+      '@supabase/postgrest-js': 1.7.0
+      '@supabase/realtime-js': 2.7.2
+      '@supabase/storage-js': 2.5.1
+      cross-fetch: 3.1.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
     dev: false
 
   /@svgr/babel-plugin-add-jsx-attribute/6.5.1_@babel+core@7.21.8:
@@ -3912,7 +3951,7 @@ packages:
   /@types/bn.js/5.1.1:
     resolution: {integrity: sha512-qNrYbZqMx0uJAfKnKclPh+dTwK33KfLHYqtyODwd5HnXOjnkhc4qgn3BrK6RWyGZm5+sIFE7Q7Vz6QQtJB7w7g==}
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 20.1.0
     dev: false
 
   /@types/cacheable-request/6.0.3:
@@ -3920,7 +3959,7 @@ packages:
     dependencies:
       '@types/http-cache-semantics': r2.cnpmjs.org/@types/http-cache-semantics/4.0.1
       '@types/keyv': 3.1.4
-      '@types/node': 12.20.55
+      '@types/node': 20.1.0
       '@types/responselike': r2.cnpmjs.org/@types/responselike/1.0.0
     dev: false
 
@@ -4003,6 +4042,10 @@ packages:
   /@types/node/20.1.0:
     resolution: {integrity: sha512-O+z53uwx64xY7D6roOi4+jApDGFg0qn6WHcxe5QeqjMaTezBO/mxdfFXIVAVVyNWKx84OmPB3L8kbVYOTeN34A==}
 
+  /@types/phoenix/1.6.0:
+    resolution: {integrity: sha512-qwfpsHmFuhAS/dVd4uBIraMxRd56vwBUYQGZ6GpXnFuM2XMRFJbIyruFKKlW2daQliuYZwe0qfn/UjFCDKic5g==}
+    dev: false
+
   /@types/prop-types/15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
 
@@ -4052,6 +4095,12 @@ packages:
 
   /@types/trusted-types/2.0.3:
     resolution: {integrity: sha512-NfQ4gyz38SL8sDNrSixxU2Os1a5xcdFxipAFxYEuLUlvU2uDwS4NUpsImcf1//SlWItCVMMLiylsxbmNMToV/g==}
+    dev: false
+
+  /@types/websocket/1.0.5:
+    resolution: {integrity: sha512-NbsqiNX9CnEfC1Z0Vf4mE1SgAJ07JnRYcNex7AJ9zAVzmiGHmjKFEk7O4TJIsgv2B1sLEb6owKFZrACwdYngsQ==}
+    dependencies:
+      '@types/node': 20.1.0
     dev: false
 
   /@types/ws/8.5.4:
@@ -4105,7 +4154,18 @@ packages:
       typescript: 4.9.5
     dev: false
 
-  /@wagmi/connectors/0.3.19_px2jj637n4bt75hmk7f7p3am7y:
+  /@wagmi/chains/1.0.0_typescript@4.9.5:
+    resolution: {integrity: sha512-eNbqRWyHbivcMNq5tbXJks4NaOzVLHnNQauHPeE/EDT9AlpqzcrMc+v2T1/2Iw8zN4zgqB86NCsxeJHJs7+xng==}
+    peerDependencies:
+      typescript: '>=5.0.4'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      typescript: 4.9.5
+    dev: false
+
+  /@wagmi/connectors/0.3.19_cmk2f6gzyjfcnmcs6bhjwoavcm:
     resolution: {integrity: sha512-1EnVdNjP5dAfWoW8dlUDZS+Lva8MYabWK+vwzSUBeSyJcAslXInoiHLb+cz9p8oAAqXspcPLRX3XPErYav23gA==}
     peerDependencies:
       '@wagmi/core': '>=0.9.x'
@@ -4121,12 +4181,12 @@ packages:
       '@ledgerhq/connect-kit-loader': 1.0.2
       '@safe-global/safe-apps-provider': 0.15.2
       '@safe-global/safe-apps-sdk': 7.11.0
-      '@wagmi/core': 0.10.11_iaxwqlndpcmvkihknok67wmmjy
+      '@wagmi/core': 0.10.11_5tz5qpjoigixju5bsmw55dppwa
       '@walletconnect/ethereum-provider': 2.7.2_aoc3hmsw7olffo4phcufkowxtq
       '@walletconnect/legacy-provider': 2.0.0
       '@web3modal/standalone': 2.3.7_react@17.0.2
       abitype: 0.3.0_typescript@4.9.5
-      ethers: 6.3.0
+      ethers: 5.7.2
       eventemitter3: r2.cnpmjs.org/eventemitter3/4.0.7
       typescript: 4.9.5
     transitivePeerDependencies:
@@ -4141,7 +4201,7 @@ packages:
       - zod
     dev: false
 
-  /@wagmi/core/0.10.11_iaxwqlndpcmvkihknok67wmmjy:
+  /@wagmi/core/0.10.11_5tz5qpjoigixju5bsmw55dppwa:
     resolution: {integrity: sha512-WOmG2RG65U6i+p09/aFztFSLPCeC+CYnkPh+OXrxQ8Q3m829983sH7xUTRbFAl561lRevUHmB+XS/na+Oj2bYQ==}
     peerDependencies:
       ethers: '>=5.5.1 <6'
@@ -4151,9 +4211,9 @@ packages:
         optional: true
     dependencies:
       '@wagmi/chains': 0.2.22_typescript@4.9.5
-      '@wagmi/connectors': 0.3.19_px2jj637n4bt75hmk7f7p3am7y
+      '@wagmi/connectors': 0.3.19_cmk2f6gzyjfcnmcs6bhjwoavcm
       abitype: 0.3.0_typescript@4.9.5
-      ethers: 6.3.0
+      ethers: 5.7.2
       eventemitter3: r2.cnpmjs.org/eventemitter3/4.0.7
       typescript: 4.9.5
       zustand: 4.3.8_react@17.0.2
@@ -4651,6 +4711,18 @@ packages:
       typescript: 4.9.5
     dev: false
 
+  /abitype/0.8.7_typescript@4.9.5:
+    resolution: {integrity: sha512-wQ7hV8Yg/yKmGyFpqrNZufCxbszDe5es4AZGYPBitocfSqXtjrTG9JMWFcc4N30ukl2ve48aBTwt7NJxVQdU3w==}
+    peerDependencies:
+      typescript: '>=5.0.4'
+      zod: ^3 >=3.19.1
+    peerDependenciesMeta:
+      zod:
+        optional: true
+    dependencies:
+      typescript: 4.9.5
+    dev: false
+
   /abortcontroller-polyfill/1.7.5:
     resolution: {integrity: sha512-JMJ5soJWP18htbbxJjG7bG6yuI6pRhgJ0scHHTfkUjf6wjP912xZWvM+A4sJK3gqd9E8fcPbDnOefbA9Th/FIQ==}
     dev: false
@@ -4684,10 +4756,6 @@ packages:
   /address/1.2.2:
     resolution: {integrity: sha512-4B/qKCfeE/ODUaAUpSwfzazo5x29WD4r3vXiWsB7I2mSDAihwEqKO+g8GELZUQSSAo5e1XTYh3ZVfLyxBc12nA==}
     engines: {node: '>= 10.0.0'}
-    dev: false
-
-  /aes-js/4.0.0-beta.3:
-    resolution: {integrity: sha512-/xJX0/VTPcbc5xQE2VUP91y1xN8q/rDfhEzLm+vLc3hYvb5+qHCnpJRuFcrKn63zumK/sCwYYzhG8HP78JYSTA==}
     dev: false
 
   /agentkeepalive/4.3.0:
@@ -5075,7 +5143,7 @@ packages:
       normalize-path: r2.cnpmjs.org/normalize-path/3.0.0
       readdirp: r2.cnpmjs.org/readdirp/3.6.0
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: r2.cnpmjs.org/fsevents/2.3.2
 
   /ci-info/3.8.0:
     resolution: {integrity: sha512-eXTggHWSooYhq49F2opQhuHWgzucfF2YgODK4e1566GQs5BIfP30B0oenwBJHfWxAs2fyPB1s7Mg949zLf61Yw==}
@@ -5719,21 +5787,6 @@ packages:
       - utf-8-validate
     dev: false
 
-  /ethers/6.3.0:
-    resolution: {integrity: sha512-CKFYvTne1YT4S1glTiu7TgGsj0t6c6GAD7evrIk8zbeUb6nK8dcUPAiAWM8uDX/1NmRTvLM9+1Vnn49hwKtEzw==}
-    engines: {node: '>=14.0.0'}
-    dependencies:
-      '@adraffy/ens-normalize': 1.9.0
-      '@noble/hashes': 1.1.2
-      '@noble/secp256k1': 1.7.1
-      aes-js: 4.0.0-beta.3
-      tslib: 2.4.0
-      ws: 8.5.0
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-    dev: false
-
   /eval/0.1.8:
     resolution: {integrity: sha512-EzV94NYKoO09GLXGjXj9JIlXijVck4ONSr5wiCWDvhsvj5jxSrzTmRU/9C1DyB6uToszLs8aifA6NQ7lEQdvFw==}
     engines: {node: '>= 0.8'}
@@ -5816,8 +5869,8 @@ packages:
     dependencies:
       cross-fetch: 3.1.5
       fbjs-css-vars: r2.cnpmjs.org/fbjs-css-vars/1.0.2
-      loose-envify: 1.4.0
-      object-assign: 4.1.1
+      loose-envify: r2.cnpmjs.org/loose-envify/1.4.0
+      object-assign: r2.cnpmjs.org/object-assign/4.1.1
       promise: 7.3.1
       setimmediate: r2.cnpmjs.org/setimmediate/1.0.5
       ua-parser-js: 0.7.35
@@ -5916,7 +5969,7 @@ packages:
       style-value-types: r2.cnpmjs.org/style-value-types/5.0.0
       tslib: 2.5.0
     optionalDependencies:
-      '@emotion/is-prop-valid': 0.8.8
+      '@emotion/is-prop-valid': r2.cnpmjs.org/@emotion/is-prop-valid/0.8.8
     dev: false
 
   /fs-extra/10.1.0:
@@ -5927,13 +5980,6 @@ packages:
       jsonfile: r2.cnpmjs.org/jsonfile/6.1.0
       universalify: r2.cnpmjs.org/universalify/2.0.0
     dev: false
-
-  /fsevents/2.3.2:
-    resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
-    engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
-    os: [darwin]
-    requiresBuild: true
-    optional: true
 
   /get-intrinsic/1.2.0:
     resolution: {integrity: sha512-L049y6nFOuom5wGyRc3/gdTLO94dySVKRACj1RmJZBQXlbTMhtNIgkWkUHq+jYmZvKf14EW1EoJnnjbmoHij0Q==}
@@ -6157,6 +6203,14 @@ packages:
       for-each: r2.cnpmjs.org/for-each/0.3.3
       gopd: 1.0.1
       has-tostringtag: r2.cnpmjs.org/has-tostringtag/1.0.0
+
+  /isomorphic-ws/5.0.0_ws@8.12.0:
+    resolution: {integrity: sha512-muId7Zzn9ywDsyXgTIafTry2sV3nySZeUDe6YedVd1Hvuuep5AsIlqK+XefWpYTyJG5e503F2xIuT2lcU6rCSw==}
+    peerDependencies:
+      ws: '*'
+    dependencies:
+      ws: 8.12.0
+    dev: false
 
   /jayson/3.7.0:
     resolution: {integrity: sha512-tfy39KJMrrXJ+mFcMpxwBvFDetS8LAID93+rycFglIQM4kl3uNR3W4lBLE/FFhsoUCEox5Dt2adVpDm/XtebbQ==}
@@ -7331,9 +7385,9 @@ packages:
   /prop-types/15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
     dependencies:
-      loose-envify: 1.4.0
-      object-assign: 4.1.1
-      react-is: 16.13.1
+      loose-envify: r2.cnpmjs.org/loose-envify/1.4.0
+      object-assign: r2.cnpmjs.org/object-assign/4.1.1
+      react-is: r2.cnpmjs.org/react-is/16.13.1
 
   /proxy-compare/2.5.0:
     resolution: {integrity: sha512-f1us0OsVAJ3tdIMXGQx2lmseYS4YXe4W+sKF5g5ww/jV+5ogMadPt+sIZ+88Ga9kvMJsrRNWzCrKPpr6pMWYbA==}
@@ -7495,6 +7549,7 @@ packages:
 
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
+    dev: false
 
   /react-remove-scroll-bar/2.3.4_react@17.0.2:
     resolution: {integrity: sha512-63C4YQBUt0m6ALadE9XV56hV8BgJWDmmTPY758iIJjfQKt2nYwoUrPk0LXRXcB/yIj82T1/Ixfdpdk68LwIB0A==}
@@ -8135,10 +8190,6 @@ packages:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
     dev: false
 
-  /tslib/2.4.0:
-    resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
-    dev: false
-
   /tslib/2.5.0:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
     dev: false
@@ -8304,7 +8355,26 @@ packages:
       use-sync-external-store: 1.2.0_react@17.0.2
     dev: false
 
-  /wagmi/0.12.13_ue7w7z34dijkdnmajmmpixwwcy:
+  /viem/0.3.50_typescript@4.9.5:
+    resolution: {integrity: sha512-s+LxCYZTR9F/qPk1/n1YDVAX9vSeVz7GraqBZWGrDuenCJxo9ArCoIceJ6ksI0WwSeNzcZ0VVbD/kWRzTxkipw==}
+    dependencies:
+      '@adraffy/ens-normalize': 1.9.0
+      '@noble/curves': 1.0.0
+      '@noble/hashes': 1.3.0
+      '@scure/bip32': 1.3.0
+      '@scure/bip39': 1.2.0
+      '@wagmi/chains': 1.0.0_typescript@4.9.5
+      abitype: 0.8.7_typescript@4.9.5
+      isomorphic-ws: 5.0.0_ws@8.12.0
+      ws: 8.12.0
+    transitivePeerDependencies:
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - zod
+    dev: false
+
+  /wagmi/0.12.13_zhtkikzigq3ompb2z6oclgzjoq:
     resolution: {integrity: sha512-1J+F68MztodPUo2OIFImiC3OoZD4gdryxTidfwQz9LJawXdBNmAOFvq0LQClrrqgFk0Gd3EoLo/MKGiEn2RsMg==}
     peerDependencies:
       ethers: '>=5.5.1 <6'
@@ -8317,9 +8387,9 @@ packages:
       '@tanstack/query-sync-storage-persister': 4.29.5
       '@tanstack/react-query': 4.29.5_sfoxds7t5ydpegc3knd667wn6m
       '@tanstack/react-query-persist-client': 4.29.5_vinbbzdq6ixq2goapdtg7ymvyq
-      '@wagmi/core': 0.10.11_iaxwqlndpcmvkihknok67wmmjy
+      '@wagmi/core': 0.10.11_5tz5qpjoigixju5bsmw55dppwa
       abitype: 0.3.0_typescript@4.9.5
-      ethers: 6.3.0
+      ethers: 5.7.2
       react: r2.cnpmjs.org/react/17.0.2
       typescript: 4.9.5
       use-sync-external-store: 1.2.0_react@17.0.2
@@ -8841,6 +8911,19 @@ packages:
         optional: true
     dev: false
 
+  /ws/8.12.0:
+    resolution: {integrity: sha512-kU62emKIdKVeEIOIKVegvqpXMSTAMLJozpHZaJNDYqBjzlSYXQGviYwN1osDLJ9av68qHd4a2oSjd7yD4pacig==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dev: false
+
   /ws/8.13.0:
     resolution: {integrity: sha512-x9vcZYTrFPC7aSIbj7sRCYo7L/Xb8Iy+pW0ng0wt2vCJv7M9HOMy0UoN3rr+IFC7hb7vXoqS+P9ktyLLLhO+LA==}
     engines: {node: '>=10.0.0'}
@@ -8868,19 +8951,6 @@ packages:
     dependencies:
       bufferutil: 4.0.7
       utf-8-validate: 5.0.10
-    dev: false
-
-  /ws/8.5.0:
-    resolution: {integrity: sha512-BWX0SWVgLPzYwF8lTzEy1egjhS4S4OEAHfsO8o65WOVsrnSRGaSiUaa9e0ggGlkMTtBlmOpEXiie9RUcBO86qg==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: ^5.0.2
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
     dev: false
 
   /yaml/2.2.2:
@@ -9201,6 +9271,16 @@ packages:
     name: '@emotion/hash'
     version: 0.8.0
     dev: false
+
+  r2.cnpmjs.org/@emotion/is-prop-valid/0.8.8:
+    resolution: {integrity: sha512-u5WtneEAr5IDG2Wv65yhunPSMLIpuKsbuOktRojfrEiEvRyC85LgPMZI63cr7NUqT8ZIGdSVg8ZKGxIug4lXcA==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/@emotion/is-prop-valid/-/is-prop-valid-0.8.8.tgz}
+    name: '@emotion/is-prop-valid'
+    version: 0.8.8
+    requiresBuild: true
+    dependencies:
+      '@emotion/memoize': r2.cnpmjs.org/@emotion/memoize/0.7.4
+    dev: false
+    optional: true
 
   r2.cnpmjs.org/@emotion/memoize/0.7.4:
     resolution: {integrity: sha512-Ja/Vfqe3HpuzRsG1oBtWTHk2PGZ7GR+2Vz5iYGelAw8dx32K0y7PjVuxK6z1nMpZOqAFsRUPCkK1YjJ56qJlgw==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/@emotion/memoize/-/memoize-0.7.4.tgz}
@@ -9716,7 +9796,7 @@ packages:
     name: '@types/ws'
     version: 7.4.7
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 20.1.0
     dev: false
 
   r2.cnpmjs.org/@vanilla-extract/dynamic/2.0.2:
@@ -10776,7 +10856,7 @@ packages:
     version: 2.8.5
     engines: {node: '>= 0.10'}
     dependencies:
-      object-assign: 4.1.1
+      object-assign: r2.cnpmjs.org/object-assign/4.1.1
       vary: r2.cnpmjs.org/vary/1.1.2
     dev: false
 
@@ -11824,6 +11904,15 @@ packages:
     name: fs.realpath
     version: 1.0.0
 
+  r2.cnpmjs.org/fsevents/2.3.2:
+    resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/fsevents/-/fsevents-2.3.2.tgz}
+    name: fsevents
+    version: 2.3.2
+    engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
+    os: [darwin]
+    requiresBuild: true
+    optional: true
+
   r2.cnpmjs.org/function-bind/1.1.1:
     resolution: {integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/function-bind/-/function-bind-1.1.1.tgz}
     name: function-bind
@@ -12186,7 +12275,7 @@ packages:
     version: 4.10.1
     dependencies:
       '@babel/runtime': 7.21.5
-      loose-envify: 1.4.0
+      loose-envify: r2.cnpmjs.org/loose-envify/1.4.0
       resolve-pathname: r2.cnpmjs.org/resolve-pathname/3.0.0
       tiny-invariant: 1.3.1
       tiny-warning: r2.cnpmjs.org/tiny-warning/1.0.3
@@ -12207,7 +12296,7 @@ packages:
     name: hoist-non-react-statics
     version: 3.3.2
     dependencies:
-      react-is: 16.13.1
+      react-is: r2.cnpmjs.org/react-is/16.13.1
     dev: false
 
   r2.cnpmjs.org/hpack.js/2.1.6:
@@ -14230,7 +14319,7 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       decode-uri-component: 0.2.2
-      object-assign: 4.1.1
+      object-assign: r2.cnpmjs.org/object-assign/4.1.1
       strict-uri-encode: r2.cnpmjs.org/strict-uri-encode/1.1.0
     dev: false
 
@@ -14346,6 +14435,11 @@ packages:
       react: r2.cnpmjs.org/react/17.0.2
       scheduler: r2.cnpmjs.org/scheduler/0.20.2
 
+  r2.cnpmjs.org/react-is/16.13.1:
+    resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/react-is/-/react-is-16.13.1.tgz}
+    name: react-is
+    version: 16.13.1
+
   r2.cnpmjs.org/react-json-view/1.21.3_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-13p8IREj9/x/Ye4WI/JpjhoIwuzEgUAtgJZNBJckfzJt1qyh24BdTm6UQNGnyTq9dapQdrqvquZTo3dz1X6Cjw==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/react-json-view/-/react-json-view-1.21.3.tgz}
     id: r2.cnpmjs.org/react-json-view/1.21.3
@@ -14383,7 +14477,7 @@ packages:
       webpack: '>=4.41.1 || 5.x'
     dependencies:
       '@babel/runtime': 7.21.5
-      react-loadable: /@docusaurus/react-loadable/5.5.2_react@17.0.2
+      react-loadable: r2.cnpmjs.org/@docusaurus/react-loadable/5.5.2_react@17.0.2
       webpack: 5.82.0
     dev: false
 
@@ -16098,7 +16192,7 @@ packages:
     version: 1.1.0
     dependencies:
       buffer-to-arraybuffer: r2.cnpmjs.org/buffer-to-arraybuffer/0.0.5
-      object-assign: 4.1.1
+      object-assign: r2.cnpmjs.org/object-assign/4.1.1
       query-string: r2.cnpmjs.org/query-string/5.1.1
       simple-get: 2.8.2
       timed-out: r2.cnpmjs.org/timed-out/4.0.1

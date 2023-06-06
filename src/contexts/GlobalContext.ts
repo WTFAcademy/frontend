@@ -5,4 +5,6 @@ interface State {
     setUid?: (uid: string) => void;
 }
 
-export default React.createContext<State>(null);
+const GlobalContext = React.createContext<State>(null);
+
+export default GlobalContext;

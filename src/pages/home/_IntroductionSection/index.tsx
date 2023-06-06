@@ -31,8 +31,8 @@ const INTRODUCTIONS = [
 const IntroductionSection = () => {
     return (
         <div className="h-[324px] flex items-center justify-around container-md">
-            {INTRODUCTIONS.map((item) => (
-                <div className="flex flex-col justify-center">
+            {INTRODUCTIONS.map((item, index) => (
+                <div key={index} className="flex flex-col justify-center">
                     <Tag circle className="w-[100px] h-[100px]" style={{background: item.color}}>
                         {item.icon}
                     </Tag>
