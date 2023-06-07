@@ -87,6 +87,10 @@ module.exports = {
                 switch: {
                     DEFAULT: "var(--ui-switch)",
                     foreground: "var(--ui-switch-foreground)"
+                },
+                other1: {
+                    DEFAULT: "var(--ui-btn-other1)",
+                    foreground: "var(--ui-btn-other1-foreground)",
                 }
             },
             borderRadius: {

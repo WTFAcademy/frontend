@@ -4,6 +4,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "paths": {
       "@theme/*": ["src/theme/*"],
       "@site/*": ["*"],

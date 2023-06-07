@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash';
+import {slice} from "lodash-es";
 import Link from '@docusaurus/Link';
 import { Button } from '@site/src/components/ui/Button';
 import CopyIcon from '@site/src/icons/Copy';
@@ -19,15 +19,14 @@ function PersonalInfo() {
   
     const address = '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045';
 
-    const firstFive = _.slice(address, 0, 5);
-    const lastFour = _.slice(address, -4);
-
+    const firstFive = slice(address, 0, 5);
+    const lastFour = slice(address, -4);
     const handleCopy = () => {
         copyToClipboard(address);
     };
 
     return (
-      <div className="box-border flex flex-col flex-shrink-0 w-full p-8 mr-12 overflow-hidden border border-gray-300 rounded-md md:w-[280px]">
+      <div className="box-border flex flex-col flex-shrink-0 w-full p-8 mr-12 overflow-hidden border border-border-input rounded-md md:w-[280px]">
           <p className="mb-6 text-sm leading-5 text-gray-500">DAO, AGI Researcher | Ex-Tencent Cloud (DevOps) Sr. Prod. Designer → Web3 Builder | Figma Developer - Quick Commands</p>
           <div className="flex items-center mb-6 text-gray-700">
               <EthereumIcon />
