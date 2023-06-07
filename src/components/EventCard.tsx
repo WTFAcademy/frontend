@@ -2,8 +2,8 @@ import React from "react";
 
 const EventCard = () => {
     return (
-        <div className="w-[288px] h-[357px] p-4 border border-solid rounded-md shadow-sm">
-            <div className="bg-gray-300 w-[256px] h-[170px]"/>
+        <div className="w-full h-[357px] md:w-[288px] md:h-[357px] p-4 border border-solid rounded-md shadow-sm">
+            <div className="bg-gray-300 w-[256px] h-[170px] mx-auto rounded-[8px] md:rounded-none"/>
             <div className="flex flex-col">
                 <div className="text-[18px] leading-[21px] font-bold font-ubuntu mt-4">
                     ETH Beijing Hackathon

@@ -9,7 +9,7 @@ const CourseList = () => {
                <span>Popular Courses</span>
                 <Tag circle className="h-6 w-6 bg-gray-200 ml-3">4</Tag>
             </div>
-            <div className="flex flex-wrap justify-between gap-6 mt-[35px]">
+            <div className="flex flex-wrap justify-center md:justify-around gap-6 mt-[35px]">
                 <CourseCard />
                 <CourseCard />
                 <CourseCard />

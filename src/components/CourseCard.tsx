@@ -5,7 +5,7 @@ import {ArrowTopRightOnSquareIcon} from "@heroicons/react/20/solid";
 
 const CourseCard = () => {
     return (
-        <div className="w-[300px] h-[272px] border border-solid rounded-md shadow-sm">
+        <div className="w-full md:w-[300px] h-[272px] border border-solid rounded-md shadow-sm">
             <div className="bg-gray-300 w-full h-[150px]"/>
             <div className="flex flex-col p-4">
                 <div className="flex justify-between items-center text-[22px] leading-[25px] font-bold font-ubuntu">
