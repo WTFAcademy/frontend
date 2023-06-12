@@ -104,7 +104,7 @@
 
         /* secondary */
         --ui-secondary: var(--wtf-gray-500);
-        --ui-secondary-foreground: var(--wtf-white);
+        --ui-secondary-foreground: var(--wtf-black);
 
         /* background */
         --ui-background: #040311;

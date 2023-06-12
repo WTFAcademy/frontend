@@ -1,13 +1,14 @@
-import React from 'react';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import Layout from '@theme/Layout';
+import React from "react";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import Layout from "@theme/Layout";
 import HeroSection from "@site/src/pages/home/_HeroSection";
 import CourseSection from "@site/src/pages/home/_CourseSection";
 import IntroductionSection from "@site/src/pages/home/_IntroductionSection";
 import EventSection from "@site/src/pages/home/_EventSection";
+import "@site/src/api/request";
 
 export default function Home(): JSX.Element {
-  const {siteConfig} = useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext();
 
   return (
     <Layout
