@@ -7,7 +7,7 @@
     "resolveJsonModule": true,
     "paths": {
       "@theme/*": ["src/theme/*"],
-      "@site/*": ["*"],
+      "@site/*": ["*"]
     }
   }
 }

@@ -31,6 +31,8 @@ function webpackPlugin(context, options) {
                         buffer: require.resolve('buffer/'),
                         url: require.resolve('url'),
                         crypto: false,
+                        net: false,
+                        tls: false
                     },
                     alias: {
                         process: 'process/browser.js',
