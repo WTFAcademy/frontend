@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "@theme/Layout";
+import { useAccount } from "wagmi";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { Button } from "@site/src/components/ui/Button";
 import ConnectWalletButton from "../components/ui/ConnectWalletButton";
@@ -7,10 +8,13 @@ import GitHubIconWhite from "@site/src/icons/GitHubWhite";
 import WTFLetterIcon from "@site/src/icons/WTFLetter";
 import useAuth from "@site/src/hooks/useAuth";
 
-import { getNonce } from "@site/src/api/wallet-auth";
-
 function LoginForm() {
   const { signInWithGithub } = useAuth();
+  const { address, isConnected } = useAccount();
+
+  useEffect(() => {
+    console.log(address, isConnected);
+  }, [isConnected]);
 
   return (
     <div className="mt-14 mx-auto text-center">
@@ -30,13 +34,7 @@ function LoginForm() {
         >
           Or if your account is already connected to a wallet
         </span>
-        <ConnectWalletButton
-          handleConnected={async (account: { address: string }) => {
-            const res = await getNonce(account.address);
-            console.log(res);
-          }}
-          className="w-full bg-secondary-foreground text-foreground border border-gray-300 border-solid text-base"
-        >
+        <ConnectWalletButton className="w-full bg-secondary-foreground text-foreground border border-gray-300 border-solid text-base">
           Sign in with Ethereum
         </ConnectWalletButton>
       </div>
