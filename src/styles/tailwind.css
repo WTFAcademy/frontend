@@ -187,6 +187,11 @@
         @apply border-border;
     }
 
+    html,body {
+        height: unset !important;
+        min-height: 100%;
+    }
+
     body {
         @apply bg-background text-foreground;
         font-feature-settings: "rlig" 1, "calt" 1;

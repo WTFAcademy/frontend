@@ -15,6 +15,7 @@ specifiers:
   '@radix-ui/react-toast': ^1.1.4
   '@rainbow-me/rainbowkit': ^0.12.12
   '@supabase/supabase-js': ^2.24.0
+  '@tailwindcss/typography': ^0.5.9
   '@tsconfig/docusaurus': ^1.0.5
   ahooks: ^3.7.7
   assert: ^2.0.0
@@ -66,6 +67,7 @@ dependencies:
   '@radix-ui/react-toast': 1.1.4_sfoxds7t5ydpegc3knd667wn6m
   '@rainbow-me/rainbowkit': 0.12.12_o27usjj44iiidk5onbzj6jglue
   '@supabase/supabase-js': 2.24.0
+  '@tailwindcss/typography': 0.5.9_tailwindcss@3.3.2
   ahooks: 3.7.7_react@17.0.2
   axios: 1.4.0
   class-variance-authority: 0.6.0_typescript@4.9.5
@@ -4268,6 +4270,18 @@ packages:
       tailwindcss: 3.3.2
     dev: false
 
+  /@tailwindcss/typography/0.5.9_tailwindcss@3.3.2:
+    resolution: {integrity: sha512-t8Sg3DyynFysV9f4JDOVISGsjazNb48AeIYQwcL+Bsq5uf4RYL75C1giZ43KISjeDGBaTN3Kxh7Xj/vRSMJUUg==}
+    peerDependencies:
+      tailwindcss: '>=3.0.0 || insiders'
+    dependencies:
+      lodash.castarray: r2.cnpmjs.org/lodash.castarray/4.4.0
+      lodash.isplainobject: r2.cnpmjs.org/lodash.isplainobject/4.0.6
+      lodash.merge: r2.cnpmjs.org/lodash.merge/4.6.2
+      postcss-selector-parser: 6.0.10
+      tailwindcss: 3.3.2
+    dev: false
+
   /@tanstack/query-core/4.29.5:
     resolution: {integrity: sha512-xXIiyQ/4r9KfaJ3k6kejqcaqFXXBTzN2aOJ5H1J6aTJE9hl/nbgAdfF6oiIu0CD5xowejJEJ6bBg8TO7BN4NuQ==}
     dev: false
@@ -7674,6 +7688,14 @@ packages:
       postcss: 8.4.23
       postcss-selector-parser: 6.0.12
     dev: true
+
+  /postcss-selector-parser/6.0.10:
+    resolution: {integrity: sha512-IQ7TZdoaqbT+LCpShg46jnZVlhWD2w6iQYAcYXfHARZ7X1t/UGhhceQDs5X0cGqKvYlHNOuv7Oa1xmb0oQuA3w==}
+    engines: {node: '>=4'}
+    dependencies:
+      cssesc: r2.cnpmjs.org/cssesc/3.0.0
+      util-deprecate: r2.cnpmjs.org/util-deprecate/1.0.2
+    dev: false
 
   /postcss-selector-parser/6.0.12:
     resolution: {integrity: sha512-NdxGCAZdRrwVI1sy59+Wzrh+pMMHxapGnpfenDVlMEXoOcvt4pGE0JLK9YY2F5dLxcFYA/YbVQKhcGU+FtSYQg==}
@@ -13563,6 +13585,12 @@ packages:
     version: 4.17.21
     dev: false
 
+  r2.cnpmjs.org/lodash.castarray/4.4.0:
+    resolution: {integrity: sha512-aVx8ztPv7/2ULbArGJ2Y42bG1mEQ5mGjpdvrbJcJFU3TbYybe+QlLS4pst9zV52ymy2in1KpFPiZnAOATxD4+Q==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/lodash.castarray/-/lodash.castarray-4.4.0.tgz}
+    name: lodash.castarray
+    version: 4.4.0
+    dev: false
+
   r2.cnpmjs.org/lodash.clamp/4.0.3:
     resolution: {integrity: sha512-HvzRFWjtcguTW7yd8NJBshuNaCa8aqNFtnswdT7f/cMd/1YKy5Zzoq4W/Oxvnx9l7aeY258uSdDfM793+eLsVg==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/lodash.clamp/-/lodash.clamp-4.0.3.tgz}
     name: lodash.clamp
@@ -13593,10 +13621,22 @@ packages:
     version: 4.5.0
     dev: false
 
+  r2.cnpmjs.org/lodash.isplainobject/4.0.6:
+    resolution: {integrity: sha512-oSXzaWypCMHkPC3NvBEaPHf0KsA5mvPrOPgQWDsbg8n7orZ290M0BmC/jgRZ4vcJ6DTAhjrsSYgdsW/F+MFOBA==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/lodash.isplainobject/-/lodash.isplainobject-4.0.6.tgz}
+    name: lodash.isplainobject
+    version: 4.0.6
+    dev: false
+
   r2.cnpmjs.org/lodash.memoize/4.1.2:
     resolution: {integrity: sha512-t7j+NzmgnQzTAYXcsHYLgimltOV1MXHtlOWf6GjL9Kj8GK5FInw5JotxvbOs+IvV1/Dzo04/fCGfLVs7aXb4Ag==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/lodash.memoize/-/lodash.memoize-4.1.2.tgz}
     name: lodash.memoize
     version: 4.1.2
+    dev: false
+
+  r2.cnpmjs.org/lodash.merge/4.6.2:
+    resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/lodash.merge/-/lodash.merge-4.6.2.tgz}
+    name: lodash.merge
+    version: 4.6.2
     dev: false
 
   r2.cnpmjs.org/lodash.uniq/4.5.0:
