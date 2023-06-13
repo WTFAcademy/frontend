@@ -10,6 +10,9 @@ const tagVariants = cva(
                 false: "px-2 py-1 rounded-sm",
                 true: "inline-flex items-center justify-center rounded-full",
             }
+        },
+        defaultVariants: {
+            circle: false
         }
     }
 )
