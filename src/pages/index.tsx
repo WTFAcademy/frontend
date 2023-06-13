@@ -8,7 +8,6 @@ import EventSection from "@site/src/pages/home/_EventSection";
 import SponsorSection from "@site/src/pages/home/_SponsorSection";
 import ContributorSection from "@site/src/pages/home/_ContributorSection";
 
-
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
 

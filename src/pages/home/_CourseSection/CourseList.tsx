@@ -13,7 +13,7 @@ const CourseList = () => {
             </div>
             <div className="flex flex-wrap justify-center md:justify-around gap-6 mt-[35px]">
                 {CourseJSON.map(item => (
-                    <CourseCard course={item} />
+                    <CourseCard key={item.id} course={item} />
                 ))}
             </div>
         </div>

@@ -22,7 +22,7 @@ const CourseCard = (props: TProps) => {
 
                 <div className="flex gap-2 mt-[14px]">
                     {course.tags.map(tag => (
-                        <Tag className="bg-blue-100">{tag}</Tag>
+                        <Tag key={tag} className="bg-blue-100">{tag}</Tag>
                     ))}
                 </div>
             </div>

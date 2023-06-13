@@ -1,10 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { Toaster } from "react-hot-toast";
+import {toast, Toaster} from "react-hot-toast";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import GlobalContext from "@site/src/contexts/GlobalContext";
 import { WagmiConfig } from "wagmi";
 import { wagmiClient, chains } from "@site/src/utils/connect";
-import { supabase } from "@site/src/api/github-auth";
+import { QueryClient, QueryCache, QueryClientProvider } from 'react-query'
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+  queryCache: new QueryCache({
+    onError: () => {
+      toast.error(
+          "Network Error: Ensure Metamask is connected to the same network that your contract is deployed to."
+      );
+    },
+  }),
+});
 
 export default function Root({ children }) {
   const [uid, setUid] = useState(undefined);
@@ -18,10 +33,12 @@ export default function Root({ children }) {
 
   return (
     <WagmiConfig client={wagmiClient}>
-      <GlobalContext.Provider value={{ uid, setUid }}>
-        <RainbowKitProvider chains={chains}>{children}</RainbowKitProvider>
-        <Toaster position="top-center" />
-      </GlobalContext.Provider>
+      <QueryClientProvider client={queryClient}>
+        <GlobalContext.Provider value={{ uid, setUid }}>
+          <RainbowKitProvider chains={chains}>{children}</RainbowKitProvider>
+          <Toaster position="top-center" />
+        </GlobalContext.Provider>
+      </QueryClientProvider>
     </WagmiConfig>
   );
 }
