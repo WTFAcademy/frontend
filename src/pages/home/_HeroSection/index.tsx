@@ -3,7 +3,7 @@ import Banner from "./Banner";
 
 const HeroSection = () => {
     return (
-        <div className="flex flex-col h-safe-screen bg-white">
+        <div className="flex flex-col h-safe-screen bg-white dark:bg-background">
             <Banner />
             <div className="flex-auto w-full flex flex-col items-center justify-center">
                 <div className="font-press_start_2p font-normal text-sm sm:text-base text-center">Educating 100,000 Developers for Web3</div>

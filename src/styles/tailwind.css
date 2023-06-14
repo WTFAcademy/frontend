@@ -187,6 +187,11 @@
         @apply border-border;
     }
 
+    html,body {
+        height: unset !important;
+        min-height: 100%;
+    }
+
     body {
         @apply bg-background text-foreground;
         font-feature-settings: "rlig" 1, "calt" 1;
@@ -226,5 +231,12 @@
 @layer utilities {
     .h-safe-screen {
         height: calc(100vh - 60px);
+    }
+
+    .absolute-center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 }

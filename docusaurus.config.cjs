@@ -107,28 +107,23 @@ const config = {
                     //     label: 'Center',
                     //     position: 'left',
                     // },
-                    // {
-                    //     href: '/solidity-start',
-                    //     position: 'left',
-                    //     exact: false,
-                    //     label: 'Solidity 101',
-                    // },
-                    // {
-                    //     href: '/solidity-advanced',
-                    //     position: 'left',
-                    //     exact: false,
-                    //     label: 'Solidity 102',
-                    // },
-                    // {
-                    //     href: '/solidity-application',
-                    //     position: 'left',
-                    //     exact: false,
-                    //     label: 'Solidity 103',
-                    // },
                     {
-                        href: 'https://github.com/AmazingAng/WTFSolidity/discussions',
-                        label: 'Forum',
+                        href: '/solidity-start',
                         position: 'left',
+                        exact: false,
+                        label: 'Solidity 101',
+                    },
+                    {
+                        href: '/solidity-advanced',
+                        position: 'left',
+                        exact: false,
+                        label: 'Solidity 102',
+                    },
+                    {
+                        href: '/solidity-application',
+                        position: 'left',
+                        exact: false,
+                        label: 'Solidity 103',
                     },
                     {
                         type: 'localeDropdown',
