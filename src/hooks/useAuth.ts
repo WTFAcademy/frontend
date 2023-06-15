@@ -5,8 +5,6 @@ const useAuth = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    setUser(supabase.auth.getUser());
-
     supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });

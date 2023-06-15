@@ -39,7 +39,7 @@ const ContributorList = () => {
 
     return (
         <Spinner loading={isLoading}>
-            <div className="bg-white border-border border rounded-md overflow-hidden">
+            <div className="bg-background border-border border rounded-md overflow-hidden">
                 <table className="border-collapse">
                     <tbody>
                     {userChunks.slice(0, showColumnCount).map((chunk, index) => (
