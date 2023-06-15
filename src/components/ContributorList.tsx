@@ -17,6 +17,8 @@ const ContributorList = () => {
     const showCount = useMemo(() => {
         switch (size) {
             case 'md':
+            case 'sm':
+            case 'xs':
                 return 4;
             default:
                 return 8;
@@ -26,12 +28,13 @@ const ContributorList = () => {
     const showColumnCount = useMemo(() => {
         switch (size) {
             case 'md':
+            case 'sm':
+            case 'xs':
                 return 3;
             default:
                 return 2;
         }
     }, [size])
-
 
     const userChunks = useMemo(() => {
         return chunk(data, showCount);
