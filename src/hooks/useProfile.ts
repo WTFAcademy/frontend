@@ -1,20 +1,16 @@
-import { useEffect, useState } from "react";
-import { getProfile } from "@site/src/api/wallet-auth";
+import { getProfile } from "@site/src/api/user";
+import { useQuery } from 'react-query';
 
-const useProfile = () => {
-    const [profile, setProfile] = useState(null);
+const useProfile = ( id: string = 'ed1c04ab-f6f4-411b-9b3f-19da7be6276e' ) => {
 
-    useEffect(() => {
-        getProfile('ed1c04ab-f6f4-411b-9b3f-19da7be6276e')
-            .then(res => {
-                setProfile(res.data?.data);
-                console.log(res.data?.data);
-            })
-            .catch(err => console.log(err));
-    }, []);
+    let isLogin = true;
+
+    const { data, isLoading, isError } = useQuery(['profile', id], () => getProfile(id), {
+        enabled: isLogin,
+    });
 
     return {
-        profile
+        profile : data
     };
 };
 
