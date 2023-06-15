@@ -7,6 +7,7 @@ import EthereumIcon from '@site/src/icons/Ethereum';
 import GithubIcon from '@site/src/icons/Github';
 import CheckIcon from '@site/src/icons/Check';
 // import TwitterIcon from '@site/src/icons/Twitter';
+import useProfile from "@site/src/hooks/useProfile";
 
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
@@ -16,7 +17,9 @@ function copyToClipboard(text) {
     });
 }
 
-function PersonalInfo({ ...props }) {
+function PersonalInfo() {
+
+    const { profile } = useProfile();
     
     const [bio,setBio] = useState(null);
     const [github,setGithub] = useState(null);
@@ -38,9 +41,9 @@ function PersonalInfo({ ...props }) {
     };
 
     useEffect(() => {
-        setBio(props.profile?.bio);
-        setGithub(props.profile?.github);
-    },[props.profile]);
+        setBio(profile?.data?.bio);
+        setGithub(profile?.data?.github);
+    },[profile]);
 
     return (
         <div className="box-border flex flex-col flex-shrink-0 w-full p-8 mr-12 overflow-hidden border border-border-input rounded-md md:w-[280px]">

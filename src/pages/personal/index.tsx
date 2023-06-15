@@ -16,9 +16,9 @@ function Personal() {
         <Layout>
             <PersonalBanner />
             <div className="">
-                <PersonalAvatar profile={profile} />
+                <PersonalAvatar />
                 <div className="flex flex-col items-start w-full px-8 mx-auto mt-12 mb-10 md:flex-row md:w-[1024px] md:mb-28">
-                    <PersonalInfo profile={profile} />
+                    <PersonalInfo />
                     <div className="w-full mt-10 md:mt-0">
                         <PersonalList />
                     </div>
