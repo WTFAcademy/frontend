@@ -1,4 +1,4 @@
-import React, { useMemo, ReactNode } from "react";
+import React, {useMemo, ReactNode, ReactElement} from "react";
 
 export const StepperContext = React.createContext(null);
 
@@ -11,7 +11,7 @@ const Stepper = ({ children, activeStep }: Props) => {
   const contextValue = useMemo(() => ({ activeStep }), [activeStep]);
 
   const childrenArray = React.Children.toArray(children).filter(Boolean);
-  const steps = childrenArray.map((step, index) => {
+  const steps = childrenArray.map((step: ReactElement, index) => {
     return React.cloneElement(step, {
       index,
       first: index === 0,
