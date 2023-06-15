@@ -5,10 +5,9 @@ import { Button } from "./Button";
 interface Props {
   children: ReactNode;
   className?: string;
-  handleConnected?: Function;
 }
 
-function ConnectWalletButton({ children, className, handleConnected }: Props) {
+function ConnectWalletButton({ children, className }: Props) {
   return (
     <ConnectButton.Custom>
       {({
@@ -29,9 +28,6 @@ function ConnectWalletButton({ children, className, handleConnected }: Props) {
           chain &&
           (!authenticationStatus || authenticationStatus === "authenticated");
 
-        useEffect(() => {
-          connected && handleConnected && handleConnected(account);
-        }, [connected]);
         return (
           <div
             {...(!ready && {
