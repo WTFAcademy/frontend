@@ -8,7 +8,7 @@ function Settings() {
     return (
         <Layout>
             <PersonalBanner />
-            <div className="bg-gray-50">
+            <div>
                 <div className="w-full mx-auto mt-12 px-4 flex items-center md:w-[800px] md:px-0">
                     <Link to="/personal">
                         <div className="w-[38px] h-[38px] flex justify-center items-center rounded-full bg-gray-100">
