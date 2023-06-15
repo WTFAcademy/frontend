@@ -52,6 +52,12 @@
         /* primary */
         --ui-primary: var(--wtf-brand-secondary);
         --ui-primary-foreground: var(--wtf-white);
+        --ui-primary-darkest: var(--wtf-blue-50);
+        --ui-primary-darker: var(--wtf-blue-100);
+        --ui-primary-dark: var(--wtf-blue-200);
+        --ui-primary-light: var(--wtf-blue-600);
+        --ui-primary-lighter: var(--wtf-blue-700);
+        --ui-primary-lightest: var(--wtf-blue-800);
 
         /* secondary */
         --ui-secondary: var(--wtf-gray-500);
@@ -187,7 +193,7 @@
         @apply border-border;
     }
 
-    html,body {
+    html, body {
         height: unset !important;
         min-height: 100%;
     }
@@ -195,6 +201,30 @@
     body {
         @apply bg-background text-foreground;
         font-feature-settings: "rlig" 1, "calt" 1;
+    }
+
+    h1 {
+        @apply scroll-m-20 text-4xl font-extrabold tracking-tight;
+    }
+
+    h2 {
+        @apply scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0;
+    }
+
+    h3 {
+        @apply scroll-m-20 text-2xl font-semibold tracking-tight;
+    }
+
+    h4 {
+        @apply scroll-m-20 text-xl font-semibold tracking-tight;
+    }
+
+    h5 {
+        @apply scroll-m-20 text-lg font-semibold tracking-tight;
+    }
+
+    h6 {
+        @apply scroll-m-20 text-base font-semibold tracking-tight;
     }
 }
 
@@ -210,8 +240,8 @@
         width: 100%;
         margin-right: auto;
         margin-left: auto;
-        padding-right: 2rem/* 32px */;
-        padding-left: 2rem/* 32px */;
+        padding-right: 2rem /* 32px */;
+        padding-left: 2rem /* 32px */;
     }
 
     .personal-bg-image {
