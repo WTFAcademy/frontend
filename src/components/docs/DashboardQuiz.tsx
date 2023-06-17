@@ -38,7 +38,7 @@ const DashboardQuiz = (props: TProps) => {
             <h4>课程学习进度</h4>
             <div className="flex flex-col gap-[14px] mt-7">
                 {lessons?.map(lesson => (
-                    <LessonItem lesson={lesson} />
+                    <LessonItem key={lesson.lesson_id} lesson={lesson} />
                 ))}
             </div>
             <p className="mt-7">When you have completed all the courses, please click the button below to get the
