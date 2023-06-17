@@ -13,3 +13,4 @@ export {default as Twitter} from "./Twitter";
 export {default as WTFLetter} from "./WTFLetter";
 export {default as LongArrowRight} from "./LongArrowRight";
 export {default as ShortArrowRight} from "./ShortArrowRight";
+export {default as ArrowRightCircleIcon} from "./ArrowRightCircle";

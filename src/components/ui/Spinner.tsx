@@ -33,7 +33,7 @@ const Spinner = (props: TProps) => {
   return (
     <SpinnerIcon
       className={cn(
-        "w-5 h-5 mr-2 text-gray-300 animate-spin dark:text-gray-600 fill-blue-600",
+        "w-5 h-5 text-gray-300 animate-spin dark:text-gray-600 fill-blue-600",
         props.className
       )}
     />

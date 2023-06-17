@@ -1,0 +1,72 @@
+import React, {useEffect, useMemo} from "react";
+import StepCard from "@site/src/components/StepCard";
+import {ArrowRightCircleIcon} from "lucide-react";
+import {useAccount, useSigner} from "wagmi";
+import {useMutation} from "react-query";
+import {get} from "lodash-es";
+import useAuth from "@site/src/hooks/useAuth";
+import {bindWallet} from "@site/src/api/wallet-auth";
+import {useHistory} from "@docusaurus/router"
+import {Spinner} from "@site/src/components";
+
+type TProps = {
+    next?: (value: number) => void;
+    nonce?: string;
+}
+
+const formatChainError = (message: string) => {
+    if (message.includes("user rejected signing")) {
+        return "User rejected signing"
+    }
+}
+
+const StepBindWallet = (props: TProps) => {
+    const {data: user} = useAuth();
+    const {address} = useAccount();
+    const {data: signer} = useSigner();
+    const githubName = get(user, "user_metadata.user_name"); // TODO(chong) 待使用统一格式USER数据
+    const history = useHistory();
+
+    const {
+        data: bindWalletResponse,
+        isSuccess,
+        isError,
+        isLoading,
+        error,
+        mutateAsync: bindWalletMutate
+    } = useMutation(async () => {
+        const nonce = await signer.getTransactionCount();
+        const message = `You are binding the wallet address to your github ID in WTF Academy. \n\nThis binding can not be changed later. \nPlease confirm the binding operation. \n\nGithub ID: ${githubName}\n\nWallet Address: ${address}\n\nNonce: ${nonce}`;
+        const signData = await signer.signMessage(message);
+        return bindWallet({mesData: message, signData, wallet: address});
+    })
+
+    useEffect(() => {
+        if (isSuccess) {
+            history.push("/");
+        }
+    }, [isSuccess])
+
+    const errorMessage = useMemo(() => {
+        return formatChainError((error as any)?.message || "") || (error as any)?.msg || "Unknown error";
+    }, [error])
+
+    return (
+        <StepCard error={isError} errorMessage={errorMessage}>
+            <div className="w-full flex justify-between text-base text-white font-medium">
+                <div className="flex flex-col">
+                    <span>Sign Message + Bind Wallet</span>
+                    {isError && <span className="text-xs text-start text-destructive-foreground">{errorMessage}</span>}
+                </div>
+                {!isLoading ? (
+                    <ArrowRightCircleIcon
+                        className="h-6 w-6 text-white cursor-pointer"
+                        onClick={() => bindWalletMutate()}
+                    />
+                ) : <Spinner loading className="w-6 h-6" />}
+            </div>
+        </StepCard>
+    )
+}
+
+export default StepBindWallet;

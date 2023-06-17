@@ -9,7 +9,7 @@ import useProfile from "@site/src/hooks/useProfile";
 
 function Personal() {
 
-    const { data, isLogin } = useAuth();
+    const { data, isGithubLogin } = useAuth();
     const { profile } = useProfile();
 
     return (

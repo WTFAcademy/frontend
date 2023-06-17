@@ -41,11 +41,19 @@ request.interceptors.request.use(async (config) => {
 
 request.interceptors.response.use(
     (response) => {
-        const {data, config} = response;
+        const {data, config, status} = response;
+
+        if (data.code !== 0) {
+            return Promise.reject(data);
+        }
+
+        if (status !== 200) {
+            return Promise.reject(response);
+        }
         return config.turnOnValve ? response : data;
     },
     (err) => {
-        console.log(err);
+        console.log("error", err);
     }
 );
 

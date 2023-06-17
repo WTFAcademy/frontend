@@ -10,15 +10,9 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
+      retry: false,
     },
   },
-  queryCache: new QueryCache({
-    onError: () => {
-      toast.error(
-          "Network Error: Ensure Metamask is connected to the same network that your contract is deployed to."
-      );
-    },
-  }),
 });
 
 export default function Root({ children }) {

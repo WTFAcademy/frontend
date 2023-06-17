@@ -3,9 +3,12 @@ import { signInWithGithub, signOut, supabase } from "@site/src/api/github-auth";
 
 const useAuth = () => {
   const [user, setUser] = useState(null);
+  const [isGithubLogin, setIsGithubLogin] = useState(false);
+  const [isWalletLogin, setIsWalletLogin] = useState(false);
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((_event, session) => {
+      setIsGithubLogin(true);
       setUser(session?.user ?? null);
     });
   }, []);
@@ -21,8 +24,11 @@ const useAuth = () => {
 
   return {
     data: user,
-    isLogin: user !== null,
-    signOut,
+    isGithubLogin,
+    isWalletLogin,
+    isLogin: isWalletLogin || isGithubLogin,
+    setIsWalletLogin,
+    signOutWithGithub: signOut,
     signInWithGithub: handleSignInWithGithub,
   };
 };
