@@ -5,8 +5,6 @@ slug: /
 ---
 
 import { PageMetadata } from "@docusaurus/theme-common";
-import DashboardProcessTip from "@site/src/components/docs/DashboardProcessTip";
-import DashboardQuiz from "@site/src/components/docs/DashboardQuiz";
 import {COURSE_ID_SOLIDITY_101} from "@site/src/constants/course";
 
 # Solidity入门
@@ -14,7 +12,7 @@ import {COURSE_ID_SOLIDITY_101} from "@site/src/constants/course";
 *学习Solidity基础内容，开始智能合约之旅！基于[WTF Solidity极简教程](https://github.com/AmazingAng/WTF-Solidity)前15讲。*
 
 <DashboardProcessTip />
-<DashboardQuiz courseId={COURSE_ID_SOLIDITY_101} />
+<DashboardQuiz meta={require('./meta.json')} />
 
 <PageMetadata
   title="Solidity入门"

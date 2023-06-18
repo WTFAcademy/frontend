@@ -14,7 +14,7 @@ const TipItem = ({title, index}: {title: string; index: number}) => {
 
 const DashboardProcessTip = () => {
     return (
-        <div className="w-full mt-[60px]">
+        <div className="w-full mt-[30px]">
             <h4>学习并获得技术认证</h4>
             <div className="border border-dashed border-gray-400 rounded-md px-[50px] py-8 flex justify-around items-center mt-7">
                 <TipItem index={1} title="学习" />
