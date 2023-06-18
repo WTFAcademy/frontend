@@ -9,7 +9,7 @@ export const getLessons = (courseId: string) => {
 }
 
 export const getLesson = (courseId: string, lessonId: string) => {
-    return request.get(`/courses/${courseId}/user_lessons/${lessonId}`).then(res => res.data);
+    return request.get<unknown, TResult<{lesson: TLesson}>>(`/courses/${courseId}/user_lessons/${lessonId}`).then(res => res.data.lesson);
 }
 
 export const getCourseInfo = (courseId: string) => {

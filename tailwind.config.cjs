@@ -116,7 +116,15 @@ module.exports = {
             animation: {
                 "accordion-down": "accordion-down 0.2s ease-out",
                 "accordion-up": "accordion-up 0.2s ease-out"
-            }
+            },
+            typography: ({ theme }) => ({
+                blue: {
+                    css: {
+                        '--tw-prose-pre-code': "var(--ifm-pre-color)",
+                        '--tw-prose-pre-bg': "var(--ifm-pre-background)",
+                    }
+                }
+            })
         }
     },
     plugins: [
