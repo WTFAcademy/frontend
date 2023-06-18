@@ -4,6 +4,7 @@ import {getStorageWTFToken} from "@site/src/utils/local-storage";
 declare module 'axios' {
     export interface AxiosRequestConfig {
         turnOnValve?: boolean; // 是否关闭处理response返回的数据仅返回data, false为处理，true为不处理
+        ignore?: boolean | number[];
     }
 }
 
@@ -28,7 +29,9 @@ request.interceptors.response.use(
     (response) => {
         const {data, config, status} = response;
 
-        // TODO(daxiongya): 1. 处理401错误 2. 处理错误返回格式，目前存在两种{code, msg} | {message}
+        // TODO(daxiongya):
+        //  1. 处理(基础状态码：401,500; 业务状态码：1000, 1001)错误
+        //  2. 处理错误返回格式，目前存在两种{code, msg} | {message} => {message}
         if (data.code !== 0) {
             return Promise.reject(data);
         }

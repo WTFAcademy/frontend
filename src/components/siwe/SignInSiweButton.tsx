@@ -36,7 +36,7 @@ const SignInSiweButton = (props: TProps) => {
             version: '1',
             chainId,
             nonce: nonce,
-            expirationTime: dayjs().add(1, 'day').toISOString(),
+            expirationTime: dayjs().add(2, 'day').toISOString(),
         })
 
         const signature = await signMessageAsync({

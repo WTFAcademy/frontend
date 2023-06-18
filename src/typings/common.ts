@@ -18,6 +18,6 @@ export type TCourseAsset = {
 
 export type TResult<T> = {
     "code": number;
-    "message": string;
+    "msg": string;
     "data": T;
 }

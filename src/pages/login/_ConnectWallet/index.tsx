@@ -9,6 +9,7 @@ import {ConnectButton} from "@rainbow-me/rainbowkit";
 import useAuth from "@site/src/hooks/useAuth";
 import SignInSiweButton from "@site/src/components/siwe/SignInSiweButton";
 import {toast} from "react-hot-toast";
+import truncation from "@site/src/utils/truncation";
 
 const ConnectWallet = () => {
     const {address} = useAccount();
@@ -20,7 +21,7 @@ const ConnectWallet = () => {
         isLoading: isCheckUserStatus,
         data,
         isSuccess,
-        refetch: refetchNonce
+        refetch: refetchNonce,
     } = useQuery("getNonce", () => getNonce(address), {
         retry: false,
     });
