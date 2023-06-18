@@ -11,3 +11,9 @@
 .footer__link-item > svg {
     @apply inline-block;
 }
+
+/*markdown*/
+
+.markdown {
+    @apply max-w-full prose prose-blue dark:prose-invert dark:bg-slate-800;
+}

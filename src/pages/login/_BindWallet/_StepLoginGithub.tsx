@@ -26,7 +26,7 @@ const StepLoginGithub = (props: TProps) => {
                 {!completed && (
                     <ArrowRightCircleIcon
                         className="h-6 w-6 text-white cursor-pointer"
-                        onClick={() => signInWithGithub(true)}
+                        onClick={() => signInWithGithub({useLocationHref: true})}
                     />
                 )}
             </div>

@@ -1,6 +1,5 @@
 import axios from "axios";
-import {TAny} from "@site/src/typings/common";
-import {SUPABASE_ID} from "@site/src/constants/global";
+import {getStorageWTFToken} from "@site/src/utils/local-storage";
 
 declare module 'axios' {
     export interface AxiosRequestConfig {
@@ -20,22 +19,8 @@ let request = axios.create({
 });
 
 request.interceptors.request.use(async (config) => {
-    const accountInfo: TAny = localStorage.getItem(
-        `sb-${SUPABASE_ID}-auth-token`
-    );
-
-    if (accountInfo) {
-        // @dev(b00l) 本地测试时，需手动写固定token(从 https://www.wtf.academy/ 获取)
-        let access_token = JSON.parse(accountInfo)["access_token"];
-
-        console.log("token过期：", accountInfo.expiresAt);
-        if (+new Date() >= accountInfo.expiresAt * 1000) {
-            console.log("过期");
-        }
-
-        config.headers.Authorization = `Bearer ${access_token}`;
-    }
-
+    const access_token = getStorageWTFToken();
+    config.headers.Authorization = `Bearer ${access_token}`;
     return config;
 });
 
@@ -43,6 +28,7 @@ request.interceptors.response.use(
     (response) => {
         const {data, config, status} = response;
 
+        // TODO(daxiongya): 1. 处理401错误 2. 处理错误返回格式，目前存在两种{code, msg} | {message}
         if (data.code !== 0) {
             return Promise.reject(data);
         }

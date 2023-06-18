@@ -5,6 +5,7 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import {WTFLetter as WTFLetterIcon} from "@site/src/icons";
 import LoginEntry from "@site/src/pages/login/_LoginEntry";
 import ConnectWallet from "@site/src/pages/login/_ConnectWallet";
+
 function Login() {
     const {siteConfig} = useDocusaurusContext();
     const {isConnected} = useAccount();
@@ -21,7 +22,7 @@ function Login() {
                     Log in to WTF Academy
                 </p>
                 <div className="shadow-md bg-secondary-foreground rounded-lg px-10 py-8 mt-8">
-                    {isConnected ? <ConnectWallet /> : <LoginEntry />}
+                    {isConnected ? <ConnectWallet/> : <LoginEntry/>}
                 </div>
             </div>
         </Layout>

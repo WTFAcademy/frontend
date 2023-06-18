@@ -1,6 +1,5 @@
 import useBreakpoint from "@site/src/hooks/useBreakpoint";
 import React, {useMemo} from "react";
-import {useRequest} from "ahooks";
 import {getContributors} from "@site/src/api/contributor";
 import {chunk} from "lodash-es";
 import {Button} from "@site/src/components/ui/Button";
