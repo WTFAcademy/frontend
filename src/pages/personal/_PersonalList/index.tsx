@@ -15,7 +15,7 @@ function PersonalList() {
                     </div>
                     <div className="absolute z-0 w-full h-full bg-black opacity-50"></div>
                     <div className="absolute z-10 flex flex-col items-start justify-end h-full p-3">
-                        <h2 className="text-xl font-bold text-white">Solidity 101</h2>
+                        <h3 className="text-xl font-bold text-white">Solidity 101</h3>
                         <p className="mt-0.5 text-white text-xs font-semibold">Learn Solidity Basics</p>
                         <div className="mt-2 py-1 px-2 flex items-center rounded-md bg-[#ffffff3f] overflow-hidden backdrop-blur-[2px]">
                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -31,7 +31,7 @@ function PersonalList() {
                     </div>
                     <div className="absolute z-0 w-full h-full bg-black opacity-50"></div>
                     <div className="absolute z-10 flex flex-col items-start justify-end h-full p-3">
-                        <h2 className="text-xl font-bold text-white">Solidity 102</h2>
+                        <h3 className="text-xl font-bold text-white">Solidity 102</h3>
                         <p className="mt-0.5 text-white text-xs font-semibold">Learn Advanced Solidity Topics</p>
                         <div className="mt-2 py-1 px-2 flex items-center rounded-md bg-[#ffffff3f] overflow-hidden backdrop-blur-[2px]">
                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">

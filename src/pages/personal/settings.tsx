@@ -1,10 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '@theme/Layout';
 import PersonalBanner from '@site/src/pages/personal/_PersonalBanner';
 import {Button} from "@site/src/components/ui/Button";
 import Link from '@docusaurus/Link';
+import useProfile from "@site/src/hooks/useProfile";
 
 function Settings() {
+
+    const { profile } = useProfile();
+
+    const [email,setEmail] = useState();
+    const [github,setGithub] = useState();
+    const [username,setUsername] = useState();
+    const [nickname,setNickname] = useState();
+
+    
+    useEffect(() => {
+        setEmail(profile?.data?.email);
+        setGithub(profile?.data?.github);
+        setUsername(profile?.data?.username);
+        setNickname(profile?.data?.nickname);
+    },[profile]);
+    
+    console.log(email);
+    
     return (
         <Layout>
             <PersonalBanner />
@@ -21,7 +40,7 @@ function Settings() {
                 </div>
                 <div className="w-auto p-8 mx-4 my-12 border border-gray-300 rounded-md md:w-[800px] md:mx-auto">
                     <div className="w-full mb-6">
-                        <h2 className="mb-1 text-lg text-gray-900">Account</h2>
+                        <h4 className="mb-1 text-lg text-gray-900">Account</h4>
                         <p className="text-sm text-gray-500">Settings related to your account.</p>
                     </div>
                     <div className="w-full mb-6">
@@ -32,14 +51,14 @@ function Settings() {
                                 name="email"
                                 id="email"
                                 disabled
-                                defaultValue="tank@wtf.academy"
+                                defaultValue={ email }
                                 className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 md:w-[504px]"
                                 placeholder="you@example.com"
                             />
                         </div>
                     </div>
                     <div className="w-full mb-6">
-                        <h2 className="block mb-1 text-sm font-medium text-gray-700">Connections</h2>
+                        <h4 className="block mb-1 text-sm font-medium text-gray-700">Connections</h4>
                         <div className="w-full h-[74px] px-6 py-4 flex items-center justify-between my-1 text-sm font-medium text-gray-700 border border-gray-300 rounded-md">
                             <div className="flex-shrink-0 mr-3">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -47,8 +66,8 @@ function Settings() {
                                 </svg>
                             </div>
                             <div className="flex flex-col w-full">
-                                <h2 className="text-sm font-semibold text-gray-700">GitHub</h2>
-                                <p className="text-sm text-gray-500">Tank Xu (<span className="text-[#274BC9]">@tankxu</span>)</p>
+                                <h4 className="text-sm font-semibold text-gray-700">GitHub</h4>
+                                <p className="text-sm text-gray-500">{ nickname } (<span className="text-[#274BC9]">@{ username }</span>)</p>
                             </div>
                             <div className="w-[30px] h-[30px] flex flex-shrink-0 justify-center items-center cursor-pointer">
                                 <svg width="14" height="4" viewBox="0 0 14 4" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -78,7 +97,7 @@ function Settings() {
                                 </svg>
                             </div>
                             <div className="flex flex-col w-full">
-                                <h2 className="text-sm font-semibold text-gray-700">ETH</h2>
+                                <h4 className="text-sm font-semibold text-gray-700">ETH</h4>
                                 <p className="text-sm text-gray-500">0xaB4...0F97</p>
                             </div>
                             <div className="w-[30px] h-[30px] flex flex-shrink-0 justify-center items-center cursor-pointer">
@@ -89,12 +108,43 @@ function Settings() {
                                 </svg>
                             </div>
                         </div>
-                        <Button className="w-auto h-[34px] mt-2 text-base bg-[#DDE6FA] text-[#3F69D5]">
+                        <Button className="w-auto h-[34px] mt-2 mb-6 text-base bg-[#DDE6FA] text-[#3F69D5]">
                             <svg width="12" height="12" className="mr-2" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fillRule="evenodd" clipRule="evenodd" d="M6.00002 0.400024C6.44185 0.400024 6.80002 0.758197 6.80002 1.20002V5.20002H10.8C11.2419 5.20002 11.6 5.5582 11.6 6.00002C11.6 6.44185 11.2419 6.80002 10.8 6.80002H6.80002V10.8C6.80002 11.2419 6.44185 11.6 6.00002 11.6C5.5582 11.6 5.20002 11.2419 5.20002 10.8V6.80002H1.20002C0.758197 6.80002 0.400024 6.44185 0.400024 6.00002C0.400024 5.5582 0.758197 5.20002 1.20002 5.20002H5.20002V1.20002C5.20002 0.758197 5.5582 0.400024 6.00002 0.400024Z" fill="#3F69D5"/>
                             </svg>
                             Connect new wallet
                         </Button>
+
+                        <div className="w-full mb-6">
+                            <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-700">Nickname</label>
+                            <div className="mt-2">
+                                <input
+                                    name="nickname"
+                                    id="nickname"
+                                    defaultValue={ nickname }
+                                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 md:w-[504px]"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="w-full mb-6">
+                            <label htmlFor="about" className="block mb-1 text-sm font-medium text-gray-700">
+                                Bio
+                            </label>
+                            <div className="mt-2">
+                                <textarea
+                                id="bio"
+                                name="bio"
+                                rows={3}
+                                className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                defaultValue={''}
+                                />
+                            </div>
+                            <p className="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about yourself.</p>
+                        </div>
+                        <button className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                            Save
+                        </button>
                     </div>
                 </div>
             </div>

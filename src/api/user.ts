@@ -1,7 +1,17 @@
 import request from "./request";
 
-export const getProfile = (uid: string) => 
-  request.get(`/user/${uid}/profile`);
+export const getProfile = (token: string) => {
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json',
+  };
+  return request.get(`/user`, { headers });
+}
 
-export const updateProfile = (uid: string) => 
-  request.put(`/user/${uid}/profile`);
+export const updateProfile = (token: string) => {
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json',
+  };
+  return request.put(`/user`, { headers });
+}
