@@ -29,7 +29,7 @@ type TAuthContext = {
     signInWithGithub: (options: { useLocationHref?: boolean, customPath?: string }) => void,
     signInWithWallet: (
         data: TAuthWalletLogin,
-        options: { useLocationHref?: boolean, customPath?: string }
+        options?: { useLocationHref?: boolean, customPath?: string }
     ) => void,
 }
 
