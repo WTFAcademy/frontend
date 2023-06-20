@@ -1,8 +1,9 @@
 import useAuth from "@site/src/hooks/useAuth";
-import {Button, ConnectWalletButton, Spinner} from "@site/src/components";
 import {GitHubWhite as GitHubIconWhite} from "@site/src/icons";
 import React from "react";
 import LoginTipParagraph from "@site/src/components/LoginTipParagraph";
+import { Button } from "@site/src/components/ui/Button";
+import ConnectWalletButton from "@site/src/components/ui/ConnectWalletButton";
 function LoginEntry() {
     const {signInWithGithub} = useAuth();
 

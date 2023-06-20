@@ -4,12 +4,12 @@ import {Button} from "@site/src/components/ui/Button";
 import {SiweMessage} from "siwe";
 import {loginWithWallet} from "@site/src/api/wallet-auth";
 import {useMutation, useQuery} from "react-query";
-import {Spinner} from "@site/src/components";
 
 import {cn} from "@site/src/utils/class-utils";
 import {toast} from "react-hot-toast";
 import dayjs from "dayjs";
 import {TAny} from "@site/src/typings/common";
+import Spinner from "@site/src/components/ui/Spinner";
 
 type TProps = {
     nonce?: string;

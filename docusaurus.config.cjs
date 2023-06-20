@@ -128,10 +128,10 @@ const config = {
                         type: 'localeDropdown',
                         position: 'right',
                     },
-                    // {
-                    //     type: 'custom-profile',
-                    //     position: 'right'
-                    // }
+                    {
+                        type: 'custom-profile',
+                        position: 'right'
+                    }
                 ],
             },
             footer: {

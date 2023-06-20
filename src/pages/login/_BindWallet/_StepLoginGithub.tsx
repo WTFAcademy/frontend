@@ -22,8 +22,8 @@ const StepLoginGithub = (props: TProps) => {
     return (
         <StepCard>
             <div className="w-full flex justify-between text-base text-white font-medium">
-                <span>{completed ? "已登录Github" : "Github登录"}</span>
-                {!completed && (
+                <span>{isGithubLogin ? "已登录Github" : "Github登录"}</span>
+                {!isGithubLogin && (
                     <ArrowRightCircleIcon
                         className="h-6 w-6 text-white cursor-pointer"
                         onClick={() => signInWithGithub({useLocationHref: true})}

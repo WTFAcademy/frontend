@@ -1,69 +1,21 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {signInWithGithub, signOut, supabase} from "@site/src/api/github-auth";
 import {useQuery} from "react-query";
 import {getUserInfo} from "@site/src/api/user";
 import {TAuthWalletLogin} from "@site/src/typings/auth";
 import {storageWTFToken, storageWTFUser} from "@site/src/utils/local-storage";
 import {useHistory} from "@docusaurus/router";
+import {useDisconnect} from "wagmi";
+import {AuthContext} from "@site/src/contexts/AuthContext";
 
 const useAuth = () => {
-    const [isGithubLogin, setIsGithubLogin] = useState(false);
-    const [isWalletLogin, setIsWalletLogin] = useState(false);
-    const history = useHistory();
-    const {data, isLoading, refetch: refetchUserInfo} = useQuery(
-        "userInfo",
-        () => getUserInfo(),
-        {
-            enabled: isGithubLogin || isWalletLogin,
-            onSuccess: (data) => {
-                storageWTFUser(data);
-            },
-        }
-    )
+    const context = useContext(AuthContext);
 
-    useEffect(() => {
-        supabase.auth.onAuthStateChange((_event, session) => {
-            setIsGithubLogin(true);
-            if (session?.access_token) {
-                refetchUserInfo();
-                storageWTFToken(session?.access_token);
-            }
-        });
-    }, []);
-
-    const handleSignInWithGithub = (
-        options: {
-            useLocationHref?: boolean,
-            customPath?: string
-        } = {}
-    ) => {
-        const {useLocationHref, customPath} = options;
-        useLocationHref
-            ? signInWithGithub(customPath || window.location.href)
-            : signInWithGithub();
-    };
-
-    const handleSignWithWallet = (
-        data: TAuthWalletLogin,
-        options: { useLocationHref?: boolean, customPath?: string } = {}
-    ) => {
-        if (data?.token) {
-            setIsWalletLogin(true);
-            refetchUserInfo();
-            storageWTFToken(data.token);
-            options.useLocationHref ? history.push(options.customPath || window.location.href) : history.push("/");
-        }
+    if (!context) {
+        throw new Error("in provider!")
     }
 
-    return {
-        data,
-        isGithubLogin,
-        isWalletLogin,
-        isLogin: isWalletLogin || isGithubLogin,
-        signOutWithGithub: signOut,
-        signInWithGithub: handleSignInWithGithub,
-        signInWithWallet: handleSignWithWallet,
-    };
+    return context;
 };
 
 export default useAuth;

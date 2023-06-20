@@ -2,6 +2,8 @@ import {TAuthUser} from "@site/src/typings/auth";
 
 export const STORAGE_WTF_TOKEN = 'WTF_TOKEN';
 export const STORAGE_WTF_USER   = 'WTF_USER';
+export const STORAGE_WTF_SIGN_IN_METHOD_GITHUB   = 'STORAGE_WTF_SIGN_IN_METHOD_GITHUB';
+export const STORAGE_WTF_SIGN_IN_METHOD_WALLET   = 'STORAGE_WTF_SIGN_IN_METHOD_WALLET';
 
 export const storageWTFToken = (value: string) => {
     localStorage.setItem(STORAGE_WTF_TOKEN, value);

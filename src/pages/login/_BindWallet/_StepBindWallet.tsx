@@ -7,7 +7,7 @@ import {get} from "lodash-es";
 import useAuth from "@site/src/hooks/useAuth";
 import {bindWallet} from "@site/src/api/wallet-auth";
 import {useHistory} from "@docusaurus/router"
-import {Spinner} from "@site/src/components";
+import Spinner from "@site/src/components/ui/Spinner";
 
 type TProps = {
     next?: (value: number) => void;

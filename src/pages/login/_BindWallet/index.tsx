@@ -1,7 +1,8 @@
-import {Step, Stepper} from "@site/src/components";
 import React, {useState} from "react";
 import StepLoginGithub from "@site/src/pages/login/_BindWallet/_StepLoginGithub";
 import StepBindWallet from "@site/src/pages/login/_BindWallet/_StepBindWallet";
+import Stepper from "@site/src/components/ui/Stepper";
+import Step from "@site/src/components/ui/Stepper/Step";
 
 function BindWallet() {
     const [activeStep, setActiveStep] = useState(0);

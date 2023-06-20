@@ -5,6 +5,7 @@ import GlobalContext from "@site/src/contexts/GlobalContext";
 import { WagmiConfig } from "wagmi";
 import { wagmiClient, chains } from "@site/src/utils/connect";
 import { QueryClient, QueryCache, QueryClientProvider } from 'react-query'
+import {AuthProvider} from "@site/src/contexts/AuthContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,7 +30,9 @@ export default function Root({ children }) {
     <WagmiConfig client={wagmiClient}>
       <QueryClientProvider client={queryClient}>
         <GlobalContext.Provider value={{ uid, setUid }}>
-          <RainbowKitProvider chains={chains}>{children}</RainbowKitProvider>
+          <AuthProvider>
+            <RainbowKitProvider chains={chains}>{children}</RainbowKitProvider>
+          </AuthProvider>
           <Toaster position="top-center" />
         </GlobalContext.Provider>
       </QueryClientProvider>
