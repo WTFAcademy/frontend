@@ -19,6 +19,7 @@ function defineSection(section, version = {}, options = {}) {
             path: `docs/${section}`,
             routeBasePath: section,
             include: ['**/*.md', '**/*.mdx'],
+            breadcrumbs: false,
             sidebarPath: require.resolve('./sidebars.cjs'),
             editUrl: 'https://github.com/WTFAcademy/frontend', // TODO: 需要更改
             versions: version && {
