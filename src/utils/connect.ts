@@ -1,13 +1,14 @@
-import { createClient, configureChains, mainnet } from "wagmi";
+import {createClient, configureChains, mainnet, goerli} from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { metaMaskWallet } from "@rainbow-me/rainbowkit/wallets";
 import { connectorsForWallets } from "@rainbow-me/rainbowkit";
+import {optimism} from "wagmi/chains";
 
 export const { chains, provider, webSocketProvider } = configureChains(
-  [mainnet],
+  [mainnet, optimism, goerli],
   [publicProvider()]
 );
 
@@ -17,7 +18,6 @@ const connectors = connectorsForWallets([
     wallets: [metaMaskWallet({ chains })],
   },
 ]);
-
 export const wagmiClient = createClient({
   autoConnect: true,
   connectors,

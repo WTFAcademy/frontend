@@ -53,7 +53,7 @@ const StepBindWallet = (props: TProps) => {
 
     return (
         <StepCard error={isError} errorMessage={errorMessage}>
-            <div className="w-full flex justify-between text-base text-white font-medium">
+            <div className="w-full flex justify-between">
                 <div className="flex flex-col">
                     <span>Sign Message + Bind Wallet</span>
                     {isError && <span className="text-xs text-start text-destructive-foreground">{errorMessage}</span>}
