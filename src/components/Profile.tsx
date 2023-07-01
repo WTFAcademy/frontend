@@ -25,27 +25,19 @@ const Profile = () => {
     }
 
     const renderWalletInfo = () => {
-        if (user?.wallet && isWalletLogin) {
+        if (user?.wallet) {
             return (
                 <>
                     <DropdownMenuLabel className="flex items-center">
-                        {truncation(address)}
-                        <UnplugIcon
-                            className="w-4 h-4 ml-2 hover:text-destructive cursor-pointer"
-                            onClick={signOutWithWallet}
-                        />
+                        {truncation(user?.wallet)}
+                        {/*复制*/}
+                        {/*<UnplugIcon*/}
+                        {/*    className="w-4 h-4 ml-2 hover:text-destructive cursor-pointer"*/}
+                        {/*    onClick={signOutWithWallet}*/}
+                        {/*/>*/}
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator/>
                 </>
-            )
-        }
-
-        if (user?.wallet && !isWalletLogin) {
-            return (
-                <DropdownMenuItem>
-                    <WalletIcon className="w-4 h-4 mr-2"/>
-                    连接钱包
-                </DropdownMenuItem>
             )
         }
 
@@ -57,17 +49,6 @@ const Profile = () => {
                 </DropdownMenuItem>
             )
         }
-
-        if (user?.wallet && user?.wallet !== address && isWalletLogin) {
-            return (
-                <DropdownMenuItem className="text-destructive">
-                    <WalletIcon className="w-4 h-4 mr-2"/>
-                    切换钱包
-                </DropdownMenuItem>
-            )
-        }
-
-        // TODO(daxiongya): 网络不支持的情况
 
         return <></>
     }

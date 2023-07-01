@@ -11,6 +11,7 @@ type TProps = {
     first?: boolean;
     index?: number;
     placeholderWidth?: number;
+    linkCount?: number;
 }
 
 export type TStepStateProps = {
@@ -55,7 +56,9 @@ const Step = (props: TProps) => {
         first,
         index,
         placeholderWidth,
+        linkCount = 3
     } = props;
+
 
     const {activeStep} = useContext(StepperContext);
     const stepCompRef = React.useRef(null);
@@ -90,8 +93,9 @@ const Step = (props: TProps) => {
         <StepContext.Provider value={contextValue}>
             {!first && (
                 <div className="ml-[9px]">
-                    <BorderItem/>
-                    <BorderItem/>
+                    {Array.from({length: linkCount - 1}).map((_, i) => (
+                        <BorderItem key={i} />
+                    ))}
                     <BorderItem last/>
                 </div>
             )}
@@ -102,7 +106,7 @@ const Step = (props: TProps) => {
                 })}
             >
                 <StepIcon className="mr-4 text-[22px]"/>
-                <div ref={stepCompRef} className="absolute left-[40px] right-0 w-max">{children}</div>
+                <div ref={stepCompRef} className="absolute left-[40px] right-0 min-w-max">{children}</div>
                 <div style={{width: (placeholderWidth || stepCompRect?.width) + "px", height: 30}}/>
             </div>
         </StepContext.Provider>
