@@ -94,7 +94,9 @@ const Profile = () => {
                 {renderWalletInfo()}
                 <DropdownMenuItem>
                     <UserIcon className="w-4 h-4 mr-2"/>
-                    个人中心
+                    <Link to="/personal">
+                        个人中心
+                    </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator/>
                 <DropdownMenuItem onClick={handleSignOut}>

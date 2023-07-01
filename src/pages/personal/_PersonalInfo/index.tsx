@@ -7,7 +7,8 @@ import EthereumIcon from '@site/src/icons/Ethereum';
 import GithubIcon from '@site/src/icons/Github';
 import CheckIcon from '@site/src/icons/Check';
 // import TwitterIcon from '@site/src/icons/Twitter';
-import useProfile from "@site/src/hooks/useProfile";
+import useAuth from "@site/src/hooks/useAuth";
+import truncation from "@site/src/utils/truncation";
 
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
@@ -19,38 +20,35 @@ function copyToClipboard(text) {
 
 function PersonalInfo() {
 
-    const { profile } = useProfile();
+    const { data } = useAuth();
     
     const [bio,setBio] = useState(null);
     const [github,setGithub] = useState(null);
     const [copy,setCopy] = useState(false);
-
-    const address = '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045';
-
-    const firstFive = slice(address, 0, 5);
-    const lastFour = slice(address, -4);
+    const [wallet,setWallet] = useState('');
     
     const handleCopy = () => {
         if(!copy){
             setCopy(true);
-            copyToClipboard(address);
+            copyToClipboard(wallet);
             setTimeout(() => {
                 setCopy(false);
-            }, 3000);
+            }, 1000);
         }
     };
 
     useEffect(() => {
-        setBio(profile?.data?.bio);
-        setGithub(profile?.data?.github);
-    },[profile]);
+        setBio(data?.bio);
+        setGithub(data?.github);
+        setWallet(data?.wallet);
+    },[data]);
 
     return (
         <div className="box-border flex flex-col flex-shrink-0 w-full p-8 mr-12 overflow-hidden border border-border-input rounded-md md:w-[280px]">
             <p className="mb-6 text-sm leading-5 text-gray-500">{ bio }</p>
             <div className="flex items-center mb-6 text-gray-700">
                 <EthereumIcon />
-                <p className="mx-2">{firstFive}...{lastFour}</p>
+                <p className="mx-2">{truncation(wallet)}</p>
                 <div className="cursor-pointer" onClick={handleCopy}>
                     { copy ? <CheckIcon /> : <CopyIcon /> }
                 </div>
