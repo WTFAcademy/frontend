@@ -27,8 +27,7 @@ const Main = () => {
     const {info, requestInfoLoading} = useContext(CertificateContext);
     const {isLogin} = useAuth();
 
-    // const hasClaimed = get(info, "data.hasClaimed");
-    const hasClaimed = false;
+    const hasClaimed = get(info, "data.hasClaimed");
     const canGraduate = get(info, "can_graduate");
     const title = get(info, 'course_title');
     const nftImage = get(info, 'image_url');

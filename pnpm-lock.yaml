@@ -12,8 +12,12 @@ specifiers:
   '@radix-ui/react-avatar': ^1.0.3
   '@radix-ui/react-checkbox': ^1.0.4
   '@radix-ui/react-dropdown-menu': ^2.0.5
+  '@radix-ui/react-form': ^0.0.3
   '@radix-ui/react-icons': ^1.3.0
+  '@radix-ui/react-label': ^2.0.2
   '@radix-ui/react-popper': ^1.1.2
+  '@radix-ui/react-radio-group': ^1.1.3
+  '@radix-ui/react-select': ^1.2.2
   '@radix-ui/react-slot': ^1.0.1
   '@radix-ui/react-switch': ^1.0.2
   '@radix-ui/react-tabs': ^1.0.3
@@ -49,6 +53,7 @@ specifiers:
   prism-react-renderer: ^1.3.5
   react: ^17.0.2
   react-dom: ^17.0.2
+  react-hook-form: ^7.45.1
   react-hot-toast: ^2.4.1
   react-query: ^3.39.3
   siwe: ^2
@@ -75,8 +80,12 @@ dependencies:
   '@radix-ui/react-avatar': 1.0.3_sfoxds7t5ydpegc3knd667wn6m
   '@radix-ui/react-checkbox': 1.0.4_sfoxds7t5ydpegc3knd667wn6m
   '@radix-ui/react-dropdown-menu': 2.0.5_sfoxds7t5ydpegc3knd667wn6m
+  '@radix-ui/react-form': 0.0.3_sfoxds7t5ydpegc3knd667wn6m
   '@radix-ui/react-icons': 1.3.0_react@17.0.2
+  '@radix-ui/react-label': 2.0.2_sfoxds7t5ydpegc3knd667wn6m
   '@radix-ui/react-popper': 1.1.2_sfoxds7t5ydpegc3knd667wn6m
+  '@radix-ui/react-radio-group': 1.1.3_sfoxds7t5ydpegc3knd667wn6m
+  '@radix-ui/react-select': 1.2.2_sfoxds7t5ydpegc3knd667wn6m
   '@radix-ui/react-slot': 1.0.1_react@17.0.2
   '@radix-ui/react-switch': 1.0.2_sfoxds7t5ydpegc3knd667wn6m
   '@radix-ui/react-tabs': 1.0.3_sfoxds7t5ydpegc3knd667wn6m
@@ -99,6 +108,7 @@ dependencies:
   prism-react-renderer: 1.3.5_react@17.0.2
   react: r2.cnpmjs.org/react/17.0.2
   react-dom: r2.cnpmjs.org/react-dom/17.0.2_react@17.0.2
+  react-hook-form: 7.45.1_react@17.0.2
   react-hot-toast: 2.4.1_sfoxds7t5ydpegc3knd667wn6m
   react-query: registry.npmmirror.com/react-query/3.39.3_sfoxds7t5ydpegc3knd667wn6m
   siwe: 2.1.4_ethers@5.7.2
@@ -3465,10 +3475,16 @@ packages:
     dev: true
     optional: true
 
+  /@radix-ui/number/1.0.1:
+    resolution: {integrity: sha512-T5gIdVO2mmPW3NNhjNgEP3cqMXjXL9UbO0BzWcXfvdBs+BohbQxvd/K5hSVKmn9/lbTdsQVKbUcP5WLCwvUbBg==}
+    dependencies:
+      '@babel/runtime': 7.21.5
+    dev: false
+
   /@radix-ui/primitive/1.0.0:
     resolution: {integrity: sha512-3e7rn8FDMin4CgeL7Z/49smCA3rFYY3Ha2rUQ7HRWFadS5iCRw08ZgVT1LaNTCNqgvrUiyczLflrVrF0SRQtNA==}
     dependencies:
-      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.21.5
+      '@babel/runtime': 7.21.5
     dev: false
 
   /@radix-ui/primitive/1.0.1:
@@ -3544,6 +3560,21 @@ packages:
       react-dom: r2.cnpmjs.org/react-dom/17.0.2_react@17.0.2
     dev: false
 
+  /@radix-ui/react-collection/1.0.2_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-s8WdQQ6wNXpaxdZ308KSr8fEWGrg4un8i4r/w7fhiS4ElRNjk5rRcl0/C6TANG2LvLOGIxtzo/jAg6Qf73TEBw==}
+    peerDependencies:
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    dependencies:
+      '@babel/runtime': 7.21.5
+      '@radix-ui/react-compose-refs': 1.0.0_react@17.0.2
+      '@radix-ui/react-context': 1.0.0_react@17.0.2
+      '@radix-ui/react-primitive': 1.0.2_sfoxds7t5ydpegc3knd667wn6m
+      '@radix-ui/react-slot': 1.0.1_react@17.0.2
+      react: r2.cnpmjs.org/react/17.0.2
+      react-dom: r2.cnpmjs.org/react-dom/17.0.2_react@17.0.2
+    dev: false
+
   /@radix-ui/react-collection/1.0.3_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-3SzW+0PW7yBBoQlT8wNcGtaxaD0XSu0uLUFgrtHY08Acx05TaHaOmVLR73c0j/cqpDy53KBMO7s0dx2wmOIDIA==}
     peerDependencies:
@@ -3571,7 +3602,7 @@ packages:
     peerDependencies:
       react: ^16.8 || ^17.0 || ^18.0
     dependencies:
-      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.21.5
+      '@babel/runtime': 7.21.5
       react: r2.cnpmjs.org/react/17.0.2
     dev: false
 
@@ -3593,7 +3624,7 @@ packages:
     peerDependencies:
       react: ^16.8 || ^17.0 || ^18.0
     dependencies:
-      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.21.5
+      '@babel/runtime': 7.21.5
       react: r2.cnpmjs.org/react/17.0.2
     dev: false
 
@@ -3714,6 +3745,30 @@ packages:
       react-dom: r2.cnpmjs.org/react-dom/17.0.2_react@17.0.2
     dev: false
 
+  /@radix-ui/react-form/0.0.3_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-kgE+Z/haV6fxE5WqIXj05KkaXa3OkZASoTDy25yX2EIp/x0c54rOH/vFr5nOZTg7n7T1z8bSyXmiVIFP9bbhPQ==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.21.5
+      '@radix-ui/primitive': 1.0.1
+      '@radix-ui/react-compose-refs': 1.0.1_react@17.0.2
+      '@radix-ui/react-context': 1.0.1_react@17.0.2
+      '@radix-ui/react-id': 1.0.1_react@17.0.2
+      '@radix-ui/react-label': 2.0.2_sfoxds7t5ydpegc3knd667wn6m
+      '@radix-ui/react-primitive': 1.0.3_sfoxds7t5ydpegc3knd667wn6m
+      react: r2.cnpmjs.org/react/17.0.2
+      react-dom: r2.cnpmjs.org/react-dom/17.0.2_react@17.0.2
+    dev: false
+
   /@radix-ui/react-icons/1.3.0_react@17.0.2:
     resolution: {integrity: sha512-jQxj/0LKgp+j9BiTXz3O3sgs26RNet2iLWmsPyRz2SIcR4q/4SbazXfnYwbAr+vLYKSfc7qxzyGQA1HLlYiuNw==}
     peerDependencies:
@@ -3728,7 +3783,7 @@ packages:
       react: ^16.8 || ^17.0 || ^18.0
     dependencies:
       '@babel/runtime': 7.21.5
-      '@radix-ui/react-use-layout-effect': registry.npmmirror.com/@radix-ui/react-use-layout-effect/1.0.0_react@17.0.2
+      '@radix-ui/react-use-layout-effect': 1.0.0_react@17.0.2
       react: r2.cnpmjs.org/react/17.0.2
     dev: false
 
@@ -3744,6 +3799,25 @@ packages:
       '@babel/runtime': 7.21.5
       '@radix-ui/react-use-layout-effect': 1.0.1_react@17.0.2
       react: r2.cnpmjs.org/react/17.0.2
+    dev: false
+
+  /@radix-ui/react-label/2.0.2_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-N5ehvlM7qoTLx7nWPodsPYPgMzA5WM8zZChQg8nyFJKnDO5WHdba1vv5/H6IO5LtJMfD2Q3wh1qHFGNtK0w3bQ==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.21.5
+      '@radix-ui/react-primitive': 1.0.3_sfoxds7t5ydpegc3knd667wn6m
+      react: r2.cnpmjs.org/react/17.0.2
+      react-dom: r2.cnpmjs.org/react-dom/17.0.2_react@17.0.2
     dev: false
 
   /@radix-ui/react-menu/2.0.5_sfoxds7t5ydpegc3knd667wn6m:
@@ -3837,7 +3911,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.21.5
       '@radix-ui/react-compose-refs': 1.0.0_react@17.0.2
-      '@radix-ui/react-use-layout-effect': registry.npmmirror.com/@radix-ui/react-use-layout-effect/1.0.0_react@17.0.2
+      '@radix-ui/react-use-layout-effect': 1.0.0_react@17.0.2
       react: r2.cnpmjs.org/react/17.0.2
       react-dom: r2.cnpmjs.org/react-dom/17.0.2_react@17.0.2
     dev: false
@@ -3868,8 +3942,8 @@ packages:
       react: ^16.8 || ^17.0 || ^18.0
       react-dom: ^16.8 || ^17.0 || ^18.0
     dependencies:
-      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.21.5
-      '@radix-ui/react-slot': registry.npmmirror.com/@radix-ui/react-slot/1.0.1_react@17.0.2
+      '@babel/runtime': 7.21.5
+      '@radix-ui/react-slot': 1.0.1_react@17.0.2
       react: r2.cnpmjs.org/react/17.0.2
       react-dom: r2.cnpmjs.org/react-dom/17.0.2_react@17.0.2
     dev: false
@@ -3893,6 +3967,34 @@ packages:
       react-dom: r2.cnpmjs.org/react-dom/17.0.2_react@17.0.2
     dev: false
 
+  /@radix-ui/react-radio-group/1.1.3_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-x+yELayyefNeKeTx4fjK6j99Fs6c4qKm3aY38G3swQVTN6xMpsrbigC0uHs2L//g8q4qR7qOcww8430jJmi2ag==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.21.5
+      '@radix-ui/primitive': 1.0.1
+      '@radix-ui/react-compose-refs': 1.0.1_react@17.0.2
+      '@radix-ui/react-context': 1.0.1_react@17.0.2
+      '@radix-ui/react-direction': 1.0.1_react@17.0.2
+      '@radix-ui/react-presence': 1.0.1_sfoxds7t5ydpegc3knd667wn6m
+      '@radix-ui/react-primitive': 1.0.3_sfoxds7t5ydpegc3knd667wn6m
+      '@radix-ui/react-roving-focus': 1.0.4_sfoxds7t5ydpegc3knd667wn6m
+      '@radix-ui/react-use-controllable-state': 1.0.1_react@17.0.2
+      '@radix-ui/react-use-previous': 1.0.1_react@17.0.2
+      '@radix-ui/react-use-size': 1.0.1_react@17.0.2
+      react: r2.cnpmjs.org/react/17.0.2
+      react-dom: r2.cnpmjs.org/react-dom/17.0.2_react@17.0.2
+    dev: false
+
   /@radix-ui/react-roving-focus/1.0.3_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-stjCkIoMe6h+1fWtXlA6cRfikdBzCLp3SnVk7c48cv/uy3DTGoXhN76YaOYUJuy3aEDvDIKwKR5KSmvrtPvQPQ==}
     peerDependencies:
@@ -3901,13 +4003,13 @@ packages:
     dependencies:
       '@babel/runtime': 7.21.5
       '@radix-ui/primitive': 1.0.0
-      '@radix-ui/react-collection': registry.npmmirror.com/@radix-ui/react-collection/1.0.2_sfoxds7t5ydpegc3knd667wn6m
+      '@radix-ui/react-collection': 1.0.2_sfoxds7t5ydpegc3knd667wn6m
       '@radix-ui/react-compose-refs': 1.0.0_react@17.0.2
       '@radix-ui/react-context': 1.0.0_react@17.0.2
       '@radix-ui/react-direction': 1.0.0_react@17.0.2
       '@radix-ui/react-id': 1.0.0_react@17.0.2
       '@radix-ui/react-primitive': 1.0.2_sfoxds7t5ydpegc3knd667wn6m
-      '@radix-ui/react-use-callback-ref': registry.npmmirror.com/@radix-ui/react-use-callback-ref/1.0.0_react@17.0.2
+      '@radix-ui/react-use-callback-ref': 1.0.0_react@17.0.2
       '@radix-ui/react-use-controllable-state': 1.0.0_react@17.0.2
       react: r2.cnpmjs.org/react/17.0.2
       react-dom: r2.cnpmjs.org/react-dom/17.0.2_react@17.0.2
@@ -3938,6 +4040,45 @@ packages:
       '@radix-ui/react-use-controllable-state': 1.0.1_react@17.0.2
       react: r2.cnpmjs.org/react/17.0.2
       react-dom: r2.cnpmjs.org/react-dom/17.0.2_react@17.0.2
+    dev: false
+
+  /@radix-ui/react-select/1.2.2_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-zI7McXr8fNaSrUY9mZe4x/HC0jTLY9fWNhO1oLWYMQGDXuV4UCivIGTxwioSzO0ZCYX9iSLyWmAh/1TOmX3Cnw==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.21.5
+      '@radix-ui/number': 1.0.1
+      '@radix-ui/primitive': 1.0.1
+      '@radix-ui/react-collection': 1.0.3_sfoxds7t5ydpegc3knd667wn6m
+      '@radix-ui/react-compose-refs': 1.0.1_react@17.0.2
+      '@radix-ui/react-context': 1.0.1_react@17.0.2
+      '@radix-ui/react-direction': 1.0.1_react@17.0.2
+      '@radix-ui/react-dismissable-layer': 1.0.4_sfoxds7t5ydpegc3knd667wn6m
+      '@radix-ui/react-focus-guards': 1.0.1_react@17.0.2
+      '@radix-ui/react-focus-scope': 1.0.3_sfoxds7t5ydpegc3knd667wn6m
+      '@radix-ui/react-id': 1.0.1_react@17.0.2
+      '@radix-ui/react-popper': 1.1.2_sfoxds7t5ydpegc3knd667wn6m
+      '@radix-ui/react-portal': 1.0.3_sfoxds7t5ydpegc3knd667wn6m
+      '@radix-ui/react-primitive': 1.0.3_sfoxds7t5ydpegc3knd667wn6m
+      '@radix-ui/react-slot': 1.0.2_react@17.0.2
+      '@radix-ui/react-use-callback-ref': 1.0.1_react@17.0.2
+      '@radix-ui/react-use-controllable-state': 1.0.1_react@17.0.2
+      '@radix-ui/react-use-layout-effect': 1.0.1_react@17.0.2
+      '@radix-ui/react-use-previous': 1.0.1_react@17.0.2
+      '@radix-ui/react-visually-hidden': 1.0.3_sfoxds7t5ydpegc3knd667wn6m
+      aria-hidden: 1.2.3
+      react: r2.cnpmjs.org/react/17.0.2
+      react-dom: r2.cnpmjs.org/react-dom/17.0.2_react@17.0.2
+      react-remove-scroll: 2.5.5_react@17.0.2
     dev: false
 
   /@radix-ui/react-slot/1.0.1_react@17.0.2:
@@ -4052,6 +4193,15 @@ packages:
       react-dom: r2.cnpmjs.org/react-dom/17.0.2_react@17.0.2
     dev: false
 
+  /@radix-ui/react-use-callback-ref/1.0.0_react@17.0.2:
+    resolution: {integrity: sha512-GZtyzoHz95Rhs6S63D2t/eqvdFCm7I+yHMLVQheKM7nBD8mbZIt+ct1jz4536MDnaOGKIxynJ8eHTkVGVVkoTg==}
+    peerDependencies:
+      react: ^16.8 || ^17.0 || ^18.0
+    dependencies:
+      '@babel/runtime': 7.21.5
+      react: r2.cnpmjs.org/react/17.0.2
+    dev: false
+
   /@radix-ui/react-use-callback-ref/1.0.1_react@17.0.2:
     resolution: {integrity: sha512-D94LjX4Sp0xJFVaoQOd3OO9k7tpBYNOXdVhkltUbGv2Qb9OXdrg/CpsjlZv7ia14Sylv398LswWBVVu5nqKzAQ==}
     peerDependencies:
@@ -4070,8 +4220,8 @@ packages:
     peerDependencies:
       react: ^16.8 || ^17.0 || ^18.0
     dependencies:
-      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.21.5
-      '@radix-ui/react-use-callback-ref': registry.npmmirror.com/@radix-ui/react-use-callback-ref/1.0.0_react@17.0.2
+      '@babel/runtime': 7.21.5
+      '@radix-ui/react-use-callback-ref': 1.0.0_react@17.0.2
       react: r2.cnpmjs.org/react/17.0.2
     dev: false
 
@@ -4103,6 +4253,15 @@ packages:
       react: r2.cnpmjs.org/react/17.0.2
     dev: false
 
+  /@radix-ui/react-use-layout-effect/1.0.0_react@17.0.2:
+    resolution: {integrity: sha512-6Tpkq+R6LOlmQb1R5NNETLG0B4YP0wc+klfXafpUCj6JGyaUc8il7/kUZ7m59rGbXGczE9Bs+iz2qloqsZBduQ==}
+    peerDependencies:
+      react: ^16.8 || ^17.0 || ^18.0
+    dependencies:
+      '@babel/runtime': 7.21.5
+      react: r2.cnpmjs.org/react/17.0.2
+    dev: false
+
   /@radix-ui/react-use-layout-effect/1.0.1_react@17.0.2:
     resolution: {integrity: sha512-v/5RegiJWYdoCvMnITBkNNx6bCj20fiaJnWtRkU18yITptraXjffz5Qbn05uOiQnOvi+dbkznkoaMltz1GnszQ==}
     peerDependencies:
@@ -4121,7 +4280,7 @@ packages:
     peerDependencies:
       react: ^16.8 || ^17.0 || ^18.0
     dependencies:
-      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.21.5
+      '@babel/runtime': 7.21.5
       react: r2.cnpmjs.org/react/17.0.2
     dev: false
 
@@ -4157,8 +4316,8 @@ packages:
     peerDependencies:
       react: ^16.8 || ^17.0 || ^18.0
     dependencies:
-      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.21.5
-      '@radix-ui/react-use-layout-effect': registry.npmmirror.com/@radix-ui/react-use-layout-effect/1.0.0_react@17.0.2
+      '@babel/runtime': 7.21.5
+      '@radix-ui/react-use-layout-effect': 1.0.0_react@17.0.2
       react: r2.cnpmjs.org/react/17.0.2
     dev: false
 
@@ -6260,16 +6419,6 @@ packages:
   /clsx/1.2.1:
     resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
     engines: {node: '>=6'}
-    dev: false
-
-  /color-convert/1.9.3:
-    resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
-    dependencies:
-      color-name: 1.1.3
-    dev: false
-
-  /color-name/1.1.3:
-    resolution: {integrity: sha1-p9BVi9icQveV3UIyj3QIMcpTvCU=}
     dev: false
 
   /color-support/1.1.3:
@@ -9810,8 +9959,8 @@ packages:
       react-fast-compare: 3.2.1
       shallowequal: r2.cnpmjs.org/shallowequal/1.1.0
 
-  /react-hook-form/7.43.9_react@17.0.2:
-    resolution: {integrity: sha512-AUDN3Pz2NSeoxQ7Hs6OhQhDr6gtF9YRuutGDwPQqhSUAHJSgGl2VeY3qN19MG0SucpjgDiuMJ4iC5T5uB+eaNQ==}
+  /react-hook-form/7.45.1_react@17.0.2:
+    resolution: {integrity: sha512-6dWoFJwycbuFfw/iKMcl+RdAOAOHDiF11KWYhNDRN/OkUt+Di5qsZHwA0OwsVnu9y135gkHpTw9DJA+WzCeR9w==}
     engines: {node: '>=12.22.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18
@@ -10449,7 +10598,7 @@ packages:
       process: 0.11.10
       react: r2.cnpmjs.org/react/17.0.2
       react-dom: r2.cnpmjs.org/react-dom/17.0.2_react@17.0.2
-      react-hook-form: 7.43.9_react@17.0.2
+      react-hook-form: 7.45.1_react@17.0.2
       react-json-view: 1.21.3_sfoxds7t5ydpegc3knd667wn6m
       semver: 7.5.0
       solive-compiler-utils: 0.0.2
@@ -12659,7 +12808,7 @@ packages:
     version: 3.2.1
     engines: {node: '>=4'}
     dependencies:
-      color-convert: 1.9.3
+      color-convert: r2.cnpmjs.org/color-convert/1.9.3
     dev: false
 
   r2.cnpmjs.org/ansi-styles/4.3.0:
@@ -13154,6 +13303,14 @@ packages:
     version: 1.0.6
     dev: false
 
+  r2.cnpmjs.org/color-convert/1.9.3:
+    resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/color-convert/-/color-convert-1.9.3.tgz}
+    name: color-convert
+    version: 1.9.3
+    dependencies:
+      color-name: r2.cnpmjs.org/color-name/1.1.3
+    dev: false
+
   r2.cnpmjs.org/color-convert/2.0.1:
     resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/color-convert/-/color-convert-2.0.1.tgz}
     name: color-convert
@@ -13161,6 +13318,12 @@ packages:
     engines: {node: '>=7.0.0'}
     dependencies:
       color-name: r2.cnpmjs.org/color-name/1.1.4
+
+  r2.cnpmjs.org/color-name/1.1.3:
+    resolution: {integrity: sha512-72fSenhMw2HZMTVHeCA9KCmpEIbzWiQsjN+BHcBbS9vr1mtt+vJjPdksIBNUmKAW8TFUDPJK5SUU3QhE9NEXDw==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/color-name/-/color-name-1.1.3.tgz}
+    name: color-name
+    version: 1.1.3
+    dev: false
 
   r2.cnpmjs.org/color-name/1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/color-name/-/color-name-1.1.4.tgz}
@@ -16899,61 +17062,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: registry.npmmirror.com/regenerator-runtime/0.13.11
-    dev: false
-
-  registry.npmmirror.com/@radix-ui/react-collection/1.0.2_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-s8WdQQ6wNXpaxdZ308KSr8fEWGrg4un8i4r/w7fhiS4ElRNjk5rRcl0/C6TANG2LvLOGIxtzo/jAg6Qf73TEBw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@radix-ui/react-collection/-/react-collection-1.0.2.tgz}
-    id: registry.npmmirror.com/@radix-ui/react-collection/1.0.2
-    name: '@radix-ui/react-collection'
-    version: 1.0.2
-    peerDependencies:
-      react: ^16.8 || ^17.0 || ^18.0
-      react-dom: ^16.8 || ^17.0 || ^18.0
-    dependencies:
-      '@babel/runtime': 7.21.5
-      '@radix-ui/react-compose-refs': 1.0.0_react@17.0.2
-      '@radix-ui/react-context': 1.0.0_react@17.0.2
-      '@radix-ui/react-primitive': 1.0.2_sfoxds7t5ydpegc3knd667wn6m
-      '@radix-ui/react-slot': 1.0.1_react@17.0.2
-      react: r2.cnpmjs.org/react/17.0.2
-      react-dom: r2.cnpmjs.org/react-dom/17.0.2_react@17.0.2
-    dev: false
-
-  registry.npmmirror.com/@radix-ui/react-slot/1.0.1_react@17.0.2:
-    resolution: {integrity: sha512-avutXAFL1ehGvAXtPquu0YK5oz6ctS474iM3vNGQIkswrVhdrS52e3uoMQBzZhNRAIE0jBnUyXWNmSjGHhCFcw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@radix-ui/react-slot/-/react-slot-1.0.1.tgz}
-    id: registry.npmmirror.com/@radix-ui/react-slot/1.0.1
-    name: '@radix-ui/react-slot'
-    version: 1.0.1
-    peerDependencies:
-      react: ^16.8 || ^17.0 || ^18.0
-    dependencies:
-      '@babel/runtime': 7.21.5
-      '@radix-ui/react-compose-refs': 1.0.0_react@17.0.2
-      react: r2.cnpmjs.org/react/17.0.2
-    dev: false
-
-  registry.npmmirror.com/@radix-ui/react-use-callback-ref/1.0.0_react@17.0.2:
-    resolution: {integrity: sha512-GZtyzoHz95Rhs6S63D2t/eqvdFCm7I+yHMLVQheKM7nBD8mbZIt+ct1jz4536MDnaOGKIxynJ8eHTkVGVVkoTg==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@radix-ui/react-use-callback-ref/-/react-use-callback-ref-1.0.0.tgz}
-    id: registry.npmmirror.com/@radix-ui/react-use-callback-ref/1.0.0
-    name: '@radix-ui/react-use-callback-ref'
-    version: 1.0.0
-    peerDependencies:
-      react: ^16.8 || ^17.0 || ^18.0
-    dependencies:
-      '@babel/runtime': 7.21.5
-      react: r2.cnpmjs.org/react/17.0.2
-    dev: false
-
-  registry.npmmirror.com/@radix-ui/react-use-layout-effect/1.0.0_react@17.0.2:
-    resolution: {integrity: sha512-6Tpkq+R6LOlmQb1R5NNETLG0B4YP0wc+klfXafpUCj6JGyaUc8il7/kUZ7m59rGbXGczE9Bs+iz2qloqsZBduQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@radix-ui/react-use-layout-effect/-/react-use-layout-effect-1.0.0.tgz}
-    id: registry.npmmirror.com/@radix-ui/react-use-layout-effect/1.0.0
-    name: '@radix-ui/react-use-layout-effect'
-    version: 1.0.0
-    peerDependencies:
-      react: ^16.8 || ^17.0 || ^18.0
-    dependencies:
-      '@babel/runtime': 7.21.5
-      react: r2.cnpmjs.org/react/17.0.2
     dev: false
 
   registry.npmmirror.com/@tailwindcss/typography/0.5.9_tailwindcss@3.3.2:
