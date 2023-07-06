@@ -8,13 +8,18 @@ import {
 } from "@site/src/components/ui/DropdownMenu";
 import useAuth from "@site/src/hooks/useAuth";
 import {Button} from "@site/src/components/ui/Button";
-import {LogOutIcon, UnplugIcon, User, UserIcon, WalletIcon} from "lucide-react";
+import {LogOutIcon, UserIcon, WalletIcon} from "lucide-react";
 import {useHistory} from "@docusaurus/router";
 import Link from "@docusaurus/Link";
 import {useAccount} from "wagmi";
 import truncation from "@site/src/utils/truncation";
+import {cn} from "@site/src/utils/class-utils"
 
-const Profile = () => {
+type TProps = {
+    mobile?: boolean
+}
+
+const Profile = (props: TProps) => {
     const {address} = useAccount();
     const {isLogin, isWalletLogin, data: user, signOut, signOutWithWallet} = useAuth();
     const history = useHistory();
@@ -64,7 +69,7 @@ const Profile = () => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full mr-3">
+                <Button variant="ghost" className={cn("relative h-8 w-8 rounded-full mr-3", {'hidden': props.mobile})}>
                     <Avatar className="h-9 w-9">
                         <AvatarImage src={user?.avatar} alt={user?.nickname}/>
                         <AvatarFallback>SC</AvatarFallback>
