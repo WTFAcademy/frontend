@@ -1,49 +1,55 @@
 import React, { useState, useEffect } from 'react';
-import { slice } from "lodash-es";
 import Layout from '@theme/Layout';
 import PersonalBanner from '@site/src/pages/personal/_PersonalBanner';
-import {Button} from "@site/src/components/ui/Button";
+// import {Button} from "@site/src/components/ui/Button";
 import Link from '@docusaurus/Link';
 import useAuth from "@site/src/hooks/useAuth";
 import truncation from "@site/src/utils/truncation";
-import {updateUserInfo} from "@site/src/api/user";
+import { updateUserInfo } from "@site/src/api/user";
+import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import RHFInput from "@site/src/components/hook-form/rhf-input";
 
 function Settings() {
 
     const { data } = useAuth();
 
-    const [email,setEmail] = useState(null);
+    const { register, handleSubmit, reset } = useForm({
+        defaultValues: {
+            email: data?.email,
+            nickname: data?.nickname,
+            bio: data?.bio
+        }
+    });
+
+    const onSubmit = data => {
+        console.log(data);
+        updateUserInfo({
+            nickname: data.nickname,
+            bio: data.bio
+        }).then(()=> {
+            toast.success("更新成功");
+        }).catch(() => {
+            toast.error("更新失败");
+        });
+    };
+
+    // const [email,setEmail] = useState(null);
     const [username,setUsername] = useState(null);
-    const [nickname,setNickname] = useState(null);
     const [github,setGithub] = useState(null);
-    const [bio,setBio] = useState(null);
     const [wallet,setWallet] = useState('');
 
     useEffect(() => {
         setWallet(data?.wallet);
-        setEmail(data?.email);
+        // setEmail(data?.email);
         setGithub(data?.github);
         setUsername(data?.username);
-        setNickname(data?.nickname);
-        setBio(data?.bio);
-    },[data]);
-
-    const handleUpdate = () => {
-        updateUserInfo({
-            nickname,
-            bio,
-        }).then(res => {
-            console.log(res);
+        reset({
+            email: data?.email,
+            nickname: data?.nickname,
+            bio: data?.bio
         });
-    };
-
-    const handleNicknameChange = (event) => {
-        setNickname(event.target.value);
-    };
-
-    const handleBioChange = (event) => {
-        setBio(event.target.value);
-    };
+    },[data]);
     
     return (
         <Layout>
@@ -65,20 +71,6 @@ function Settings() {
                         <p className="text-sm text-gray-500">Settings related to your account.</p>
                     </div>
                     <div className="w-full mb-6">
-                        <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-700">Email</label>
-                        <div className="mt-2">
-                            <input
-                                type="email"
-                                name="email"
-                                id="email"
-                                disabled
-                                defaultValue={ email }
-                                className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 md:w-[504px]"
-                                placeholder="you@example.com"
-                            />
-                        </div>
-                    </div>
-                    <div className="w-full mb-6">
                         <h4 className="block mb-1 text-sm font-medium text-gray-700">Connections</h4>
                         <div className="w-full h-[74px] px-6 py-4 flex items-center justify-between my-1 text-sm font-medium text-gray-700 border border-gray-300 rounded-md">
                             <div className="flex-shrink-0 mr-3">
@@ -90,15 +82,8 @@ function Settings() {
                                 <h4 className="text-sm font-semibold text-gray-700">GitHub</h4>
                                 <p className="text-sm text-gray-500">{ username } (<span className="text-[#274BC9]">@{ username }</span>)</p>
                             </div>
-                            {/* <div className="w-[30px] h-[30px] flex flex-shrink-0 justify-center items-center cursor-pointer">
-                                <svg width="14" height="4" viewBox="0 0 14 4" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M3.8001 2.00002C3.8001 2.88368 3.08375 3.60002 2.2001 3.60002C1.31644 3.60002 0.600098 2.88368 0.600098 2.00002C0.600098 1.11637 1.31644 0.400024 2.2001 0.400024C3.08375 0.400024 3.8001 1.11637 3.8001 2.00002Z" fill="#6B7280"/>
-                                    <path d="M8.6001 2.00002C8.6001 2.88368 7.88375 3.60002 7.0001 3.60002C6.11644 3.60002 5.4001 2.88368 5.4001 2.00002C5.4001 1.11637 6.11644 0.400024 7.0001 0.400024C7.88375 0.400024 8.6001 1.11637 8.6001 2.00002Z" fill="#6B7280"/>
-                                    <path d="M11.8001 3.60002C12.6838 3.60002 13.4001 2.88368 13.4001 2.00002C13.4001 1.11637 12.6838 0.400024 11.8001 0.400024C10.9164 0.400024 10.2001 1.11637 10.2001 2.00002C10.2001 2.88368 10.9164 3.60002 11.8001 3.60002Z" fill="#6B7280"/>
-                                </svg>
-                            </div> */}
                         </div>
-                        <div className="w-full h-[74px] px-6 py-4 flex items-center justify-between my-1 text-sm font-medium text-gray-700 border border-gray-300 rounded-md">
+                        <div className="w-full h-[74px] px-6 py-4 flex items-center justify-between my-1 text-sm font-medium text-gray-700 border border-gray-300 rounded-md mb-6">
                             <div className="flex-shrink-0 mr-3">
                                 <svg width="29" height="30" viewBox="0 0 29 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <rect y="0.599976" width="28.8" height="28.8" rx="14.4" fill="#F3F4F6"/>
@@ -121,55 +106,51 @@ function Settings() {
                                 <h4 className="text-sm font-semibold text-gray-700">ETH</h4>
                                 <p className="text-sm text-gray-500">{truncation(wallet)}</p>
                             </div>
-                            {/* <div className="w-[30px] h-[30px] flex flex-shrink-0 justify-center items-center cursor-pointer">
-                                <svg width="14" height="4" viewBox="0 0 14 4" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M3.8001 2.00002C3.8001 2.88368 3.08375 3.60002 2.2001 3.60002C1.31644 3.60002 0.600098 2.88368 0.600098 2.00002C0.600098 1.11637 1.31644 0.400024 2.2001 0.400024C3.08375 0.400024 3.8001 1.11637 3.8001 2.00002Z" fill="#6B7280"/>
-                                    <path d="M8.6001 2.00002C8.6001 2.88368 7.88375 3.60002 7.0001 3.60002C6.11644 3.60002 5.4001 2.88368 5.4001 2.00002C5.4001 1.11637 6.11644 0.400024 7.0001 0.400024C7.88375 0.400024 8.6001 1.11637 8.6001 2.00002Z" fill="#6B7280"/>
-                                    <path d="M11.8001 3.60002C12.6838 3.60002 13.4001 2.88368 13.4001 2.00002C13.4001 1.11637 12.6838 0.400024 11.8001 0.400024C10.9164 0.400024 10.2001 1.11637 10.2001 2.00002C10.2001 2.88368 10.9164 3.60002 11.8001 3.60002Z" fill="#6B7280"/>
-                                </svg>
-                            </div> */}
                         </div>
-                        {/* <Button className="w-auto h-[34px] mt-2 mb-6 text-base bg-[#DDE6FA] text-[#3F69D5]">
-                            <svg width="12" height="12" className="mr-2" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path fillRule="evenodd" clipRule="evenodd" d="M6.00002 0.400024C6.44185 0.400024 6.80002 0.758197 6.80002 1.20002V5.20002H10.8C11.2419 5.20002 11.6 5.5582 11.6 6.00002C11.6 6.44185 11.2419 6.80002 10.8 6.80002H6.80002V10.8C6.80002 11.2419 6.44185 11.6 6.00002 11.6C5.5582 11.6 5.20002 11.2419 5.20002 10.8V6.80002H1.20002C0.758197 6.80002 0.400024 6.44185 0.400024 6.00002C0.400024 5.5582 0.758197 5.20002 1.20002 5.20002H5.20002V1.20002C5.20002 0.758197 5.5582 0.400024 6.00002 0.400024Z" fill="#3F69D5"/>
-                            </svg>
-                            Connect new wallet
-                        </Button> */}
-                        <div className="w-full mb-6">
-                            <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-700">Nickname</label>
-                            <div className="mt-2">
-                                <input
-                                    id="nickname"
-                                    name="nickname"
-                                    onChange={ handleNicknameChange }
-                                    defaultValue={ nickname }
-                                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 md:w-[504px]"
-                                />
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            
+                    {/* <div className="w-full mb-6">
+                        <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-700">Email</label>
+                        <div className="mt-2">
+                            <input
+                                // type="email"
+                                // name="email"
+                                // id="email"
+                                // disabled
+                                // defaultValue={ email }
+                                {...register("email")}
+                                className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 md:w-[504px]"
+                                // placeholder="you@example.com"
+                            />
+                        </div>
+                    </div> */}
+                            {/* <RHFInput label={'email'} name={'email'}></RHFInput> */}
+                            <div className="w-full mb-6">
+                                <label htmlFor="nickname" className="block mb-1 text-sm font-medium text-gray-700">Nickname</label>
+                                <div className="mt-2 mb-6">
+                                    <input
+                                        {...register("nickname")}
+                                        className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 md:w-[504px]"
+                                    />
+                                </div>
+                                <div className="w-full mb-6">
+                                    <label htmlFor="bio" className="block mb-1 text-sm font-medium text-gray-700">Bio</label>
+                                    <div className="mt-2">
+                                        <textarea
+                                            rows={3}
+                                            {...register("bio")}
+                                            className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        />
+                                    </div>
+                                    <p className="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about yourself.</p>
+                                </div>
                             </div>
-                        </div>
-
-                        <div className="w-full mb-6">
-                            <label htmlFor="about" className="block mb-1 text-sm font-medium text-gray-700">
-                                Bio
-                            </label>
-                            <div className="mt-2">
-                                <textarea
-                                    id="bio"
-                                    name="bio"
-                                    rows={3}
-                                    onChange={ handleBioChange }
-                                    defaultValue={ bio }
-                                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                />
-                            </div>
-                            <p className="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about yourself.</p>
-                        </div>
-                        <Button onClick={handleUpdate} className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                            Save
-                        </Button>
+                            <input type="submit" value={'Save'} className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"/>
+                        </form>
                     </div>
                 </div>
             </div>
+            {/* <Toast /> */}
         </Layout>
     );
 }

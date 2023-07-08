@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { slice } from "lodash-es";
 import Link from '@docusaurus/Link';
 import { Button } from '@site/src/components/ui/Button';
 import CopyIcon from '@site/src/icons/Copy';
@@ -45,7 +44,7 @@ function PersonalInfo() {
 
     return (
         <div className="box-border flex flex-col flex-shrink-0 w-full p-8 mr-12 overflow-hidden border border-border-input rounded-md md:w-[280px]">
-            <p className="mb-6 text-sm leading-5 text-gray-500">{ bio }</p>
+            <p className="mb-6 text-sm leading-5 text-gray-500">{ bio ?? '这个人很懒，什么都没有留下。' }</p>
             <div className="flex items-center mb-6 text-gray-700">
                 <EthereumIcon />
                 <p className="mx-2">{truncation(wallet)}</p>
