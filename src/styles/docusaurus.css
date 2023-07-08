@@ -17,3 +17,7 @@
 .markdown {
     @apply max-w-full prose prose-blue dark:prose-invert dark:bg-slate-800;
 }
+
+.markdown::before {
+    margin-top: 24px;
+}
