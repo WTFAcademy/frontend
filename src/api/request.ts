@@ -45,7 +45,7 @@ request.interceptors.response.use(
     } else {
       promptError = ignoreCodes ? false : true;
     }
-    promptError && toast.error(data.msg);
+    data.code !== 0 && promptError && toast.error(data.msg);
 
     // TODO(daxiongya):
     //  1. 处理(基础状态码：401,500; 业务状态码：1000, 1001)错误

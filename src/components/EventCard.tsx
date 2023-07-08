@@ -1,19 +1,35 @@
 import React from "react";
+import { TEvent } from "@site/src/typings/event";
 
-const EventCard = () => {
-    return (
-        <div className="w-full h-[357px] md:w-[288px] md:h-[357px] p-4 border border-solid rounded-md shadow-sm">
-            <div className="bg-gray-300 w-[256px] h-[170px] mx-auto rounded-[8px] md:rounded-none"/>
-            <div className="flex flex-col">
-                <div className="text-[18px] leading-[21px] font-bold font-ubuntu mt-4">
-                    ETH Beijing Hackathon
-                </div>
-                <div className="text-sm leading-[17px] my-[6px]">Closed Apr 5-8, 2023</div>
-                <div className="line-clamp-3 text-gray-700 text-sm">A global hackathon hosted by PKU Blockchain DAO (Beijing University Blockchain Association) and WTF Academy, co-organized by ETHPlanet and Scroll. This event features 3 main tracks and a total prize pool of $30,000+. Selected partners include Scroll, StarkWare, Mask Network etc.</div>
-                <a className="text-brand-primary mt-3">Visit ETH Beijing website</a>
-            </div>
-        </div>
-    )
+interface TProps {
+  event: TEvent;
 }
 
-export default EventCard
+const EventCard = ({ event }: TProps) => {
+  return (
+    <div className="w-full h-[357px] md:w-[288px] md:h-[357px] p-4 border border-solid rounded-md shadow-sm relative">
+      <div className="bg-gray-300 w-[256px] h-[170px] mx-auto rounded-[8px] md:rounded-none">
+        <img src={event.img} alt="" className="w-full h-full object-cover" />
+      </div>
+      <div className="flex flex-col">
+        <div className="text-[18px] leading-[21px] font-bold font-ubuntu mt-4">
+          {event.title}
+        </div>
+        <div className="text-sm leading-[17px] my-[6px]">
+          {`${event.startDate} - ${event.endDate}`}
+        </div>
+        <div className="line-clamp-3 text-gray-700 text-sm">
+          {event.description}
+        </div>
+        <a
+          className="text-brand-primary mt-3 absolute left-4 bottom-2"
+          href={event.to}
+        >
+          Visit Website
+        </a>
+      </div>
+    </div>
+  );
+};
+
+export default EventCard;

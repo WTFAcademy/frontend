@@ -1,23 +1,28 @@
 import React from "react";
-import CourseList from "./CourseList";
-import {Button} from "@site/src/components/ui/Button";
+import Link from "@docusaurus/Link";
 
+import CourseList from "@site/src/components/CoursesList";
+import { Button } from "@site/src/components/ui/Button";
 
 const CourseSection = () => {
-
-    return (
-        <div className="w-full bg-white dark:bg-background pb-[128px] flex justify-center">
-            <div className="flex flex-col items-center px-8 w-full md:w-[1028px]">
-                <div className="text-[32px]">🐝</div>
-                <div className="text-[42px] font-bold font-ubuntu">Courses</div>
-                <div className="text-sm font-normal mb-[70px]">Courses specially designed by developers for developers</div>
-
-                <CourseList/>
-
-                <Button className="mt-[80px] text-base">View All Courses</Button>
-            </div>
+  return (
+    <div className="w-full bg-white dark:bg-background pb-28 flex justify-center">
+      <div className="flex flex-col items-center px-8 w-full md:w-[1028px]">
+        <div className="text-[32px]">🐝</div>
+        <div className="text-[42px] font-bold font-ubuntu">Courses</div>
+        <div className="text-sm font-normal mb-[70px]">
+          Courses specially designed by developers for developers
         </div>
-    )
-}
 
-export default CourseSection
+        <CourseList isTotal={false} isUpcoming={false} />
+        <CourseList isTotal={false} isUpcoming/>
+
+        <Link to="/courses">
+          <Button className="mt-16 text-base">View All Courses</Button>
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default CourseSection;

@@ -1,27 +1,25 @@
-import {Octokit} from '@octokit/rest'
+import { Octokit } from "@octokit/rest";
 
 const octokit = new Octokit();
 
 export const getContributors = async (
-    owner = 'wtfacademy',
-    repo = 'WTFSolidity',
-    page = 1,
-    perPage = 100
+  owner = "wtfacademy",
+  repo = "WTFSolidity",
+  page = 1,
+  perPage = 100
 ) => {
-    let {data} = await octokit.repos.listContributors({
-        owner,
-        repo,
-        page,
-        perPage
-    })
+  let { data } = await octokit.repos.listContributors({
+    owner,
+    repo,
+    page,
+    per_page: perPage,
+  });
 
-    if (data.length === perPage) {
-        data = [...data, ...(await getContributors(
-            owner,
-            repo,
-            page + 1,
-            perPage
-        ))]
-    }
-    return data
-}
+  if (data.length === perPage) {
+    data = [
+      ...data,
+      ...(await getContributors(owner, repo, page + 1, perPage)),
+    ];
+  }
+  return data;
+};
