@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import useProfile from "@site/src/hooks/useProfile";
+import useAuth from "@site/src/hooks/useAuth";
 
 function PersonalAvatar() {
-    const { profile } = useProfile();
+    const { data } = useAuth();
 
     const [avatar, setAvatar] = useState(null);
     const [username, setUsername] = useState(null);
-
-    console.log(profile);
     
     useEffect(() => {
-        setAvatar(profile?.data?.avatar);
-        setUsername(profile?.data?.username);
-    }, [profile]);
+        setAvatar(data?.avatar);
+        setUsername(data?.username);
+    }, [data]);
 
     return (
         <div className="flex items-center w-full px-8 mx-auto flex-col md:w-[1024px] md:flex-row md:items-end">

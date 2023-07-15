@@ -55,7 +55,7 @@ const AuthProvider = ({children}: TProps) => {
                 storageWTFUser(data);
             },
             onError: (error: any) => {
-                if (error?.code === "401") {
+                if (error?.code === 401) {
                     setIsGithubLogin(false);
                     setIsWalletLogin(false);
                     storageWTFToken("");

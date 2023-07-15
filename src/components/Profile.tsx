@@ -8,13 +8,18 @@ import {
 } from "@site/src/components/ui/DropdownMenu";
 import useAuth from "@site/src/hooks/useAuth";
 import {Button} from "@site/src/components/ui/Button";
-import {LogOutIcon, UnplugIcon, User, UserIcon, WalletIcon} from "lucide-react";
+import {LogOutIcon, UserIcon, WalletIcon} from "lucide-react";
 import {useHistory} from "@docusaurus/router";
 import Link from "@docusaurus/Link";
 import {useAccount} from "wagmi";
 import truncation from "@site/src/utils/truncation";
+import {cn} from "@site/src/utils/class-utils"
 
-const Profile = () => {
+type TProps = {
+    mobile?: boolean
+}
+
+const Profile = (props: TProps) => {
     const {address} = useAccount();
     const {isLogin, isWalletLogin, data: user, signOut, signOutWithWallet} = useAuth();
     const history = useHistory();
@@ -25,27 +30,19 @@ const Profile = () => {
     }
 
     const renderWalletInfo = () => {
-        if (user?.wallet && isWalletLogin) {
+        if (user?.wallet) {
             return (
                 <>
                     <DropdownMenuLabel className="flex items-center">
-                        {truncation(address)}
-                        <UnplugIcon
-                            className="w-4 h-4 ml-2 hover:text-destructive cursor-pointer"
-                            onClick={signOutWithWallet}
-                        />
+                        {truncation(user?.wallet)}
+                        {/*复制*/}
+                        {/*<UnplugIcon*/}
+                        {/*    className="w-4 h-4 ml-2 hover:text-destructive cursor-pointer"*/}
+                        {/*    onClick={signOutWithWallet}*/}
+                        {/*/>*/}
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator/>
                 </>
-            )
-        }
-
-        if (user?.wallet && !isWalletLogin) {
-            return (
-                <DropdownMenuItem>
-                    <WalletIcon className="w-4 h-4 mr-2"/>
-                    连接钱包
-                </DropdownMenuItem>
             )
         }
 
@@ -58,24 +55,13 @@ const Profile = () => {
             )
         }
 
-        if (user?.wallet && user?.wallet !== address && isWalletLogin) {
-            return (
-                <DropdownMenuItem className="text-destructive">
-                    <WalletIcon className="w-4 h-4 mr-2"/>
-                    切换钱包
-                </DropdownMenuItem>
-            )
-        }
-
-        // TODO(daxiongya): 网络不支持的情况
-
         return <></>
     }
 
     if (!isLogin) {
         return (
             <Link to="/login">
-                <Button className="h-9 mr-3">Login</Button>
+                <Button className={cn("h-9 mr-3", {hidden: props.mobile})}>Login</Button>
             </Link>
         )
     }
@@ -83,7 +69,7 @@ const Profile = () => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full mr-3">
+                <Button variant="ghost" className={cn("relative h-8 w-8 rounded-full mr-3", {'hidden': props.mobile})}>
                     <Avatar className="h-9 w-9">
                         <AvatarImage src={user?.avatar} alt={user?.nickname}/>
                         <AvatarFallback>SC</AvatarFallback>
@@ -94,7 +80,9 @@ const Profile = () => {
                 {renderWalletInfo()}
                 <DropdownMenuItem>
                     <UserIcon className="w-4 h-4 mr-2"/>
-                    个人中心
+                    <Link to="/personal">
+                        个人中心
+                    </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator/>
                 <DropdownMenuItem onClick={handleSignOut}>

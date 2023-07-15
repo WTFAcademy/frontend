@@ -21,7 +21,7 @@ const StepLoginGithub = (props: TProps) => {
 
     return (
         <StepCard>
-            <div className="w-full flex justify-between text-base text-white font-medium">
+            <div className="w-full flex justify-between">
                 <span>{isGithubLogin ? "已登录Github" : "Github登录"}</span>
                 {!isGithubLogin && (
                     <ArrowRightCircleIcon

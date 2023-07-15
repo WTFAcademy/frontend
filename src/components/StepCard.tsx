@@ -1,22 +1,30 @@
 import {StepContext} from "@site/src/components/ui/Stepper/Step";
 import React, {useContext} from "react";
 import {cva} from "class-variance-authority";
+import {cn} from "@site/src/utils/class-utils";
 
 const StepCardVariant = cva(
-    "p-4 rounded-md w-[342px]",
+    "p-4 rounded-md text-base font-medium",
     {
         variants: {
             active: {
-                false: "bg-primary-darker",
-                true: "bg-primary",
+                true: "bg-primary text-white",
+            },
+            disabled: {
+                true: "bg-white text-gray-900 border border-primary-darker opacity-50",
             },
             error: {
-                false: "",
-                true: "!bg-destructive",
+                true: "!bg-destructive text-white",
+            },
+            completed: {
+                true: "bg-primary-darker text-gray-900",
             }
         },
         defaultVariants: {
             active: false,
+            error: false,
+            completed: false,
+            disabled: false,
         }
     }
 )
@@ -25,14 +33,15 @@ type TProps = {
     error?: boolean;
     errorMessage?: string;
     children: React.ReactNode;
+    className?: string;
 }
 
 const StepCard = (props: TProps) => {
-    const {error, errorMessage, children} = props;
-    const {active, index} = useContext(StepContext)
+    const {error, errorMessage, children, className} = props;
+    const {active, completed, disabled,  index} = useContext(StepContext)
 
     return (
-        <div className={StepCardVariant({active, error})}>
+        <div className={cn(StepCardVariant({active, error, completed, disabled}), className)}>
             {children}
         </div>
     )
