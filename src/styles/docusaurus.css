@@ -4,7 +4,7 @@
 }
 
 .navbar__inner {
-    @apply md:container;
+    /*@apply md:container;*/
 }
 
 .navbar__link > svg,
