@@ -1,1 +1,6 @@
 @import url(@rainbow-me/rainbowkit/styles.css);
+@import url(react-photo-view/dist/react-photo-view.css);
+
+.PhotoView-Slider__Backdrop {
+    background: rgba(0, 0, 0, 0.5) !important;
+}

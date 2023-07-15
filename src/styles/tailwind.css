@@ -64,7 +64,7 @@
         --ui-secondary-foreground: var(--wtf-white);
 
         /* background */
-        --ui-background: var(--wtf-gray-50);
+        --ui-background: var(--wtf-white);
         --ui-background-foreground: var(--wtf-gray-900);
 
         /* muted (Muted backgrounds such as <TabsList />, <Skeleton /> and <Switch />) */

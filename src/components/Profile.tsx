@@ -61,7 +61,7 @@ const Profile = (props: TProps) => {
     if (!isLogin) {
         return (
             <Link to="/login">
-                <Button className="h-9 mr-3">Login</Button>
+                <Button className={cn("h-9 mr-3", {hidden: props.mobile})}>Login</Button>
             </Link>
         )
     }
