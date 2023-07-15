@@ -1,0 +1,42 @@
+[
+  {
+    "title": "ETH Beijing Hackathon",
+    "to": "https://ethbeijing.xyz",
+    "host": "PKU Blockchain & WTF Academy",
+    "img": "https://cdn-img.panewslab.com/panews/2023/04/04/images/116Vnaomfx.png",
+    "location": "北京, 中国",
+    "description": "后新冠时期，中国第一个以太坊线下活动!",
+    "startDate": "2023-04-05",
+    "endDate": "2023-04-08"
+  },
+  {
+    "title": "Scaling Ethereum Hackathon",
+    "to": "https://ethglobal.com/events/scaling2023",
+    "host": "ETH Global",
+    "img": "https://miro.medium.com/v2/resize:fit:1400/format:webp/1*GribymagoJphTGlrEI2Elw.png",
+    "location": "线上",
+    "description": "以太坊扩容黑客松",
+    "startDate": "2023-03-10",
+    "endDate": "2023-03-31"
+  },
+  {
+    "title": "香港Web3嘉年华",
+    "to": "https://twitter.com/festival_web3",
+    "host": "WX Blockchain & Hashkey",
+    "img": "https://pbs.twimg.com/profile_banners/1603258178732318720/1685932546/1500x500",
+    "location": "香港, 中国",
+    "description": "香港Web3大会",
+    "startDate": "2023-04-12",
+    "endDate": "2023-04-15"
+  },
+  {
+    "title": "Starknet Basecamp中文",
+    "to": "https://starknet.wtf.academy",
+    "host": "WTF Academy",
+    "img": "https://github.com/WTFAcademy/WTF-Starknet/raw/main/static/img/wtfcairo_banner.png",
+    "location": "线上",
+    "description": "Starknet中文训练营，由StarkWare官方支持，为期8周，帮助开发者入门Starknet开发",
+    "startDate": "2023-06-30",
+    "endDate": "2023-08-30"
+  }
+]
