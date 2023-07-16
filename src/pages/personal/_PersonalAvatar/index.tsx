@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import useAuth from "@site/src/hooks/useAuth";
+import {Skeleton} from "@site/src/components/ui/Skeleton";
 
 function PersonalAvatar() {
     const { data } = useAuth();

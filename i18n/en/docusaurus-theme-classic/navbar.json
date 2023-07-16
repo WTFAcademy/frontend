@@ -1,0 +1,18 @@
+{
+  "logo.alt": {
+    "message": "WTF Logo",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Solidity 101": {
+    "message": "Solidity 101",
+    "description": "Navbar item with label Solidity 101"
+  },
+  "item.label.Solidity 102": {
+    "message": "Solidity 102",
+    "description": "Navbar item with label Solidity 102"
+  },
+  "item.label.Solidity 103": {
+    "message": "Solidity 103",
+    "description": "Navbar item with label Solidity 103"
+  }
+}

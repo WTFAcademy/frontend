@@ -1,0 +1,46 @@
+{
+  "link.title.Products": {
+    "message": "Products",
+    "description": "The title of the footer links column with title=Products in the footer"
+  },
+  "link.title.Community": {
+    "message": "Community",
+    "description": "The title of the footer links column with title=Community in the footer"
+  },
+  "link.title.Donation": {
+    "message": "Donation",
+    "description": "The title of the footer links column with title=Donation in the footer"
+  },
+  "link.item.label.Forum": {
+    "message": "Forum",
+    "description": "The label of footer link with label=Forum linking to https://github.com/AmazingAng/WTFSolidity/discussions"
+  },
+  "link.item.label.GitHub": {
+    "message": "GitHub",
+    "description": "The label of footer link with label=GitHub linking to https://github.com/WTFAcademy"
+  },
+  "link.item.label.Discord": {
+    "message": "Discord",
+    "description": "The label of footer link with label=Discord linking to https://discord.gg/5akcruXrsk"
+  },
+  "link.item.label.Twitter": {
+    "message": "Twitter",
+    "description": "The label of footer link with label=Twitter linking to https://twitter.com/0xAA_Science"
+  },
+  "link.item.label.Wechat": {
+    "message": "Wechat",
+    "description": "The label of footer link with label=Wechat linking to https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform"
+  },
+  "link.item.label.Gitcoin": {
+    "message": "Gitcoin",
+    "description": "The label of footer link with label=Gitcoin linking to https://gitcoin.co/grants/6090/wtf-solidity"
+  },
+  "link.item.label.Mirror": {
+    "message": "Mirror",
+    "description": "The label of footer link with label=Mirror linking to https://mirror.xyz/ninjak.eth/collection"
+  },
+  "copyright": {
+    "message": "© 2023 WTF Academy.",
+    "description": "The footer copyright"
+  }
+}

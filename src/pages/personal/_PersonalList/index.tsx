@@ -4,12 +4,14 @@ import { getUserCourse } from "@site/src/api/user";
 
 function PersonalList() {
     
-    const [certificates,setCertificates] = useState(null);
+    const [certificates,setCertificates] = useState();
+    const [courses,setCourses] = useState();
 
     useEffect(() => {
         const fetchCertificates = async () => {
             const { list } = await getUserCourse();
-            setCertificates(list);
+            setCertificates(list.filter(item => item.finish_status == 2));
+            setCourses(list.filter(item => item.finish_status == 1));
         };
         fetchCertificates();
     },[]);
@@ -22,8 +24,8 @@ function PersonalList() {
                 <TabsTrigger value="courses">My Courses</TabsTrigger>
             </TabsList>
             <TabsContent value="certificates">
-                { certificates ? (certificates.map((item, index) => (
-                    item.finish_status == 2 && <div className="relative w-[300px] h-[180px] my-4 rounded-xl overflow-hidden" key={index}>
+                { certificates?.length > 0 ? (certificates.map((item, index) => (
+                    item.finish_status == 2 && <div className="relative w-[300px] h-[180px] mt-8 rounded-xl overflow-hidden" key={index}>
                             <div className="absolute w-full h-full">
                                 <img src={item.finish_status == 2 ? item.nft_info?.cover_img : item.course?.cover_img } className="object-cover w-full h-full" alt="Solidity Pass" />
                             </div>
@@ -40,15 +42,17 @@ function PersonalList() {
                             </div>
                         </div>
                     ))):(
-                        <span>You have not yet obtained any course certification</span>
+                        <div className="mt-8">
+                            <span>You have not yet obtained any course certification</span>
+                        </div>
                     )
                 }
             </TabsContent>
             <TabsContent value="courses">
-                { certificates ? (certificates.map((item, index) => (
-                    item.finish_status == 1 && <div className="relative w-[300px] h-[180px] my-4 rounded-xl overflow-hidden" key={index}>
+                { courses?.length > 0 ? (courses.map((item, index) => (
+                    item.finish_status == 1 && <div className="relative w-[300px] h-[180px] mt-8 rounded-xl overflow-hidden" key={index}>
                             <div className="absolute w-full h-full">
-                                <img src={item.course.cover_img } className="object-cover w-full h-full" alt="Solidity Pass" />
+                                <img src={ item.course.cover_img } className="object-cover w-full h-full" alt="Solidity Pass" />
                             </div>
                             <div className="absolute z-0 w-full h-full bg-black opacity-50"></div>
                             <div className="absolute z-10 flex flex-col items-start justify-end h-full p-3">
@@ -63,7 +67,9 @@ function PersonalList() {
                             </div>
                         </div>
                     ))):(
-                        <span>You have not yet obtained any course</span>
+                        <div className="mt-8">
+                            <span>You have not yet obtained any course</span>
+                        </div>
                     )
                 }
                 </TabsContent>

@@ -16,6 +16,9 @@ function Settings() {
 
     const { register, handleSubmit, reset } = useForm({
         defaultValues: {
+            username: data?.username,
+            github: data?.github,
+            wallet: data?.wallet,
             email: data?.email,
             nickname: data?.nickname,
             bio: data?.bio
@@ -23,7 +26,6 @@ function Settings() {
     });
 
     const onSubmit = data => {
-        console.log(data);
         updateUserInfo({
             nickname: data.nickname,
             bio: data.bio
@@ -35,16 +37,19 @@ function Settings() {
     };
 
     // const [email,setEmail] = useState(null);
-    const [username,setUsername] = useState(null);
-    const [github,setGithub] = useState(null);
-    const [wallet,setWallet] = useState('');
+    // const [username,setUsername] = useState(null);
+    // const [github,setGithub] = useState(null);
+    // const [wallet,setWallet] = useState('');
 
     useEffect(() => {
-        setWallet(data?.wallet);
+        // setWallet(data?.wallet);
         // setEmail(data?.email);
-        setGithub(data?.github);
-        setUsername(data?.username);
+        // setGithub(data?.github);
+        // setUsername(data?.username);
         reset({
+            username: data?.username,
+            github: data?.github,
+            wallet: data?.wallet,
             email: data?.email,
             nickname: data?.nickname,
             bio: data?.bio
@@ -52,7 +57,7 @@ function Settings() {
     },[data]);
     
     return (
-        <Layout>
+        <Layout >
             <PersonalBanner />
             <div>
                 <div className="w-full mx-auto mt-12 px-4 flex items-center md:w-[800px] md:px-0">
@@ -71,7 +76,7 @@ function Settings() {
                         <p className="text-sm text-gray-500">Settings related to your account.</p>
                     </div>
                     <div className="w-full mb-6">
-                        <h4 className="block mb-1 text-sm font-medium text-gray-700">Connections</h4>
+                        <h4 className="block mb-3 text-sm font-medium text-gray-700">Connections</h4>
                         <div className="w-full h-[74px] px-6 py-4 flex items-center justify-between my-1 text-sm font-medium text-gray-700 border border-gray-300 rounded-md">
                             <div className="flex-shrink-0 mr-3">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -80,7 +85,7 @@ function Settings() {
                             </div>
                             <div className="flex flex-col w-full">
                                 <h4 className="text-sm font-semibold text-gray-700">GitHub</h4>
-                                <p className="text-sm text-gray-500">{ username } (<span className="text-[#274BC9]">@{ username }</span>)</p>
+                                {/* <p className="text-sm text-gray-500">{ username } (<span className="text-[#274BC9]">@{ username }</span>)</p> */}
                             </div>
                         </div>
                         <div className="w-full h-[74px] px-6 py-4 flex items-center justify-between my-1 text-sm font-medium text-gray-700 border border-gray-300 rounded-md mb-6">
@@ -104,7 +109,7 @@ function Settings() {
                             </div>
                             <div className="flex flex-col w-full">
                                 <h4 className="text-sm font-semibold text-gray-700">ETH</h4>
-                                <p className="text-sm text-gray-500">{truncation(wallet)}</p>
+                                {/* <p className="text-sm text-gray-500">{defaultValuestruncation(wallet)}</p> */}
                             </div>
                         </div>
                         <form onSubmit={handleSubmit(onSubmit)}>
@@ -145,7 +150,7 @@ function Settings() {
                                     <p className="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about yourself.</p>
                                 </div>
                             </div>
-                            <input type="submit" value={'Save'} className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"/>
+                            <input type="submit" value={'Save'} className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white cursor-pointer shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"/>
                         </form>
                     </div>
                 </div>
