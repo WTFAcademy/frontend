@@ -134,3 +134,4 @@ contract B {
 
 ## 总结
 这一讲我们介绍了`solidity`中的另一个低级函数`delegatecall`。与`call`类似，它可以用来调用其他合约；不同点在于运行的语境，`B call C`，语境为`C`；而`B delegatecall C`，语境为`B`。目前`delegatecall`最大的应用是代理合约和`EIP-2535 Diamonds`（钻石）。
+<LessonQuizStart meta={require('./meta.json')} />

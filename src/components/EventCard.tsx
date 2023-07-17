@@ -7,7 +7,7 @@ interface TProps {
 
 const EventCard = ({ event }: TProps) => {
   return (
-    <div className="w-full h-[357px] md:w-[288px] md:h-[357px] p-4 border border-solid rounded-md shadow-sm relative">
+    <div className="w-full h-[357px] md:w-[288px] md:h-[357px] p-4 border border-solid rounded-md shadow-sm relative transition-shadow hover:shadow-lg">
       <div className="bg-gray-300 w-[256px] h-[170px] mx-auto rounded-[8px] md:rounded-none">
         <img src={event.img} alt="" className="w-full h-full object-cover" />
       </div>

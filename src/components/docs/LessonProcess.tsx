@@ -18,11 +18,11 @@ const LessonProcess = (props: TProps) => {
 
     return (
         <div className="flex gap-2">
-            <div className="px-2 py-2 bg-gray-200 rounded-md text-xs text-primary font-bold">
+            <div className="px-2 py-2 bg-gray-100 rounded-md text-sm text-primary font-medium">
                 <Translate id="component.QuizProgress.time">Time: </Translate>
                 {i18n.currentLocale === 'zh' ? get(data, 'estimated_time') : get(data, 'estimated_time')?.replace('分钟', ' minutes')}
             </div>
-            <div className="px-2 py-2 bg-gray-200 rounded-md text-xs text-primary font-bold">
+            <div className="px-2 py-2 bg-gray-100 rounded-md text-sm text-primary font-medium">
                 <Translate id="component.QuizProgress.score">Best Score: </Translate>
                 {get(data, 'score_percent')}
             </div>

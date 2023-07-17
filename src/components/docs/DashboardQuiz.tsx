@@ -9,6 +9,7 @@ import {cn} from "@site/src/utils/class-utils";
 import {TCourseMeta} from "@site/src/typings/doc";
 import useAuth from "@site/src/hooks/useAuth";
 import {Skeleton} from "@site/src/components/ui/Skeleton";
+import {ArrowRightIcon} from "lucide-react";
 
 type TProps = {
     meta: TCourseMeta;
@@ -89,7 +90,7 @@ const DashboardQuiz = (props: TProps) => {
                     <p className="mt-7">When you have completed all the courses, please click the button below to get
                         the
                         certificate.</p>
-                    <Button className="mt-4">Mint Certificate <ShortArrowRight className="ml-2"/></Button>
+                    <Button className="mt-4">Mint Certificate <ArrowRightIcon className="w-4 h-4 ml-2"/></Button>
                 </>
             )}
         </div>

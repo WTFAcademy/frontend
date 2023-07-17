@@ -12,6 +12,10 @@
     @apply inline-block;
 }
 
+.theme-edit-this-page {
+    display: flex;
+}
+
 /*markdown*/
 
 .markdown {
