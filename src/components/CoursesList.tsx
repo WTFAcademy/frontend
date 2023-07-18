@@ -6,6 +6,8 @@ import Spinner from "@site/src/components/ui/Spinner";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
 import { getCourses } from "@site/src/api/course";
 import { TCourse } from "../typings/course";
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import Translate from '@docusaurus/Translate';
 
 type TProps = {
   course: TCourse;
@@ -14,7 +16,8 @@ type TProps = {
 const CourseCard = (props: TProps) => {
   const { course } = props;
   const history = useHistory();
-
+  const { i18n } = useDocusaurusContext();
+  
   return (
     <div
       onClick={() => history.push(course.route_path)}
@@ -72,7 +75,7 @@ const CourseList = ({
   return (
     <div className="w-full flex flex-col items-center">
       <div className="w-full font-ubuntu font-bold">
-        <span>{isUpcoming ? "Upcoming Courses" : "Popular Courses"}</span>
+        <span>{isUpcoming ? <Translate id="home.courses.upcoming.title">即将推出的课程</Translate> : <Translate id="home.courses.popular.title">热门课程</Translate>}</span>
         <Tag circle className="h-6 w-6 bg-gray-200 ml-3">
           {data?.list.length}
         </Tag>
