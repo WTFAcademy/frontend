@@ -377,5 +377,57 @@
   "home.contributors.expand.button": {
     "message": "Expand All Contributors",
     "description": "Home contributors expand button"
+  },
+  "docs.101.DashboardProcessTip.title": {
+    "message": "Get Solidity Developer Certificate",
+    "description": "Docs 101 DashboardProcessTip title"
+  },
+  "docs.101.DashboardProcessTip.step01": {
+    "message": "Learn",
+    "description": "Docs 101 DashboardProcessTip step01"
+  },
+  "docs.101.DashboardProcessTip.step02": {
+    "message": "Quiz",
+    "description": "Docs 101 DashboardProcessTip step02"
+  },
+  "docs.101.DashboardProcessTip.step03": {
+    "message": "Get on-chain Certificate",
+    "description": "Docs 101 DashboardProcessTip step03"
+  },
+  "docs.101.DashboardQuiz.title": {
+    "message": "Progress",
+    "description": "Docs 101 DashboardQuiz title"
+  },
+  "docs.101.DashboardQuiz.LessonItem.progress": {
+    "message": "Progress",
+    "description": "Docs 101 DashboardQuiz LessonItem progress"
+  },
+  "docs.101.DashboardQuiz.LessonItem.status": {
+    "message": "Status",
+    "description": "Docs 101 DashboardQuiz LessonItem status"
+  },
+  "docs.101.DashboardQuiz.LessonItem.complete": {
+    "message": "Complete",
+    "description": "Docs 101 DashboardQuiz LessonItem complete"
+  },
+  "docs.101.DashboardQuiz.LessonItem.pending": {
+    "message": "Pending",
+    "description": "Docs 101 DashboardQuiz LessonItem pending"
+  },
+  "docs.101.DashboardQuiz.LessonItem.loginLink": {
+    "message": "Sign In",
+    "description": "Docs 101 DashboardQuiz LessonItem loginLink"
+  },
+  "docs.101.DashboardQuiz.mintTips": {
+    "message": "When you have completed all the courses, please click the button below to get the certificate.",
+    "description": "Docs 101 DashboardQuiz mintTips"
+  },
+  "docs.101.DashboardQuiz.mintButton": {
+    "message": "Mint Certificate",
+    "description": "Docs 101 DashboardQuiz mintButton"
+  },
+  "docs.101.LessonQuizStart.button": {
+    "message": "Start Quiz",
+    "description": "Docs 101 LessonQuizStart button"
   }
 }

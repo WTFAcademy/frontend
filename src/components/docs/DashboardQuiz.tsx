@@ -10,6 +10,8 @@ import {TCourseMeta} from "@site/src/typings/doc";
 import useAuth from "@site/src/hooks/useAuth";
 import {Skeleton} from "@site/src/components/ui/Skeleton";
 import {ArrowRightIcon} from "lucide-react";
+import Translate from '@docusaurus/Translate';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 type TProps = {
     meta: TCourseMeta;
@@ -17,34 +19,35 @@ type TProps = {
 
 const LessonItem = ({lesson}: { lesson: TLesson }) => {
     const {isLogin} = useAuth();
+    const { i18n } = useDocusaurusContext();
 
     return (
         <div className="relative border-[0.5px] shadow rounded-md h-[57px]">
             <div className="bg-primary-darker h-full" style={{width: `${lesson.score_percent}%`}}/>
             <div className="flex items-center justify-between absolute inset-0 px-5 py-[18px] text-sm md:text-base">
-                <div>{lesson.lesson_title}</div>
+                <div>{ i18n.currentLocale === 'zh' ? lesson.lesson_title : lesson.en_title}</div>
                 {isLogin ? (
                     <>
                         <div className="flex items-center gap-2 md:hidden">
                             <span className="text-primary font-bold">{lesson.score_percent}%</span>
                             <div className="w-px h-[16px] bg-gray-300"/>
                             <span
-                                className={cn("text-[#626770] font-bold", {"text-primary": lesson.is_finish})}>{lesson.is_finish ? "Complete" : "Pending"}</span>
+                                className={cn("text-[#626770] font-bold", {"text-primary": lesson.is_finish})}>{lesson.is_finish ? <Translate id="docs.101.DashboardQuiz.LessonItem.complete">完成</Translate> : <Translate id="docs.101.DashboardQuiz.LessonItem.pending">进行中</Translate>}</span>
                         </div>
                         <div className="items-center hidden md:flex">
                             <div className="inline-flex items-center mr-5">
-                                <span className="text-[#626770] mr-2">Progress{" "}</span>
+                                <span className="text-[#626770] mr-2"><Translate id="docs.101.DashboardQuiz.LessonItem.progress">进度</Translate>{" "}</span>
                                 <span className="text-primary font-bold">{lesson.score_percent}%</span>
                             </div>
                             <div className="inline-flex items-center">
-                                <span className="text-[#626770] mr-2">Status{" "}</span>
+                                <span className="text-[#626770] mr-2"><Translate id="docs.101.DashboardQuiz.LessonItem.status">状态</Translate>{" "}</span>
                                 <span
-                                    className={cn("text-[#626770] font-bold", {"text-primary": lesson.is_finish})}>{lesson.is_finish ? "Complete" : "Pending"}</span>
+                                    className={cn("text-[#626770] font-bold", {"text-primary": lesson.is_finish})}>{lesson.is_finish ? <Translate id="docs.101.DashboardQuiz.LessonItem.complete">完成</Translate> : <Translate id="docs.101.DashboardQuiz.LessonItem.pending">进行中</Translate>}</span>
                             </div>
                         </div>
                     </>
                 ) : (
-                    <a className="mr-2 text-sm cursor-pointer">去登录</a>
+                    <a className="mr-2 text-sm cursor-pointer"><Translate id="docs.101.DashboardQuiz.LessonItem.loginLink">去登录</Translate></a>
                 )}
             </div>
         </div>
@@ -60,7 +63,7 @@ const DashboardQuiz = (props: TProps) => {
 
     return (
         <div className="w-full mt-[60px]">
-            <h4>课程学习进度</h4>
+            <h4><Translate id="docs.101.DashboardQuiz.title">学习进度</Translate></h4>
             <div className="flex flex-col gap-[14px] mt-7">
                 {isLoading ? (
                     <>
@@ -87,10 +90,8 @@ const DashboardQuiz = (props: TProps) => {
             </div>
             {isLogin && (
                 <>
-                    <p className="mt-7">When you have completed all the courses, please click the button below to get
-                        the
-                        certificate.</p>
-                    <Button className="mt-4">Mint Certificate <ArrowRightIcon className="w-4 h-4 ml-2"/></Button>
+                    <p className="mt-7"><Translate id="docs.101.DashboardQuiz.mintTips">当您通过全部考试后，点击按钮获取链上技术认证。</Translate></p>
+                    <Button className="mt-4"><Translate id="docs.101.DashboardQuiz.mintButton">领取证书</Translate> <ArrowRightIcon className="w-4 h-4 ml-2"/></Button>
                 </>
             )}
         </div>

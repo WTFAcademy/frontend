@@ -7,6 +7,7 @@ import React from "react";
 import Link from "@docusaurus/Link";
 import {get} from "lodash-es";
 import useAuth from "@site/src/hooks/useAuth";
+import Translate from '@docusaurus/Translate';
 
 
 type TProps = {
@@ -24,7 +25,7 @@ const LessonQuizStart = (props: TProps) => {
     return (
         <Link to={get(data, 'viewform_url', '')}>
             <Button size="sm">
-                <span>Start Quiz</span>
+                <span><Translate id="docs.101.LessonQuizStart.button">开始测试</Translate></span>
                 <ArrowRightIcon className="w-4 h-4 ml-2"/>
             </Button>
         </Link>
