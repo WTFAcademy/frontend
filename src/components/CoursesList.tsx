@@ -66,7 +66,6 @@ const CourseList = ({
   const { data, isLoading } = useQuery(["getCourses", isUpcoming], () =>
     getCourses(isUpcoming ? 2 : 1)
   );
-
   // console.log(data)
 
   return (
@@ -77,14 +76,21 @@ const CourseList = ({
           {data?.list.length}
         </Tag>
       </div>
-      <div className="flex flex-wrap justify-center md:justify-around gap-6 mt-[35px]">
-        {isLoading ? (
-          <Spinner loading className="w-6 h-6" />
-        ) : (
-          ((isTotal ? data?.list : data?.list.slice(0, 6)) || []).map(
-            (item) => <CourseCard key={item.id} course={item} />
-          )
-        )}
+      <div className="flex w-full flex-wrap justify-center md:justify-around gap-6 mt-[35px]">
+        {isLoading
+          ? new Array(3).fill("").map((_, index) => (
+              <div
+                key={index}
+                className="w-full md:w-[300px] h-[276px] border border-solid rounded-md shadow-sm transition-shadow hover:shadow-lg"
+              >
+                <div className="h-[150px] w-full bg-gray-200"></div>
+                <div className="w-1/2 h-8 bg-gray-200 mt-6 rounded-full ml-2"></div>
+                <div className="w-3/4 h-4 bg-gray-200 mt-6 rounded-full ml-2"></div>
+              </div>
+            ))
+          : ((isTotal ? data?.list : data?.list.slice(0, 6)) || []).map(
+              (item) => <CourseCard key={item.id} course={item} />
+            )}
         {Array(3 - (data?.list.length % 3) || 0)
           .fill("")
           .map((_, index: number) => (

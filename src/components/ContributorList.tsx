@@ -6,7 +6,6 @@ import { Button } from "@site/src/components/ui/Button";
 
 import { cn } from "@site/src/utils/class-utils";
 import { useQuery } from "react-query";
-import Spinner from "@site/src/components/ui/Spinner";
 
 const ContributorList = () => {
   const size = useBreakpoint();
@@ -42,18 +41,33 @@ const ContributorList = () => {
   }, [data, showCount]);
 
   return (
-    <Spinner loading={isLoading}>
-      <div className="bg-background border-border border rounded-md overflow-hidden">
-        <table className="border-collapse">
-          <tbody>
-            {(isExpand ? userChunks : userChunks.slice(0, showColumnCount)).map(
-              (chunk, index) => (
+    <div className="bg-background border-border border rounded-md overflow-hidden">
+      <table className="border-collapse overflow-hidden">
+        <tbody>
+          {isLoading
+            ? new Array(showColumnCount).fill("").map((_, index) => (
+                <tr key={index} className="border-none">
+                  {new Array(showCount).fill("").map((_, i) => (
+                    <td
+                      key={i}
+                      className="w-[95px] h-[120px] bg-card border-none"
+                    >
+                      <div className="w-[64px] h-[64px] rounded-full bg-gray-200"></div>
+                      <div className="w-[64px] mt-2 h-2 rounded-full bg-gray-200"></div>
+                    </td>
+                  ))}
+                </tr>
+              ))
+            : (isExpand
+                ? userChunks
+                : userChunks.slice(0, showColumnCount)
+              ).map((chunk, index) => (
                 <tr key={`tr_${index}`} className="border-0">
                   {chunk.map((user, index) => (
                     <td
                       key={user.id}
                       className={cn(
-                        "w-[95px] h-[120px] bg-card border-r-0 border-b border-t-0 border-l-0 border-border",
+                        "w-[95px] mx-auto h-[120px] bg-card border-r-0 border-b border-t-0 border-l-0 border-border",
                         { "border-r": index !== chunk.length - 1 }
                       )}
                     >
@@ -68,24 +82,22 @@ const ContributorList = () => {
                     </td>
                   ))}
                 </tr>
-              )
-            )}
-          </tbody>
-        </table>
-        <div className="flex justify-center mb-4">
-          {userChunks && userChunks.length ? (
-            <Button
-              className="bg-other1 text-other1-foreground"
-              onClick={toggelContributeList}
-            >
-              {isExpand ? "Collapse Contributors" : "Expand All Contributors"}
-            </Button>
-          ) : (
-            <></>
-          )}
-        </div>
+              ))}
+        </tbody>
+      </table>
+      <div className="flex justify-center mb-4">
+        {userChunks && userChunks.length ? (
+          <Button
+            className="bg-other1 text-other1-foreground"
+            onClick={toggelContributeList}
+          >
+            {isExpand ? "Collapse Contributors" : "Expand All Contributors"}
+          </Button>
+        ) : (
+          <></>
+        )}
       </div>
-    </Spinner>
+    </div>
   );
 };
 

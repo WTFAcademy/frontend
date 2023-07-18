@@ -13,7 +13,7 @@ const ContributorSection = () => {
                     <div className="text-sm mt-4">The best way to learn is to share</div>
                 </div>
 
-                <div className="flex">
+                <div className="flex justify-center	">
                     <ContributorList />
                 </div>
             </div>
