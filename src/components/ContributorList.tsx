@@ -5,9 +5,9 @@ import { chunk } from "lodash-es";
 import { Button } from "@site/src/components/ui/Button";
 
 import { cn } from "@site/src/utils/class-utils";
-import { useQuery } from "react-query"
+import { useQuery } from "react-query";
 import Spinner from "@site/src/components/ui/Spinner";
-import Translate from '@docusaurus/Translate';
+import Translate from "@docusaurus/Translate";
 
 const ContributorList = () => {
   const size = useBreakpoint();
@@ -91,29 +91,21 @@ const ContributorList = () => {
         {userChunks && userChunks.length ? (
           <Button
             className="bg-other1 text-other1-foreground"
-            onClick={toggelContributeList}
+            onClick={toggleContributeList}
           >
-            {isExpand ? "Collapse Contributors" : "Expand All Contributors"}
+            {isExpand ? (
+              <Translate id="home.contributors.collapse.button">
+                收起所有贡献者
+              </Translate>
+            ) : (
+              <Translate id="home.contributors.expand.button">
+                展开所有贡献者
+              </Translate>
+            )}
           </Button>
         ) : (
           <></>
         )}
-              )
-            )}
-          </tbody>
-        </table>
-        <div className="flex justify-center mb-4">
-          {userChunks && userChunks.length ? (
-            <Button
-              className="bg-other1 text-other1-foreground"
-              onClick={toggleContributeList}
-            >
-              {isExpand ? <Translate id="home.contributors.collapse.button">收起所有贡献者</Translate> : <Translate id="home.contributors.expand.button">展开所有贡献者</Translate>}
-            </Button>
-          ) : (
-            <></>
-          )}
-        </div>
       </div>
     </div>
   );
