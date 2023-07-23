@@ -269,5 +269,165 @@
   "theme.tags.tagsPageTitle": {
     "message": "Tags",
     "description": "The title of the tag list page"
+  },
+  "home.hero.intro": {
+    "message": "Web3 Open University for Developers",
+    "description": "Home hero intro"
+  },
+  "home.hero.tag01": {
+    "message": "Learn",
+    "description": "Home hero tag01"
+  },
+  "home.hero.tag02": {
+    "message": "Contribute",
+    "description": "Home hero tag02"
+  },
+  "home.hero.tag03": {
+    "message": "Get Certified",
+    "description": "Home hero tag03"
+  },
+  "home.hero.button01": {
+    "message": "Start Learning",
+    "description": "Home hero button01"
+  },
+  "home.hero.button02": {
+    "message": "Join Community",
+    "description": "Home hero button02"
+  },
+  "home.hero.desc01": {
+    "message": "Educating 100,000 Developers for Web3",
+    "description": "Home hero desc"
+  },
+  "home.hero.desc02": {
+    "message": "Follow us on Twitter,",
+    "description": "Home hero desc"
+  },
+  "home.hero.desc03": {
+    "message": "connect with web3 developers.",
+    "description": "Home hero desc"
+  },
+  "home.courses.title": {
+    "message": "Courses",
+    "description": "Home courses title"
+  },
+  "home.courses.intro": {
+    "message": "Courses specially designed by developers for developers",
+    "description": "Home courses intro"
+  },
+  "home.courses.button": {
+    "message": "View All Courses",
+    "description": "Home courses button"
+  },
+  "home.courses.popular.title": {
+    "message": "Popular Courses",
+    "description": "Home courses popular title"
+  },
+  "home.courses.upcoming.title": {
+    "message": "Upcoming Courses",
+    "description": "Home courses upcoming title"
+  },
+  "home.introduction.title01": {
+    "message": "Open Source",
+    "description": "Home introduction title01"
+  },
+  "home.introduction.title02": {
+    "message": "On-chain Certificates",
+    "description": "Home introduction title02"
+  },
+  "home.introduction.title03": {
+    "message": "PR to Earn",
+    "description": "Home introduction title03"
+  },
+  "home.introduction.title04": {
+    "message": "Community/nDriven",
+    "description": "Home introduction title04"
+  },
+  "home.events.title": {
+    "message": "Events",
+    "description": "Home events title"
+  },
+  "home.events.intro": {
+    "message": "The purpose of learning is to create together",
+    "description": "Home events intro"
+  },
+  "home.events.button": {
+    "message": "View All Events",
+    "description": "Home events button"
+  },
+  "home.sponsors.title": {
+    "message": "Sponsors",
+    "description": "Home sponsors title"
+  },
+  "home.sponsors.intro": {
+    "message": "Support the future of Web3",
+    "description": "Home sponsors intro"
+  },
+  "home.contributors.title": {
+    "message": "Contributors",
+    "description": "Home contributors title"
+  },
+  "home.contributors.intro": {
+    "message": "The best way to learn is to share",
+    "description": "Home contributors intro"
+  },
+  "home.contributors.collapse.button": {
+    "message": "Collapse Contributors",
+    "description": "Home contributors collapse button"
+  },
+  "home.contributors.expand.button": {
+    "message": "Expand All Contributors",
+    "description": "Home contributors expand button"
+  },
+  "docs.101.DashboardProcessTip.title": {
+    "message": "Get Solidity Developer Certificate",
+    "description": "Docs 101 DashboardProcessTip title"
+  },
+  "docs.101.DashboardProcessTip.step01": {
+    "message": "Learn",
+    "description": "Docs 101 DashboardProcessTip step01"
+  },
+  "docs.101.DashboardProcessTip.step02": {
+    "message": "Quiz",
+    "description": "Docs 101 DashboardProcessTip step02"
+  },
+  "docs.101.DashboardProcessTip.step03": {
+    "message": "Get on-chain Certificate",
+    "description": "Docs 101 DashboardProcessTip step03"
+  },
+  "docs.101.DashboardQuiz.title": {
+    "message": "Progress",
+    "description": "Docs 101 DashboardQuiz title"
+  },
+  "docs.101.DashboardQuiz.LessonItem.progress": {
+    "message": "Progress",
+    "description": "Docs 101 DashboardQuiz LessonItem progress"
+  },
+  "docs.101.DashboardQuiz.LessonItem.status": {
+    "message": "Status",
+    "description": "Docs 101 DashboardQuiz LessonItem status"
+  },
+  "docs.101.DashboardQuiz.LessonItem.complete": {
+    "message": "Complete",
+    "description": "Docs 101 DashboardQuiz LessonItem complete"
+  },
+  "docs.101.DashboardQuiz.LessonItem.pending": {
+    "message": "Pending",
+    "description": "Docs 101 DashboardQuiz LessonItem pending"
+  },
+  "docs.101.DashboardQuiz.LessonItem.loginLink": {
+    "message": "Sign In",
+    "description": "Docs 101 DashboardQuiz LessonItem loginLink"
+  },
+  "docs.101.DashboardQuiz.mintTips": {
+    "message": "When you have completed all the courses, please click the button below to get the certificate.",
+    "description": "Docs 101 DashboardQuiz mintTips"
+  },
+  "docs.101.DashboardQuiz.mintButton": {
+    "message": "Mint Certificate",
+    "description": "Docs 101 DashboardQuiz mintButton"
+  },
+  "docs.101.LessonQuizStart.button": {
+    "message": "Start Quiz",
+    "description": "Docs 101 LessonQuizStart button"
   }
 }

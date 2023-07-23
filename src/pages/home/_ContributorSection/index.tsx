@@ -1,5 +1,6 @@
 import React from "react";
 import ContributorList from "@site/src/components/ContributorList";
+import Translate from '@docusaurus/Translate';
 
 const ContributorSection = () => {
     return (
@@ -8,9 +9,17 @@ const ContributorSection = () => {
                 <div className="flex flex-col flex-shrink-0 items-center mb-8 md:items-start">
                     <div className="flex items-center gap-1">
                         <div className="text-[32px]">🍇</div>
-                        <h2 className="font-ubuntu text-background-foreground text-[42px] font-bold">Contributors</h2>
+                        <h2 className="font-ubuntu text-background-foreground text-[42px] font-bold">
+                            <Translate id="home.contributors.title">
+                                贡献者
+                            </Translate>
+                        </h2>
                     </div>
-                    <div className="text-sm mt-4">The best way to learn is to share</div>
+                    <div className="text-sm mt-4">
+                        <Translate id="home.contributors.intro">
+                            分享是最好的学习方法
+                        </Translate>
+                    </div>
                 </div>
 
                 <div className="flex justify-center	">

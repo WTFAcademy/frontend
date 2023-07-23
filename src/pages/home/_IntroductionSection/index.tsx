@@ -4,25 +4,26 @@ import ProfileIcon from "@site/src/icons/Profile";
 import CertificateIcon from "@site/src/icons/Certificate";
 import PrToEarnIcon from "@site/src/icons/PrToEarn";
 import CommunityIcon from "@site/src/icons/Community";
+import Translate from '@docusaurus/Translate';
 
 const INTRODUCTIONS = [
     {
-        title: "Open Source",
+        title: <Translate id="home.introduction.title01">开源教程</Translate>,
         icon: <ProfileIcon />,
         color: "#FCE9DE"
     },
     {
-        title: <span>On-chain<br />Certificates</span>,
+        title: <Translate id="home.introduction.title02">链上技术认证</Translate>,
         icon: <CertificateIcon />,
         color: "#DDE6FA"
     },
     {
-        title: "PR to Earn",
+        title: <Translate id="home.introduction.title03">PR to Earn</Translate>,
         icon: <PrToEarnIcon />,
         color: "#FCE9DE"
     },
     {
-        title: <span>Community<br />Driven</span>,
+        title: <Translate id="home.introduction.title04">社区共同学习</Translate>,
         icon: <CommunityIcon />,
         color: "#DDE6FA"
     },
