@@ -78,7 +78,7 @@ const ContributorList = () => {
                 <div className="flex justify-center mb-4">
                     {userChunks && userChunks.length ? (
                         <Button
-                            className="bg-brand-muted text-brand"
+                            className="bg-brand-muted text-brand dark:text-content"
                             onClick={toggleContributeList}
                         >
                             {isExpand ? <Translate id="home.contributors.collapse.button">收起所有贡献者</Translate> :
