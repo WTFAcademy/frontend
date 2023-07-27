@@ -15,7 +15,7 @@ function LoginEntry() {
             </Button>
             <LoginTipParagraph text="Or if your account is already connected to a wallet"/>
             <ConnectWalletButton
-                className="w-full bg-secondary-foreground text-foreground border border-gray-300 border-solid text-base">
+                className="w-full bg-background text-content border border-border border-solid text-base">
                 Sign in with Ethereum
             </ConnectWalletButton>
         </>

@@ -113,7 +113,7 @@ const ConnectWallet = () => {
             <a
                 href=""
                 onClick={() => disconnect()}
-                className="mt-4 text-xs flex items-center text-gray-500 justify-center"
+                className="mt-4 text-xs flex items-center text-content-muted justify-center"
             >取消钱包登录</a>
         </>
     )

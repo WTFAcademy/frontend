@@ -4,7 +4,7 @@ import Translate from '@docusaurus/Translate';
 
 const Banner = () => {
     return (
-        <div className="bg-image h-[500px] lg:h-[700px] w-full flex flex-col items-center justify-center bg-gray-200 text-white">
+        <div className="bg-image h-[500px] 4xl:h-[700px] w-full flex flex-col items-center justify-center bg-background-subtle text-white">
             <div className="font-ubuntu font-bold text-[48px] leading-[55px] md:text-[56px] md:leading-[64px]">WTF Academy</div>
             <div className="font-ubuntu font-normal text-[20px] mt-4">
                 <Translate id="home.hero.intro">
@@ -43,7 +43,7 @@ const Banner = () => {
                         开始学习
                     </Translate>
                 </Button>
-                <Button className="h-[42px] text-base" variant="outline">
+                <Button className="h-[42px] text-base border-border border border-solid" variant="ghost">
                     <Translate id="home.hero.button02">
                         加入社区
                     </Translate>

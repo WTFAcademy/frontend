@@ -9,7 +9,8 @@ module.exports = {
             center: true,
             padding: "2rem",
             screens: {
-                "2xl": "1400px"
+                "2xl": "1400px",
+                "4xl": "1920px"
             },
         },
         extend: {
@@ -19,49 +20,63 @@ module.exports = {
                 black: "var(--wtf-black)",
                 transparent: "var(--wtf-transparent)",
                 brand: {
-                    primary: "var(--wtf-brand-primary)",
-                    secondary: "var(--wtf-brand-secondary)",
+                    faint: "var(--wtf-brand-faint)",
+                    muted: "var(--wtf-brand-muted)",
+                    DEFAULT: "var(--wtf-brand)",
+                    emphasis: "var(--wtf-brand-emphasis)",
+                    inverted: "var(--wtf-brand-inverted)",
+                    special: "var(--wtf-brand-special)"
                 },
-                gray: {
-                    DEFAULT: "var(--wtf-gray)",
-                    50: "var(--wtf-gray-50)",
-                    100: "var(--wtf-gray-100)",
-                    200: "var(--wtf-gray-200)",
-                    300: "var(--wtf-gray-300)",
-                    400: "var(--wtf-gray-400)",
-                    500: "var(--wtf-gray-500)",
-                    600: "var(--wtf-gray-600)",
-                    700: "var(--wtf-gray-700)",
-                    800: "var(--wtf-gray-800)",
-                    900: "var(--wtf-gray-900)"
+                background: {
+                    faint: "var(--wtf-bg-faint)",
+                    muted: "var(--wtf-bg-muted)",
+                    subtle: "var(--wtf-bg-subtle)",
+                    DEFAULT: "var(--wtf-bg)",
+                    emphasis: "var(--wtf-bg-emphasis)",
                 },
-                blue: {
-                    DEFAULT: "var(--wtf-blue)",
-                    50: "var(--wtf-blue-50)",
-                    100: "var(--wtf-blue-100)",
-                    200: "var(--wtf-blue-200)",
-                    600: "var(--wtf-blue-600)",
-                    700: "var(--wtf-blue-700)",
-                    800: "var(--wtf-blue-800)"
+                border: {
+                    muted: "var(--wtf-border-muted)",
+                    DEFAULT: "var(--wtf-border)",
+                },
+                content: {
+                    faint: "var(--wtf-content-faint)",
+                    muted: "var(--wtf-content-muted)",
+                    subtle: "var(--wtf-content-subtle)",
+                    DEFAULT: "var(--wtf-content)",
+                    emphasis: "var(--wtf-content-emphasis)",
+                    strong: "var(--wtf-content-strong)",
+                    inverted: "var(--wtf-content-inverted)",
+                },
+                success: {
+                    muted: "var(--wtf-success-muted)",
+                    subtle: "var(--wtf-success-subtle)",
+                    DEFAULT: "var(--wtf-success)",
+                    emphasis: "var(--wtf-success-emphasis)",
+                },
+                error: {
+                    muted: "var(--wtf-error-muted)",
+                    subtle: "var(--wtf-error-subtle)",
+                    DEFAULT: "var(--wtf-error)",
+                    emphasis: "var(--wtf-error-emphasis)",
+                    inverted: "var(--wtf-error-inverted)",
+                },
+                warning: {
+                    muted: "var(--wtf-warning-muted)",
+                    subtle: "var(--wtf-warning-subtle)",
+                    DEFAULT: "var(--wtf-warning)",
+                    emphasis: "var(--wtf-warning-emphasis)",
                 },
                 // UI 变量
-                background: "var(--ui-background)",
+                // background: "var(--ui-background)",
                 foreground: "var(--ui-background-foreground)",
                 primary: {
                     DEFAULT: "var(--ui-primary)",
-                    dark: "var(--ui-primary-dark)",
-                    darker: "var(--ui-primary-darker)",
-                    darkest: "var(--ui-primary-darkest)",
-                    light: "var(--ui-primary-light)",
-                    lighter: "var(--ui-primary-lighter)",
-                    lightest: "var(--ui-primary-lightest)",
                     foreground: "var(--ui-primary-foreground)"
                 },
                 secondary: {
                     DEFAULT: "var(--ui-secondary)",
                     foreground: "var(--ui-secondary-foreground)"
                 },
-                border: "var(--ui-border)",
                 input: "var(--ui-border-input)",
                 ring: "var(--ui-ring)",
                 destructive: {

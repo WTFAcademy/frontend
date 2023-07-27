@@ -9,7 +9,7 @@ import eventJson from "@site/static/json/events.json";
 
 const EventSection = () => {
   return (
-    <div className="w-full bg-white dark:bg-background flex justify-center">
+    <div className="w-full flex justify-center">
       <div className="flex flex-col items-center md:w-[1224px] md:px-0 px-8 w-full">
         <div className="text-[32px] mt-[96px]">🎪</div>
         <div className="text-[42px] font-bold font-ubuntu">

@@ -11,7 +11,6 @@ type TProps = {
 const StepLoginGithub = (props: TProps) => {
     const {next} = props;
     const {isGithubLogin, signInWithGithub} = useAuth();
-    const {completed} = useContext(StepContext)
 
     useEffect(() => {
         if (isGithubLogin) {

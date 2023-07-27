@@ -18,10 +18,10 @@ function Login() {
         >
             <div className="mt-14 mx-auto text-center">
                 <WTFLetterIcon/>
-                <p className="text-2xl leading-8 font-bold text-foreground">
+                <p className="text-2xl leading-8 font-bold text-content">
                     Log in to WTF Academy
                 </p>
-                <div className="shadow-md bg-secondary-foreground rounded-lg px-10 py-8 mt-8">
+                <div className="shadow-md bg-white dark:bg-zinc-900 rounded-lg px-10 py-8 mt-8">
                     {isConnected ? <ConnectWallet/> : <LoginEntry/>}
                 </div>
             </div>

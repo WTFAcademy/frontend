@@ -23,7 +23,7 @@ const CourseCard = (props: TProps) => {
       onClick={() => history.push(course.route_path)}
       className="w-full md:w-[300px] border border-solid rounded-md shadow-sm transition-shadow hover:shadow-lg"
     >
-      <div className="bg-gray-300 w-full h-[150px]">
+      <div className="bg-background-subtle w-full h-[150px]">
         <img
           src={course.cover_img}
           alt=""
@@ -33,25 +33,13 @@ const CourseCard = (props: TProps) => {
       <div className="flex flex-col p-4">
         <div className="flex justify-between items-center text-[22px] leading-[25px] font-bold font-ubuntu">
           <span>{course.title}</span>
-          {/* <ArrowTopRightOnSquareIcon
-            onClick={(e) => {
-              e.stopPropagation();
-              
-            }}
-            className="h-5 w-5 text-gray-500"
-          /> */}
         </div>
         <div className="text-sm leading-[17px] mt-[10px]">
           {course.description}
         </div>
         {course.user_cnt && (
           <div className="flex gap-2 mt-[14px]">
-            {/* {course?.tags.map((tag) => (
-          <Tag key={tag} className="bg-blue-100">
-            {tag}
-          </Tag>
-        ))} */}
-            <Tag className="bg-blue-100">{`${course.user_cnt} learners`}</Tag>
+            <Tag className="bg-brand-muted">{`${course.user_cnt} learners`}</Tag>
           </div>
         )}
       </div>
@@ -70,13 +58,11 @@ const CourseList = ({
     getCourses(isUpcoming ? 2 : 1)
   );
 
-  // console.log(data)
-
   return (
     <div className="w-full flex flex-col items-center">
       <div className="w-full font-ubuntu font-bold">
         <span>{isUpcoming ? <Translate id="home.courses.upcoming.title">即将推出的课程</Translate> : <Translate id="home.courses.popular.title">热门课程</Translate>}</span>
-        <Tag circle className="h-6 w-6 bg-gray-200 ml-3">
+        <Tag circle className="h-6 w-6 bg-background-muted ml-3">
           {data?.list.length}
         </Tag>
       </div>

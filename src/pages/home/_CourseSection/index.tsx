@@ -7,10 +7,12 @@ import Translate from '@docusaurus/Translate';
 
 const CourseSection = () => {
   return (
-    <div className="w-full bg-white dark:bg-background pb-28 flex justify-center">
+    <div className="w-full pb-28 flex justify-center">
       <div className="flex flex-col items-center px-8 w-full md:w-[1028px]">
         <div className="text-[32px]">🐝</div>
-        <div className="text-[42px] font-bold font-ubuntu"><Translate id="home.courses.title">课程</Translate></div>
+        <div className="text-[42px] font-bold font-ubuntu">
+          <Translate id="home.courses.title">课程</Translate>
+        </div>
         <div className="text-sm font-normal mb-[70px]">
           <Translate id="home.courses.title">
             为开发者设计的 Web3 课程

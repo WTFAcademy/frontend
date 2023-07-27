@@ -16,8 +16,11 @@
     display: flex;
 }
 
-/*markdown*/
+.menu__list {
+    padding-right: 0.5rem;
+}
 
+/*markdown*/
 .markdown {
     @apply max-w-full prose prose-blue dark:prose-invert dark:bg-slate-800;
 }

@@ -8,16 +8,16 @@ const StepCardVariant = cva(
     {
         variants: {
             active: {
-                true: "bg-primary text-white",
+                true: "bg-brand text-brand-inverted",
             },
             disabled: {
-                true: "bg-white text-gray-900 border border-primary-darker opacity-50",
+                true: "bg-background text-content border border-brand-muted opacity-50",
             },
             error: {
-                true: "!bg-destructive text-white",
+                true: "!bg-error text-error-inverted",
             },
             completed: {
-                true: "bg-primary-darker text-gray-900",
+                true: "bg-brand-muted text-content",
             }
         },
         defaultVariants: {

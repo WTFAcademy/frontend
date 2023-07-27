@@ -35,14 +35,81 @@
         --wtf-blue-50: #EFF6FF;
         --wtf-blue-100: #DBEAFE;
         --wtf-blue-200: #BFDBFE;
-        --wtf-blue-600: #2563EB;
+        --wtf-blue-600: #274BC9;
         --wtf-blue-700: #1D4ED8;
         --wtf-blue-800: #1E40AF;
 
         --wtf-red-600: #DC2626;
         --wtf-red-800: #991B1B;
 
+        --wtf-brand-faint: #eff6ff; /* blue-50 */
+        --wtf-brand-muted: #dbeafe; /* blue-100 */
+        --wtf-brand: #274BC9; /* blue-600 */
+        --wtf-brand-emphasis: #1d4ed8; /* blue-700 */
+        --wtf-brand-inverted: #ffffff;
+        --wtf-brand-speical: #F85800;
+
+        --wtf-bg-faint: #F9FAFB; /* gray-50 */
+        --wtf-bg-muted: #E5E7EB; /* gray-200 */
+        --wtf-bg-subtle: #D1D5DB; /* gray-300 */
+        --wtf-bg: #ffffff;
+        --wtf-bg-emphasis: #6B7280;  /* gray-500 */
+
+        --wtf-border-muted: #E5E7EB;
+        --wtf-border: #D1D5DB;
+
+
+        --wtf-content-faint: #d1d5db; /* gray-300 */
+        --wtf-content-muted: #6b7280; /* gray-500 */
+        --wtf-content-subtle: #374151; /* gray-700 */
+        --wtf-content: #111827;
+        --wtf-content-inverted: #FFFFFF;
+        --wtf-content-emphasis: #030712;
+        --wtf-content-strong: #030712;
+
+        --wtf-success-muted: #bbf7d0;
+        --wtf-success-subtle: #4ade80;
+        --wtf-success: #16a34a;
+        --wtf-success-emphasis: #166534;
+
+        --wtf-error-muted: #fecaca;
+        --wtf-error-subtle: #f87171;
+        --wtf-error: #dc2626;
+        --wtf-error-emphasis: #b91c1c;
+        --wtf-error-inverted: #ffffff;
+
+        --wtf-warning-muted: #ffedd5;
+        --wtf-warning-subtle: #fb923c;
+        --wtf-warning: #ea580c;
+        --wtf-warning-emphasis: #c2410c;
+
         --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+    }
+
+    [data-theme='dark'] {
+        --wtf-brand-faint: #0B1229;
+        --wtf-brand-muted: #172554; /* blue-950 */
+        --wtf-brand: #274BC9; /* blue-600 */
+        --wtf-brand-emphasis: #60a5fa; /* blue-400 */
+        --wtf-brand-inverted: #ffffff; /* gray-950 */
+        --wtf-brand-speical: #F85800;
+
+        --wtf-bg-faint: #18181b; /* zinc-900 */
+        --wtf-bg-muted: #27272a; /* zinc-800 */
+        --wtf-bg-subtle: #3f3f46; /* zinc-700 */
+        --wtf-bg: #09090B; /* zinc-950 */
+        --wtf-bg-emphasis: #71717a;  /* gray-500 */
+
+        --wtf-border-muted: #52525b; /* zinc-600 */
+        --wtf-border: #27272a; /* zinc-800 */
+
+        --wtf-content-faint: #374151; /* gray-700 */
+        --wtf-content-muted: #4B5563; /* gray-500 */
+        --wtf-content-subtle: #D1D5DB; /* gray-300 */
+        --wtf-content: #ffffff;
+        --wtf-content-emphasis: #e5e7eb; /* gray-200 */
+        --wtf-content-strong: #f9fafb; /* gray-50 */
+        --wtf-content-inverted: #111827;
     }
 }
 
@@ -52,12 +119,6 @@
         /* primary */
         --ui-primary: var(--wtf-brand-secondary);
         --ui-primary-foreground: var(--wtf-white);
-        --ui-primary-darkest: var(--wtf-blue-50);
-        --ui-primary-darker: var(--wtf-blue-100);
-        --ui-primary-dark: var(--wtf-blue-200);
-        --ui-primary-light: var(--wtf-blue-600);
-        --ui-primary-lighter: var(--wtf-blue-700);
-        --ui-primary-lightest: var(--wtf-blue-800);
 
         /* secondary */
         --ui-secondary: var(--wtf-gray-500);
@@ -169,6 +230,7 @@
         --ifm-hover-overlay: var(--wtf-gray-200);
         --ifm-code-font-size: 95%;
         --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+        --ifm-menu-color-background-active: var(--wtf-gray-100);
     }
 
     [data-theme='dark'] {
@@ -181,6 +243,8 @@
         --ifm-color-primary-lightest: var(--wtf-blue-50);
         --ifm-hover-overlay: var(--wtf-gray-200);
         --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+        --ifm-navbar-background-color: var(--wtf-bg);
+        --ifm-menu-color-background-active: var(--wtf-gray-900);
     }
 }
 
@@ -196,7 +260,7 @@
     html, body {
         height: unset !important;
         min-height: 100%;
-        @apply bg-background text-foreground;
+        @apply bg-background text-content;
         font-feature-settings: "rlig" 1, "calt" 1;
     }
 }

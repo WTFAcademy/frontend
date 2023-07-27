@@ -12,11 +12,11 @@ const StepIcon = (props) => {
   let icon = <StepSvg className="text-[#B3C1CE]" />;
 
   if (completed) {
-    icon = <CheckCircleSvg className="text-primary" />;
+    icon = <CheckCircleSvg className="text-brand" />;
   }
 
   if (active) {
-    icon = <StepSvg className="text-primary" />;
+    icon = <StepSvg className="text-brand" />;
   }
 
   return (

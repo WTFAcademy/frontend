@@ -31,7 +31,7 @@ const BorderItem = (props) => {
     if (completed || active) {
         return (
             <div
-                className={clsx("w-1 h-1 rounded-full bg-primary mb-[12px]", {
+                className={clsx("w-1 h-1 rounded-full bg-brand mb-[12px]", {
                     "!mb-0": last,
                 })}
             />
@@ -40,7 +40,7 @@ const BorderItem = (props) => {
 
     return (
         <div
-            className={clsx("w-1 h-1 rounded-full bg-[#B3C1CE] mb-[12px]", {
+            className={clsx("w-1 h-1 rounded-full bg-brand-muted mb-[12px]", {
                 "!mb-0": last,
             })}
         />
