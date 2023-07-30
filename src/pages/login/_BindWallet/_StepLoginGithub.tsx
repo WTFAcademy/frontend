@@ -1,8 +1,9 @@
 import StepCard from "@site/src/components/StepCard";
-import React, {useContext, useEffect} from "react";
+import React, {useContext, useEffect, useMemo} from "react";
 import useAuth from "@site/src/hooks/useAuth";
 import {ArrowRightCircleIcon} from "lucide-react";
 import {StepContext} from "@site/src/components/ui/Stepper/Step";
+import Translate, { translate } from '@docusaurus/Translate';
 
 type TProps = {
     next: (value: number) => void;
@@ -11,6 +12,20 @@ type TProps = {
 const StepLoginGithub = (props: TProps) => {
     const {next} = props;
     const {isGithubLogin, signInWithGithub} = useAuth();
+
+    const LoggedTips = useMemo(() => {
+        return translate({
+            id: 'login.StepLoginGithub.login01.button',
+            message: '已登录Github',
+        })
+    },[]);
+
+    const loginTips = useMemo(() => {
+        return translate({
+            id: 'login.StepLoginGithub.login02.button',
+            message: 'Github登录',
+        })
+    },[]);
 
     useEffect(() => {
         if (isGithubLogin) {
@@ -21,7 +36,7 @@ const StepLoginGithub = (props: TProps) => {
     return (
         <StepCard>
             <div className="w-full flex justify-between">
-                <span>{isGithubLogin ? "已登录Github" : "Github登录"}</span>
+                <span>{isGithubLogin ? LoggedTips : loginTips}</span>
                 {!isGithubLogin && (
                     <ArrowRightCircleIcon
                         className="h-6 w-6 text-white cursor-pointer"

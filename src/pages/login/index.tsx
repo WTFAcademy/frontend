@@ -5,6 +5,7 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import {WTFLetter as WTFLetterIcon} from "@site/src/icons";
 import LoginEntry from "@site/src/pages/login/_LoginEntry";
 import ConnectWallet from "@site/src/pages/login/_ConnectWallet";
+import Translate from '@docusaurus/Translate';
 
 function Login() {
     const {siteConfig} = useDocusaurusContext();
@@ -19,9 +20,9 @@ function Login() {
             <div className="mt-14 mx-auto text-center">
                 <WTFLetterIcon/>
                 <p className="text-2xl leading-8 font-bold text-content">
-                    Log in to WTF Academy
+                    <Translate id="login.intro">登录 WTF 学院</Translate>
                 </p>
-                <div className="shadow-md bg-white dark:bg-zinc-900 rounded-lg px-10 py-8 mt-8">
+                <div className="shadow-md bg-white dark:bg-zinc-900 rounded-lg px-10 py-8 mt-8 min-w-[320px]">
                     {isConnected ? <ConnectWallet/> : <LoginEntry/>}
                 </div>
             </div>

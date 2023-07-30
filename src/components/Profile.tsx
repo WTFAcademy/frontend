@@ -14,6 +14,7 @@ import Link from "@docusaurus/Link";
 import {useAccount} from "wagmi";
 import truncation from "@site/src/utils/truncation";
 import {cn} from "@site/src/utils/class-utils"
+import Translate from '@docusaurus/Translate';
 
 type TProps = {
     mobile?: boolean
@@ -50,7 +51,7 @@ const Profile = (props: TProps) => {
             return (
                 <DropdownMenuItem>
                     <WalletIcon className="w-4 h-4 mr-2"/>
-                    绑定钱包
+                    <Translate id="profile.Wallet.button">绑定钱包</Translate>
                 </DropdownMenuItem>
             )
         }
@@ -61,7 +62,7 @@ const Profile = (props: TProps) => {
     if (!isLogin) {
         return (
             <Link to="/login">
-                <Button className={cn("h-9 mr-3", {hidden: props.mobile})}>Login</Button>
+                <Button className={cn("h-9 mr-3", {hidden: props.mobile})}><Translate id="profile.Login.button">登录</Translate></Button>
             </Link>
         )
     }
@@ -81,13 +82,13 @@ const Profile = (props: TProps) => {
                 <DropdownMenuItem>
                     <UserIcon className="w-4 h-4 mr-2"/>
                     <Link to="/personal">
-                        个人中心
+                        <Translate id="profile.Account.button">个人中心</Translate>
                     </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator/>
                 <DropdownMenuItem onClick={handleSignOut}>
                     <LogOutIcon className="w-4 h-4 mr-2"/>
-                    <span>登出</span>
+                    <span><Translate id="profile.Logout.button">登出</Translate></span>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

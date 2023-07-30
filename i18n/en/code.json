@@ -429,5 +429,117 @@
   "docs.101.LessonQuizStart.button": {
     "message": "Start Quiz",
     "description": "Docs 101 LessonQuizStart button"
+  },
+  "personal.Settings.button": {
+    "message": "Settings",
+    "description": "Personal Settings button"
+  },
+  "personal.PersonalList.Certificates.title": {
+    "message": "My Certificates",
+    "description": "Personal PersonalList Certificates title"
+  },
+  "personal.PersonalList.Certificates.tips": {
+    "message": "You have not obtained any certificates yet.",
+    "description": "Personal PersonalList Certificates tips"
+  },
+  "personal.PersonalList.Courses.title": {
+    "message": "My Courses",
+    "description": "Personal PersonalList Courses title"
+  },
+  "personal.PersonalList.Courses.tips": {
+    "message": "You have not started any course yet",
+    "description": "Personal PersonalList Courses tips"
+  },
+  "personal.Settings.Account.title": {
+    "message": "Account",
+    "description": "Personal Settings Account title"
+  },
+  "personal.Settings.Account.intro": {
+    "message": "Settings related to your account.",
+    "description": "Personal Settings Account intro"
+  },
+  "personal.Settings.Save.button": {
+    "message": "Save",
+    "description": "Personal Settings Save button"
+  },
+  "personal.Settings.Connections.title": {
+    "message": "Connections",
+    "description": "Personal Settings Connections title"
+  },
+  "personal.Settings.Nickname.title": {
+    "message": "Nickname",
+    "description": "Personal Settings Nickname title"
+  },
+  "personal.Settings.Bio.title": {
+    "message": "Bio",
+    "description": "Personal Settings Bio title"
+  },
+  "personal.Settings.Bio.tips": {
+    "message": "Write a few sentences about yourself.",
+    "description": "Personal Settings Bio tips"
+  },
+  "profile.Wallet.button": {
+    "message": "Bind wallet",
+    "description": "Profile Wallet button"
+  },
+  "profile.Account.button": {
+    "message": "My Account",
+    "description": "Profile Account button"
+  },
+  "profile.Login.button": {
+    "message": "Log in",
+    "description": "Profile Login button"
+  },
+  "profile.Logout.button": {
+    "message": "Log out",
+    "description": "Profile Logout button"
+  },
+  "login.intro": {
+    "message": "Log in to WTF Academy",
+    "description": "Login intro"
+  },
+  "login.LoginEntry.Github.button": {
+    "message": "Sign in with GitHub",
+    "description": "Login LoginEntry Github button"
+  },
+  "login.LoginEntry.Ethereum.button": {
+    "message": "Sign in with Ethereum",
+    "description": "Login LoginEntry Ethereum button"
+  },
+  "login.LoginEntry.tips": {
+    "message": "Or if your account is already connected to a wallet",
+    "description": "Login LoginEntry tips"
+  },
+  "login.ConnectWallet.switch.network.button": {
+    "message": "Switch Network",
+    "description": "Login ConnectWallet switch network button"
+  },
+  "login.ConnectWallet.switch.network.tips": {
+    "message": "Please connect the chain supported by WTF",
+    "description": "Login ConnectWallet switch network tips"
+  },
+  "login.ConnectWallet.loading.tips": {
+    "message": "Waiting for user verification",
+    "description": "Login ConnectWallet loading tips"
+  },
+  "login.ConnectWallet.switch.wallet.button": {
+    "message": "Switch Wallet",
+    "description": "Login ConnectWallet switch wallet button"
+  },
+  "login.ConnectWallet.Cancel.button": {
+    "message": "Cancel wallet login",
+    "description": "Login ConnectWallet Cancel button"
+  },
+  "login.StepLoginGithub.login01.button": {
+    "message": "Logged into Github",
+    "description": "Login StepLoginGithub login01 button"
+  },
+  "login.StepLoginGithub.login02.button": {
+    "message": "Sign in with GitHub",
+    "description": "Login StepLoginGithub login02 button"
+  },
+  "login.StepBindWallet.intro": {
+    "message": "Sign Message + Bind Wallet",
+    "description": "Login StepBindWallet intro"
   }
 }

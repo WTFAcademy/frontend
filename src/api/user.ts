@@ -8,10 +8,10 @@ export const getUserInfo = () => {
     .then((res) => res.data);
 };
 
-export const getUserCourse = () => {
+export const getUserCourse = (i18n=null) => {
   return request
     .get<unknown, TResult<any>>(
-      `/user/my_course`
+      `/user/my_course`, i18n ? { params: { lan : i18n } } : null
     )
     .then((res) => res.data);
 };

@@ -8,8 +8,8 @@ import PersonalInfo from "@site/src/pages/personal/_PersonalInfo";
 function Personal() {
 
     return (
-        <Layout>
-            <div className="min-h-screen">
+        <Layout noFooter>
+            <div>
                 <PersonalBanner />
                 <div>
                     <PersonalAvatar />

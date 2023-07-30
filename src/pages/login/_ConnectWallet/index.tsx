@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useMemo} from "react";
 import {useQuery} from "react-query";
 import {getNonce} from "@site/src/api/wallet-auth";
 import LoginTipParagraph from "@site/src/components/LoginTipParagraph";
@@ -11,12 +11,27 @@ import {toast} from "react-hot-toast";
 import truncation from "@site/src/utils/truncation";
 import { Button } from "@site/src/components/ui/Button";
 import Spinner from "@site/src/components/ui/Spinner";
+import Translate, { translate } from '@docusaurus/Translate';
 
 const ConnectWallet = () => {
     const {address} = useAccount();
     const {chain, chains} = useNetwork()
     const {disconnect} = useDisconnect()
     const {data: user, isGithubLogin, signInWithWallet} = useAuth();
+
+    const networkTips = useMemo(() => {
+        return translate({
+            id: 'login.ConnectWallet.switch.network.tips',
+            message: '请连接WTF支持的链',
+        })
+    },[]);
+    
+    const loadingTips = useMemo(() => {
+        return translate({
+            id: 'login.ConnectWallet.loading.tips',
+            message: '等待用户校验',
+        })
+    },[]);
 
     const {
         isLoading: isCheckUserStatus,
@@ -53,8 +68,8 @@ const ConnectWallet = () => {
                             <Button
                                 onClick={openChainModal}
                                 className="w-full bg-secondary-foreground text-destructive border border-destructive border-solid text-base"
-                            >切换网络</Button>
-                            <LoginTipParagraph text="请连接WTF支持的链" className="mb-0"/>
+                            ><Translate id="login.ConnectWallet.switch.network.button">切换网络</Translate></Button>
+                            <LoginTipParagraph text={networkTips} className="mb-0"/>
                         </div>
                     )}
                 </ConnectButton.Custom>
@@ -66,13 +81,14 @@ const ConnectWallet = () => {
             return (
                 <div className="w-full flex flex-col items-center">
                     <Spinner loading className="mx-auto"/>
-                    <LoginTipParagraph text="等待用户校验" className="mb-0"/>
+                    <LoginTipParagraph text={loadingTips} className="mb-0"/>
                 </div>
             )
         }
 
         // 3. 已绑定钱包，但连错，需切换钱包
         if (isConnectErrorWallet) {
+            // todo : i18n 动态传参
             const tip = `当前账户已绑定钱包 ${truncation(user?.wallet)}，请切换钱包登录`;
             return (
                 <ConnectButton.Custom>
@@ -81,7 +97,7 @@ const ConnectWallet = () => {
                             <Button
                                 onClick={openAccountModal}
                                 className="w-full bg-secondary-foreground text-destructive border border-destructive border-solid text-base"
-                            >切换钱包</Button>
+                            ><Translate id="login.ConnectWallet.switch.wallet.button">切换钱包</Translate></Button>
                             <LoginTipParagraph text={tip} className="mb-0"/>
                         </div>
                     )}
@@ -114,7 +130,7 @@ const ConnectWallet = () => {
                 href=""
                 onClick={() => disconnect()}
                 className="mt-4 text-xs flex items-center text-content-muted justify-center"
-            >取消钱包登录</a>
+            ><Translate id="login.ConnectWallet.Cancel.button">取消钱包登录</Translate></a>
         </>
     )
 }

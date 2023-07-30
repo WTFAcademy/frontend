@@ -8,6 +8,7 @@ import useAuth from "@site/src/hooks/useAuth";
 import {bindWallet} from "@site/src/api/wallet-auth";
 import {useHistory} from "@docusaurus/router"
 import Spinner from "@site/src/components/ui/Spinner";
+import Translate from '@docusaurus/Translate';
 
 type TProps = {
     next?: (value: number) => void;
@@ -55,7 +56,7 @@ const StepBindWallet = (props: TProps) => {
         <StepCard error={isError} errorMessage={errorMessage}>
             <div className="w-full flex justify-between">
                 <div className="flex flex-col">
-                    <span>Sign Message + Bind Wallet</span>
+                    <span><Translate id="login.StepBindWallet.intro">签名消息+绑定钱包</Translate></span>
                     {isError && <span className="text-xs text-start text-destructive-foreground">{errorMessage}</span>}
                 </div>
                 {!isLoading ? (
