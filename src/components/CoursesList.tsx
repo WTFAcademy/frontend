@@ -55,7 +55,7 @@ const CourseList = ({
   isTotal?: boolean;
   isUpcoming: boolean;
 }) => {
-  const { data , isLoading} = useQuery(["getCourses", isUpcoming], () =>
+  const { data, isLoading } = useQuery(["getCourses", isUpcoming], () =>
     getCourses(isUpcoming ? 2 : 1)
   );
 
