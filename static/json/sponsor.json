@@ -1,10 +1,14 @@
 [
   {
-    "name": "eth",
-    "image_url": "/img/eth.png"
+    "name": "EF",
+    "image_url": "https://vjcxgodediuyprqxqpzo.supabase.co/storage/v1/object/public/images/sponsor-ef.png?t=2023-07-14T14%3A21%3A34.690Z"
   },
   {
-    "name": "eth1",
-    "image_url": "/img/eth.png"
+    "name": "OP",
+    "image_url":  "https://vjcxgodediuyprqxqpzo.supabase.co/storage/v1/object/public/images/sponsor-op.png?t=2023-07-14T14%3A21%3A56.025Z"
+  },
+  {
+    "name": "StarkWare",
+    "image_url":  "https://vjcxgodediuyprqxqpzo.supabase.co/storage/v1/object/public/images/sponsor-starkware.png?t=2023-07-14T14%3A22%3A15.465Z"
   }
 ]
