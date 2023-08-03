@@ -240,6 +240,7 @@
         --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
         --ifm-menu-color-background-active: var(--wtf-gray-100);
         --ifm-menu-color: var(--wtf-gray-600);
+        --ifm-toc-border-color: var(--wtf-border-muted);
     }
 
     [data-theme='dark'] {
@@ -255,6 +256,7 @@
         --ifm-navbar-background-color: var(--wtf-bg);
         --ifm-menu-color-background-active: var(--wtf-zinc-900);
         --ifm-menu-color: var(--wtf-gray-300);
+        --ifm-toc-border-color: var(--wtf-border-muted);
     }
 }
 
