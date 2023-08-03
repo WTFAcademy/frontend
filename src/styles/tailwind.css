@@ -32,37 +32,45 @@
         --wtf-gray-800: #1F2937;
         --wtf-gray-900: #111827;
 
+        --wtf-zinc-600: #52525b;
+        --wtf-zinc-700: #3f3f46;
+        --wtf-zinc-800: #27272a;
+        --wtf-zinc-900: #18181b;
+        --wtf-zinc-950: #09090B;
+
         --wtf-blue-50: #EFF6FF;
         --wtf-blue-100: #DBEAFE;
         --wtf-blue-200: #BFDBFE;
+        --wtf-blue-400: #60a5fa;
         --wtf-blue-600: #274BC9;
         --wtf-blue-700: #1D4ED8;
         --wtf-blue-800: #1E40AF;
+        --wtf-blue-950: #172554;
 
         --wtf-red-600: #DC2626;
         --wtf-red-800: #991B1B;
 
-        --wtf-brand-faint: #eff6ff; /* blue-50 */
-        --wtf-brand-muted: #dbeafe; /* blue-100 */
-        --wtf-brand: #274BC9; /* blue-600 */
-        --wtf-brand-emphasis: #1d4ed8; /* blue-700 */
+        --wtf-brand-faint: var(--wtf-blue-50); /* blue-50 */
+        --wtf-brand-muted: var(--wtf-blue-100); /* blue-100 */
+        --wtf-brand: var(--wtf-blue-600); /* blue-600 */
+        --wtf-brand-emphasis: var(--wtf-blue-700); /* blue-700 */
         --wtf-brand-inverted: #ffffff;
-        --wtf-brand-speical: #F85800;
+        --wtf-brand-special: #F85800;
 
-        --wtf-bg-faint: #F9FAFB; /* gray-50 */
-        --wtf-bg-muted: #E5E7EB; /* gray-200 */
-        --wtf-bg-subtle: #D1D5DB; /* gray-300 */
+        --wtf-bg-faint: var(--wtf-gray-50); /* gray-50 */
+        --wtf-bg-muted: var(--wtf-gray-200); /* gray-200 */
+        --wtf-bg-subtle: var(--wtf-gray-300); /* gray-300 */
         --wtf-bg: #ffffff;
-        --wtf-bg-emphasis: #6B7280;  /* gray-500 */
+        --wtf-bg-emphasis: var(--wtf-gray-500);  /* gray-500 */
 
-        --wtf-border-muted: #E5E7EB;
-        --wtf-border: #D1D5DB;
+        --wtf-border-muted: var(--wtf-gray-200);
+        --wtf-border: var(--wtf-gray-300);
 
 
-        --wtf-content-faint: #d1d5db; /* gray-300 */
-        --wtf-content-muted: #6b7280; /* gray-500 */
-        --wtf-content-subtle: #374151; /* gray-700 */
-        --wtf-content: #111827;
+        --wtf-content-faint: var(--wtf-gray-300); /* gray-300 */
+        --wtf-content-muted: var(--wtf-gray-500); /* gray-500 */
+        --wtf-content-subtle: var(--wtf-gray-700); /* gray-700 */
+        --wtf-content: var(--wtf-gray-900);
         --wtf-content-inverted: #FFFFFF;
         --wtf-content-emphasis: #030712;
         --wtf-content-strong: #030712;
@@ -88,28 +96,28 @@
 
     [data-theme='dark'] {
         --wtf-brand-faint: #0B1229;
-        --wtf-brand-muted: #172554; /* blue-950 */
-        --wtf-brand: #274BC9; /* blue-600 */
-        --wtf-brand-emphasis: #60a5fa; /* blue-400 */
-        --wtf-brand-inverted: #ffffff; /* gray-950 */
+        --wtf-brand-muted: var(--wtf-blue-950); /* blue-950 */
+        --wtf-brand: var(--wtf-blue-600); /* blue-600 */
+        --wtf-brand-emphasis: var(--wtf-blue-400); /* blue-400 */
+        --wtf-brand-inverted: #ffffff;
         --wtf-brand-speical: #F85800;
 
-        --wtf-bg-faint: #18181b; /* zinc-900 */
-        --wtf-bg-muted: #27272a; /* zinc-800 */
-        --wtf-bg-subtle: #3f3f46; /* zinc-700 */
-        --wtf-bg: #09090B; /* zinc-950 */
-        --wtf-bg-emphasis: #71717a;  /* gray-500 */
+        --wtf-bg-faint: var(--wtf-zinc-900); /* zinc-900 */
+        --wtf-bg-muted: var(--wtf-zinc-800); /* zinc-800 */
+        --wtf-bg-subtle: var(--wtf-zinc-700); /* zinc-700 */
+        --wtf-bg: var(--wtf-zinc-950); /* zinc-950 */
+        --wtf-bg-emphasis: var(--wtf-gray-500);  /* gray-500 */
 
-        --wtf-border-muted: #52525b; /* zinc-600 */
-        --wtf-border: #27272a; /* zinc-800 */
+        --wtf-border-muted: var(--wtf-zinc-600); /* zinc-600 */
+        --wtf-border: var(--wtf-zinc-800); /* zinc-800 */
 
-        --wtf-content-faint: #374151; /* gray-700 */
-        --wtf-content-muted: #9CA3AF; /* gray-400 */
-        --wtf-content-subtle: #D1D5DB; /* gray-300 */
+        --wtf-content-faint: var(--wtf-gray-700); /* gray-700 */
+        --wtf-content-muted: var(--wtf-gray-400); /* gray-500 */
+        --wtf-content-subtle: var(--wtf-gray-300); /* gray-300 */
         --wtf-content: #ffffff;
-        --wtf-content-emphasis: #e5e7eb; /* gray-200 */
-        --wtf-content-strong: #f9fafb; /* gray-50 */
-        --wtf-content-inverted: #111827;
+        --wtf-content-emphasis: var(--wtf-gray-200); /* gray-200 */
+        --wtf-content-strong: var(--wtf-gray-50); /* gray-50 */
+        --wtf-content-inverted: var(--wtf-gray-900);
     }
 }
 
@@ -309,7 +317,7 @@
 }
 
 :is([data-theme="dark"] .markdown) {
-    background-color: var(--ui-background);
+    background-color: var(--wtf-bg);
 }
 
 hr {

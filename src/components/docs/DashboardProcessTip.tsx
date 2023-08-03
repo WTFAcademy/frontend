@@ -8,7 +8,7 @@ const TipItem = ({title, index}: {title: any; index: number}) => {
             <div className="rounded-full border-primary border border-solid w-[40px] h-[40px] md:w-[60px] md:h-[60px] bg-primary-darker text-primary text-base font-medium text-center leading-[40px] md:leading-[60px]">
                 {index}
             </div>
-            <p className="m-0 font-bold text-sm md:text-base absolute bottom-[-30px] whitespace-nowrap">{title}</p>
+            <p className="m-0 font-bold text-sm md:text-base mt-4 whitespace-nowrap">{title}</p>
         </div>
     )
 }
