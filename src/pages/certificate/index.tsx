@@ -109,7 +109,7 @@ const Main = () => {
     }
 
     return (
-        <div className="w-screen h-safe-screen bg-white">
+        <div className="w-screen h-safe-screen bg-background">
             <div className="container flex flex-col items-center gap-12">
                 <div className="flex flex-col mt-12 md:items-center gap-4">
                     <h1 className="text-2xl font-bold">
@@ -120,12 +120,12 @@ const Main = () => {
                     </p>
                 </div>
                 <div className="flex flex-col lg:flex-row w-full justify-center">
-                    <div className="flex flex-col items-center justify-center lg:bg-gray-50 rounded-md lg:mr-12 lg:w-[456px] lg:h-[396px]">
+                    <div className="flex flex-col items-center justify-center lg:bg-background-faint rounded-md lg:mr-12 lg:w-[456px] lg:h-[396px]">
                         <LoaderImage
-                            className="rounded-xl w-[310px] h-[185px] bg-gray-100 md:w-[500px] md:h-[300px] lg:w-[288px] lg:h-auto overflow-hidden"
+                            className="rounded-xl w-[310px] h-[185px] bg-background-muted md:w-[500px] md:h-[300px] lg:w-[288px] lg:h-auto overflow-hidden"
                             src={nftImage}
                         />
-                        <p className="text-md text-gray-900 mt-4 font-medium">NFT Certificate</p>
+                        <p className="text-md mt-4 font-medium">NFT Certificate</p>
                     </div>
                     <div className="mb-20 mt-6 lg:mt-0 lg:mb-0 lg:w-[465px] lg:h-[396px] flex flex-col justify-center">
                         <div className="flex flex-col mt-8 gap-y-4 lg:mt-0">

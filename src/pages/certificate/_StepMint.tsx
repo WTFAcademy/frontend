@@ -94,7 +94,7 @@ const StepMint = (props) => {
                                 />
                                 <span className="inline-flex ml-1">ETH</span>
                                 <Checkbox
-                                    className={cn("ml-2 border-white", {"!bg-destructive": error})}
+                                    className={cn("ml-2 border-border-muted", {"!bg-destructive": error})}
                                     checked={donation}
                                     onCheckedChange={handleCheckboxChange}
                                 />

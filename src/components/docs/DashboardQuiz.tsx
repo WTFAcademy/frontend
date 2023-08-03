@@ -11,6 +11,8 @@ import {Skeleton} from "@site/src/components/ui/Skeleton";
 import {ArrowRightIcon} from "lucide-react";
 import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import Link from "@docusaurus/Link";
+import {useHistory} from "@docusaurus/router";
 
 type TProps = {
     meta: TCourseMeta;
@@ -81,6 +83,7 @@ const DashboardQuiz = (props: TProps) => {
     const {meta} = props;
     const courseId = meta.course_id;
     const {isLogin} = useAuth();
+    const history = useHistory();
 
     const {data: lessons, isLoading} = useQuery(["course", courseId], () => getLessons(courseId));
 
@@ -101,8 +104,10 @@ const DashboardQuiz = (props: TProps) => {
                     <p className="mt-7"><Translate
                         id="docs.101.DashboardQuiz.mintTips">当您通过全部考试后，点击按钮获取链上技术认证。</Translate>
                     </p>
-                    <Button className="mt-4"><Translate id="docs.101.DashboardQuiz.mintButton">领取证书</Translate>
-                        <ArrowRightIcon className="w-4 h-4 ml-2"/></Button>
+                    <Button className="mt-4" onClick={() => history.push(`/certificate?cid=${courseId}`)}>
+                        <Translate id="docs.101.DashboardQuiz.mintButton">领取证书</Translate>
+                        <ArrowRightIcon className="w-4 h-4 ml-2"/>
+                    </Button>
                 </>
             )}
         </div>
