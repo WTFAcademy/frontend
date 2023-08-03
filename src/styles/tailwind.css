@@ -112,7 +112,7 @@
         --wtf-border: var(--wtf-zinc-800); /* zinc-800 */
 
         --wtf-content-faint: var(--wtf-gray-700); /* gray-700 */
-        --wtf-content-muted: var(--wtf-gray-400); /* gray-500 */
+        --wtf-content-muted: var(--wtf-gray-400); /* gray-400 */
         --wtf-content-subtle: var(--wtf-gray-300); /* gray-300 */
         --wtf-content: #ffffff;
         --wtf-content-emphasis: var(--wtf-gray-200); /* gray-200 */
@@ -239,6 +239,7 @@
         --ifm-code-font-size: 95%;
         --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
         --ifm-menu-color-background-active: var(--wtf-gray-100);
+        --ifm-menu-color: var(--wtf-gray-600);
     }
 
     [data-theme='dark'] {
@@ -252,7 +253,8 @@
         --ifm-hover-overlay: var(--wtf-gray-200);
         --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
         --ifm-navbar-background-color: var(--wtf-bg);
-        --ifm-menu-color-background-active: var(--wtf-gray-900);
+        --ifm-menu-color-background-active: var(--wtf-zinc-900);
+        --ifm-menu-color: var(--wtf-gray-300);
     }
 }
 

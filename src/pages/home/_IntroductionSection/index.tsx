@@ -32,13 +32,13 @@ const INTRODUCTIONS = [
 const IntroductionSection = () => {
     return (
         <div className="h-[324px] flex items-center bg-background-faint">
-            <div className="container-md flex justify-around">
+            <div className="container-md flex justify-around px-0">
                 {INTRODUCTIONS.map((item, index) => (
                     <div key={index} className="flex flex-col justify-center items-center">
-                        <Tag circle className="w-[64px] h-[64px] md:w-[100px] md:h-[100px]" style={{background: item.color}}>
+                        <Tag circle className="w-[56px] h-[56px] md:w-[100px] md:h-[100px]" style={{background: item.color}}>
                             {item.icon}
                         </Tag>
-                        <span className="font-medium text-base mt-4 h-[48px] text-center">{item.title}</span>
+                        <span className="font-medium text-sm md:text-base mt-4 h-[48px] text-center">{item.title}</span>
                     </div>
                 ))}
             </div>

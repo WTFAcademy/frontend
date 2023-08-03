@@ -142,6 +142,7 @@ module.exports = {
             typography: ({theme}) => ({
                 blue: {
                     css: {
+                        '--tw-prose-body': "var(--wtf-content)",
                         '--tw-prose-pre-code': "var(--ifm-pre-color)",
                         '--tw-prose-pre-bg': "var(--ifm-pre-background)",
                     }

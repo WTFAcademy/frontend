@@ -7,6 +7,10 @@
     /*@apply md:container;*/
 }
 
+.navbar {
+    @apply dark:border-b dark:border-[#27272a] dark:border-solid;
+}
+
 .navbar__link > svg,
 .footer__link-item > svg {
     @apply inline-block;
@@ -20,6 +24,14 @@
     padding-right: 0.5rem;
 }
 
+.menu {
+    @apply font-normal;
+}
+
+.menu__link--active {
+    @apply font-semibold text-blue-600;
+}
+
 /*markdown*/
 .markdown {
     @apply max-w-full prose prose-blue dark:prose-invert dark:bg-slate-800;
@@ -27,4 +39,22 @@
 
 .markdown::before {
     margin-top: 24px;
+}
+
+.markdown :where(a):not(:where([class~="not-prose"] *)) {
+    @apply no-underline;
+}
+
+.markdown :where(h1):not(:where([class~="not-prose"] *)) {
+    font-weight: 700 !important;
+}
+
+code {
+    @apply rounded-[3px] border-[0.5px] mx-[2px] px-[2px] py-1;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+}
+
+code::after, code::before {
+    content: "" !important;
 }

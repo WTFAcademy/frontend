@@ -26,7 +26,7 @@ export default function CopyButton({code, className, ...props}: Props): JSX.Elem
 
     return (
         <button
-            className="relative z-20 inline-flex h-6 w-6 items-center justify-center rounded-md border bg-background text-sm font-medium transition-all hover:bg-muted focus:outline-none"
+            className="relative z-20 inline-flex h-[34px] w-[34px] items-center justify-center rounded-md border bg-background text-sm font-medium transition-all hover:bg-muted focus:outline-none"
             onClick={() => {
                 copyToClipboardWithMeta(
                     code
@@ -37,9 +37,9 @@ export default function CopyButton({code, className, ...props}: Props): JSX.Elem
         >
             <span className="sr-only">Copy</span>
             {hasCopied ? (
-                <CheckIcon className="h-4 w-4"/>
+                <CheckIcon className="h-6 w-6"/>
             ) : (
-                <CopyIcon className="h-4 w-4"/>
+                <CopyIcon className="h-6 w-6"/>
             )}
         </button>
     );

@@ -19,7 +19,7 @@ export default function FooterLayout(
 ): JSX.Element {
     return (
         <footer
-            className="text-white py-[60px] px-6 md:py-[96px] md:px-[80px] bg-[#17171A]"
+            className="text-white py-[60px] px-6 md:py-[96px] md:px-[80px] bg-[#17171A] dark:bg-[#09090B]"
         >
             <div className="flex justify-around flex-col md:flex-row">
                 {(logo || copyright) && (

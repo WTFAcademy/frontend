@@ -6,7 +6,7 @@ import Translate from '@docusaurus/Translate';
 const SponsorSection = () => {
     return (
         <div className="w-full py-[96px] flex items-center justify-center bg-background-faint">
-            <div className="w-full px-8 flex flex-col justify-center md:flex-row md:justify-between md:w-[1224px] relative">
+            <div className="w-full px-8 flex flex-col justify-center md:gap-[120px] md:flex-row md:justify-between md:w-[1224px] relative">
                 <div className="flex flex-col flex-shrink-0 items-center mb-8 md:items-start">
                     <div className="flex items-center gap-1">
                         <div className="text-[32px]">🍊</div>
@@ -22,7 +22,7 @@ const SponsorSection = () => {
                         </Translate>
                     </div>
                 </div>
-                <div className="flex flex-col gap-5 flex-wrap xl:flex-row">
+                <div className="flex flex-col gap-3 md:flex-row">
                     {SponsorJSON.map((sponsor) => (
                         <SponsorCard key={sponsor.name} sponsor={sponsor} />
                     ))}
