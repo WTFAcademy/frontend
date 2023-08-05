@@ -59,10 +59,15 @@ const CourseList = ({
     getCourses(isUpcoming ? 2 : 1)
   );
 
-  // const isLoading = true
+  // const isLoading = true;
 
   return (
-    <div className="w-full flex flex-col items-center">
+    <div
+      className={[
+        "w-full flex flex-col items-center",
+        isUpcoming ? "mt-8" : "",
+      ].join(" ")}
+    >
       <div className="w-full font-ubuntu font-bold">
         <span>
           {isUpcoming ? (
@@ -74,10 +79,10 @@ const CourseList = ({
           )}
         </span>
         <Tag circle className="h-6 w-6 bg-background-muted ml-3">
-          {data?.list.length}
+          {data?.list.length ?? 0}
         </Tag>
       </div>
-      <div className="flex flex-wrap justify-center md:justify-around gap-6 mt-[35px]">
+      <div className="flex flex-wrap justify-center md:justify-around gap-x-6 mt-[35px]">
         {isLoading ? (
           <>
             {new Array(3).fill("").map((_, index) => (
