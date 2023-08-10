@@ -40,8 +40,8 @@ const LessonItem = ({lesson}: { lesson: TLesson }) => {
     const {i18n} = useDocusaurusContext();
 
     return (
-        <div className="relative border-[0.5px] shadow rounded-md h-[57px]">
-            <div className="bg-primary-darker h-full" style={{width: `${lesson.score_percent}%`}}/>
+        <div className="relative border-[0.5px] shadow rounded-md h-[57px] overflow-hidden">
+            <div className="bg-brand-faint h-full" style={{width: `${lesson.score_percent}%`}}/>
             <div className="flex items-center justify-between absolute inset-0 px-5 py-[18px] text-sm md:text-base">
                 <div>{i18n.currentLocale === 'zh' ? lesson.lesson_title : lesson.en_title}</div>
                 {isLogin ? (
