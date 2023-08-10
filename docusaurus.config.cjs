@@ -110,19 +110,16 @@ const config = {
                     {
                         href: '/solidity-start',
                         position: 'left',
-                        exact: false,
                         label: 'Solidity 101',
                     },
                     {
                         href: '/solidity-advanced',
                         position: 'left',
-                        exact: false,
                         label: 'Solidity 102',
                     },
                     {
                         href: '/solidity-application',
                         position: 'left',
-                        exact: false,
                         label: 'Solidity 103',
                     },
                     {
