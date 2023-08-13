@@ -50,8 +50,10 @@ const Profile = (props: TProps) => {
         if (isLogin && !user?.wallet) {
             return (
                 <DropdownMenuItem>
-                    <WalletIcon className="w-4 h-4 mr-2"/>
-                    <Translate id="profile.Wallet.button">绑定钱包</Translate>
+                    <Link to="/login">
+                        <WalletIcon className="w-4 h-4 mr-2"/>
+                        <Translate id="profile.Wallet.button">绑定钱包</Translate>
+                    </Link>
                 </DropdownMenuItem>
             )
         }

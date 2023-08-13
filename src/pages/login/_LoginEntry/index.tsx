@@ -18,7 +18,7 @@ function LoginEntry() {
 
     return (
         <>
-            <Button className="w-full" onClick={() => signInWithGithub()}>
+            <Button className="w-full" onClick={() => signInWithGithub({})}>
                 <GitHubIconWhite/>
                 <span className="ml-3 text-base">
                     <Translate id="login.LoginEntry.Github.button">

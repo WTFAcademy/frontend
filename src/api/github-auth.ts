@@ -15,8 +15,10 @@ export async function signOut() {
 
 export async function signInWithGithub(redirectTo?: string) {
   await supabase.auth.signInWithOAuth({
-    provider: "github",
-    options: { redirectTo: redirectTo },
+    provider: 'github',
+    options: {
+      redirectTo: redirectTo
+    }
   });
   supabase.auth.getSession();
 }
