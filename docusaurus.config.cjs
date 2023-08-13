@@ -99,7 +99,7 @@ const config = {
                 logo: {
                     alt: 'WTF Logo',
                     src: 'img/logo.png',
-                    height: '40px',
+                    height: '24px',
                 },
                 items: [
                     // {
@@ -134,7 +134,7 @@ const config = {
             },
             footer: {
                 logo: {
-                    src: 'img/logo.png',
+                    src: 'img/logo-full.png',
                     height: '40px',
                 },
                 links: [

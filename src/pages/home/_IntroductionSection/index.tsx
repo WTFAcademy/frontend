@@ -31,8 +31,8 @@ const INTRODUCTIONS = [
 
 const IntroductionSection = () => {
     return (
-        <div className="h-[324px] flex items-center bg-background-faint">
-            <div className="container-md flex justify-around px-0">
+        <div className="min-h-[324px] flex items-center bg-background-faint">
+            <div className="container-md grid grid-cols-2 md:grid-cols-4 px-0">
                 {INTRODUCTIONS.map((item, index) => (
                     <div key={index} className="flex flex-col justify-center items-center">
                         <Tag circle className="w-[56px] h-[56px] md:w-[100px] md:h-[100px]" style={{background: item.color}}>

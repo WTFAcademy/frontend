@@ -82,7 +82,7 @@ const CourseList = ({
           {data?.list.length ?? 0}
         </Tag>
       </div>
-      <div className="flex flex-wrap justify-center md:justify-around gap-x-6 mt-[35px]">
+      <div className="flex flex-wrap justify-center md:justify-around gap-6 mt-[35px]">
         {isLoading ? (
           <>
             {new Array(3).fill("").map((_, index) => (

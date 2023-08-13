@@ -307,7 +307,7 @@
     "description": "Home hero desc"
   },
   "home.courses.title": {
-    "message": "Courses",
+    "message": "Designed for Web3 Developers",
     "description": "Home courses title"
   },
   "home.courses.intro": {
@@ -391,7 +391,7 @@
     "description": "Docs 101 DashboardProcessTip step02"
   },
   "docs.101.DashboardProcessTip.step03": {
-    "message": "Get on-chain Certificate",
+    "message": "Certificate",
     "description": "Docs 101 DashboardProcessTip step03"
   },
   "docs.101.DashboardQuiz.title": {

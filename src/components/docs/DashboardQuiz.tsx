@@ -84,8 +84,13 @@ const DashboardQuiz = (props: TProps) => {
     const courseId = meta.course_id;
     const {isLogin} = useAuth();
     const history = useHistory();
+    const { i18n } = useDocusaurusContext();
 
     const {data: lessons, isLoading} = useQuery(["course", courseId], () => getLessons(courseId));
+
+    const handleGraduate = () => {
+        i18n.currentLocale === 'zh' ? history.push(`/certificate?cid=${courseId}`) : history.push(`/en/certificate?cid=${courseId}`)
+    }
 
     return (
         <div className="w-full mt-[60px]">
@@ -104,7 +109,7 @@ const DashboardQuiz = (props: TProps) => {
                     <p className="mt-7"><Translate
                         id="docs.101.DashboardQuiz.mintTips">当您通过全部考试后，点击按钮获取链上技术认证。</Translate>
                     </p>
-                    <Button className="mt-4" onClick={() => history.push(`/certificate?cid=${courseId}`)}>
+                    <Button className="mt-4" onClick={handleGraduate}>
                         <Translate id="docs.101.DashboardQuiz.mintButton">领取证书</Translate>
                         <ArrowRightIcon className="w-4 h-4 ml-2"/>
                     </Button>

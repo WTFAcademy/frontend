@@ -32,6 +32,11 @@
     @apply font-semibold text-blue-600;
 }
 
+.navbar__logo {
+    height: 30px;
+    margin-right: 0;
+}
+
 /*markdown*/
 .markdown {
     @apply max-w-full prose prose-blue dark:prose-invert dark:bg-slate-800;
