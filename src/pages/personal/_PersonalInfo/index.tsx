@@ -10,6 +10,7 @@ import CheckIcon from '@site/src/icons/Check';
 import useAuth from "@site/src/hooks/useAuth";
 import truncation from "@site/src/utils/truncation";
 import Translate from '@docusaurus/Translate';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
@@ -21,12 +22,13 @@ function copyToClipboard(text) {
 
 function PersonalInfo() {
 
-    const { data } = useAuth();
+    const { data, refetch } = useAuth();
+    const { i18n } = useDocusaurusContext();
     
-    const [bio,setBio] = useState(null);
+    const [bio,setBio] = useState(false);
     const [github,setGithub] = useState(null);
-    const [copy,setCopy] = useState(false);
     const [wallet,setWallet] = useState('');
+    const [copy,setCopy] = useState(false);
     
     const handleCopy = () => {
         if(!copy){
@@ -39,20 +41,40 @@ function PersonalInfo() {
     };
 
     useEffect(() => {
-        setBio(data?.bio);
+        refetch();
+        if(data){
+            if(data?.bio){
+                setBio(data.bio);
+            }else{
+                setBio(i18n.currentLocale === 'zh' ? '这个人很懒，什么都没有留下。' : 'The man was lazy and left nothing behind.');
+            }
+        }
         setGithub(data?.github);
         setWallet(data?.wallet);
     },[data]);
 
     return (
         <div className="box-border flex flex-col flex-shrink-0 w-full p-8 mr-12 overflow-hidden border border-border-input rounded-md md:w-[280px]">
-            <p className="mb-6 text-sm leading-5 text-content-muted">{ bio ?? '这个人很懒，什么都没有留下。' }</p>
+            <p className="mb-6 text-sm leading-5 text-content-muted">
+                { bio ?
+                    bio
+                    :
+                    <Skeleton className="w-[210px] h-[20px] rounded-md bg-gray-200"></Skeleton>
+                }
+            </p>
             <div className="flex items-center mb-6 text-content-subtle">
                 <EthereumIcon />
-                <p className="mx-2 ">{truncation(wallet)}</p>
+                <p className="mx-2 ">
+                    {wallet ? 
+                        truncation(wallet)
+                        : 
+                        <Skeleton className="w-[100px] h-[24px] rounded-md bg-gray-200"></Skeleton>
+                    }
+                </p>
                 <div className="cursor-pointer" onClick={handleCopy}>
                     { copy ? <CheckIcon /> : <CopyIcon /> }
                 </div>
+                
             </div>
             <div className="w-full h-px mb-6 bg-background-muted"></div>
             <div className="flex flex-col mb-6">

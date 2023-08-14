@@ -62,8 +62,16 @@ function PersonalList() {
                             </span>
                         </div>
                     ) : 
-                    <Skeleton className="relative w-[300px] h-[180px] mt-8 rounded-xl bg-gray-200"></Skeleton>
+                    <Skeleton className="relative w-[300px] h-[180px] mt-8 rounded-xl bg-gray-200">
+                        <div className="absolute z-10 flex flex-col items-start justify-end h-full p-3">
+                            <Skeleton className="w-[150px] h-[28px] rounded-md bg-gray-300"></Skeleton>
+                            <Skeleton className="w-[150px] h-[16px] mt-0.5 rounded-md bg-gray-300"></Skeleton>
+                            <Skeleton className="w-[100px] h-[24px] mt-2 rounded-md bg-gray-300"></Skeleton>
+                        </div>
+                    </Skeleton>
                 }
+                
+
             </TabsContent>
             <TabsContent value="courses">
                 { courses ? courses?.length > 0 ? (courses.map((item, index) => (
@@ -92,7 +100,13 @@ function PersonalList() {
                             </span>
                         </div>
                     ) : 
-                    <Skeleton className="relative w-[300px] h-[180px] mt-8 rounded-xl bg-gray-200"></Skeleton>
+                    <Skeleton className="relative w-[300px] h-[180px] mt-8 rounded-xl bg-gray-200">
+                        <div className="absolute z-10 flex flex-col items-start justify-end h-full p-3">
+                            <Skeleton className="w-[150px] h-[28px] rounded-md bg-gray-300"></Skeleton>
+                            <Skeleton className="w-[150px] h-[16px] mt-0.5 rounded-md bg-gray-300"></Skeleton>
+                            <Skeleton className="w-[100px] h-[24px] mt-2 rounded-md bg-gray-300"></Skeleton>
+                        </div>
+                    </Skeleton>
                 }
                 </TabsContent>
         </Tabs>

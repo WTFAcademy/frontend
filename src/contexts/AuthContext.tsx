@@ -129,6 +129,7 @@ const AuthProvider = ({children}: TProps) => {
         signOut: handleSignOut,
         signInWithGithub: handleSignInWithGithub,
         signInWithWallet: handleSignWithWallet,
+        refetch: refetchUserInfo,
     }), [
         data,
         isGithubLogin,
@@ -138,6 +139,7 @@ const AuthProvider = ({children}: TProps) => {
         handleSignOut,
         handleSignInWithGithub,
         handleSignWithWallet,
+        refetchUserInfo,
     ])
 
     return (
