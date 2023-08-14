@@ -50,7 +50,7 @@ const Profile = (props: TProps) => {
         if (isLogin && !user?.wallet) {
             return (
                 <DropdownMenuItem>
-                    <Link to="/login" className="flex items-center">
+                    <Link to="/login?bind_wallet=true" className="flex items-center">
                         <WalletIcon className="w-4 h-4 mr-2"/>
                         <Translate id="profile.Wallet.button">绑定钱包</Translate>
                     </Link>
