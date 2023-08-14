@@ -5,16 +5,15 @@ import {Button} from "@site/src/components/ui/Button";
 import Link from '@docusaurus/Link';
 import useAuth from "@site/src/hooks/useAuth";
 import truncation from "@site/src/utils/truncation";
-import { updateUserInfo } from "@site/src/api/user";
+import { getUserInfo, updateUserInfo } from "@site/src/api/user";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import RHFInput from "@site/src/components/hook-form/rhf-input";
 import Translate, { translate } from '@docusaurus/Translate';
 
 function Settings() {
-
     const { data } = useAuth();
-
+    
     const message = useMemo(() => {
         return translate({
             id: 'personal.Settings.Save.button',
