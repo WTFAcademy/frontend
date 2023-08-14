@@ -1,5 +1,5 @@
 ---
-title: 50. Multisig Wallet
+title: 50. 多签钱包
 tags:
   - solidity
   - call

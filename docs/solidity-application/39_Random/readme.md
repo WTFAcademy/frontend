@@ -1,5 +1,5 @@
 ---
-title: 39. Random
+title: 39. 链上随机数
 tags:
   - solidity
   - application

@@ -1,5 +1,5 @@
 ---
-title: 43. Token Vesting
+title: 43. 线性释放
 tags:
   - solidity
   - application

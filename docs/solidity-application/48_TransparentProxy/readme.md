@@ -1,5 +1,5 @@
 ---
-title: 48. Transparent Proxy
+title: 48. 透明代理
 tags:
   - solidity
   - proxy

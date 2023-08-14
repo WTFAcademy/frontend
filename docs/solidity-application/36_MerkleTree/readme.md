@@ -1,5 +1,5 @@
 ---
-title: 36. Merkle Tree
+title: 36. 默克尔树
 tags:
   - solidity
   - application
