@@ -21,7 +21,7 @@ function defineSection(section, version = {}, options = {}) {
             include: ['**/*.md', '**/*.mdx'],
             breadcrumbs: false,
             sidebarPath: require.resolve('./sidebars.cjs'),
-            editUrl: 'https://github.com/WTFAcademy/frontend', // TODO: 需要更改
+            editUrl: 'https://github.com/WTFAcademy/frontend/tree/dev',
             versions: version && {
                 current: {
                     label: version.label,

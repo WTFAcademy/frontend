@@ -22,7 +22,7 @@ const CourseCard = (props: TProps) => {
   return (
     <div
       onClick={() => history.push(course.route_path)}
-      className="w-full md:w-[300px] border border-solid rounded-md shadow-sm transition-shadow hover:shadow-lg"
+      className="w-full md:w-[300px] border border-solid rounded-md shadow-sm transition-shadow hover:shadow-lg overflow-hidden"
     >
       <div className="bg-background-subtle w-full h-[150px]">
         <img
