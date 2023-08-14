@@ -12,6 +12,7 @@ import {
 import {signInWithGithub, signOut, supabase} from "@site/src/api/github-auth";
 import {TAuthUser, TAuthWalletLogin} from "@site/src/typings/auth";
 import {useLocalStorageState} from "ahooks";
+import {toast} from "react-hot-toast";
 
 
 type TProps = {
@@ -74,16 +75,22 @@ const AuthProvider = ({children}: TProps) => {
         });
     }, []);
 
-    const handleSignInWithGithub = (
+    const handleSignInWithGithub = async (
         options: {
             useLocationHref?: boolean,
             customPath?: string
         } = {}
     ) => {
         const {useLocationHref, customPath} = options;
-        useLocationHref
-            ? signInWithGithub(customPath || window.location.href)
-            : signInWithGithub();
+        const signGithubFn = useLocationHref
+            ? () => signInWithGithub(customPath || window.location.href)
+            : () => signInWithGithub();
+
+        const {data, error} = await signGithubFn();
+        if (error) {
+            toast.error(error.message);
+        }
+        console.log(data, error)
     };
 
     const handleSignWithWallet = (
