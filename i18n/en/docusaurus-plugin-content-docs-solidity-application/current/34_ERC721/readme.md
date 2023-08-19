@@ -9,54 +9,51 @@ tags:
   - OpenZeppelin
 ---
 
-# WTF Solidity极简入门: 34. ERC721
+# WTF Solidity Tutorial: 34. ERC721
 
-我最近在重新学solidity，巩固一下细节，也写一个“WTF Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
-欢迎关注我的推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
+Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
 
-欢迎加入WTF科学家社区，内有加微信群方法：[链接](https://discord.gg/5akcruXrsk)
+Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
 
-所有代码和教程开源在github（1024个star发课程认证，2048个star发社群NFT）: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
 
 -----
 
-`BTC`和`ETH`这类代币都属于同质化代币，矿工挖出的第`1`枚`BTC`与第`10000`枚`BTC`并没有不同，是等价的。但世界中很多物品是不同质的，其中包括房产、古董、虚拟艺术品等等，这类物品无法用同质化代币抽象。因此，[以太坊EIP721](https://eips.ethereum.org/EIPS/eip-721)提出了`ERC721`标准，来抽象非同质化的物品。这一讲，我们将介绍`ERC721`标准，并基于它发行一款`NFT`。
+Tokens such as `BTC` and `ETH` belong to homogeneous tokens, and the first `BTC` mined is no different from the 10,000th `BTC` mined, and they are equivalent. However, many items in the world are heterogeneous, including real estate, antiques, virtual artworks, and so on. Such items cannot be abstracted using homogeneous tokens. Therefore, the `ERC721` standard was proposed in [Ethereum EIP721](https://eips.ethereum.org/EIPS/eip-721) to abstract non-homogeneous items. In this section, we will introduce the `ERC721` standard and issue an `NFT` based on it.
 
-## EIP与ERC
+## EIP and ERC
 
-这里有一个点需要理解，本节标题是`ERC721`，这里又提到了`EIP721`,这两个是什么关系呢？
+One point to understand here is that the title of this section is `ERC721`, but `EIP721` also is mentioned here. What is the relationship between the two?
 
-`EIP`全称 `Ethereum Imporvement Proposals`(以太坊改进建议), 是以太坊开发者社区提出的改进建议, 是一系列以编号排定的文件, 类似互联网上IETF的RFC。
+`EIP` stands for `Ethereum Improvement Proposals`, which are improvement suggestions proposed by the Ethereum developer community. They are a series of documents arranged by numbers, similar to IETF's RFC on the Internet.
 
-`EIP`可以是 `Ethereum` 生态中任意领域的改进, 比如新特性、ERC、协议改进、编程工具等等。
+`EIP` can be any improvement in the Ethereum ecosystem, such as new features, ERC standards, protocol improvements, programming tools, etc.
 
-`ERC`全称 Ethereum Request For Comment (以太坊意见征求稿), 用以记录以太坊上应用级的各种开发标准和协议。如典型的Token标准(`ERC20`, `ERC721`)、名字注册(`ERC26`, `ERC13`), URI范式(`ERC67`), Library/Package格式(`EIP82`), 钱包格式(`EIP75`,`EIP85`)。
+`ERC` stands for Ethereum Request For Comment and is used to record various application-level development standards and protocols on Ethereum. Typical token standards (`ERC20`, `ERC721`), name registration (`ERC26`, `ERC13`), URI paradigms (`ERC67`), Library/Package formats (`EIP82`), wallet formats (`EIP75`, `EIP85`), etc.
 
-ERC协议标准是影响以太坊发展的重要因素, 像`ERC20`, `ERC223`, `ERC721`, `ERC777`等, 都是对以太坊生态产生了很大影响。
+`ERC` protocol standards are important factors affecting the development of Ethereum. ERC20, ERC223, ERC721, ERC777, etc. have had a significant impact on the Ethereum ecosystem.
 
-所以最终结论：`EIP`包含`ERC`。
+So the final conclusion: `EIP` contains `ERC`.
 
-**在这一节学习完成后，才能明白为什么上来讲`ERC165`而不是`ERC721`，想要看结论可直接移动到最下面**
+**After completing this section of learning, you can understand why we start with `ERC165` rather than `ERC721`. If you want to see the conclusion, you can directly move to the bottom**
 
-## ERC165
+Through the [ERC165 standard](https://eips.ethereum.org/EIPS/eip-165), smart contracts can declare the interfaces they support, for other contracts to check. Simply put, `ERC165` is used to check whether a smart contract supports the interfaces of `ERC721` or `ERC1155`.
 
-通过[ERC165标准](https://eips.ethereum.org/EIPS/eip-165)，智能合约可以声明它支持的接口，供其他合约检查。简单的说，ERC165就是检查一个智能合约是不是支持了`ERC721`，`ERC1155`的接口。
-
-`IERC165`接口合约只声明了一个`supportsInterface`函数，输入要查询的`interfaceId`接口id，若合约实现了该接口id，则返回`true`：
+The interface contract `IERC165` only declares a `supportsInterface` function. When given an `interfaceId` to query, it returns `true` if the contract implements that interface id.
 
 ```solidity
 interface IERC165 {
     /**
-     * @dev 如果合约实现了查询的`interfaceId`，则返回true
-     * 规则详见：https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[EIP section]
-     *
+     * @dev Returns true if contract implements the `interfaceId` for querying.
+     * See https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[EIP section] for the definition of what an interface is.
      */
     function supportsInterface(bytes4 interfaceId) external view returns (bool);
 }
 ```
 
-我们可以看下`ERC721`是如何实现`supportsInterface()`函数的：
+We can see how the `supportsInterface()` function is implemented in `ERC721`:
 
 ```solidity
     function supportsInterface(bytes4 interfaceId) external pure override returns (bool)
@@ -67,15 +64,15 @@ interface IERC165 {
     }
 ```
 
-当查询的是`IERC721`或`IERC165`的接口id时，返回`true`；反之返回`false`。
+When querying the interface ID of `IERC721` or `IERC165`, it will return `true`; otherwise, it will return `false`.
 
 ## IERC721
 
-`IERC721`是`ERC721`标准的接口合约，规定了`ERC721`要实现的基本函数。它利用`tokenId`来表示特定的非同质化代币，授权或转账都要明确`tokenId`；而`ERC20`只需要明确转账的数额即可。
+`IERC721` is an interface contract for the `ERC721` standard, which specifies the basic functions that `ERC721` must implement. It uses `tokenId` to represent specific non-fungible tokens, and authorization or transfer requires an explicit `tokenId`; while `ERC20` only requires an explicit transfer amount.
 
 ```solidity
 /**
- * @dev ERC721标准接口.
+ * @dev ERC721 standard interface.
  */
 interface IERC721 is IERC165 {
     event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
@@ -115,29 +112,29 @@ interface IERC721 is IERC165 {
 }
 ```
 
-### IERC721事件
-`IERC721`包含3个事件，其中`Transfer`和`Approval`事件在`ERC20`中也有。
-- `Transfer`事件：在转账时被释放，记录代币的发出地址`from`，接收地址`to`和`tokenid`。
-- `Approval`事件：在授权时释放，记录授权地址`owner`，被授权地址`approved`和`tokenid`。
-- `ApprovalForAll`事件：在批量授权时释放，记录批量授权的发出地址`owner`，被授权地址`operator`和授权与否的`approved`。
+### IERC721 Events
+`IERC721` has three events, `Transfer` and `Approval` events are also in `ERC20`.
+- `Transfer` event: emitted during transfer, records the sender `from` address, receiver `to` address, and token `tokenid`.
+- `Approval` event: emitted during approval, records the owner `owner` of the approval, the approved `approved` address, and the `tokenid`.
+- `ApprovalForAll` event: emitted during bulk approval, records the sender `owner` of the bulk approval, the `operator` address to be authorized, and the flag `approved` to identify whether the `operator` is approved or not.
 
-### IERC721函数
-- `balanceOf`：返回某地址的NFT持有量`balance`。
-- `ownerOf`：返回某`tokenId`的主人`owner`。
-- `transferFrom`：普通转账，参数为转出地址`from`，接收地址`to`和`tokenId`。
-- `safeTransferFrom`：安全转账（如果接收方是合约地址，会要求实现`ERC721Receiver`接口）。参数为转出地址`from`，接收地址`to`和`tokenId`。
-- `approve`：授权另一个地址使用你的NFT。参数为被授权地址`approve`和`tokenId`。
-- `getApproved`：查询`tokenId`被批准给了哪个地址。
-- `setApprovalForAll`：将自己持有的该系列NFT批量授权给某个地址`operator`。
-- `isApprovedForAll`：查询某地址的NFT是否批量授权给了另一个`operator`地址。
-- `safeTransferFrom`：安全转账的重载函数，参数里面包含了`data`。
+### IERC721 Functions
+- `balanceOf`: returns the NFT holding `balance` of an address.
+- `ownerOf`: returns the `owner` of a certain `tokenId`.
+- `transferFrom`: normal transfer, with the parameters of the sender `from`, receiver `to` and `tokenId`.
+- `safeTransferFrom`: safe transfer, which requires the implementation of the `ERC721Receiver` interface if the destination address is a contract address. With the parameters of the sender `from`, receiver `to` and `tokenId`.
+- `approve`: authorizes another address to use your NFT. With the parameters of the authorized `to` address and `tokenId`.
+- `getApproved`: returns the address to which the `tokenId` is approved.
+- `setApprovalForAll`: authorizes the `operator` address to hold the NFTs owned by the sender in batch.
+- `isApprovedForAll`: returns whether a certain address's NFTs are authorized to be held by another `operator` address.
+- `safeTransferFrom`: an overloaded function for safe transfer, with `data` included in the parameters.
 
 ## IERC721Receiver
 
-如果一个合约没有实现`ERC721`的相关函数，转入的`NFT`就进了黑洞，永远转不出来了。为了防止误转账，`ERC721`实现了`safeTransferFrom()`安全转账函数，目标合约必须实现了`IERC721Receiver`接口才能接收`ERC721`代币，不然会`revert`。`IERC721Receiver`接口只包含一个`onERC721Received()`函数。
+If a contract does not implement the relevant functions of `ERC721`, the incoming NFT will be stuck and unable to be transferred out, causing a loss of the token. In order to prevent accidental transfers, `ERC721` implements the `safeTransferFrom()` function, and the target contract must implement the `IERC721Receiver` interface in order to receive `ERC721` tokens, otherwise it will `revert`. The `IERC721Receiver` interface only includes an `onERC721Received()` function.
 
 ```solidity
-// ERC721接收者接口：合约必须实现这个接口来通过安全转账接收ERC721
+// ERC721 receiver interface: Contracts must implement this interface to receive ERC721 tokens via safe transfers.
 interface IERC721Receiver {
     function onERC721Received(
         address operator,
@@ -148,7 +145,8 @@ interface IERC721Receiver {
 }
 ```
 
-我们看下`ERC721`利用`_checkOnERC721Received`来确保目标合约实现了`onERC721Received()`函数（返回`onERC721Received`的`selector`）：
+Let's take a look at how `ERC721` uses `_checkOnERC721Received` to ensure that the target contract implements the `onERC721Received()` function (returning the `selector` of `onERC721Received`).
+
 ```solidity
     function _checkOnERC721Received(
         address from,
@@ -171,11 +169,11 @@ interface IERC721Receiver {
 ```
 
 ## IERC721Metadata
-`IERC721Metadata`是`ERC721`的拓展接口，实现了3个查询`metadata`元数据的常用函数：
+`IERC721Metadata` is an extended interface of `ERC721`, which implements `3` commonly used functions for querying `metadata`:
 
-- `name()`：返回代币名称。
-- `symbol()`：返回代币代号。
-- `tokenURI()`：通过`tokenId`查询`metadata`的链接`url`，`ERC721`特有的函数。
+- `name()`: Returns the name of the token.
+- `symbol()`: Returns the symbol of the token.
+- `tokenURI()`: Returns the URL of the `metadata` by querying through `tokenId`, a unique function of `ERC721`.
 
 ```solidity
 interface IERC721Metadata is IERC721 {
@@ -187,8 +185,8 @@ interface IERC721Metadata is IERC721 {
 }
 ```
 
-## ERC721主合约
-`ERC721`主合约实现了`IERC721`，`IERC165`和`IERC721Metadata`定义的所有功能，包含`4`个状态变量和`17`个函数。实现都比较简单，每个函数的功能见代码注释：
+## ERC721 Main Contract
+The `ERC721` main contract implements all the functionalities defined by `IERC721`, `IERC165` and `IERC721Metadata`. It includes `4` state variables and `17` functions. The implementation is rather simple, the functionality of each function is explained in the code comments:
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -203,31 +201,31 @@ import "./Address.sol";
 import "./String.sol";
 
 contract ERC721 is IERC721, IERC721Metadata{
-    using Address for address; // 使用Address库，用isContract来判断地址是否为合约
-    using Strings for uint256; // 使用String库，
+    using Address for address; // Uses Address library and uses isContract to check whether an address is a contract
+    using Strings for uint256; // Uses String library
 
-    // Token名称
+    // Token name
     string public override name;
-    // Token代号
+    // Token symbol
     string public override symbol;
-    // tokenId 到 owner address 的持有人映射
+    // Mapping from token ID to owner address
     mapping(uint => address) private _owners;
-    // address 到 持仓数量 的持仓量映射
+    // Mapping owner address to balance of the token
     mapping(address => uint) private _balances;
-    // tokenID 到 授权地址 的授权映射
+    // Mapping from tokenId to approved address
     mapping(uint => address) private _tokenApprovals;
-    //  owner地址。到operator地址 的批量授权映射
+    //  Mapping from owner to operator addresses' batch approvals
     mapping(address => mapping(address => bool)) private _operatorApprovals;
 
     /**
-     * 构造函数，初始化`name` 和`symbol` .
+     * Initializes the contract by setting a `name` and a `symbol` to the token collection.
      */
     constructor(string memory name_, string memory symbol_) {
         name = name_;
         symbol = symbol_;
     }
 
-    // 实现IERC165接口supportsInterface
+    // Implements the supportsInterface of IERC165
     function supportsInterface(bytes4 interfaceId)
         external
         pure
@@ -240,19 +238,19 @@ contract ERC721 is IERC721, IERC721Metadata{
             interfaceId == type(IERC721Metadata).interfaceId;
     }
 
-    // 实现IERC721的balanceOf，利用_balances变量查询owner地址的balance。
+    // Implements the balanceOf function of IERC721, which uses `_balances` variable to check the balance of tokens in `owner`'s account.
     function balanceOf(address owner) external view override returns (uint) {
         require(owner != address(0), "owner = zero address");
         return _balances[owner];
     }
 
-    // 实现IERC721的ownerOf，利用_owners变量查询tokenId的owner。
+    // Implements the ownerOf function of IERC721, which uses `_owners` variable to check `tokenId`'s owner.
     function ownerOf(uint tokenId) public view override returns (address owner) {
         owner = _owners[tokenId];
         require(owner != address(0), "token doesn't exist");
     }
 
-    // 实现IERC721的isApprovedForAll，利用_operatorApprovals变量查询owner地址是否将所持NFT批量授权给了operator地址。
+    // Implements the isApprovedForAll function of IERC721, which uses `_operatorApprovals` variable to check whether `owner` address's NFTs are authorized in batch to be held by another `operator` address.    
     function isApprovedForAll(address owner, address operator)
         external
         view
@@ -262,19 +260,19 @@ contract ERC721 is IERC721, IERC721Metadata{
         return _operatorApprovals[owner][operator];
     }
 
-    // 实现IERC721的setApprovalForAll，将持有代币全部授权给operator地址。调用_setApprovalForAll函数。
+    // Implements the setApprovalForAll function of IERC721, which approves all holding tokens to `operator` address. Invokes `_setApprovalForAll` function.
     function setApprovalForAll(address operator, bool approved) external override {
         _operatorApprovals[msg.sender][operator] = approved;
         emit ApprovalForAll(msg.sender, operator, approved);
     }
 
-    // 实现IERC721的getApproved，利用_tokenApprovals变量查询tokenId的授权地址。
+    // Implements the getApproved function of IERC721, which uses `_tokenApprovals` variable to check authorized address of `tokenId`.
     function getApproved(uint tokenId) external view override returns (address) {
         require(_owners[tokenId] != address(0), "token doesn't exist");
         return _tokenApprovals[tokenId];
     }
      
-    // 授权函数。通过调整_tokenApprovals来，授权 to 地址操作 tokenId，同时释放Approval事件。
+    // The approve function, which updates `_tokenApprovals` variable to approve `to` address to use `tokenId` and emits an Approval event.
     function _approve(
         address owner,
         address to,
@@ -284,7 +282,8 @@ contract ERC721 is IERC721, IERC721Metadata{
         emit Approval(owner, to, tokenId);
     }
 
-    // 实现IERC721的approve，将tokenId授权给 to 地址。条件：to不是owner，且msg.sender是owner或授权地址。调用_approve函数。
+    // Implements the approve function of IERC721, which approves `tokenId` to `to` address. 
+    // Requirements: `to` is not `owner` and msg.sender is `owner` or an approved address. Invokes the _approve function.
     function approve(address to, uint tokenId) external override {
         address owner = _owners[tokenId];
         require(
@@ -294,7 +293,7 @@ contract ERC721 is IERC721, IERC721Metadata{
         _approve(owner, to, tokenId);
     }
 
-    // 查询 spender地址是否可以使用tokenId（他是owner或被授权地址）。
+    // Checks whether the `spender` address can use `tokenId` or not. (`spender` is `owner` or an approved address)
     function _isApprovedOrOwner(
         address owner,
         address spender,
@@ -306,10 +305,11 @@ contract ERC721 is IERC721, IERC721Metadata{
     }
 
     /*
-     * 转账函数。通过调整_balances和_owner变量将 tokenId 从 from 转账给 to，同时释放Transfer事件。
-     * 条件:
-     * 1. tokenId 被 from 拥有
-     * 2. to 不是0地址
+     * The transfer function, which transfers `tokenId` from `from` address to `to` address by updating the `_balances` and `_owner` variables, emits a Transfer event.
+     * Requirements:
+     * 1. `tokenId` token must be owned by `from`.
+     * 2. `to` cannot be the zero address.
+     * 3. `from` cannot be the zero address.
      */
     function _transfer(
         address owner,
@@ -329,7 +329,7 @@ contract ERC721 is IERC721, IERC721Metadata{
         emit Transfer(from, to, tokenId);
     }
     
-    // 实现IERC721的transferFrom，非安全转账，不建议使用。调用_transfer函数
+    // Implements the transferFrom function of IERC721, we should not use it as it is not a safe transfer. Invokes the _transfer function.
     function transferFrom(
         address from,
         address to,
@@ -344,11 +344,14 @@ contract ERC721 is IERC721, IERC721Metadata{
     }
 
     /**
-     * 安全转账，安全地将 tokenId 代币从 from 转移到 to，会检查合约接收者是否了解 ERC721 协议，以防止代币被永久锁定。调用了_transfer函数和_checkOnERC721Received函数。条件：
-     * from 不能是0地址.
-     * to 不能是0地址.
-     * tokenId 代币必须存在，并且被 from拥有.
-     * 如果 to 是智能合约, 他必须支持 IERC721Receiver-onERC721Received.
+     * Safely transfers `tokenId` token from `from` to `to`, this function will check that contract recipients
+     * are aware of the ERC721 protocol to prevent tokens from being forever locked. It invokes the _transfer 
+     * and _checkOnERC721Received functions. 
+     * Requirements:     
+     * 1. `from` cannot be the zero address.
+     * 2. `to` cannot be the zero address.
+     * 3. `tokenId` token must exist and be owned by `from`.
+     * 4. If `to` refers to a smart contract, it must support {IERC721Receiver-onERC721Received}.
      */
     function _safeTransfer(
         address owner,
@@ -362,7 +365,7 @@ contract ERC721 is IERC721, IERC721Metadata{
     }
 
     /**
-     * 实现IERC721的safeTransferFrom，安全转账，调用了_safeTransfer函数。
+     * Implements the safeTransferFrom function of IERC721 to safely transfer. It invokes the _safeTransfe function.
      */
     function safeTransferFrom(
         address from,
@@ -378,7 +381,7 @@ contract ERC721 is IERC721, IERC721Metadata{
         _safeTransfer(owner, from, to, tokenId, _data);
     }
 
-    // safeTransferFrom重载函数
+    // an overloaded function for safeTransferFrom
     function safeTransferFrom(
         address from,
         address to,
@@ -388,11 +391,11 @@ contract ERC721 is IERC721, IERC721Metadata{
     }
 
     /** 
-     * 铸造函数。通过调整_balances和_owners变量来铸造tokenId并转账给 to，同时释放Transfer事件。铸造函数。通过调整_balances和_owners变量来铸造tokenId并转账给 to，同时释放Transfer事件。
-     * 这个mint函数所有人都能调用，实际使用需要开发人员重写，加上一些条件。
-     * 条件:
-     * 1. tokenId尚不存在。
-     * 2. to不是0地址.
+     * The mint function, which updates `_balances` and `_owners` variables to mint `tokenId` and transfers it to `to`. It emits an Transfer event.
+     * This mint function can be used by anyone, developers need to rewrite this function and add some requirements in practice.
+     * Requirements: 
+     * 1. `tokenId` must not exist.
+     * 2. `to` cannot be the zero address.
      */
     function _mint(address to, uint tokenId) internal virtual {
         require(to != address(0), "mint to zero address");
@@ -404,7 +407,7 @@ contract ERC721 is IERC721, IERC721Metadata{
         emit Transfer(address(0), to, tokenId);
     }
 
-    // 销毁函数，通过调整_balances和_owners变量来销毁tokenId，同时释放Transfer事件。条件：tokenId存在。
+    // The destroy function, which destroys `tokenId` by updating `_balances` and `_owners` variables. It emits an Transfer event. Requirements: `tokenId` must exist.
     function _burn(uint tokenId) internal virtual {
         address owner = ownerOf(tokenId);
         require(msg.sender == owner, "not owner of token");
@@ -417,7 +420,7 @@ contract ERC721 is IERC721, IERC721Metadata{
         emit Transfer(owner, address(0), tokenId);
     }
 
-    // _checkOnERC721Received：函数，用于在 to 为合约的时候调用IERC721Receiver-onERC721Received, 以防 tokenId 被不小心转入黑洞。
+    // It invokes IERC721Receiver-onERC721Received when `to` address is a contract to prevent `tokenId` from being forever locked.    
     function _checkOnERC721Received(
         address from,
         address to,
@@ -438,7 +441,7 @@ contract ERC721 is IERC721, IERC721Metadata{
     }
 
     /**
-     * 实现IERC721Metadata的tokenURI函数，查询metadata。
+     * Implements the tokenURI function of IERC721Metadata to query metadata.
      */
     function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
         require(_owners[tokenId] != address(0), "Token Not Exist");
@@ -448,8 +451,8 @@ contract ERC721 is IERC721, IERC721Metadata{
     }
 
     /**
-     * 计算{tokenURI}的BaseURI，tokenURI就是把baseURI和tokenId拼接在一起，需要开发重写。
-     * BAYC的baseURI为ipfs://QmeSjSinHpPnmXmspMjwiXyN6zS4E9zccariGR3jxcaWtq/ 
+     * Base URI for computing {tokenURI}, which is the combination of `baseURI` and `tokenId`. Developers should rewrite this function accordingly.
+     * BAYC's baseURI is ipfs://QmeSjSinHpPnmXmspMjwiXyN6zS4E9zccariGR3jxcaWtq/ 
      */
     function _baseURI() internal view virtual returns (string memory) {
         return "";
@@ -457,8 +460,8 @@ contract ERC721 is IERC721, IERC721Metadata{
 }
 ```
 
-## 写一个免费铸造的APE
-我们来利用`ERC721`来写一个免费铸造的`WTF APE`，总量设置为`10000`，只需要重写一下`mint()`和`baseURI()`函数即可。由于`baseURI()`设置的和`BAYC`一样，元数据会直接获取无聊猿的，类似[RRBAYC](https://rrbayc.com/)：
+## Write a Free Minting APE
+Let's use `ERC721` to write a free minting `WTF APE`, with a total quantity of `10000`. We just need to rewrite the `mint()` and `baseURI()` functions. The `baseURI()` will be set the same as `BAYC`, where the metadata will directly obtain the information of the uninteresting apes, similar to [RRBAYC](https://rrbayc.com/):
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -468,70 +471,75 @@ pragma solidity ^0.8.4;
 import "./ERC721.sol";
 
 contract WTFApe is ERC721{
-    uint public MAX_APES = 10000; // 总量
+    uint public MAX_APES = 10000; // total amount
 
-    // 构造函数
+    // the constructor function
     constructor(string memory name_, string memory symbol_) ERC721(name_, symbol_){
     }
 
-    //BAYC的baseURI为ipfs://QmeSjSinHpPnmXmspMjwiXyN6zS4E9zccariGR3jxcaWtq/ 
+    // BAYC's baseURI is ipfs://QmeSjSinHpPnmXmspMjwiXyN6zS4E9zccariGR3jxcaWtq/
     function _baseURI() internal pure override returns (string memory) {
         return "ipfs://QmeSjSinHpPnmXmspMjwiXyN6zS4E9zccariGR3jxcaWtq/";
     }
     
-    // 铸造函数
+    // the mint function
     function mint(address to, uint tokenId) external {
         require(tokenId >= 0 && tokenId < MAX_APES, "tokenId out of range");
         _mint(to, tokenId);
     }
 }
 ```
-## 发行`ERC721`NFT
 
-有了`ERC721`标准后，在`ETH`链上发行NFT变得非常简单。现在，我们发行属于我们的NFT。
+## Issuing `ERC721` NFT
 
-在`Remix`上编译好`ERC721`合约和`WTFApe`合约（按照顺序），在部署栏点击下按钮，输入构造函数的参数，`name_`和`symbol_`都设为`WTF`，然后点击`transact`键进行部署。
+With the `ERC721` standard, issuing NFTs on the `ETH` chain has become very easy. Now, let's issue our own NFT.
 
-![NFT信息如何重点](./img/34-1.png)
-![部署合约](./img/34-2.png)
+After compiling the `ERC721` contract and the `WTFApe` contract in `Remix` (in order), click the button in the deployment column, enter parameters of the constructor function , set `name_` and `symbol_` to `WTF`, and then click the `transact` button to deploy.
 
-这样，我们就创建好了`WTF`NFT。我们需要运行`mint()`函数来给自己铸造一些代币。在`mint`函数那一栏点开右侧的下按钮输入账户地址，和tokenid，并点击`mint`按钮，为自己铸造`0`号`WTF`NFT。
+![How to emphasize NFT information](./img/34-1.png)
+![Deploy contract](./img/34-2.png)
 
-可以点开右侧的Debug按钮，具体查看下面的logs。
+This way, we have created the `WTF` NFT. We need to run the `mint()` function to mint some tokens for ourselves. In the `mint` function panel, click the right button to input the account address and token id, and then click the `mint` button to mint the `0`-numbered `WTF` NFT for ourselves.
 
-里面包含四个关键信息：
-- 事件`Transfer`
-- 铸造地址`0x0000000000000000000000000000000000000000`
-- 接收地址`0x5B38Da6a701c568545dCfcB03FcB875f56beddC4`
-- tokenid`0`
+You can click the Debug button on the right to view the logs below.
 
-![铸造NFT](./img/34-3.png)
+It includes four key pieces of information:
+- Event `Transfer`
+- Minting address `0x0000000000000000000000000000000000000000`
+- Receiving address `0x5B38Da6a701c568545dCfcB03FcB875f56beddC4`
+- Token id `0`
 
-我们利用`balanceOf()`函数来查询账户余额。输入我们当前的账户，可以看到有一个`NFT`，铸造成功。
+![Minting NFTs](./img/34-3.png)
 
-账户信息如图左侧，右侧标注为函数执行的具体信息。
+We use the `balanceOf()` function to query the account balance. By inputting our current account, we can see that an `NFT` has been successfully minted, as indicated on the right-hand side of the image.
 
-![查询NFT详情](./img/34-4.png)
+![Querying NFT details](./img/34-4.png)
 
-我们也可以利用`ownerOf()`函数来查询NFT属于哪个账户。输入`tokenid`，可以我们的地址，查询无误。
+We can also use the `ownerOf()` function to check which account an NFT belongs to. By inputting the `tokenid`, we can see that the address is correct.
 
-![tokenid查询拥有者详情](./img/34-5.png)
+![Querying owner details of tokenid](./img/34-5.png)
 
-## ERC165与ERC721详解
-上面说到,为了防止NFT被转到一个没有能力操作NFT的合约中去,目标必须正确实现ERC721TokenReceiver接口：
+## ERC165 and ERC721 explained
+As mentioned earlier, in order to prevent an NFT from being transferred to a contract that is incapable of handling NFTs, the destination address must correctly implement the ERC721TokenReceiver interface:
+
 ```solidity
 interface ERC721TokenReceiver {
     function onERC721Received(address _operator, address _from, uint256 _tokenId, bytes _data) external returns(bytes4);
 }
 ```
-拓展到编程语言的世界中去，无论是Java的interface，还是Rust的Trait(当然solidity中和trait更像的是library)，只要是和接口沾边的，都在透露着一种这样的意味：接口是某些行为的集合(在solidity中更甚，接口完全等价于函数选择器的集合)，某个类型只要实现了某个接口，就表明该类型拥有这样的一种功能。因此，只要某个contract类型实现了上述的`ERC721TokenReceiver`接口(更具体而言就是实现了`onERC721Received`这个函数),该contract类型就对外表明了自己拥有管理NFT的能力。当然操作NFT的逻辑被实现在该合约其他的函数中。
-ERC721标准在执行`safeTransferFrom`的时候会检查目标合约是否实现了`onERC721Received`函数,这是一种利用ERC165思想进行的操作。  
-**那究竟什么是ERC165呢?**  
-ERC165是一种对外表明自己实现了哪些接口的技术标准。就像上面所说的，实现了一个接口就表明合约拥有种特殊能力。有一些合约与其他合约交互时，期望目标合约拥有某些功能，那么合约之间就能够通过ERC165标准对对方进行查询以检查对方是否拥有相应的能力。  
-以ERC721合约为例，当外部对某个合约进行检查其是否是ERC721时，[怎么做？](https://eips.ethereum.org/EIPS/eip-165#how-to-detect-if-a-contract-implements-erc-165) 。按照这个说法，检查步骤应该是首先检查该合约是否实现了ERC165, 再检查该合约实现的其他特定接口。此时该特定接口是IERC721. IERC721的是ERC721的基本接口(为什么说基本，是因为还有其他的诸如`ERC721Metadata` `ERC721Enumerable` 这样的拓展)：
+
+Expanding into the world of programming languages, whether it's Java's interface or Rust's Trait (of course, in solidity, it's more like a library than a trait), whenever it relates to interfaces, it implies that an interface is a collection of certain behaviors (in solidity, interfaces are equivalent to a collection of function selectors). If a certain type implements a certain interface, it means that the type has a certain functionality. Therefore, as long as a certain contract type implements the above `ERC721TokenReceiver` interface (specifically, it implements the `onERC721Received` function), the contract type indicates to the outside world that it has the ability to manage NFTs. Of course, the logic of operating NFTs is implemented in other functions of the contract.
+
+When executing `safeTransferFrom` in the ERC721 standard, it will check whether the target contract implements the `onERC721Received` function, which is an operation based on the `ERC165` idea.
+
+So, what exactly is `ERC165`?
+
+`ERC165` is a technical standard to indicate which interfaces have been implemented externally. As mentioned above, implementing an interface means that the contract has a special ability. When some contracts interact with other contracts, they expect the target contract to have certain capabilities, so that contracts can query each other through the `ERC165` standard to check whether the other party has the corresponding abilities.
+
+Taking the `ERC721` contract as an example, how does it check whether a contract implements `ERC721`? According to [how-to-detect-if-a-contract-implements-erc-165](https://eips.ethereum.org/EIPS/eip-165#how-to-detect-if-a-contract-implements-erc-165), the checking steps should be to first check whether the contract implements `ERC165`, and then check specific interfaces implemented by the contract. At this point, the specific interface is `IERC721`. `IERC721` is the basic interface of `ERC721` (why say basic? Because there are other extensions, such as `ERC721Metadata` and `ERC721Enumerable`).
 
 ```solidity
-/// 注意这个**0x80ac58cd**
+/// Please note this **0x80ac58cd**
 ///  **⚠⚠⚠ Note: the ERC-165 identifier for this interface is 0x80ac58cd. ⚠⚠⚠**
 interface ERC721 /* is ERC165 */ {
     event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
@@ -559,28 +567,27 @@ interface ERC721 /* is ERC165 */ {
     function isApprovedForAll(address _owner, address _operator) external view returns (bool);
 }
 ```
-**0x80ac58cd**=
-`bytes4(keccak256(ERC721.Transfer.selector) ^ keccak256(ERC721.Approval.selector) ^ ··· ^keccak256(ERC721.isApprovedForAll.selector))`，这是ERC165规定的计算方式。
 
-那么，类似的，能够计算出ERC165本身的接口(它的接口里只有一个
-`function supportsInterface(bytes4 interfaceID) external view returns (bool);` 函数，对其进行`bytes4(keccak256(supportsInterface.selector))` 得到**0x01ffc9a7**。此外，ERC721还定义了一些拓展接口，比如`ERC721Metadata` ，长这样：
+The value **0x80ac58cd** is obtained by calculating `bytes4(keccak256(ERC721.Transfer.selector) ^ keccak256(ERC721.Approval.selector) ^ ··· ^keccak256(ERC721.isApprovedForAll.selector))`, which is the computation method specified by `ERC165`.
+
+Similarly, one can calculate the interface of `ERC165` itself (which contains only one function `function supportsInterface(bytes4 interfaceID) external view returns (bool);`) by using `bytes4(keccak256(supportsInterface.selector))`, which results in **0x01ffc9a7**. Additionally, ERC721 defines some extended interfaces, such as `ERC721Metadata`. It looks like this:
 
 ```solidity
 ///  Note: the ERC-165 identifier for this interface is 0x5b5e139f.
 interface ERC721Metadata /* is ERC721 */ {
     function name() external view returns (string _name);
     function symbol() external view returns (string _symbol);
-    function tokenURI(uint256 _tokenId) external view returns (string); // 这个很重要，前端展示的小图片的链接都是这个函数返回的
+    function tokenURI(uint256 _tokenId) external view returns (string); // This is very important as the urls of NFT's images showing in the website are returned by this function.
 }
 ```
 
-这个**0x5b5e139f** 的计算就是:
+The calculation of **0x5b5e139f** is:
 
 ```solidity
-bytes4(keccak256(ERC721Metadata.name.selector)^keccak256(ERC721Metadata.symbol.selector)^keccak256(ERC721Metadata.tokenURI.selector))
+IERC721Metadata.name.selector ^ IERC721Metadata.symbol.selector ^ IERC721Metadata.tokenURI.selector
 ```
 
-solamte实现的ERC721.sol是怎么完成这些ERC165要求的特性的呢？
+How does the ERC721.sol implemented by Solamte fulfill these features required by `ERC165`?
 
 ```solidity
 function supportsInterface(bytes4 interfaceId) public view virtual returns (bool) {
@@ -591,13 +598,13 @@ function supportsInterface(bytes4 interfaceId) public view virtual returns (bool
 }
 ```
 
-没错就这么简单。当外界按照[link1](https://eips.ethereum.org/EIPS/eip-165#how-to-detect-if-a-contract-implements-erc-165) 的步骤去做检查的时候，如果外界想检查这个合约是否实现了165,好说，就是supportsInterface函数在入参是`0x01ffc9a7`时必须返回true，在入参是`0xffffffff`时，返回值必须是false。上述实现完美达成要求。
+Yes, it's that simple. When the outside world follows the steps in [link1](https://eips.ethereum.org/EIPS/eip-165#how-to-detect-if-a-contract-implements-erc-165) to perform the check, if they want to check whether this contract implements 165, it's easy. The `supportsInterface` function must return true when the input parameter is `0x01ffc9a7`, and false when the input parameter is `0xffffffff`. The above implementation perfectly meets the requirements.
 
-当外界想检查这个合约是否是ERC721的时候，好说，入参是**0x80ac58cd** 的时候表明外界想做这个检查。返回true。
+When the outside world wants to check whether this contract is `ERC721`, it's easy. When the input parameter is **0x80ac58cd**, it indicates that the outside world wants to do this check. Return true.
 
-当外界想检查这个合约是否实现ERC721的拓展ERC721Metadata接口时，入参是0x5b5e139f。好说，返回了true。
+When the outside world wants to check whether this contract implements the `ERC721` extension `ERC721Metadata` interface, the input parameter is `0x5b5e139f`. It's easy, just return true.
 
-并且由于该函数是virtual的。因此该合约的使用者可以继承该合约，然后继续实现`ERC721Enumerable` 接口。实现完里面的什么`totalSupply` 啊之类的函数之后，把继承的`supportsInterface`重实现为
+And because this function is virtual, users of the contract can inherit the contract and then continue to implement the `ERC721Enumerable` interface. After implementing functions like `totalSupply`, they can re-implement the inherited `supportsInterface` as:
 
 ```solidity
 function supportsInterface(bytes4 interfaceId) public view virtual returns (bool) {
@@ -609,7 +616,7 @@ function supportsInterface(bytes4 interfaceId) public view virtual returns (bool
 }
 ```
 
-**优雅，简洁，可拓展性拉满。**
+**Elegance, conciseness, and scalability are maximized.**
 
-## 总结
-这一讲，我介绍了`ERC721`标准、接口及其实现，并在合约代码进行了中文注释。并且我们利用`ERC721`做了一个免费铸造的`WTF APE` NFT，元数据直接调用于`BAYC`。`ERC721`标准仍在不断发展中，目前比较流行的版本为`ERC721Enumerable`（提高NFT可访问性）和`ERC721A`（节约铸造`gas`）。
+## Summary
+In this lesson, I introduced the `ERC721` standard, interface, and implementation, and added English comments to the contract code. We also used `ERC721` to create a free `WTF APE` NFT, with metadata directly called from `BAYC`. The `ERC721` standard is still evolving, with the currently popular versions being `ERC721Enumerable` (improving NFT accessibility) and `ERC721A` (saving `gas` in minting).

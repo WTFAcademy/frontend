@@ -8,6 +8,8 @@ tags:
 ---
 # WTF Solidity Tutorial: 16. Overloading
 
+<LessonProcess meta={require('./meta.json')} />
+
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
 Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
@@ -68,4 +70,4 @@ In this lecture, we introduce the basic usage of overloading function in `solidi
 functions with the same name but different input parameter types can exist at the same time, 
 which are treated as different functions.
 
-
+<LessonQuizStart meta={require('./meta.json')} />

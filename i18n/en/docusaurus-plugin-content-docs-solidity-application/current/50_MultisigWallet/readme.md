@@ -1,96 +1,98 @@
 ---
-title: 50. Multisig Wallet
+title: 50. Multisignature Wallet
 tags:
-  - solidity
+  - Solidity
   - call
   - signature
-  - abi encoding
+  - ABI encoding
 
 ---
 
-# WTF Solidity极简入门: 50. 多签钱包
+# WTF Solidity Tutorial: 50. Multisignature Wallet
 
-我最近在重新学solidity，巩固一下细节，也写一个“WTF Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+I am currently relearning Solidity to solidify some of the details and create a "WTF Solidity Tutorial" for beginners (advanced programmers may want to find another tutorial). I will update 1-3 lessons weekly.
 
-推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
+Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-社区：[Discord](https://discord.wtf.academy)｜[微信群](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[官网 wtf.academy](https://wtf.academy)
+Community: [Discord](https://discord.gg/5akcruXrsk)｜[WeChat Group](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Official website wtf.academy](https://wtf.academy)
 
-所有代码和教程开源在github: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+All code and tutorials are open source on Github: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
 
 -----
 
-V神曾说过，多签钱包要比硬件钱包更加安全（[推文](https://twitter.com/VitalikButerin/status/1558886893995134978?s=20&t=4WyoEWhwHNUtAuABEIlcRw)）。这一讲，我们将介绍多签钱包，并且写一个极简版多签钱包合约。教学代码（150行代码）由gnosis safe合约（几千行代码）简化而成。
+Vitalik once said that a multisig wallet is safer than a hardware wallet ([tweet](https://twitter.com/VitalikButerin/status/1558886893995134978?s=20&t=4WyoEWhwHNUtAuABEIlcRw)). In this lesson, we'll introduce multisig wallets and write a simple version of a multisig wallet contract. The teaching code (150 lines of code) is simplified from the Gnosis Safe contract (several thousand lines of code).
 
-![V神说](./img/50-1.png)
+![Vitalik statement](./img/50-1.png)
 
-## 多签钱包
+## Multisig Wallet
 
-多签钱包是一种电子钱包，特点是交易被多个私钥持有者（多签人）授权后才能执行：例如钱包由`3`个多签人管理，每笔交易需要至少`2`人签名授权。多签钱包可以防止单点故障（私钥丢失，单人作恶），更加去中心化，更加安全，被很多DAO采用。
+A multisig wallet is an electronic wallet where transactions require authorization from multiple private key holders (multisig owners) before they can be executed. For example, if a wallet is managed by three multisig owners, each transaction requires authorization from at least two of them. Multisig wallets can prevent single point failure (loss of private keys, individual misbehavior), have greater decentralized characteristics, and provide increased security. It is used by many DAOs.
 
-Gnosis Safe多签钱包是以太坊最流行的多签钱包，管理近400亿美元资产，合约经过审计和实战测试，支持多链（以太坊，BSC，Polygon等），并提供丰富的DAPP支持。更多信息可以阅读我在21年12月写的[Gnosis Safe使用教程](https://peopledao.mirror.xyz/nFCBXda8B5ZxQVqSbbDOn2frFDpTxNVtdqVBXGIjj0s)。
+Gnosis Safe is the most popular multisig wallet on Ethereum, managing nearly $40 billion in assets. The contract has undergone auditing and practical testing, supports multiple chains (Ethereum, BSC, Polygon, etc.), and provides comprehensive DAPP support. For more information, you can read the [Gnosis Safe tutorial](https://peopledao.mirror.xyz/nFCBXda8B5ZxQVqSbbDOn2frFDpTxNVtdqVBXGIjj0s) I wrote in December 2021.
 
-## 多签钱包合约
+## Multisig Wallet Contract
 
-在以太坊上的多签钱包其实是智能合约，属于合约钱包。下面我们写一个极简版多签钱包`MultisigWallet`合约，它的逻辑非常简单：
+A multisig wallet on Ethereum is actually a smart contract, and it is a contract wallet. We'll write a simple version of the MultisigWallet contract, which has a simple logic:
 
-1. 设置多签人和门槛（链上）：部署多签合约时，我们需要初始化多签人列表和执行门槛（至少n个多签人签名授权后，交易才能执行）。Gnosis Safe多签钱包支持增加/删除多签人以及改变执行门槛，但在咱们的极简版中不考虑这一功能。
+1. Set multisig owners and threshold (on-chain): When deploying a multisig contract, we need to initialize a list of multisig owners and the execution threshold (at least n multisig owners need to sign and authorize a transaction before it can be executed). Gnosis Safe supports adding/removing multisig owners and changing the execution threshold, but we will not consider this feature in our simplified version.
 
-2. 创建交易（链下）：一笔待授权的交易包含以下内容
-    - `to`：目标合约。
-    - `value`：交易发送的以太坊数量。
-    - `data`：calldata，包含调用函数的选择器和参数。
-    - `nonce`：初始为`0`，随着多签合约每笔成功执行的交易递增的值，可以防止签名重放攻击。
-    - `chainid`：链id，防止不同链的签名重放攻击。
+2. Create transactions (off-chain): A transaction waiting for authorization contains the following information:
+    - `to`: Target contract.
+    - `value`: The amount of Ether sent in the transaction.
+    - `data`: Calldata, which contains the function selector and parameters for the function call.
+    - `nonce`: Initially set to `0`, the value of the nonce increases with each successfully executed transaction of the multisig contract, which can prevent replay attacks.
+    - `chainid`: The chain id helps prevent replay attacks across different chains.
 
-3. 收集多签签名（链下）：将上一步的交易ABI编码并计算哈希，得到交易哈希，然后让多签人签名，并拼接到一起的到打包签名。对ABI编码和哈希不了解的，可以看WTF Solidity极简教程[第27讲](https://github.com/AmazingAng/WTFSolidity/blob/main/27_ABIEncode/readme.md)和[第28讲](https://github.com/AmazingAng/WTFSolidity/blob/main/28_Hash/readme.md)。
-
-    ```solidity
-    交易哈希: 0xc1b055cf8e78338db21407b425114a2e258b0318879327945b661bfdea570e66
-
-    多签人A签名: 0xd6a56c718fc16f283512f90e16f2e62f888780a712d15e884e300c51e5b100de2f014ad71bcb6d97946ef0d31346b3b71eb688831abedaf41b33486b416129031c
-
-    多签人B签名: 0x2184f70a17f14426865bda8ebe391508b8e3984d16ce6d90905ae8beae7d75fd435a7e51d837881d820414ebaf0ff16074204c75b33d66928edcf8dd398249861b
-
-    打包签名：
-    0xd6a56c718fc16f283512f90e16f2e62f888780a712d15e884e300c51e5b100de2f014ad71bcb6d97946ef0d31346b3b71eb688831abedaf41b33486b416129031c2184f70a17f14426865bda8ebe391508b8e3984d16ce6d90905ae8beae7d75fd435a7e51d837881d820414ebaf0ff16074204c75b33d66928edcf8dd398249861b
-    ```
-
-4. 调用多签合约的执行函数，验证签名并执行交易（链上）。对验证签名和执行交易不了解的，可以看WTF Solidity极简教程[第22讲](https://github.com/AmazingAng/WTFSolidity/blob/main/22_Call/readme.md)和[第37讲](https://github.com/AmazingAng/WTFSolidity/blob/main/37_Signature/readme.md)。
-
-### 事件
-
-`MultisigWallet`合约有`2`个事件，`ExecutionSuccess`和`ExecutionFailure`，分别在交易成功和失败时释放，参数为交易哈希。
+3. Collect multisig signatures (off-chain): The previous transaction is encoded using ABI and hashed to obtain the transaction hash. Then, the multisig individuals sign it and concatenate the signatures together to obtain the final signed transaction. For those who are not familiar with ABI encoding and hashing, you can refer to the WTF Solidity Tutorial [Lesson 27](https://github.com/AmazingAng/WTFSolidity/blob/main/Languages/en/27_ABIEncode_en/readme.md) and [Lesson 28](https://github.com/AmazingAng/WTFSolidity/blob/main/Languages/en/28_Hash_en/readme.md).
 
 ```solidity
-    event ExecutionSuccess(bytes32 txHash);    // 交易成功事件
-    event ExecutionFailure(bytes32 txHash);    // 交易失败事件
+Transaction hash: 0xc1b055cf8e78338db21407b425114a2e258b0318879327945b661bfdea570e66
+
+Multisig person A signature: 0xd6a56c718fc16f283512f90e16f2e62f888780a712d15e884e300c51e5b100de2f014ad71bcb6d97946ef0d31346b3b71eb688831abedaf41b33486b416129031c
+
+Multisig person B signature: 0x2184f70a17f14426865bda8ebe391508b8e3984d16ce6d90905ae8beae7d75fd435a7e51d837881d820414ebaf0ff16074204c75b33d66928edcf8dd398249861b
+
+Packaged signatures:
+0xd6a56c718fc16f283512f90e16f2e62f888780a712d15e884e300c51e5b100de2f014ad71bcb6d97946ef0d31346b3b71eb688831abedaf41b33486b416129031c2184f70a17f14426865bda8ebe391508b8e3984d16ce6d90905ae8beae7d75fd435a7e51d837881d820414ebaf0ff16074204c75b33d66928edcf8dd398249861b
 ```
 
-### 状态变量
+4. Call the execution function of the multisig contract, verify the signature and execute the transaction (on-chain). If you are not familiar with verifying signatures and executing transactions, you can refer to the WTF Solidity Tutorial [Lesson 22](https://githhttps://github.com/AmazingAng/WTF-Solidity/tree/main/Languages/en/22_Call_en) and [Lesson 37](https://github.com/AmazingAng/WTF-Solidity/tree/main/Languages/en/37_Signature_en).
 
-`MultisigWallet`合约有`5`个状态变量：
-1. `owners`：多签持有人数组
-2. `isOwner`：`address => bool`的映射，记录一个地址是否为多签持有人。
-3. `ownerCount`：多签持有人数量
-4. `threshold`：多签执行门槛，交易至少有n个多签人签名才能被执行。
-5. `nonce`：初始为`0`，随着多签合约每笔成功执行的交易递增的值，可以防止签名重放攻击。
+### Events
+
+The `MultisigWallet` contract has two events, `ExecutionSuccess` and `ExecutionFailure`, which are triggered when the transaction is successfully executed or failed, respectively. The parameters are the transaction hash.
 
 ```solidity
-    address[] public owners;                   // 多签持有人数组 
-    mapping(address => bool) public isOwner;   // 记录一个地址是否为多签持有人
-    uint256 public ownerCount;                 // 多签持有人数量
-    uint256 public threshold;                  // 多签执行门槛，交易至少有n个多签人签名才能被执行。
-    uint256 public nonce;                      // nonce，防止签名重放攻击
+    event ExecutionSuccess(bytes32 txHash);    // succeeded transaction event
+    event ExecutionFailure(bytes32 txHash);    // failed transaction event
 ```
 
-### 函数
+### State Variables
 
-`MultisigWallet`合约有`6`个函数：
+The `MultisigWallet` contract has five state variables:
 
-1. 构造函数：调用`_setupOwners()`，初始化和多签持有人和执行门槛相关的变量。
+  1. `owners`: An array of multisig owners.
+  2. `isOwner`: A mapping from `address` to `bool` which tracks whether an address is a multisig holder.
+  3. `ownerCount`: The total number of multisig owners.
+  4. `threshold`: The minimum number of multisig owners required to execute a transaction.
+  5. `nonce`: Initially set to 0, this variable increments with each successful transaction executed by the multisig contract, which can prevent signature replay attacks.
+
+```solidity
+    address[] public owners;                   // multisig owners array
+    mapping(address => bool) public isOwner;   // check if an address is a multisig owner
+    uint256 public ownerCount;                 // the count of multisig owners
+    uint256 public threshold;                  // minimum number of signatures required for multisig execution
+    uint256 public nonce;                      // nonce，prevent signature replay attack
+```
+
+### Functions
+
+The `MultisigWallet` contract has `6` functions:
+
+1. Constructor: calls `_setupOwners()` to initialize variables related to multisig owners and execution thresholds.
+
     ```solidity
-    // 构造函数，初始化owners, isOwner, ownerCount, threshold 
+    // constructor, initializes owners, isOwner, ownerCount, threshold 
     constructor(        
         address[] memory _owners,
         uint256 _threshold
@@ -99,84 +101,87 @@ Gnosis Safe多签钱包是以太坊最流行的多签钱包，管理近400亿美
     }
     ```
 
-2. `_setupOwners()`：在合约部署时被构造函数调用，初始化`owners`，`isOwner`，`ownerCount`，`threshold`状态变量。传入的参数中，执行门槛需大于等于`1`且小于等于多签人数；多签地址不能为`0`地址且不能重复。
-    ```solidity
-    /// @dev 初始化owners, isOwner, ownerCount,threshold 
-    /// @param _owners: 多签持有人数组
-    /// @param _threshold: 多签执行门槛，至少有几个多签人签署了交易
-    function _setupOwners(address[] memory _owners, uint256 _threshold) internal {
-        // threshold没被初始化过
-        require(threshold == 0, "WTF5000");
-        // 多签执行门槛 小于 多签人数
-        require(_threshold <= _owners.length, "WTF5001");
-        // 多签执行门槛至少为1
-        require(_threshold >= 1, "WTF5002");
+2. `_setupOwners()`: Called by the constructor during contract deployment to initialize the `owners`, `isOwner`, `ownerCount`, `threshold` state variables. The passed-in parameters must have a threshold greater than or equal to `1` and less than or equal to the number of multisignature owners. The multisignature addresses cannot be the zero address and cannot be duplicated.
 
-        for (uint256 i = 0; i < _owners.length; i++) {
-            address owner = _owners[i];
-            // 多签人不能为0地址，本合约地址，不能重复
-            require(owner != address(0) && owner != address(this) && !isOwner[owner], "WTF5003");
-            owners.push(owner);
-            isOwner[owner] = true;
-        }
-        ownerCount = _owners.length;
-        threshold = _threshold;
+```solidity
+/// @dev Initialize owners, isOwner, ownerCount, threshold
+/// @param _owners: Array of multisig owners
+/// @param _threshold: Minimum number of signatures required for multisig execution
+function _setupOwners(address[] memory _owners, uint256 _threshold) internal {
+    // If threshold was not initialized
+    require(threshold == 0, "WTF5000");
+    // multisig execution threshold is less than the number of multisig owners
+    require(_threshold <= _owners.length, "WTF5001");
+    // multisig execution threshold is at least 1
+    require(_threshold >= 1, "WTF5002");
+
+    for (uint256 i = 0; i < _owners.length; i++) {
+        address owner = _owners[i];
+        // multisig owners cannot be zero address, contract address, and cannot be repeated
+        require(owner != address(0) && owner != address(this) && !isOwner[owner], "WTF5003");
+        owners.push(owner);
+        isOwner[owner] = true;
     }
-    ```
+    ownerCount = _owners.length;
+    threshold = _threshold;
+}
+```
 
-3. `execTransaction()`：在收集足够的多签签名后，验证签名并执行交易。传入的参数为目标地址`to`，发送的以太坊数额`value`，数据`data`，以及打包签名`signatures`。打包签名就是将收集的多签人对交易哈希的签名，按多签持有人地址从小到大顺序，打包到一个[bytes]数据中。这一步调用了`encodeTransactionData()`编码交易，调用了`checkSignatures()`检验签名是否有效、数量是否达到执行门槛。
+3. `execTransaction()`: After collecting enough multisig signatures, it verifies the signatures and executes the transaction. The parameters passed in include the target address `to`, the amount of Ethereum sent `value`, the data `data`, and the packaged signatures `signatures`. The packaged signature is the signature of the transaction hash collected by the multisig parties, packaged into a [bytes] data in the order of the multisig owners' addresses from small to large. This step calls `encodeTransactionData()` to encode the transaction and calls `checkSignatures()` to verify the validity of the signatures and whether the number of signatures reaches the execution threshold.
 
-    ```solidity
-    /// @dev 在收集足够的多签签名后，执行交易
-    /// @param to 目标合约地址
-    /// @param value msg.value，支付的以太坊
-    /// @param data calldata
-    /// @param signatures 打包的签名，对应的多签地址由小到达，方便检查。 ({bytes32 r}{bytes32 s}{uint8 v}) (第一个多签的签名, 第二个多签的签名 ... )
-    function execTransaction(
-        address to,
-        uint256 value,
-        bytes memory data,
-        bytes memory signatures
-    ) public payable virtual returns (bool success) {
-        // 编码交易数据，计算哈希
-        bytes32 txHash = encodeTransactionData(to, value, data, nonce, block.chainid);
-        nonce++;  // 增加nonce
-        checkSignatures(txHash, signatures); // 检查签名
-        // 利用call执行交易，并获取交易结果
-        (success, ) = to.call{value: value}(data);
-        require(success , "WTF5004");
-        if (success) emit ExecutionSuccess(txHash);
-        else emit ExecutionFailure(txHash);
-    }
-    ```
+```solidity
+/// @dev After collecting enough signatures from the multisig, execute transaction
+/// @param to Target contract address
+/// @param value msg.value, ether paid
+/// @param data calldata
+/// @param signatures packed signatures, corresponding to the multisig address in ascending order, for easy checking ({bytes32 r}{bytes32 s}{uint8 v}) (signature of the first multisig, signature of the second multisig...)
+function execTransaction(
+    address to,
+    uint256 value,
+    bytes memory data,
+    bytes memory signatures
+) public payable virtual returns (bool success) {
+    // Encode transaction data and compute hash
+    bytes32 txHash = encodeTransactionData(to, value, data, nonce, block.chainid);
+    // Increase nonce
+    nonce++;  
+    // Check signatures
+    checkSignatures(txHash, signatures); 
+    // Execute transaction using call and get transaction result
+    (success, ) = to.call{value: value}(data);
+    require(success , "WTF5004");
+    if (success) emit ExecutionSuccess(txHash);
+    else emit ExecutionFailure(txHash);
+}
+```
 
-4. `checkSignatures()`：检查签名和交易数据的哈希是否对应，数量是否达到门槛，若否，交易会revert。单个签名长度为65字节，因此打包签名的长度要长于`threshold * 65`。调用了`signatureSplit()`分离出单个签名。这个函数的大致思路：
-    - 用ecdsa获取签名地址.
-    - 利用 `currentOwner > lastOwner` 确定签名来自不同多签（多签地址递增）。
-    - 利用`isOwner[currentOwner]`确定签名者为多签持有人。
+4. `checkSignatures()`: checks if the hash of the signature and transaction data matches, and if the number of signatures exceeds the threshold. If not, the transaction will revert. The length of a single signature is 65 bytes, so the length of the packed signatures must be greater than `threshold * 65`. This function roughly works in the following way:
+    - Get signature address using ECDSA.
+    - Determine if the signature comes from a different multisignature using `currentOwner > lastOwner` (multisignature addresses increase).
+    - Determine if the signer is a multisignature holder using `isOwner[currentOwner]`.
 
     ```solidity
     /**
-     * @dev 检查签名和交易数据是否对应。如果是无效签名，交易会revert
-     * @param dataHash 交易数据哈希
-     * @param signatures 几个多签签名打包在一起
+     * @dev checks if the hash of the signature and transaction data matches. if signature is invalid, transaction will revert
+     * @param dataHash hash of transaction data
+     * @param signatures bundles multiple multisig signature together
      */
     function checkSignatures(
         bytes32 dataHash,
         bytes memory signatures
     ) public view {
-        // 读取多签执行门槛
+        // get multisig threshold
         uint256 _threshold = threshold;
         require(_threshold > 0, "WTF5005");
 
-        // 检查签名长度足够长
+        // checks if signature length is enough
         require(signatures.length >= _threshold * 65, "WTF5006");
 
-        // 通过一个循环，检查收集的签名是否有效
-        // 大概思路：
-        // 1. 用ecdsa先验证签名是否有效
-        // 2. 利用 currentOwner > lastOwner 确定签名来自不同多签（多签地址递增）
-        // 3. 利用 isOwner[currentOwner] 确定签名者为多签持有人
+        // checks if collected signatures are valid 
+        // procedure:
+        // 1. use ECDSA to verify if signatures are valid
+        // 2. use currentOwner > lastOwner to make sure that signatures are from different multisig owners
+        // 3. use isOwner[currentOwner] to make sure that current signature is from a multisig owner
         address lastOwner = address(0); 
         address currentOwner;
         uint8 v;
@@ -185,7 +190,7 @@ Gnosis Safe多签钱包是以太坊最流行的多签钱包，管理近400亿美
         uint256 i;
         for (i = 0; i < _threshold; i++) {
             (v, r, s) = signatureSplit(signatures, i);
-            // 利用ecrecover检查签名是否有效
+            // use ECDSA to verify if signature is valid
             currentOwner = ecrecover(keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", dataHash)), v, r, s);
             require(currentOwner > lastOwner && isOwner[currentOwner], "WTF5007");
             lastOwner = currentOwner;
@@ -193,41 +198,41 @@ Gnosis Safe多签钱包是以太坊最流行的多签钱包，管理近400亿美
     }
     ```
 
-5. `signatureSplit()`：将单个签名从打包的签名分离出来，参数分别为打包签名`signatures`和要读取的签名位置`pos`。利用了内联汇编，将签名的`r`，`s`，和`v`三个值分离出来。
+5. `signatureSplit()` function: split a single signature from a packed signature. The function takes two arguments: the packed signature `signatures` and the position of the signature to be read `pos`. The function uses inline assembly to split the `r`, `s`, and `v` values of the signature.
 
-    ```solidity
-    /// 将单个签名从打包的签名分离出来
-    /// @param signatures 打包签名
-    /// @param pos 要读取的多签index.
-    function signatureSplit(bytes memory signatures, uint256 pos)
-        internal
-        pure
-        returns (
-            uint8 v,
-            bytes32 r,
-            bytes32 s
-        )
-    {
-        // 签名的格式：{bytes32 r}{bytes32 s}{uint8 v}
-        assembly {
-            let signaturePos := mul(0x41, pos)
-            r := mload(add(signatures, add(signaturePos, 0x20)))
-            s := mload(add(signatures, add(signaturePos, 0x40)))
-            v := and(mload(add(signatures, add(signaturePos, 0x41))), 0xff)
-        }
+```solidity
+/// split a single signature from a packed signature.
+/// @param signatures Packed signatures.
+/// @param pos Index of the multisig.
+function signatureSplit(bytes memory signatures, uint256 pos)
+    internal
+    pure
+    returns (
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    )
+{
+    // signature format: {bytes32 r}{bytes32 s}{uint8 v}
+    assembly {
+        let signaturePos := mul(0x41, pos)
+        r := mload(add(signatures, add(signaturePos, 0x20)))
+        s := mload(add(signatures, add(signaturePos, 0x40)))
+        v := and(mload(add(signatures, add(signaturePos, 0x41))), 0xff)
     }
-    ```
+}
+```
 
-6. `encodeTransactionData()`：将交易数据打包并计算哈希，利用了`abi.encode()`和`keccak256()`函数。这个函数可以计算出一个交易的哈希，然后在链下让多签人签名并收集，再调用`execTransaction()`函数执行。
+6. `encodeTransactionData()`: Packs and calculates the hash of transaction data using the `abi.encode()` and `keccak256()` functions. This function can calculate the hash of a transaction, then allow the multisig to sign and collect it off-chain, and finally call the `execTransaction()` function to execute it.
 
     ```solidity
-    /// @dev 编码交易数据
-    /// @param to 目标合约地址
-    /// @param value msg.value，支付的以太坊
+    /// @dev hash transaction data
+    /// @param to target contract's address
+    /// @param value msg.value eth to be paid
     /// @param data calldata
-    /// @param _nonce 交易的nonce.
-    /// @param chainid 链id
-    /// @return 交易哈希bytes.
+    /// @param _nonce nonce of the transaction
+    /// @param chainid 
+    /// @return bytes of transaction hash
     function encodeTransactionData(
         address to,
         uint256 value,
@@ -249,54 +254,55 @@ Gnosis Safe多签钱包是以太坊最流行的多签钱包，管理近400亿美
     }
     ```
 
-## `Remix`演示
+## Demo of `Remix`
 
-1. 部署多签合约，`2`个多签地址，交易执行门槛设为`2`。
+1. Deploy a multisig contract with 2 multisig addresses and set the execution threshold to `2`.
 
     ```solidity
     多签地址1: 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4
     多签地址2: 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2
     ```
+    ![Transfer](./img/50-2.png)
+2. Transfer `1 ETH` to the multisig contract address.
 
-    ![部署](./img/50-2.png)
+    ![Transfer](./img/50-3.png)
 
-2. 转账`1 ETH`到多签合约地址。
+3. Call `encodeTransactionData()`, encode and calculate the transaction hash for transferring `1 ETH` to the address of the multisig with index 1.
 
-    ![转账](./img/50-3.png)
+```solidity
+Parameter
+to: 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4
+value: 1000000000000000000
+data: 0x
+_nonce: 0
+chainid: 1
 
-3. 调用`encodeTransactionData()`，编码并计算向多签地址1转账`1 ETH`的交易哈希。
+Result
+Transaction hash: 0xb43ad6901230f2c59c3f7ef027c9a372f199661c61beeec49ef5a774231fc39b
+```
 
-    ```solidity
-    参数
-    to: 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4
-    value: 1000000000000000000
-    data: 0x
-    _nonce: 0
-    chainid: 1
+![Calculate transaction hash](./img/50-4.png)
 
-    结果
-    交易哈希： 0xb43ad6901230f2c59c3f7ef027c9a372f199661c61beeec49ef5a774231fc39b
+4. Use the note icon next to the ACCOUNT in Remix to sign the transaction. Input the above transaction hash and obtain the signature. Both wallets must be signed.
+
+    ```
+    多签地址1的签名: 0x014db45aa753fefeca3f99c2cb38435977ebb954f779c2b6af6f6365ba4188df542031ace9bdc53c655ad2d4794667ec2495196da94204c56b1293d0fbfacbb11c
+
+    多签地址2的签名: 0xbe2e0e6de5574b7f65cad1b7062be95e7d73fe37dd8e888cef5eb12e964ddc597395fa48df1219e7f74f48d86957f545d0fbce4eee1adfbaff6c267046ade0d81c
+
+    讲两个签名拼接到一起，得到打包签名:  0x014db45aa753fefeca3f99c2cb38435977ebb954f779c2b6af6f6365ba4188df542031ace9bdc53c655ad2d4794667ec2495196da94204c56b1293d0fbfacbb11cbe2e0e6de5574b7f65cad1b7062be95e7d73fe37dd8e888cef5eb12e964ddc597395fa48df1219e7f74f48d86957f545d0fbce4eee1adfbaff6c267046ade0d81c
     ```
 
-    ![计算交易哈希](./img/50-4.png)
+![Signature](./img/50-5-1.png)
+![Signature](./img/50-5-2.png)
+![Signature](./img/50-5-3.png)
 
-4. 利用Remix中ACCOUNT旁边的笔记图案的按钮进行签名，内容输入上面的交易哈希，获得签名，两个钱包都要签。
-    ```
-    多签地址1的签名: 0xa3f3e4375f54ad0a8070f5abd64e974b9b84306ac0dd5f59834efc60aede7c84454813efd16923f1a8c320c05f185bd90145fd7a7b741a8d13d4e65a4722687e1b
+5. Call the `execTransaction()` function to execute the transaction, passing in the transaction parameters from step 3 and the packaged signature as parameters. You can see that the transaction was executed successfully and `ETH` was transferred from the multisig wallet.
 
-    多签地址2的签名: 0x6b228b6033c097e220575f826560226a5855112af667e984aceca50b776f4c885e983f1f2155c294c86a905977853c6b1bb630c488502abcc838f9a225c813811c
+    ![Executing multisig wallet transaction](./img/50-6.png)
 
-    讲两个签名拼接到一起，得到打包签名:  0xa3f3e4375f54ad0a8070f5abd64e974b9b84306ac0dd5f59834efc60aede7c84454813efd16923f1a8c320c05f185bd90145fd7a7b741a8d13d4e65a4722687e1b6b228b6033c097e220575f826560226a5855112af667e984aceca50b776f4c885e983f1f2155c294c86a905977853c6b1bb630c488502abcc838f9a225c813811c
-    ```
+## Summary
 
-    ![签名](./img/50-5.png)
+In this lesson, we introduced the concept of a multisig wallet and wrote a minimal implementation of a multisig wallet contract, which is less than 150 lines of code.
 
-5. 调用`execTransaction()`函数执行交易，将第3步中的交易参数和打包签名作为参数传入。可以看到交易执行成功，`ETH`被转出多签。
-
-    ![执行多签钱包交易](./img/50-6.png)
-
-## 总结
-
-这一讲，我们介绍了多签钱包，并写了一个极简版的多签钱包合约，仅有不到150行代码。
-
-我与多签钱包很有缘分，2021年因为PeopleDAO创建国库而学习了Gnosis Safe并写了中英文的[使用教程](https://peopledao.mirror.xyz/nFCBXda8B5ZxQVqSbbDOn2frFDpTxNVtdqVBXGIjj0s)，之后很幸运的做了3个国库的多签人维护资产安全，现在又成为了Safe的守护者深度参与治理。希望大家的资产都更加安全。
+I have had many opportunities to work with multisig wallets. In 2021, I learned about Gnosis Safe and wrote a tutorial on its usage in both Chinese and English because of the creation of the national treasury by PeopleDAO. Afterwards, I was lucky enough to maintain the assets of three treasury multisig wallets and now I am deeply involved in governing Safes as a guardian. I hope that everyone's assets will be even more secure.

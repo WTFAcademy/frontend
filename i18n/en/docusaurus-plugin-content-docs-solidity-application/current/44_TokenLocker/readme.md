@@ -1,116 +1,124 @@
 ---
-title: 44. Token Locker
+title: 44. Token Lock
 tags:
   - solidity
   - application
   - ERC20
+---
+
+# WTF Solidity Tutorial: 44. Token Lock
+
+I have been relearning Solidity recently to solidify my understanding of the language and to create a "WTF Solidity Tutorial" for beginners (advanced programmers can find other tutorials). I will update it weekly with 1-3 lessons.
+
+Feel free to follow me on Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science)
+
+You are also welcome to join the WTF Scientists community and find information on how to join the WeChat group: [link](https://discord.gg/5akcruXrsk)
+
+All of the code and tutorials are open source and can be found on Github (I will provide a course certification for 1024 stars and a community NFT for 2048 stars): [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
 
 ---
 
-# WTF Solidity极简入门: 44. 代币锁
+### Token Lock
 
-我最近在重新学solidity，巩固一下细节，也写一个“WTF Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+A Token Lock is a simple time-based smart contract that allows one to lock a number of tokens for a certain period of time. After the lock-up period is over, the beneficiary can then withdraw the tokens. A Token Lock is commonly used to lock LP tokens.
 
-推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
+### What are LP Tokens?
 
-社区：[Discord](https://discord.wtf.academy)｜[微信群](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[官网 wtf.academy](https://wtf.academy)
+In decentralized exchanges (DEX), users trade tokens, such as in the case of Uniswap. Unlike centralized exchanges (CEX), decentralized exchanges use Automated Market Maker (AMM) mechanisms. Users or projects provide a liquidity pool, so that other users can buy and sell tokens instantly. To compensate the user or project for providing the liquidity pool, the DEX will mint corresponding LP tokens, which represent their contribution and entitle them to transaction fees.
 
-所有代码和教程开源在github: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+### Why Lock Liquidity?
 
------
+If a project suddenly withdraws LP tokens from a liquidity pool without warning, the investors' tokens would become worthless. This act is commonly referred to as a "rug-pull." In 2021 alone, different "rug-pull" scams have defrauded investors of more than $2.8 billion in cryptocurrency.
 
-这一讲，我们介绍什么是流动性提供者`LP`代币，为什么要锁定流动性，并写一个简单的`ERC20`代币锁合约。
+However, by locking LP tokens into a Token Lock smart contract, the project cannot withdraw the tokens from the liquidity pool before the lock-up period expires, preventing them from committing a "rug-pull". A Token Lock can, therefore, prevent projects from running away with investors' tokens prematurely (though one should still be wary of projects "running away" once the lock-up period ends).
 
-## 代币锁
+## Token Lock Contract
 
-![代币锁](./img/44-1.webp)
+Below is a contract `TokenLocker` for locking `ERC20` tokens. Its logic is simple:
 
-代币锁(Token Locker)是一种简单的时间锁合约，它可以把合约中的代币锁仓一段时间，受益人在锁仓期满后可以取走代币。代币锁一般是用来锁仓流动性提供者`LP`代币的。
+- The developer specifies the locking time, beneficiary address, and token contract when deploying the contract.
+- The developer transfers the tokens to the `TokenLocker` contract.
+- After the lockup period expires, the beneficiary can withdraw the tokens from the contract.
 
-### 什么是`LP`代币？
+### Events
 
-区块链中，用户在去中心化交易所`DEX`上交易代币，例如`Uniswap`交易所。`DEX`和中心化交易所(`CEX`)不同，去中心化交易所使用自动做市商(`AMM`)机制，需要用户或项目方提供资金池，以使得其他用户能够即时买卖。简单来说，用户/项目方需要质押相应的币对（比如`ETH/DAI`）到资金池中，作为补偿，`DEX`会给他们铸造相应的流动性提供者`LP`代币凭证，证明他们质押了相应的份额，供他们收取手续费。
+There are two events in the `TokenLocker` contract.
 
-
-### 为什么要锁定流动性？
-
-如果项目方毫无征兆的撤出流动性池中的`LP`代币，那么投资者手中的代币就无法变现，直接归零了。这种行为也叫`rug-pull`，仅2021年，各种`rug-pull`骗局从投资者那里骗取了价值超过28亿美元的加密货币。
-
-但是如果`LP`代币是锁仓在代币锁合约中，在锁仓期结束以前，项目方无法撤出流动性池，也没办法`rug pull`。因此代币锁可以防止项目方过早跑路（要小心锁仓期满跑路的情况）。
-
-## 代币锁合约
-
-下面，我们就写一个锁仓`ERC20`代币的合约`TokenLocker`。它的逻辑很简单：
-
-- 开发者在部署合约时规定锁仓的时间，受益人地址，以及代币合约。
-- 开发者将代币转入`TokenLocker`合约。
-- 在锁仓期满，受益人可以取走合约里的代币。
-
-### 事件
-
-`TokenLocker`合约中共有`2`个事件。
-
-- `TokenLockStart`：锁仓开始事件，在合约部署时释放，记录受益人地址，代币地址，锁仓起始时间，和结束时间。
-- `Release`：代币释放事件，在受益人取出代币时释放，记录记录受益人地址，代币地址，释放代币时间，和代币数量。
+- `TokenLockStart`: This event is triggered when the lockup starts, which occurs when the contract is deployed. It records the beneficiary address, token address, lockup start time, and end time.
+- `Release`: This event is triggered when the beneficiary withdraws the tokens. It records the beneficiary address, token address, release time, and token amount.
 
 ```solidity
-    // 事件
-    event TokenLockStart(address indexed beneficiary, address indexed token, uint256 startTime, uint256 lockTime);
-    event Release(address indexed beneficiary, address indexed token, uint256 releaseTime, uint256 amount);
+    event TokenLockStart(
+        address indexed beneficiary,
+        address indexed token,
+        uint256 startTime,
+        uint256 lockTime
+    );
+    event Release(
+        address indexed beneficiary,
+        address indexed token,
+        uint256 releaseTime,
+        uint256 amount
+    );
 ```
 
-### 状态变量
+### State Variables
 
-`TokenLocker`合约中共有`4`个状态变量。
+There are a total of 4 state variables in the `TokenLocker` contract:
 
-- `token`：锁仓代币地址。
-- `beneficiary`：受益人地址。
-- `locktime`：锁仓时间(秒)。
-- `startTime`：锁仓起始时间戳(秒)。
+- `token`: the address of the locked token.
+- `beneficiary`: the address of the beneficiary.
+- `locktime`: the lock-up period in seconds.
+- `startTime`: the timestamp when the lock-up period starts (in seconds).
 
 ```solidity
-    // 被锁仓的ERC20代币合约
+    // Locked ERC20 token contracts
     IERC20 public immutable token;
-    // 受益人地址
+    // Beneficiary address
     address public immutable beneficiary;
-    // 锁仓时间(秒)
+    // Lockup time (seconds)
     uint256 public immutable lockTime;
-    // 锁仓起始时间戳(秒)
+    // Lockup start timestamp (seconds)
     uint256 public immutable startTime;
 ```
-### 函数
 
-`TokenLocker`合约中共有`2`个函数。
+### Functions
 
-- 构造函数：初始化代币合约，受益人地址，以及锁仓时间。
-- `release()`：在锁仓期满后，将代币释放给受益人。需要受益人主动调用`release()`函数提取代币。
+There are `2` functions in the `TokenLocker` contract.
+
+- Constructor: Initializes the contract with the token contract, beneficiary address, and lock-up period.
+- `release()`: Releases the tokens to the beneficiary after the lock-up period. The beneficiary needs to call the `release()` function to extract the tokens.
 
 ```solidity
     /**
-     * @dev 部署时间锁合约，初始化代币合约地址，受益人地址和锁仓时间。
-     * @param token_: 被锁仓的ERC20代币合约
-     * @param beneficiary_: 受益人地址
-     * @param lockTime_: 锁仓时间(秒)
+     * @dev Deploy the time lock contract, initialize the token contract address, beneficiary address and lock time.
+     * @param token_: Locked ERC20 token contract
+     * @param beneficiary_: Beneficiary address
+     * @param lockTime_: Lockup time (seconds)
      */
-    constructor(
-        IERC20 token_,
-        address beneficiary_,
-        uint256 lockTime_
-    ) {
+    constructor(IERC20 token_, address beneficiary_, uint256 lockTime_) {
         require(lockTime_ > 0, "TokenLock: lock time should greater than 0");
         token = token_;
         beneficiary = beneficiary_;
         lockTime = lockTime_;
         startTime = block.timestamp;
 
-        emit TokenLockStart(beneficiary_, address(token_), block.timestamp, lockTime_);
+        emit TokenLockStart(
+            beneficiary_,
+            address(token_),
+            block.timestamp,
+            lockTime_
+        );
     }
 
     /**
-     * @dev 在锁仓时间过后，将代币释放给受益人。
+     * @dev After the lockup time, the tokens are released to the beneficiaries.
      */
     function release() public {
-        require(block.timestamp >= startTime+lockTime, "TokenLock: current time is before release time");
+        require(
+            block.timestamp >= startTime + lockTime,
+            "TokenLock: current time is before release time"
+        );
 
         uint256 amount = token.balanceOf(address(this));
         require(amount > 0, "TokenLock: no tokens to release");
@@ -121,28 +129,28 @@ tags:
     }
 ```
 
-## `Remix`演示
+## `Remix` Demonstration
 
-### 1. 部署[第31讲](../31_ERC20/readme.md)中的`ERC20`合约，并给自己铸造`10000`枚代币。
+### 1. Deploy the `ERC20` contract in [Lesson 31](../31_ERC20/readme.md), and mint `10000` tokens for yourself
 
-![`Remix`演示](./img/44-2.jpg)
+![`Remix` Demonstration](./img/44-2.png)
 
-### 2. 部署`ToeknLocker`合约，代币地址为`ERC20`合约地址，受益人为自己，锁仓期填`180`秒。
+### 2. Deploy the `TokenLocker` contract with the `ERC20` contract address, set yourself as the beneficiary, and set the lock-up period to `180` seconds
 
-![`Remix`演示](./img/44-3.jpg)
+![`Remix` Demonstration](./img/44-3.png)
 
-### 3. 将`10000`枚代币转入合约。
+### 3. Transfer `10000` tokens to the contract
 
-![`Remix`演示](./img/44-4.jpg)
+![`Remix` Demonstration](./img/44-4.png)
 
-### 4. 在锁仓期`180`秒内调用`release()`函数，无法取出代币。
+### 4. Within the lock-up period of `180` seconds, call the `release()` function, but you won't be able to withdraw the tokens
 
-![`Remix`演示](./img/44-5.jpg)
+![`Remix` Demonstration](./img/44-5.png)
 
-### 5. 在锁仓期后调用`release()`函数，成功取出代币。
+### 5. After the lock-up period, call the `release()` function again, and successfully withdraw the tokens
 
-![`Remix`演示](./img/44-6.jpg)
+![`Remix` Demo](./img/44-6.png)
 
-## 总结
+## Summary
 
-这一讲，我们介绍了代币锁合约。项目方一般在`DEX`上提供流动性，供投资者交易。项目方突然撤出`LP`会造成`rug-pull`，而将`LP`锁在代币锁合约中可以避免这种情况。
+In this lesson, we introduced the token lock contract. Project parties generally provide liquidity on `DEX` for investors to trade. If the project suddenly withdraws the `LP`, it will cause a `rug-pull`. However, locking the `LP` in the token lock contract can avoid this situation.

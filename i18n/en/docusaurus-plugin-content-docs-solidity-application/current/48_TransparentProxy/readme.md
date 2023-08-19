@@ -7,85 +7,87 @@ tags:
 
 ---
 
-# WTF Solidity极简入门: 48. 透明代理
+# WTF Solidity Tutorial: 48. Transparent Proxy
 
-我最近在重新学solidity，巩固一下细节，也写一个“WTF Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+I've been relearning Solidity lately to solidify some details and create a "WTF Solidity Tutorial" for beginners (advanced programmers might want to look for other tutorials). I'll be updating with 1-3 lessons per week.
 
-推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
+Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-社区：[Discord](https://discord.wtf.academy)｜[微信群](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[官网 wtf.academy](https://wtf.academy)
+Community: [Discord](https://discord.gg/5akcruXrsk) | [WeChat group](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link) | [Official website wtf.academy](https://wtf.academy)
 
-所有代码和教程开源在github: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+All code and tutorials are open source on GitHub: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
 
 -----
 
-这一讲，我们将介绍代理合约的选择器冲突（Selector Clash），以及这一问题的解决方案：透明代理（Transparent Proxy）。教学代码由`OpenZeppelin`的[TransparentUpgradeableProxy](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/proxy/transparent/TransparentUpgradeableProxy.sol)简化而成，不应用于生产。
+In this lesson, we will introduce the selector clash issue in proxy contracts, and the solution to this problem: transparent proxies. The teaching code is simplified from `OpenZeppelin's` [TransparentUpgradeableProxy](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/proxy/transparent/TransparentUpgradeableProxy.sol) and SHOULD NOT BE APPLIED IN PRODUCTION.
 
-## 选择器冲突
+## Selector Clash
 
-智能合约中，函数选择器（selector）是函数签名的哈希的前4个字节。例如`mint(address account)`的选择器为`bytes4(keccak256("mint(address)"))`，也就是`0x6a627842`。更多关于选择器的内容见[WTF Solidity极简教程第29讲：函数选择器](https://github.com/AmazingAng/WTFSolidity/blob/main/29_Selector/readme.md)
+In smart contracts, a function selector is the hash of a function signature's first 4 bytes. For example, the selector of function `mint(address account)` is `bytes4(keccak256("mint(address)"))`, which is `0x6a627842`. More about function selectors see [WTF Solidity Tutorial #29: Function Selectors](https://github.com/AmazingAng/WTFSolidity/blob/main/Languages/en/29_Selector_en/readme.md).
 
-由于函数选择器仅有4个字节，范围很小，因此两个不同的函数可能会有相同的选择器，例如下面两个函数：
+Because a function selector has only 4 bytes, its range is very small. Therefore, two different functions may have the same selector, such as the following two functions:
 
 ```solidity
-// 选择器冲突的例子
+// selector clash example
 contract Foo {
     function burn(uint256) external {}
     function collate_propagate_storage(bytes16) external {}
 }
 ```
 
-![48-1.png](./img/48-1.png)
+In the example, both the `burn()` and `collate_propagate_storage()` functions have the same selector `0x42966c68`. This situation is called "selector clash". In this case, the EVM cannot differentiate which function the user is calling based on the function selector, so the contract cannot be compiled.
 
-示例中，函数`burn()`和`collate_propagate_storage()`的选择器都为`0x42966c68`，是一样的，这种情况被称为“选择器冲突”。在这种情况下，`EVM`无法通过函数选择器分辨用户调用哪个函数，因此该合约无法通过编译。
+Since the proxy contract and the logic contract are two separate contracts, they can be compiled normally even if there is a "selector clash" between them, which may lead to serious security accidents. For example, if the selector of the `a` function in the logic contract is the same as the upgrade function in the proxy contract, the admin will upgrade the proxy contract to a black hole contract when calling the `a` function, which is disastrous.
 
-由于代理合约和逻辑合约是两个合约，就算他们之间存在“选择器冲突”也可以正常编译，这可能会导致很严重的安全事故。举个例子，如果逻辑合约的`a`函数和代理合约的升级函数的选择器相同，那么管理人就会在调用`a`函数的时候，将代理合约升级成一个黑洞合约，后果不堪设想。
+Currently, there are two upgradeable contract standards that solve this problem: Transparent Proxy and Universal Upgradeable Proxy Standard (UUPS).
 
-目前，有两个可升级合约标准解决了这一问题：透明代理`Transparent Proxy`和通用可升级代理`UUPS`。
+## Transparent Proxy
 
-## 透明代理
+The logic of the transparent proxy is very simple: admin may mistakenly call the upgradable functions of the proxy contract when calling the functions of the logic contract because of the "selector clash". Restricting the admin's privileges can solve the conflict:
 
-透明代理的逻辑非常简单：管理员可能会因为“函数选择器冲突”，在调用逻辑合约的函数时，误调用代理合约的可升级函数。那么限制管理员的权限，不让他调用任何逻辑合约的函数，就能解决冲突：
+- The admin becomes a tool person and can only upgrade the contract by calling the upgradable function of the proxy contract, without calling the fallback function to call the logic contract.
+- Other users cannot call upgradable function, but can call functions of the logic contract.
 
-- 管理员变为工具人，仅能调用代理合约的可升级函数对合约升级，不能通过回调函数调用逻辑合约。
-- 其它用户不能调用可升级函数，但是可以调用逻辑合约的函数。
+### Proxy Contract
 
-### 代理合约
+The proxy contract here is very similar to the one in [Lecture 47](https://github.com/AmazingAng/WTFSolidity/blob/main/Languages/en/47_Upgrade_en/readme.md), except that the `fallback()` function restricts the call by the admin address.
 
-这里的代理合约和[第47讲](https://github.com/AmazingAng/WTFSolidity/blob/main/47_Upgrade/readme.md)的非常相近，只是`fallback()`函数限制了管理员地址的调用。
+It contains three variables:
 
-它包含`3`个变量：
-- `implementation`：逻辑合约地址。
-- `admin`：admin地址。
-- `words`：字符串，可以通过逻辑合约的函数改变。
+- `implementation`: The address of the logic contract.
+- `admin`: The admin address.
+- `words`: A string that can be changed by calling functions in the logic contract.
 
-它包含`3`个函数
+It contains `3` functions:
 
-- 构造函数：初始化admin和逻辑合约地址。
-- `fallback()`：回调函数，将调用委托给逻辑合约，不能由`admin`调用。
-- `upgrade()`：升级函数，改变逻辑合约地址，只能由`admin`调用。
+- Constructor: Initializes the admin and logic contract addresses.
+- `fallback()`: A callback function that delegates the call to the logic contract and cannot be called by the `admin`.
+- `upgrade()`: An upgrade function that changes the logic contract address and can only be called by the `admin`.
 
 ```solidity
-// 透明可升级合约的教学代码，不要用于生产。
+// FOR TEACHING PURPOSE ONLY, DO NOT USE IN PRODUCTION
 contract TransparentProxy {
-    address implementation; // logic合约地址
-    address admin; // 管理员
-    string public words; // 字符串，可以通过逻辑合约的函数改变
+    // logic contract's address
+    address implementation; 
+    // admin address
+    address admin; 
+    // string variable, can be modified by calling loginc contract's function
+    string public words;
 
-    // 构造函数，初始化admin和逻辑合约地址
+    // constructor, initializing the admin address and logic contract's address
     constructor(address _implementation){
         admin = msg.sender;
         implementation = _implementation;
     }
 
-    // fallback函数，将调用委托给逻辑合约
-    // 不能被admin调用，避免选择器冲突引发意外
+    // fallback function, delegates function call to logic contract
+    // can not be called by admin, to avoid causing unexpected beahvior due to selector clash
     fallback() external payable {
         require(msg.sender != admin);
         (bool success, bytes memory data) = implementation.delegatecall(msg.data);
     }
 
-    // 升级函数，改变逻辑合约地址，只能由admin调用
+    // upgrade function, change logic contract's address, can only be called by admin
     function upgrade(address newImplementation) external {
         if (msg.sender != admin) revert();
         implementation = newImplementation;
@@ -93,61 +95,63 @@ contract TransparentProxy {
 }
 ```
 
-### 逻辑合约
+### Logic Contract
 
-这里的新、旧逻辑合约与[第47讲](https://github.com/AmazingAng/WTFSolidity/blob/main/47_Upgrade/readme.md)一样。逻辑合约包含`3`个状态变量，与保持代理合约一致，防止插槽冲突；包含一个函数`foo()`，旧逻辑合约会将`words`的值改为`"old"`，新的会改为`"new"`。
+The new and old logic contracts here are the same as in [Lecture 47](https://github.com/AmazingAng/WTFSolidity/blob/main/Languages/en/47_Upgrade_en/readme.md). The logic contracts contain `3` state variables, consistent with the proxy contract to prevent slot conflicts. It also contains a function `foo()`, where the old logic contract will change the value of `words` to `"old"`, and the new one will change it to `"new"`.
 
 ```solidity
-// 旧逻辑合约
+// old logic contract
 contract Logic1 {
-    // 状态变量和proxy合约一致，防止插槽冲突
+    // state variable should be the same as proxy contract, in case of slot clash
     address public implementation; 
     address public admin; 
-    string public words; // 字符串，可以通过逻辑合约的函数改变
+    // string variable, can be modified by calling loginc contract's function
+    string public words; 
 
-    // 改变proxy中状态变量，选择器： 0xc2985578
+    // to change state variable in proxy contract, selector 0xc2985578
     function foo() public{
         words = "old";
     }
 }
 
-// 新逻辑合约
+// new logic contract
 contract Logic2 {
-    // 状态变量和proxy合约一致，防止插槽冲突
+    // state variable should be the same as proxy contract, in case of slot clash
     address public implementation; 
     address public admin; 
-    string public words; // 字符串，可以通过逻辑合约的函数改变
+    // string variable, can be modified by calling loginc contract's function
+    string public words;
 
-    // 改变proxy中状态变量，选择器：0xc2985578
+    // to change state variable in proxy contract, selector 0xc2985578
     function foo() public{
         words = "new";
     }
 }
 ```
 
-## `Remix`实现
+## Implementation with `Remix`
 
-1. 部署新旧逻辑合约`Logic1`和`Logic2`。
+1. Deploy new and old logic contracts `Logic1` and `Logic2`.
 ![48-2.png](./img/48-2.png)
 ![48-3.png](./img/48-3.png)
 
-2. 部署透明代理合约`TranparentProxy`，将`implementation`地址指向把旧逻辑合约。
+2. Deploy a transparent proxy contract `TransparentProxy`, and set the `implementation` address to the address of the old logic contract.
 ![48-4.png](./img/48-4.png)
 
-3. 利用选择器`0xc2985578`，在代理合约中调用旧逻辑合约`Logic1`的`foo()`函数。调用将失败，因为管理员不能调用逻辑合约。
+3. Using the selector `0xc2985578`, call the `foo()` function of the old logic contract `Logic1` in the proxy contract. The call will fail because the admin is not allowed to call the logic contract.
 ![48-5.png](./img/48-5.png)
 
-4. 切换新钱包，利用选择器`0xc2985578`，在代理合约中调用旧逻辑合约`Logic1`的`foo()`函数，将`words`的值改为`"old"`，调用将成功。
+4. Switch to a new wallet, use the selector `0xc2985578` to call the `foo()` function of the old logic contract `Logic1` in the proxy contract, and change the value of `words` to `"old"`. The call will be successful.
 ![48-6.png](./img/48-6.png)
 
-5. 切换回管理员钱包，调用`upgrade()`，将`implementation`地址指向新逻辑合约`Logic2`。
+5. Switch back to the admin wallet and call `upgrade()`, setting the `implementation` address to the new logic contract `Logic2`.
 ![48-7.png](./img/48-7.png)
 
-6. 切换新钱包，利用选择器`0xc2985578`，在代理合约中调用新逻辑合约`Logic2`的`foo()`函数，将`words`的值改为`"new"`。
+6. Switch to the new wallet, use the selector `0xc2985578` to call the `foo()` function of the new logic contract `Logic2` in the proxy contract, and change the value of `words` to `"new"`.
 ![48-8.png](./img/48-8.png)
 
-## 总结
+## Summary
 
-这一讲，我们介绍了代理合约中的“选择器冲突”，以及如何利用透明代理避免这个问题。透明代理的逻辑简单，通过限制管理员调用逻辑合约解决“选择器冲突”问题。它也有缺点，每次用户调用函数时，都会多一步是否为管理员的检查，消耗更多gas。但瑕不掩瑜，透明代理仍是大多数项目方选择的方案。
+In this lesson, we introduced the "selector clash" in proxy contracts and how to avoid this problem using transparent proxy. The logic of transparent proxy is simple, solving the "selector clash" problem by restricting the admin's access to the logic contract. However, it has a drawback that every time a user calls a function, there is an additional check for whether or not the caller is the admin, which consumes more gas. Nevertheless, transparent proxy are still the solution chosen by most project teams.
 
-下一讲，我们会介绍省gas但是也更加复杂的通用可升级代理`UUPS`。
+In the next lesson, we will introduce the general Universal Upgradeable Proxy Standard (UUPS), which is more complex but consumes less gas.

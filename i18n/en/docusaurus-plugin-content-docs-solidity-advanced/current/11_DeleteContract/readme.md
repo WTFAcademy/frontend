@@ -1,5 +1,5 @@
 ---
-Ethereum communitytitle: 26. DeleteContract
+title: 26. DeleteContract
 tags:
   - solidity
   - advanced
