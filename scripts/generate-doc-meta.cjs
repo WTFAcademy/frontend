@@ -4,7 +4,7 @@ const fs = require("fs");
 const glob = require("glob");
 
 const courseMap = {
-    "solidity-start":  "e1faa656-8c53-45f4-bb4f-950db92bee60",
+    // "solidity-start":  "e1faa656-8c53-45f4-bb4f-950db92bee60",
     "solidity-advanced": "d6a7f8b4-dc00-45d4-888b-79a3d16529ca",
 }
 
@@ -48,12 +48,20 @@ const main = async () => {
             fs.writeFileSync(courseMetaPath, JSON.stringify({courseId: courseMap[courseKey]}, null, 4));
         }
 
-        courseLessons.forEach(lesson => {
-            const lessonPath = (courseKey, lesson.name);
+        courseLessons.forEach((lesson, idx) => {
+            console.log(lesson.route_path);
+            const lessonName = (idx + 1) + '_' + lesson.route_path.split('/')[1]
+            console.log(lessonName);
+            const lessonPath = path.resolve(__dirname, `../i18n/en/docusaurus-plugin-content-docs-solidity-advanced/current/${lessonName}`);
             const lessonMetaPath = path.resolve(lessonPath, 'meta.json');
-            if (!fs.existsSync(lessonMetaPath)) {
-                fs.writeFileSync(lessonMetaPath, JSON.stringify({lessonId: lesson.id}, null, 4));
+            console.log(lessonMetaPath)
+            if (fs.existsSync(lessonMetaPath)) {
+                fs.rmSync(lessonMetaPath);
             }
+            fs.writeFileSync(lessonMetaPath, JSON.stringify({
+                course_id: courseMap[courseKey],
+                lesson_id: lesson.lesson_id
+            }, null, 4));
         })
     })
 }

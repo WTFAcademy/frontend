@@ -8,7 +8,7 @@ tags:
 ---
 
 # WTF Solidity: 20. Sending ETH
-
+<LessonProcess meta={require('./meta.json')} />
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
 Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
@@ -140,6 +140,6 @@ In this tutorial, we talked about three ways of sending `ETH` in `solidity`:
 - There is no `gas` limit for `call`, which is the most flexible and recommended way;
 - The `gas` limit of `transfer` is `2300 gas`, transaction will be `reverted` if it fails, which makes it the second choice;
 - The `gas` limit of `send` is `2300`, transaction will not be `reverted` if it fails, which makes it the worst choice. 
-
+<LessonQuizStart meta={require('./meta.json')} />
 
 
