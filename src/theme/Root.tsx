@@ -7,6 +7,8 @@ import { wagmiClient, chains } from "@site/src/utils/connect";
 import { QueryClient, QueryCache, QueryClientProvider } from 'react-query'
 import {AuthProvider} from "@site/src/contexts/AuthContext";
 
+import { Analytics } from '@vercel/analytics/react';
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -36,6 +38,7 @@ export default function Root({ children }) {
           <Toaster position="top-center" />
         </GlobalContext.Provider>
       </QueryClientProvider>
+      <Analytics />
     </WagmiConfig>
   );
 }
