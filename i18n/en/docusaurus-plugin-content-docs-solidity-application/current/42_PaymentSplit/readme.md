@@ -1,201 +1,216 @@
 ---
-title: 42. Payment Split
+title: 42. Payment Splitting
 tags:
   - solidity
   - application
+---
+
+# WTF Solidity 42. Payment Splitting
+
+I have been relearning solidity recently to solidify some of the details and to create a "WTF Solidity Tutorial" for beginners (advanced programmers can seek other tutorials). New lectures will be updated every week, ranging from 1 to 3.
+
+Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science)
+
+Discord: [WTF Academy](https://discord.gg/5akcruXrsk)
+
+All codes and tutorials are open-sourced on Github: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
 
 ---
 
-# WTF Solidity极简入门: 42. 分账
+In this lecture, we'll introduce the payment splitting contract, which allows the transfer of `ETH` to a group of accounts according to their respective weights for payment splitting purposes. The code section is a simplification of the PaymentSplitter contract provided by the OpenZeppelin library, which can be found on [Github](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/finance/PaymentSplitter.sol).
 
-我最近在重新学solidity，巩固一下细节，也写一个“WTF Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+## Payment Split
 
-推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
+Payment split is the act of dividing money according to a certain ratio. In real life, it is common to encounter situations where the spoils are not divided equally. However, in the world of blockchain, `Code is Law`, we can write the proportion that each person should get in the smart contract in advance, and let the smart contract handle the split of income.
 
-discord：[WTF Academy](https://discord.gg/5akcruXrsk)
+![Payment Split](./img/42-1.webp)
 
-所有代码和教程开源在github: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+## Payment Split Contract
 
------
+The Payment Split contract (`PaymentSplit`) has the following features:
 
-这一讲，我们介绍分账合约，该合约允许将`ETH`按权重转给一组账户中，进行分账。代码部分由oppenzepplin库的[PaymentSplitter合约](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/finance/PaymentSplitter.sol)简化而来。
-
-## 分账
-
-分账就是按照一定比例分钱财。在现实中，经常会有“分赃不均”的事情发生；而在区块链的世界里，`Code is Law`，我们可以事先把每个人应分的比例写在智能合约中，获得收入后，再由智能合约来进行分账。
-
-![分账](./img/42-1.webp)
-
-## 分账合约
-
-分账合约(`PaymentSplit`)具有以下几个特点：
-
-1. 在创建合约时定好分账受益人`payees`和每人的份额`shares`。
-2. 份额可以是相等，也可以是其他任意比例。
-3. 在该合约收到的所有`ETH`中，每个受益人将能够提取与其分配的份额成比例的金额。
-4. 分账合约遵循`Pull Payment`模式，付款不会自动转入账户，而是保存在此合约中。受益人通过调用`release()`函数触发实际转账。
+1. When creating the contract, the beneficiaries `payees` and their share `shares` are predetermined.
+2. The shares can be equal or in any other proportions.
+3. From all the ETH that the contract receives, each beneficiary is able to withdraw the amount proportional to their allocated share.
+4. The Payment Split contract follows the `Pull Payment` pattern, where payments are not automatically transferred to the account, but are kept in the contract. Beneficiaries trigger the actual transfer by calling the `release()` function.
 
 ```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
 /**
- * 分账合约 
- * @dev 这个合约会把收到的ETH按事先定好的份额分给几个账户。收到ETH会存在分账合约中，需要每个受益人调用release()函数来领取。
+ * PaymentSplit
+ * @dev This contract will distribute the received ETH to several accounts according to the pre-determined share.Received ETH will be stored in PaymentSplit, and each beneficiary needs to call the release() function to claim it.
  */
-contract PaymentSplit{
+contract PaymentSplit {
 ```
 
-### 事件
+### Events
 
-分账合约中共有`3`个事件：
+There are a total of `3` events in the Splitter Contract:
 
-- `PayeeAdded`：增加受益人事件。
-- `PaymentReleased`：受益人提款事件。
-- `PaymentReceived`：分账合约收款事件。
+- `PayeeAdded`: Event for adding a payee.
+- `PaymentReleased`: Event for payee withdrawing funds.
+- `PaymentReceived`: Event for Splitter Contract receiving funds.
 
 ```solidity
-    // 事件
-    event PayeeAdded(address account, uint256 shares); // 增加受益人事件
-    event PaymentReleased(address to, uint256 amount); // 受益人提款事件
-    event PaymentReceived(address from, uint256 amount); // 合约收款事件
+    // event
+    event PayeeAdded(address account, uint256 shares); // Event for adding a payee
+    event PaymentReleased(address to, uint256 amount); // Event for releasing payment to a payee
+    event PaymentReceived(address from, uint256 amount); // Event for receiving payment to the contract
 ```
 
-### 状态变量
+### State Variables
 
-分账合约中共有`5`个状态变量，用来记录受益地址、份额、支付出去的`ETH`等变量：
+There are `5` state variables in the revenue splitting contract, used to record beneficiary addresses, shares, and paid out `ETH`:
 
-- `totalShares`：总份额，为`shares`的和。
-- `totalReleased`：从分账合约向受益人支付出去的`ETH`，为`released`的和。
-- `payees`：`address`数组，记录受益人地址
-- `shares`：`address`到`uint256`的映射，记录每个受益人的份额。
-- `released`：`address`到`uint256`的映射，记录分账合约支付给每个受益人的金额。
+- `totalShares`: Total shares, which is the sum of `shares`.
+- `totalReleased`: The amount of `ETH` paid out from the revenue splitting contract to beneficiaries, which is the sum of `released`.
+- `payees`: An `address` array that records the addresses of beneficiaries.
+- `shares`: An `address` to `uint256` mapping that records the shares of each beneficiary.
+- `released`: An `address` to `uint256` mapping that records the amount paid to each beneficiary by the revenue splitting contract.
 
 ```solidity
-    uint256 public totalShares; // 总份额
-    uint256 public totalReleased; // 总支付
+    uint256 public totalShares; // Total shares of the contract
+    uint256 public totalReleased; // Total amount of payments released from the contract
 
-    mapping(address => uint256) public shares; // 每个受益人的份额
-    mapping(address => uint256) public released; // 支付给每个受益人的金额
-    address[] public payees; // 受益人数组
+    mapping(address => uint256) public shares; // Mapping to store the shares of each payee
+    mapping(address => uint256) public released; // Mapping to store the amount of payments released to each payee
+    address[] public payees; // Array  of payees
 ```
 
-### 函数
+### Functions
 
-分账合约中共有`6`个函数：
+There are `6` functions in the revenue sharing contract:
 
-- 构造函数：始化受益人数组`_payees`和分账份额数组`_shares`，其中数组长度不能为0，两个数组长度要相等。_shares中元素要大于0，_payees中地址不能为0地址且不能有重复地址。
-- `receive()`：回调函数，在分账合约收到`ETH`时释放`PaymentReceived`事件。
-- `release()`：分账函数，为有效受益人地址`_account`分配相应的`ETH`。任何人都可以触发这个函数，但`ETH`会转给受益人地址`account`。调用了releasable()函数。
-- `releasable()`：计算一个受益人地址应领取的`ETH`。调用了`pendingPayment()`函数。
-- `pendingPayment()`：根据受益人地址`_account`, 分账合约总收入`_totalReceived`和该地址已领取的钱`_alreadyReleased`，计算该受益人现在应分的`ETH`。
-- `_addPayee()`：新增受益人函数及其份额函数。在合约初始化的时候被调用，之后不能修改。
+- Constructor: initializes the beneficiary array `_payees` and the revenue sharing array `_shares`, where the length of both arrays must not be 0 and their lengths must be equal. Elements of the \_shares array must be greater than 0, and the addresses in the \_payees array can't be the zero address and can't have a duplicate address.
+- `receive()`: callback function, releases the `PaymentReceived` event when the revenue sharing contract receives `ETH`.
+- `release()`: revenue sharing function, distributes the corresponding `ETH` to the valid beneficiary address `_account`. Anyone can trigger this function, but the `ETH` will be transferred to the beneficiary address `_account`. Calls the releasable() function.
+- `releasable()`: calculates the amount of `ETH` that a beneficiary address should receive. Calls the `pendingPayment()` function.
+- `pendingPayment()`: calculates the amount of `ETH` that the beneficiary should receive based on their address `_account`, the revenue sharing contract's total income `_totalReceived`, and the money they have already received `_alreadyReleased`.
+- `_addPayee()`: function to add a new beneficiary and their sharing percentage. It is called during the initialization of the contract and cannot be modified afterwards.
 
 ```solidity
+
     /**
-     * @dev 初始化受益人数组_payees和分账份额数组_shares
-     * 数组长度不能为0，两个数组长度要相等。_shares中元素要大于0，_payees中地址不能为0地址且不能有重复地址
+     * @dev Constructor to initialize the payees array (_payees) and their shares (_shares).
+     *      The length of both arrays cannot be 0 and must be equal.
+            Each element in the _shares array must be greater than 0,
+            and each address in _payees must not be a zero address and must be unique.
      */
     constructor(address[] memory _payees, uint256[] memory _shares) payable {
-        // 检查_payees和_shares数组长度相同，且不为0
-        require(_payees.length == _shares.length, "PaymentSplitter: payees and shares length mismatch");
+        // Check that the length of _payees and _shares arrays are equal and not empty
+        require(
+            _payees.length == _shares.length,
+            "PaymentSplitter: payees and shares length mismatch"
+        );
         require(_payees.length > 0, "PaymentSplitter: no payees");
-        // 调用_addPayee，更新受益人地址payees、受益人份额shares和总份额totalShares
+        //  Call the _addPayee function to update the payees addresses (payees), their shares (shares), and the total shares (totalShares)
         for (uint256 i = 0; i < _payees.length; i++) {
             _addPayee(_payees[i], _shares[i]);
         }
     }
 
     /**
-     * @dev 回调函数，收到ETH释放PaymentReceived事件
+     * @dev Callback function, receive ETH emit PaymentReceived event
      */
     receive() external payable virtual {
         emit PaymentReceived(msg.sender, msg.value);
     }
 
     /**
-     * @dev 为有效受益人地址_account分帐，相应的ETH直接发送到受益人地址。任何人都可以触发这个函数，但钱会打给account地址。
-     * 调用了releasable()函数。
+     * @dev Splits funds to the designated payee address "_account". Anyone can trigger this function, but the funds will be transferred to the "_account" address.
+     * Calls the "releasable()" function.
      */
     function release(address payable _account) public virtual {
-        // account必须是有效受益人
+        // The "_account" address must be a valid payee.
         require(shares[_account] > 0, "PaymentSplitter: account has no shares");
-        // 计算account应得的eth
+        // Calculate the payment due to the "_account" address.
         uint256 payment = releasable(_account);
-        // 应得的eth不能为0
+        // The payment due cannot be zero.
         require(payment != 0, "PaymentSplitter: account is not due payment");
-        // 更新总支付totalReleased和支付给每个受益人的金额released
+        // Update the "totalReleased" and "released" amounts for each payee.
         totalReleased += payment;
         released[_account] += payment;
-        // 转账
+        // transfer
         _account.transfer(payment);
         emit PaymentReleased(_account, payment);
     }
 
     /**
-     * @dev 计算一个账户能够领取的eth。
-     * 调用了pendingPayment()函数。
+     * @dev Calculate the eth that an account can receive.
+     * The pendingPayment() function is called.
      */
     function releasable(address _account) public view returns (uint256) {
-        // 计算分账合约总收入totalReceived
+        // Calculate the total income of the profit-sharing contract
         uint256 totalReceived = address(this).balance + totalReleased;
-        // 调用_pendingPayment计算account应得的ETH
+        // Call _pendingPayment to calculate the amount of ETH that account is entitled to
         return pendingPayment(_account, totalReceived, released[_account]);
     }
 
     /**
-     * @dev 根据受益人地址`_account`, 分账合约总收入`_totalReceived`和该地址已领取的钱`_alreadyReleased`，计算该受益人现在应分的`ETH`。
+     * @dev According to the payee address `_account`, the total income of the distribution contract `_totalReceived` and the money received by the address `_alreadyReleased`, calculate the `ETH` that the payee should now distribute.
      */
     function pendingPayment(
         address _account,
         uint256 _totalReceived,
         uint256 _alreadyReleased
     ) public view returns (uint256) {
-        // account应得的ETH = 总应得ETH - 已领到的ETH
-        return (_totalReceived * shares[_account]) / totalShares - _alreadyReleased;
+        // ETH due to account = Total ETH due - ETH received
+        return
+            (_totalReceived * shares[_account]) /
+            totalShares -
+            _alreadyReleased;
     }
 
     /**
-     * @dev 新增受益人_account以及对应的份额_accountShares。只能在构造器中被调用，不能修改。
+     * @dev Add payee_account and corresponding share_accountShares. It can only be called in the constructor and cannot be modified.
      */
     function _addPayee(address _account, uint256 _accountShares) private {
-        // 检查_account不为0地址
-        require(_account != address(0), "PaymentSplitter: account is the zero address");
-        // 检查_accountShares不为0
+        // Check that _account is not 0 address
+        require(
+            _account != address(0),
+            "PaymentSplitter: account is the zero address"
+        );
+        // Check that _accountShares is not 0
         require(_accountShares > 0, "PaymentSplitter: shares are 0");
-        // 检查_account不重复
-        require(shares[_account] == 0, "PaymentSplitter: account already has shares");
-        // 更新payees，shares和totalShares
+        // Check that _account is not duplicated
+        require(
+            shares[_account] == 0,
+            "PaymentSplitter: account already has shares"
+        );
+        // Update payees, shares and totalShares
         payees.push(_account);
         shares[_account] = _accountShares;
         totalShares += _accountShares;
-        // 释放增加受益人事件
+        // emit add payee event
         emit PayeeAdded(_account, _accountShares);
     }
+}
 ```
 
-## `Remix`演示
+## Remix Demo
 
-### 1. 部署`PaymentSplit`分账合约，并转入`1 ETH`
+### 1. Deploy the `PaymentSplit` contract and transfer `1 ETH`
 
-在构造函数中，输入两个受益人地址，份额为`1`和`3`。
+In the constructor, enter two beneficiary addresses with shares of `1` and `3`.
 
-![部署](./img/42-2.png)
+![Deploying the contract](./img/42-2.png)
 
-### 2. 查看受益人地址、份额、应分到的`ETH`
+### 2. View beneficiary addresses, shares, and `ETH` to be distributed
 
-![查看第一位受益人](./img/42-3.png)
+![Viewing the first beneficiary](./img/42-3.png)
 
-![查看第二位受益人](./img/42-4.png)
+![Viewing the second beneficiary](./img/42-4.png)
 
-### 3. 函数领取`ETH`
+### 3. Call `release` function to claim `ETH`
 
-![调用release](./img/42-5.png)
+![Calling the release function](./img/42-5.png)
 
-### 4. 查看总支出、受益人余额、应分到的`ETH`的变化
+### 4. View overall expenses, beneficiary balances, and changes in `ETH` to be distributed
 
-![查看](./img/42-6.png)
+![View](./img/42-6.png)
 
-## 总结
+## Summary
 
-这一讲，我们介绍了分账合约。在区块链的世界里，`Code is Law`，我们可以事先把每个人应分的比例写在智能合约中，获得收入后，由智能合约来进行分账，避免事后“分赃不均”。
+In this lecture, we introduced the revenue sharing contract. In the world of blockchain, `Code is Law`, we can write the proportion that each person should receive in the smart contract beforehand. After receiving revenue, the smart contract will handle revenue sharing to avoid the issue of "unequal distribution of shares" afterwards.

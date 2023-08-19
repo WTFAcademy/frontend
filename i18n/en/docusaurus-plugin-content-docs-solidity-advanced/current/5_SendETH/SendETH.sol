@@ -1,37 +1,37 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-// 3种方法发送ETH
+// 3 ways to send ETH
 // transfer: 2300 gas, revert
 // send: 2300 gas, return bool
 // call: all gas, return (bool, data)
 
-error SendFailed(); // 用send发送ETH失败error
-error CallFailed(); // 用call发送ETH失败error
+error SendFailed(); // error when sending with Send
+error CallFailed(); // error when seding with Call
 
 contract SendETH {
-    // 构造函数，payable使得部署的时候可以转eth进去
+    // Constructor, make it payable so we can transfer ETH at depolyment
     constructor() payable{}
-    // receive方法，接收eth时被触发
+    // receive function, called when receiving ETH
     receive() external payable{}
 
-    // 用transfer()发送ETH
+    // sending ETH with transfer()
     function transferETH(address payable _to, uint256 amount) external payable{
         _to.transfer(amount);
     }
 
-    // send()发送ETH
+    // sending ETH with send()
     function sendETH(address payable _to, uint256 amount) external payable{
-        // 处理下send的返回值，如果失败，revert交易并发送error
+        // check result of send()，revert with error when failed
         bool success = _to.send(amount);
         if(!success){
             revert SendFailed();
         }
     }
 
-    // call()发送ETH
+    // sending ETH with call()
     function callETH(address payable _to, uint256 amount) external payable{
-        // 处理下call的返回值，如果失败，revert交易并发送error
+        // check result of call()，revert with error when failed
         (bool success,) = _to.call{value: amount}("");
         if(!success){
             revert CallFailed();
@@ -40,15 +40,15 @@ contract SendETH {
 }
 
 contract ReceiveETH {
-    // 收到eth事件，记录amount和gas
+    // Receiving ETH event, log the amount and gas
     event Log(uint amount, uint gas);
 
-    // receive方法，接收eth时被触发
+    // receive is executed when receiving ETH
     receive() external payable{
         emit Log(msg.value, gasleft());
     }
     
-    // 返回合约ETH余额
+    // return the balance of the contract
     function getBalance() view public returns(uint) {
         return address(this).balance;
     }

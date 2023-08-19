@@ -1,5 +1,5 @@
 ---
-title: 32. Faucet
+title: 32. Token Faucet
 tags:
   - solidity
   - application
@@ -8,100 +8,99 @@ tags:
   - faucet
 ---
 
-# WTF Solidity极简入门: 32. 代币水龙头
+# WTF Solidity 32. Token Faucet
 
-我最近在重新学solidity，巩固一下细节，也写一个“WTF Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
-欢迎关注我的推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
+Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
 
-欢迎加入WTF科学家社区，内有加微信群方法：[链接](https://discord.gg/5akcruXrsk)
+Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
 
-所有代码和教程开源在github（1024个star发课程认证，2048个star发社群NFT）: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
 
 -----
 
-我们在第31讲学习了`ERC20`代币标准。这一讲，我们将学习`ERC20`水龙头的智能合约。在这个合约中，用户可以领到免费的`ERC20`代币。
+In lesson 31, we learned about the `ERC20` token standard. In this lesson, we will learn about the smart contract for an `ERC20` faucet. In this contract, users can receive free `ERC20` tokens.
 
-## 代币水龙头
+## Token Faucet
 
-当人渴的时候，就要去水龙头接水；当人想要免费代币的时候，就要去代币水龙头领。代币水龙头就是让用户免费领代币的网站/应用。
+When a person is thirsty, they go to a faucet to get water. When a person wants free tokens, they go to a token faucet to receive them. A token faucet is a website or application that allows users to receive tokens for free.
 
-最早的代币水龙头是比特币（BTC）水龙头：现在BTC一枚要\$30,000，但是在2010年，BTC的价格只有不到\$0.1，并且持有人很少。为了扩大影响力，比特币社区的Gavin Andresen开发了BTC水龙头，让别人可以免费领BTC。撸羊毛大家都喜欢，当时就有很多人去撸，一部分变为了BTC的信徒。BTC水龙头一共送出了超过19,700枚BTC，现在价值约6亿美元！
+The earliest token faucet was the Bitcoin (BTC) faucet. In 2010, the price of BTC was less than \$0.1, and there were few holders of the currency. To increase its popularity, Gavin Andresen, a member of the Bitcoin community, created the BTC faucet, allowing others to receive BTC for free. Many people took advantage of the opportunity, and some of them became BTC enthusiasts. The BTC faucet gave away over 19,700 BTC, which is now worth approximately \$600 million!
 
-## ERC20水龙头合约
+## ERC20 Faucet Contract
 
-这里，我们实现一个简版的`ERC20`水龙头，逻辑非常简单：我们将一些`ERC20`代币转到水龙头合约里，用户可以通过合约的`requestToken()`函数来领取`100`单位的代币，每个地址只能领一次。
+Here, we will implement a simplified version of an `ERC20` faucet. The logic is very simple: we will transfer some `ERC20` tokens to the faucet contract, and users can use the `requestToken()` function of the contract to receive `100` units of the token. Each address can only receive tokens once.
 
-### 状态变量
+### State Variables
 
-我们在水龙头合约中定义3个状态变量
+We define `3` state variables in the faucet contract:
 
-- `amountAllowed`设定每次能领取代币数量（默认为`100`，不是一百枚，因为代币有小数位数）。
-- `tokenContract`记录发放的`ERC20`代币合约地址。
-- `requestedAddress`记录领取过代币的地址。
+- `amountAllowed` sets the amount of tokens that can be claimed per request (default value is `100`, not 100 tokens as tokens may have decimal places).
+- `tokenContract` stores the address of the `ERC20` token contract.
+- `requestedAddress` keeps track of the addresses that have already claimed tokens.
 
 ```solidity
-uint256 public amountAllowed = 100; // 每次领 100 单位代币
-address public tokenContract;   // token合约地址
-mapping(address => bool) public requestedAddress;   // 记录领取过代币的地址
+uint256 public amountAllowed = 100; // the allowed amount for each request is 100
+address public tokenContract;   // contract address of the token
+mapping(address => bool) public requestedAddress;   // a map contains requested address
 ```
 
-### 事件
+### Event
 
-水龙头合约中定义了1个`SendToken`事件，记录了每次领取代币的地址和数量，在`requestTokens()`函数被调用时释放。
+The faucet contract defines a `SendToken` event that records the address and amount of tokens claimed each time the `requestTokens()` function is called.
 
 ```solidity
-// SendToken事件    
+// Event SendToken
 event SendToken(address indexed Receiver, uint256 indexed Amount); 
 ```
 
-### 函数
+### Functions
 
-合约中只有两个函数：
+There are only `2` functions in the contract:
 
-- 构造函数：初始化`tokenContract`状态变量，确定发放的`ERC20`代币地址。
+- Constructor: Initializes the `tokenContract` state variable and determines the address of the issued `ERC20` tokens.
+
 ```solidity
-// 部署时设定ERC2代币合约
+// Set the ERC20'S contract address during deployment
 constructor(address _tokenContract) {
 	tokenContract = _tokenContract; // set token contract
 }
 ```
 
-- `requestTokens()`函数，用户调用它可以领取`ERC20`代币。
+The `requestTokens()` function allows users to claim `ERC20` tokens.
 
 ```solidity
-// 用户领取代币函数
+// Function for users to request tokens
 function requestTokens() external {
-    require(requestedAddress[msg.sender] == false, "Can't Request Multiple Times!"); // 每个地址只能领一次
-    IERC20 token = IERC20(tokenContract); // 创建IERC20合约对象
-    require(token.balanceOf(address(this)) >= amountAllowed, "Faucet Empty!"); // 水龙头空了
+    require(requestedAddress[msg.sender] == false, "Can't Request Multiple Times!"); // Only one request per address
+    IERC20 token = IERC20(tokenContract); // Create an IERC20 contract object
+    require(token.balanceOf(address(this)) >= amountAllowed, "Faucet Empty!"); // Faucet is empty
 
-    token.transfer(msg.sender, amountAllowed); // 发送token
-    requestedAddress[msg.sender] = true; // 记录领取地址 
+    token.transfer(msg.sender, amountAllowed); // Send token
+    requestedAddress[msg.sender] = true; // Record the requested address
     
-    emit SendToken(msg.sender, amountAllowed); // 释放SendToken事件
+    emit SendToken(msg.sender, amountAllowed); // Emit SendToken event
 }
 ```
 
-## Remix演示
+## Remix Demonstration
 
-1. 首先，部署`ERC20`代币合约，名称和符号为`WTF`，并给自己`mint` 10000 单位代币。
-    ![部署`ERC20`](./img/32-1.png)
+1. First, deploy the `ERC20` token contract with the name and symbol `WTF`, and `mint` yourself 10000 tokens.
+    ![Deploy `ERC20`](./img/32-1.png)
 
-2. 部署`Faucet`水龙头合约，初始化的参数填上面`ERC20`代币的合约地址。
-    ![部署`Faucet`水龙头合约](./img/32-2.png)
+2. Deploy the `Faucet` contract, and fill in the initialized parameters with the address of the `ERC20` token contract above.
+    ![Deploy `Faucet` faucet contract](./img/32-2.png)
 
-3. 利用`ERC20`代币合约的`transfer()`函数，将 10000 单位代币转账到`Faucet`合约地址。
-    ![给`Faucet`水龙头合约转账](./img/32-3.png)
-    
-4. 换一个新账户，调用`Faucet`合约`requestTokens()`函数，领取代币。可以在终端看到`SendToken`事件被释放。
-    ![切换账户](./img/32-4.png)
-    
-    ![requestToken](./img/32-5.png)
-    
-5. 在`ERC20`代币合约上利用`balanceOf`查询领取水龙头的账户余额，可以看到余额变为`100`，领取成功！
-    ![领取成功](./img/32-6.png)
+3. Use the `transfer()` function of the `ERC20` token contract to transfer 10000 tokens to the `Faucet` contract address.
+    ![Transfer](./img/32-3.png)
 
-## 总结
+4. Switch to a new account and call the `requestTokens()` function of the `Faucet` contract to receive tokens. You can see that the `SendToken` event is released in the terminal.    
+    ![requestToken](./img/32-4.png)
 
-这一讲，我们介绍了代币水龙头的历史和`ERC20`水龙头合约。大家觉得下一个`BTC`水龙头会在哪里？
+5. Use the `balanceOf` function on the `ERC20` token contract to query the balance of the account that received tokens from the faucet. The balance should now be `100`, indicating a successful request!
+    ![Withdrawal success](./img/32-5.png)
+
+## Conclusion
+
+In this lecture, we introduced the history of token faucets and the `ERC20` faucet contract. Where do you think the next BTC faucet will be?

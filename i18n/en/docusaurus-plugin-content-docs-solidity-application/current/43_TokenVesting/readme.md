@@ -1,115 +1,123 @@
 ---
-title: 43. Token Vesting
+title: 43. Linear Release
 tags:
   - solidity
   - application
   - ERC20
+---
+
+# WTF Simplified Solidity: 43. Linear Release
+
+I am currently re-learning Solidity to consolidate my understanding of the details and to create a "Simplified Solidity for Beginners" guide for newbies (programming experts can find other tutorials). I update this guide with 1-3 lessons per week.
+
+Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science)
+
+Community: [Discord](https://discord.gg/5akcruXrsk)｜[WeChat Group](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[wtf.academy](https://wtf.academy)
+
+All code and tutorials are open-sourced on GitHub: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
 
 ---
 
-# WTF Solidity极简入门: 43. 线性释放
+In this lesson, we will introduce token vesting clauses and write a contract for linearly releasing ERC20 tokens. The code is simplified from OpenZeppelin's VestingWallet contract.
 
-我最近在重新学solidity，巩固一下细节，也写一个“WTF Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+## Token Vesting Clauses
 
-推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
+In traditional finance, some companies provide equity to employees and management. However, a large amount of equity released at the same time can create selling pressure in the short term, dragging down the stock price. Therefore, companies typically introduce a vesting period to delay ownership of committed assets. Similarly, in the blockchain field, Web3 startups allocate tokens to their teams and also sell tokens at a low price to venture capital and private equity. If they simultaneously bring these low-cost tokens to the exchange for liquidity, the token price will be crushed, making retail investors the bag holders.
 
-社区：[Discord](https://discord.wtf.academy)｜[微信群](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[官网 wtf.academy](https://wtf.academy)
+So, project teams generally agree on token vesting clauses, gradually releasing tokens during the vesting period to reduce selling pressure and prevent teams and capital parties from going out too early.
 
-所有代码和教程开源在github: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+## Linear Release
 
------
+Linear release refers to the constant release of tokens during the vesting period. For example, if a private equity holds 365,000 ICU tokens with a vesting period of 1 year (365 days), 1,000 tokens will be released every day.
 
-这一讲，我们将介绍代币归属条款，并写一个线性释放`ERC20`代币的合约。代码由`OpenZeppelin`的`VestingWallet`合约简化而来。
+Now, let's write a contract TokenVesting for locking and linearly releasing ERC20 tokens. Its logic is simple:
 
-## 代币归属条款
+- The project team specifies the start time, vesting period, and beneficiary of the linear release.
+- The project team transfers the ERC20 tokens to be locked to the TokenVesting contract.
+- The beneficiary can call the release function to withdraw the released tokens from the contract.
 
-![部署](./img/43-1.jpeg)
+### Events
 
-在传统金融领域，一些公司会向员工和管理层提供股权。但大量股权同时释放会在短期产生抛售压力，拖累股价。因此，公司通常会引入一个归属期来延迟承诺资产的所有权。同样的，在区块链领域，`Web3`初创公司会给团队分配代币，同时也会将代币低价出售给风投和私募。如果他们把这些低成本的代币同时提到交易所变现，币价将被砸穿，散户直接成为接盘侠。
+There is `1` event in the Linear Release contract.
 
-所以，项目方一般会约定代币归属条款（token vesting），在归属期内逐步释放代币，减缓抛压，并防止团队和资本方过早躺平。
-
-## 线性释放
-
-线性释放指的是代币在归属期内匀速释放。举个例子，某私募持有365,000枚`ICU`代币，归属期为1年（365天），那么每天会释放1,000枚代币。
-
-下面，我们就写一个锁仓并线性释放`ERC20`代币的合约`TokenVesting`。它的逻辑很简单：
-
-- 项目方规定线性释放的起始时间、归属期和受益人。
-- 项目方将锁仓的`ERC20`代币转账给`TokenVesting`合约。
-- 受益人可以调用`release`函数，从合约中取出释放的代币。
-
-### 事件
-线性释放合约中共有`1`个事件。
-- `ERC20Released`：提币事件，当受益人提取释放代币时释放。
+- `ERC20Released`: withdrawal event, triggered when the beneficiary withdraws the released tokens.
 
 ```solidity
 
 contract TokenVesting {
-    // 事件
-    event ERC20Released(address indexed token, uint256 amount); // 提币事件
+    // Event
+    event ERC20Released(address indexed token, uint256 amount); // Withdraw event
+
 ```
 
-### 状态变量
-线性释放合约中共有`4`个状态变量。
-- `beneficiary`：受益人地址。
-- `start`：归属期起始时间戳。
-- `duration`：归属期，单位为秒。
-- `erc20Released`：代币地址->释放数量的映射，记录受益人已领取的代币数量。
+### State Variables
+
+There are `4` state variables in the linear release contract.
+
+- `beneficiary`: the beneficiary address.
+- `start`: the starting timestamp of the vesting period.
+- `duration`: the duration of the vesting period in seconds.
+- `erc20Released`: a mapping of token address to the amount released, which records the amount of tokens the beneficiary has already claimed.
 
 ```solidity
-    // 状态变量
-    mapping(address => uint256) public erc20Released; // 代币地址->释放数量的映射，记录已经释放的代币
-    address public immutable beneficiary; // 受益人地址
-    uint256 public immutable start; // 起始时间戳
-    uint256 public immutable duration; // 归属期
+    // State variables
+    mapping(address => uint256) public erc20Released; // Token address -> release amount mapping, recording the number of tokens the beneficiary has received
+    address public immutable beneficiary; // Beneficiary address
+    uint256 public immutable start; // Start timestamp
+    uint256 public immutable duration; // Duration
 ```
 
-### 函数
-线性释放合约中共有`3`个函数。
+### Functions
 
-- 构造函数：初始化受益人地址，归属期(秒), 起始时间戳。参数为受益人地址`beneficiaryAddress`和归属期`durationSeconds`。为了方便，起始时间戳用的部署时的区块链时间戳`block.timestamp`。
-- `release()`：提取代币函数，将已释放的代币转账给受益人。调用了`vestedAmount()`函数计算可提取的代币数量，释放`ERC20Released`事件，然后将代币`transfer`给受益人。参数为代币地址`token`。
-- `vestedAmount()`：根据线性释放公式，查询已经释放的代币数量。开发者可以通过修改这个函数，自定义释放方式。参数为代币地址`token`和查询的时间戳`timestamp`。
+There are `3` functions in the LinearVesting contract.
+
+- Constructor: initializes the beneficiary address, duration in seconds and starting timestamp. The constructor takes `beneficiaryAddress` and `durationSeconds` as input parameters. The starting timestamp is set to the deployment blockchain timestamp `block.timestamp` for convenience.
+- `release()`: transfers the vested tokens to the beneficiary address. This function calls `vestedAmount()` to calculate the amount of vested tokens, emits the `ERC20Released` event, and then calls the `transfer` function to transfer tokens to the beneficiary. The token address is passed as an input parameter `token`.
+- `vestedAmount()`: calculates the number of vested tokens based on the linear vesting formula. Developers can modify this function to implement a customized vesting schedule. The function takes `token` and `timestamp` as input parameters.
 
 ```solidity
     /**
-     * @dev 初始化受益人地址，释放周期(秒), 起始时间戳(当前区块链时间戳)
+     * @dev Initialize the beneficiary address,release duration (seconds),start timestamp (current blockchain timestamp)
      */
-    constructor(
-        address beneficiaryAddress,
-        uint256 durationSeconds
-    ) {
-        require(beneficiaryAddress != address(0), "VestingWallet: beneficiary is zero address");
+    constructor(address beneficiaryAddress, uint256 durationSeconds) {
+        require(
+            beneficiaryAddress != address(0),
+            "VestingWallet: beneficiary is zero address"
+        );
         beneficiary = beneficiaryAddress;
         start = block.timestamp;
         duration = durationSeconds;
     }
 
     /**
-     * @dev 受益人提取已释放的代币。
-     * 调用vestedAmount()函数计算可提取的代币数量，然后transfer给受益人。
-     * 释放 {ERC20Released} 事件.
+     * @dev Beneficiary withdraws the released tokens.
+     * Calls the vestedAmount() function to calculate the amount of tokens that can be withdrawn, then transfer them to the beneficiary.
+     * Emit an {ERC20Released} event.
      */
     function release(address token) public {
-        // 调用vestedAmount()函数计算可提取的代币数量
-        uint256 releasable = vestedAmount(token, uint256(block.timestamp)) - erc20Released[token];
-        // 更新已释放代币数量   
-        erc20Released[token] += releasable; 
-        // 转代币给受益人
+        // Calls the vestedAmount() function to calculate the amount of tokens that can be withdrawn.
+        uint256 releasable = vestedAmount(token, uint256(block.timestamp)) -
+            erc20Released[token];
+        // Updates the amount of tokens that have been released.
+        erc20Released[token] += releasable;
+        // Transfers the tokens to the beneficiary.
         emit ERC20Released(token, releasable);
         IERC20(token).transfer(beneficiary, releasable);
     }
 
     /**
-     * @dev 根据线性释放公式，计算已经释放的数量。开发者可以通过修改这个函数，自定义释放方式。
-     * @param token: 代币地址
-     * @param timestamp: 查询的时间戳
+     * @dev According to the linear release formula, calculate the released quantity. Developers can customize the release method by modifying this function.
+     * @param token: Token address
+     * @param timestamp: Query timestamp
      */
-    function vestedAmount(address token, uint256 timestamp) public view returns (uint256) {
-        // 合约里总共收到了多少代币（当前余额 + 已经提取）
-        uint256 totalAllocation = IERC20(token).balanceOf(address(this)) + erc20Released[token];
-        // 根据线性释放公式，计算已经释放的数量
+    function vestedAmount(
+        address token,
+        uint256 timestamp
+    ) public view returns (uint256) {
+        // Total amount of tokens received in the contract (current balance + withdrawn)
+        uint256 totalAllocation = IERC20(token).balanceOf(address(this)) +
+            erc20Released[token];
+        // According to the linear release formula, calculate the released quantity
         if (timestamp < start) {
             return 0;
         } else if (timestamp > start + duration) {
@@ -120,31 +128,26 @@ contract TokenVesting {
     }
 ```
 
-## `Remix`演示
+## `Remix` Demo
 
-### 1. 部署[第31讲](../31_ERC20/readme.md)中的`ERC20`合约，并给自己铸造`10000`枚代币。
+### 1. Deploy the `ERC20` contract in [Lesson 31](../31_ERC20/readme.md), and mint yourself `1000` tokens.
 
-![部署ERC20](./img/43-2.png)
+![Deploy ERC20](./img/43-2.png)
 
-![铸造10000枚代币](./img/43-3.png)
+![Mint 1000 tokens](./img/43-3.png)
 
-### 2. 部署`TokenVesting`线性释放合约，受益人设为自己，归属期设为`100`秒。
+### 2. Deploy the `TokenVesting` contract for linear release, set yourself as the beneficiary, and set the vesting period to `100` seconds.
 
-![部署TokenVesting](./img/43-4.png)
+![Deploy TokenVesting](./img/43-4.png)
 
-### 3. 将`10000`枚`ERC20`代币转给线性释放合约。
+### 3. Transfer `1000` `ERC20` tokens to the linear release contract.
 
-![转移代币](./img/43-5.png)
+![Transfer tokens](./img/43-5.png)
 
-### 4. 调用`release()`函数提取代币。
+### 4. Call the `release()` function to extract the tokens.
 
-![提取代币](./img/43-6.png)
+![Release tokens](./img/43-6.png)
 
-## 总结
+## Summary
 
-代币短期大量解锁会对币价造成巨大压力，而约定代币归属条款可以缓解抛压，并防止团队和资本方过早躺平。这一讲，我们介绍了代币归属条款，并写了线性释放`ERC20`代币的合约。
-
-
-
-
-
+A large amount of token unlocking in the short term can cause huge pressure on the token price, while agreed-upon token ownership terms can alleviate selling pressure and prevent the team and capital parties from exiting too early. In this lesson, we introduced token ownership terms and wrote a contract for linear release of ERC20 tokens.

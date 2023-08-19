@@ -1,41 +1,41 @@
 ---
-title: 33. Airdrop
+title: 33. Airdrop Contract
 tags:
-  - solidity
-  - application
-  - wtfacademy
+  - Solidity
+  - Application
+  - WTF Academy
   - ERC20
-  - airdrop
+  - Airdrop
 ---
 
-# WTF Solidity极简入门: 33. 发送空投
+# WTF Solidity 33. Sending Airdrops
 
-我最近在重新学solidity，巩固一下细节，也写一个“WTF Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
-欢迎关注我的推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
+Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
 
-欢迎加入WTF科学家社区，内有加微信群方法：[链接](https://discord.gg/5akcruXrsk)
+Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
 
-所有代码和教程开源在github（1024个star发课程认证，2048个star发社群NFT）: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
 
 -----
 
-在币圈，最开心的一件事就是领空投，空手套白狼。这一讲，我们将学习如何使用智能合约发送`ERC20`代币空投。
+In the world of cryptocurrency, one of the most exciting things is receiving an airdrop of free tokens. In this tutorial, we will learn how to use a smart contract to send `ERC20` tokens as an airdrop.
 
-## 空投 Airdrop
+## Airdrop 
 
-空投是币圈中一种营销策略，项目方将代币免费发放给特定用户群体。为了拿到空投资格，用户通常需要完成一些简单的任务，如测试产品、分享新闻、介绍朋友等。项目方通过空投可以获得种子用户，而用户可以获得一笔财富，两全其美。
+An airdrop is a marketing strategy used in the cryptocurrency industry where a project distributes tokens for free to a specific group of users. To qualify for an airdrop, users are usually required to complete simple tasks such as testing a product, sharing news, or referring friends. The project gains seed users through the airdrop, while users receive a sum of wealth, making it a win-win situation.
 
-因为每次接收空投的用户很多，项目方不可能一笔一笔的转账。利用智能合约批量发放`ERC20`代币，可以显著提高空投效率。
+Since there are usually a large number of users receiving an airdrop, it is not practical for the project to send each transfer one by one. By using a smart contract to batch-send `ERC20` tokens, the efficiency of the airdrop can be significantly increased.
 
-### 空投代币合约
+### Airdrop Token Contract
 
-`Airdrop`空投合约逻辑非常简单：利用循环，一笔交易将`ERC20`代币发送给多个地址。合约中包含两个函数
+The logic of the airdrop contract is simple: by using a loop, a single transaction sends `ERC20` tokens to multiple addresses. The contract contains `2` functions:
 
-- `getSum()`函数：返回`uint`数组的和。
+- The `getSum()` function: returns the sum of a `uint` array.
 
     ```solidity
-    // 数组求和函数
+    // sum function for arrays
     function getSum(uint256[] calldata _arr) public pure returns(uint sum)
     {
         for(uint i = 0; i < _arr.length; i++)
@@ -43,92 +43,93 @@ tags:
     }
     ```
 
-- `multiTransferToken()`函数：发送`ERC20`代币空投，包含`3`个参数：
-    - `_token`：代币合约地址（`address`类型）
-    - `_addresses`：接收空投的用户地址数组（`address[]`类型）
-    - `_amounts`：空投数量数组，对应`_addresses`里每个地址的数量（`uint[]`类型）
+- Function `multiTransferToken()`: sends airdrop of `ERC20` tokens, including `3` parameters:
+   - `_token`: Address of the token contract (`address` type)
+   - `_addresses`: Array of user addresses receiving the airdrop (`address[]` type)
+   - `_amounts`: Array of airdrop amounts that correspond to the quantity of each address in `_addresses` (`uint[]` type)
 
-    该函数有两个检查：第一个`require`检查了`_addresses`和`_amounts`两个数组长度是否相等；第二个`require`检查了空投合约的授权额度大于要空投的代币数量总和。
+   This function contains `2` checks: The first `require` checks if the length of `_addresses` array is equal to the length of `_amounts` array . The second `require` checks if the authorization limit of the airdrop contract is greater than the total amount of tokens to be airdropped.
 
-    ```solidity
-    /// @notice 向多个地址转账ERC20代币，使用前需要先授权
-    ///
-    /// @param _token 转账的ERC20代币地址
-    /// @param _addresses 空投地址数组
-    /// @param _amounts 代币数量数组（每个地址的空投数量）
-    function multiTransferToken(
-        address _token,
-        address[] calldata _addresses,
-        uint256[] calldata _amounts
-        ) external {
-        // 检查：_addresses和_amounts数组的长度相等
-        require(_addresses.length == _amounts.length, "Lengths of Addresses and Amounts NOT EQUAL");
-        IERC20 token = IERC20(_token); // 声明IERC合约变量
-        uint _amountSum = getSum(_amounts); // 计算空投代币总量
-        // 检查：授权代币数量 >= 空投代币总量
-        require(token.allowance(msg.sender, address(this)) >= _amountSum, "Need Approve ERC20 token");
-        
-        // for循环，利用transferFrom函数发送空投
-        for (uint8 i; i < _addresses.length; i++) {
-            token.transferFrom(msg.sender, _addresses[i], _amounts[i]);
-        }
+```solidity
+/// @notice Transfer ERC20 tokens to multiple addresses, authorization is required before use
+///
+/// @param _token The address of ERC20 token for transfer
+/// @param _addresses The array of airdrop addresses
+/// @param _amounts The array of amount of tokens (airdrop amount for each address)
+function multiTransferToken(
+    address _token,
+    address[] calldata _addresses,
+    uint256[] calldata _amounts
+    ) external {
+    // Check: The length of _addresses array should be equal to the length of _amounts array
+    require(_addresses.length == _amounts.length, "Lengths of Addresses and Amounts NOT EQUAL");
+    IERC20 token = IERC20(_token); // Declare IERC contract variable
+    uint _amountSum = getSum(_amounts); // Calculate the total amount of airdropped tokens
+    // Check: The authorized amount of tokens should be greater than or equal to the total amount of airdropped tokens
+    require(token.allowance(msg.sender, address(this)) >= _amountSum, "Need Approve ERC20 token");
+    
+    // for loop, use transferFrom function to send airdrops
+    for (uint8 i; i < _addresses.length; i++) {
+        token.transferFrom(msg.sender, _addresses[i], _amounts[i]);
     }
-    ```
+}
+```
 
-- `multiTransferETH()`函数：发送`ETH`空投，包含`2`个参数：
-    - `_addresses`：接收空投的用户地址数组（`address[]`类型）
-    - `_amounts`：空投数量数组，对应`_addresses`里每个地址的数量（`uint[]`类型）
+- `multiTransferETH()` function: Send `ETH` airdrop, with `2` parameters:
+    - `_addresses`: An array of user addresses that receive the airdrop (`address[]` type)
+    - `_amounts`: An array of airdrop amounts, corresponding to the quantity for each address in `_addresses` (`uint[]` type)
 
-    ```solidity
-    /// 向多个地址转账ETH
-    function multiTransferETH(
-        address payable[] calldata _addresses,
-        uint256[] calldata _amounts
-    ) public payable {
-        // 检查：_addresses和_amounts数组的长度相等
-        require(_addresses.length == _amounts.length, "Lengths of Addresses and Amounts NOT EQUAL");
-        uint _amountSum = getSum(_amounts); // 计算空投ETH总量
-        // 检查转入ETH等于空投总量
-        require(msg.value == _amountSum, "Transfer amount error");
-        // for循环，利用transfer函数发送ETH
-        for (uint256 i = 0; i < _addresses.length; i++) {
-            _addresses[i].transfer(_amounts[i]);
-        }
+```solidity
+/// Transfer ETH to multiple addresses
+function multiTransferETH(
+    address payable[] calldata _addresses,
+    uint256[] calldata _amounts
+) public payable {
+    // Check: _addresses and _amounts arrays should have the same length
+    require(_addresses.length == _amounts.length, "Lengths of Addresses and Amounts NOT EQUAL");
+    // Calculate total amount of ETH to be airdropped
+    uint _amountSum = getSum(_amounts);
+    // Check: transferred ETH should equal total amount
+    require(msg.value == _amountSum, "Transfer amount error");
+    // Use a for loop to transfer ETH using transfer function
+    for (uint256 i = 0; i < _addresses.length; i++) {
+        _addresses[i].transfer(_amounts[i]);
     }
-    ```
+}
+```
 
-### 空投实践
+### Airdrop Practice
 
-1. 部署`ERC20`代币合约，并给自己`mint`10000 单位代币。
+1. Deploy the `ERC20` token contract and mint 10,000 units of the token for yourself.
 
-![部署`ERC20`](./img/33-1.png)
+![Deploy `ERC20`](./img/33-1.png)
 
-![mint](./img/33-2.png)
+![Mint](./img/33-2.png)
 
-2. 部署`Airdrop`空投合约。
+2. Deploy the `Airdrop` contract.
 
-![部署`Airdrop`合约](./img/33-3.png)
+![Deploy `Airdrop` contract](./img/33-3.png)
 
-3. 利用`ERC20`代币合约中的`approve()`函数，给`Airdrop`空投合约授权10000 单位代币。
+3. Use the `approve()` function in the `ERC20` contract to grant authorization of 10,000 units of the token to the `Airdrop` contract.
 
-![授权`Airdrop`合约](./img/33-4.png)
+![Authorize `Airdrop` contract](./img/33-4.png)
 
-4. 执行`Airdrop`合约的`multiTransferToken()`函数进行空投， `_token`填`ERC20`代币地址，`_addresses`和`_amounts`按照以下填写
+4. Execute the `multiTransferToken()` function in the `Airdrop` contract to perform the airdrop. Set `_token` as the `ERC20` token address, and fill in `_addresses` and `_amounts` as follows:
 
 ```
-// _addresses填写
+// input _addresses like below
 ["0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2", "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4"]
 
-// _amounts填写
+// input _amounts like below
 [100, 200]
 ```
 
-![空投](./img/33-5.png)
+![Airdrop](./img/33-5.png)
 
-5. 利用`ERC20`合约的`balanceOf()`函数查询上面用户地址的代币余额，成功变为`100`和`200`，空投成功！
+5. Use the `balanceOf()` function of the `ERC20` contract to check the token balance of the user address above. The airdrop is successful if the balance becomes `100` and `200` respectively!
 
-![查询空投用户的代币余额](./img/33-6.png)
+![Check the token balance of the airdrop users](./img/33-6.png)
 
-## 总结
+## Conclusion
 
-这一讲，我们介绍了如何使用`solidity`写`ERC20`代币空投合约，极大增加空投效率。我撸空投收获最大的一次是`ENS`空投，你们呢？
+In this lesson, we introduced how to use `solidity` to write an `ERC20` token airdrop contract, greatly increasing the efficiency of airdrops. The biggest airdrop I ever received was from `ENS`, how about you?

@@ -1,5 +1,5 @@
 ---
-title: 38. NFT Swap
+title: 38. NFT Exchange
 tags:
   - solidity
   - application
@@ -8,30 +8,31 @@ tags:
   - NFT Swap
 ---
 
-# WTF Solidity极简入门: 38. NFT交易所
+# WTF Solidity 38. NFT Exchange
 
-我最近在重新学solidity，巩固一下细节，也写一个“WTF Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+I have been revisiting Solidity lately to review the details and create a "WTF Solidity Tutorial" for beginners (professional programmers may find other tutorials more suitable), with 1-3 updates per week.
 
-推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
+Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-discord：[WTF Academy](https://discord.gg/5akcruXrsk)
+Discord: [WTF Academy](https://discord.gg/5akcruXrsk)
 
-所有代码和教程开源在github: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+All code and tutorials are open source on Github: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
 
 -----
 
-`Opensea`是以太坊上最大的`NFT`交易平台，总交易总量达到了`$300亿`。`Opensea`在交易中抽成`2.5%`，因此它通过用户交易至少获利了`$7.5亿`。另外，它的运作并不去中心化，且不准备发币补偿用户。`NFT`玩家苦`Opensea`久已，今天我们就利用智能合约搭建一个零手续费的去中心化`NFT`交易所：`NFTSwap`。
+"Opensea" is the largest NFT trading platform on Ethereum with a total trading volume of $30 billion. Opensea charges a fee of 2.5% on transactions, meaning it has made at least $750 million in profits through user transactions. Additionally, its operation is not decentralized, and it has no plans to issue coins to compensate users. NFT players have been frustrated with Opensea for a long time. Today, we use smart contracts to build a zero-fee decentralized NFT exchange: NFTSwap.
 
-## 设计逻辑
+## Design Logic
 
-- 卖家：出售`NFT`的一方，可以挂单`list`、撤单`revoke`、修改价格`update`。
-- 买家：购买`NFT`的一方，可以购买`purchase`。
-- 订单：卖家发布的`NFT`链上订单，一个系列的同一`tokenId`最多存在一个订单，其中包含挂单价格`price`和持有人`owner`信息。当一个订单交易完成或被撤单后，其中信息清零。
+- Seller: The party selling the NFT can list the item, revoke the listing, and update the price.
+- Buyer: The party buying the NFT can purchase the item.
+- Order: The on-chain NFT order published by the seller. A series of the same tokenId can have a maximum of one order, which includes the listing price and owner information. When an order is completed or revoked, the information is cleared.
 
-## `NFTSwap`合约
+## NFTSwap Contract
 
-### 事件
-合约包含`4`个事件，对应挂单`list`、撤单`revoke`、修改价格`update`、购买`purchase`这四个行为：
+### Events
+The contract includes four events corresponding to the actions of listing (list), revoking (revoke), updating the price (update), and purchasing (purchase) the NFT.
+
 ``` solidity
     event List(address indexed seller, address indexed nftAddr, uint256 indexed tokenId, uint256 price);
     event Purchase(address indexed buyer, address indexed nftAddr, uint256 indexed tokenId, uint256 price);
@@ -39,20 +40,21 @@ discord：[WTF Academy](https://discord.gg/5akcruXrsk)
     event Update(address indexed seller, address indexed nftAddr, uint256 indexed tokenId, uint256 newPrice);
 ```
 
-### 订单
-`NFT`订单抽象为`Order`结构体，包含挂单价格`price`和持有人`owner`信息。`nftList`映射记录了订单是对应的`NFT`系列（合约地址）和`tokenId`信息。
+### Order
+An `NFT` order is abstracted as the `Order` structure, which contains information about the listing price (`price`) and the owner (`owner`). The `nftList` mapping records the `NFT` series (contract address) and `tokenId` information that the order corresponds to.
+
 ```solidity
-    // 定义order结构体
+    // Define the order structure
     struct Order{
         address owner;
         uint256 price; 
     }
-    // NFT Order映射
+    // NFT Order mapping
     mapping(address => mapping(uint256 => Order)) public nftList;
 ```
 
-### 回退函数
-在`NFTSwap`中，用户使用`ETH`购买`NFT`。因此，合约需要实现`fallback()`函数来接收`ETH`。
+### Fallback Function
+In `NFTSwap`, users purchase `NFT` using `ETH`. Therefore, the contract needs to implement the `fallback()` function to receive `ETH`.
 
 ```solidity
     fallback() external payable{}
@@ -60,235 +62,223 @@ discord：[WTF Academy](https://discord.gg/5akcruXrsk)
 
 ### onERC721Received
 
-`ERC721`的安全转账函数会检查接收合约是否实现了`onERC721Received()`函数，并返回正确的选择器`selector`。用户下单之后，需要将`NFT`发送给`NFTSwap`合约。因此`NFTSwap`继承`IERC721Receiver`接口，并实现`onERC721Received()`函数：
+The safe transfer function of `ERC721` checks whether the receiving contract has implemented the `onERC721Received()` function and returns the correct selector. After the user places an order, the `NFT` needs to be sent to the `NFTSwap` contract. Therefore, the `NFTSwap` contract inherits the `IERC721Receiver` interface and implements the `onERC721Received()` function.
 
-```
-contract NFTSwap is IERC721Receiver{
+This is a smart contract named "NFTSwap" that implements the interface "IERC721Receiver". The function "onERC721Received" is defined to receive ERC721 tokens. It takes four parameters: 
+- "operator": the address that called the function 
+- "from": the address that transferred the token to the contract 
+- "tokenId": the ID of the ERC721 token that was transferred 
+- "data": additional data that can be sent with the token transfer 
 
-    // 实现{IERC721Receiver}的onERC721Received，能够接收ERC721代币
-    function onERC721Received(
-        address operator,
-        address from,
-        uint tokenId,
-        bytes calldata data
-    ) external override returns (bytes4){
-        return IERC721Receiver.onERC721Received.selector;
-    }
-```
+The function returns the selector of the "onERC721Received" function from "IERC721Receiver" interface.
 
-### 交易
+### Trading
 
-合约实现了`4`个交易相关的函数：
+The contract implements `4` functions related to trading:
 
-- 挂单`list()`：卖家创建`NFT`并创建订单，并释放`List`事件。参数为`NFT`合约地址`_nftAddr`，`NFT`对应的`_tokenId`，挂单价格`_price`（**注意：单位是`wei`**）。成功后，`NFT`会从卖家转到`NFTSwap`合约中。
+- Listing `list()`: The seller creates an `NFT`, creates an order, and releases the `List` event. The parameters are the `NFT` contract address `_nftAddr`, corresponding `_tokenId` of `NFT`, and listing price `_price` (**Note: the unit is `wei`**). After successful, the `NFT` will transfer from the seller to the `NFTSwap` contract.
 
 ```solidity
-    // 挂单: 卖家上架NFT，合约地址为_nftAddr，tokenId为_tokenId，价格_price为以太坊（单位是wei）
+    // List: The seller lists NFT on sale, contract address is _nftAddr, tokenId is _tokenId, price is _price in ether (unit is wei)
     function list(address _nftAddr, uint256 _tokenId, uint256 _price) public{
-        IERC721 _nft = IERC721(_nftAddr); // 声明IERC721接口合约变量
-        require(_nft.getApproved(_tokenId) == address(this), "Need Approval"); // 合约得到授权
-        require(_price > 0); // 价格大于0
+        IERC721 _nft = IERC721(_nftAddr); // Declare an interface contract variable IERC721
+        require(_nft.getApproved(_tokenId) == address(this), "Need Approval"); // The contract is approved
+        require(_price > 0); // The price is greater than 0
 
-        Order storage _order = nftList[_nftAddr][_tokenId]; //设置NF持有人和价格
+        Order storage _order = nftList[_nftAddr][_tokenId]; // Set the NFT holder and price
         _order.owner = msg.sender;
         _order.price = _price;
-        // 将NFT转账到合约
+        // Transfer NFT to the contract
         _nft.safeTransferFrom(msg.sender, address(this), _tokenId);
 
-        // 释放List事件
+        // Release List event
         emit List(msg.sender, _nftAddr, _tokenId, _price);
     }
 ```
 
-- 撤单`revoke()`：卖家撤回挂单，并释放`Revoke`事件。参数为`NFT`合约地址`_nftAddr`，`NFT`对应的`_tokenId`。成功后，`NFT`会从`NFTSwap`合约转回卖家。
+- `revoke()`: Seller cancels the order and releases the `Revoke` event. Parameters include the `NFT` contract address `_nftAddr` and the corresponding `_tokenId`. After successful execution, the `NFT` will be returned to the seller from the `NFTSwap` contract.
+
 ```solidity
-    // 撤单： 卖家取消挂单
-    function revoke(address _nftAddr, uint256 _tokenId) public {
-        Order storage _order = nftList[_nftAddr][_tokenId]; // 取得Order        
-        require(_order.owner == msg.sender, "Not Owner"); // 必须由持有人发起
-        // 声明IERC721接口合约变量
-        IERC721 _nft = IERC721(_nftAddr);
-        require(_nft.ownerOf(_tokenId) == address(this), "Invalid Order"); // NFT在合约中
-        
-        // 将NFT转给卖家
-        _nft.safeTransferFrom(address(this), msg.sender, _tokenId);
-        delete nftList[_nftAddr][_tokenId]; // 删除order
-      
-        // 释放Revoke事件
-        emit Revoke(msg.sender, _nftAddr, _tokenId);
-    }
+// cancel order: seller cancels the order
+function revoke(address _nftAddr, uint256 _tokenId) public {
+    Order storage _order = nftList[_nftAddr][_tokenId]; // get the order
+    require(_order.owner == msg.sender, "Not Owner"); // must be initiated by the owner
+    // declare IERC721 interface contract variables
+    IERC721 _nft = IERC721(_nftAddr);
+    require(_nft.ownerOf(_tokenId) == address(this), "Invalid Order"); // NFT is in the contract
+    
+    // transfer NFT to seller
+    _nft.safeTransferFrom(address(this), msg.sender, _tokenId);
+    delete nftList[_nftAddr][_tokenId]; // delete order
+
+    // emit Revoke event
+    emit Revoke(msg.sender, _nftAddr, _tokenId);
+}
 ```
-- 修改价格`update()`：卖家修改`NFT`订单价格，并释放`Update`事件。参数为`NFT`合约地址`_nftAddr`，`NFT`对应的`_tokenId`，更新后的挂单价格`_newPrice`（**注意：单位是`wei`**）。
+
+- Modify price `update()`: The seller modifies the price of the NFT order and releases the `Update` event. The parameters are the NFT contract address `_nftAddr`, the corresponding `_tokenId` of the NFT, and the updated order price `_newPrice` (**Note: The unit is `wei`**).
+
 ```solidity
-    // 调整价格: 卖家调整挂单价格
+    // Adjust Price: Seller adjusts the listing price
     function update(address _nftAddr, uint256 _tokenId, uint256 _newPrice) public {
-        require(_newPrice > 0, "Invalid Price"); // NFT价格大于0
-        Order storage _order = nftList[_nftAddr][_tokenId]; // 取得Order        
-        require(_order.owner == msg.sender, "Not Owner"); // 必须由持有人发起
-        // 声明IERC721接口合约变量
+        require(_newPrice > 0, "Invalid Price"); // NFT price must be greater than 0
+        Order storage _order = nftList[_nftAddr][_tokenId]; // Get the Order
+        require(_order.owner == msg.sender, "Not Owner"); // It must be initiated by the owner
+        // Declare IERC721 interface contract variable
         IERC721 _nft = IERC721(_nftAddr);
-        require(_nft.ownerOf(_tokenId) == address(this), "Invalid Order"); // NFT在合约中
+        require(_nft.ownerOf(_tokenId) == address(this), "Invalid Order"); // NFT is in the contract
         
-        // 调整NFT价格
+        // Adjust the NFT price
         _order.price = _newPrice;
       
-        // 释放Update事件
+        // Release Update event
         emit Update(msg.sender, _nftAddr, _tokenId, _newPrice);
     }
 ```
 
-- 购买`purchase`：买家支付`ETH`购买挂单的`NFT`，并释放`Purchase`事件。参数为`NFT`合约地址`_nftAddr`，`NFT`对应的`_tokenId`。成功后，`ETH`将转给卖家，`NFT`将从`NFTSwap`合约转给买家。
-```solidity
-    // 购买: 买家购买NFT，合约为_nftAddr，tokenId为_tokenId，调用函数时要附带ETH
-    function purchase(address _nftAddr, uint256 _tokenId) payable public {
-        Order storage _order = nftList[_nftAddr][_tokenId]; // 取得Order        
-        require(_order.price > 0, "Invalid Price"); // NFT价格大于0
-        require(msg.value >= _order.price, "Increase price"); // 购买价格大于标价
-        // 声明IERC721接口合约变量
-        IERC721 _nft = IERC721(_nftAddr);
-        require(_nft.ownerOf(_tokenId) == address(this), "Invalid Order"); // NFT在合约中
+- Purchase: The buyer pays with `ETH` to purchase the `NFT` on the order, and triggers the `Purchase` event. The parameters are the `NFT` contract address `_nftAddr` and the corresponding `_tokenId` of the `NFT`. Upon success, the `ETH` will be transferred to the seller and the `NFT` will be transferred from the `NFTSwap` contract to the buyer.
 
-        // 将NFT转给买家
+```solidity
+    // Purchase: A buyer purchases an NFT with ETH attached, the contract address is _nftAddr, tokenId is _tokenId
+    function purchase(address _nftAddr, uint256 _tokenId) payable public {
+        Order storage _order = nftList[_nftAddr][_tokenId]; // Get Order
+        require(_order.price > 0, "Invalid Price"); // The NFT price is greater than 0
+        require(msg.value >= _order.price, "Increase price"); // The purchase price is greater than the asking price
+        // Declare IERC721 interface contract variable
+        IERC721 _nft = IERC721(_nftAddr);
+        require(_nft.ownerOf(_tokenId) == address(this), "Invalid Order"); // The NFT is in the contract
+
+        // Transfer the NFT to the buyer
         _nft.safeTransferFrom(address(this), msg.sender, _tokenId);
-        // 将ETH转给卖家，多余ETH给买家退款
+        // Transfer ETH to the seller, refund any excess ETH to the buyer
         payable(_order.owner).transfer(_order.price);
         payable(msg.sender).transfer(msg.value-_order.price);
 
-        delete nftList[_nftAddr][_tokenId]; // 删除order
+        delete nftList[_nftAddr][_tokenId]; // Delete order
 
-        // 释放Purchase事件
+        // Release Purchase event
         emit Purchase(msg.sender, _nftAddr, _tokenId, msg.value);
     }
 ```
 
-## `Remix`实现
+## Implementation in `Remix`
 
-### 1. 部署NFT合约
-参考 [ERC721](https://github.com/AmazingAng/WTFSolidity/tree/main/34_ERC721) 教程了解NFT，并部署`WTFApe` NFT合约。
+### 1. Deploy the NFT contract
+Refer to the [ERC721](https://github.com/AmazingAng/WTFSolidity/tree/main/34_ERC721) tutorial to learn about NFTs and deploy the `WTFApe` NFT contract.
 
-![部署NFT合约](./img/38-1.png)
+![Deploy the NFT contract](./img/38-1.png)
 
-将首个NFT mint给自己，这里mint给自己是为了之后能够上架NFT、修改价格等一系类操作。
+Mint the first NFT to yourself. This is done so that you can perform operations such as listing the NFT and modifying its price in the future.
 
-`mint(address to, uint tokenId)`方法有2个参数:
+The `mint(address to, uint tokenId)` function takes two parameters:
 
-`to`:将 NFT mint给指定的地址，这里通常是自己的钱包地址。
+`to`: The address to which the NFT will be minted. This is usually your own wallet address.
 
-`tokenId`: `WTFApe`合约定义了总量为10000个NFT，图中mint它的的第一个和第二个NFT，`tokenId`分别为`0`和`1`。
+`tokenId`: Since the `WTFApe` contract defines a total of 10,000 NFTs, the first two NFTs to be minted here have `tokenId` values of `0` and `1`, respectively.
 
-![mint NFT](./img/38-2.png)
+![Mint NFT](./img/38-2.png)
 
-在`WTFApe`合约中，利用`ownerOf`确认自己已经获得`tokenId`为0的NFT。
+In the `WTFApe` contract, use `ownerOf` to confirm that you own the NFT with `tokenId` equal to 0.
 
-`ownerOf(uint tokenId)`方法有1个参数:
+The `ownerOf(uint tokenId)` function takes one parameter:
 
-`tokenId`: `tokenId`为NFT的id，本案例中为上述mint的`0`Id。
+`tokenId`: `tokenId` is the unique identifier of the NFT, and in this example, it refers to the `0` id generated during the minting process described above.
 
-![确认自己已经获得NFT](./img/38-3.png)
+![Confirming NFT ownership](./img/38-3.png)
 
-按照上述方法，将TokenId为 `0` 和 `1` 的NFT都mint给自己，其中`tokenId`为`0`的，我们执行更新购买操作，`tokenId`为`1`的，我们执行下架操作。
+Using the above method, mint NFTs with `tokenId` `0` and `1` for yourself. For `tokenId` `0`, execute a purchase update operation, and for `tokenId` `1`, execute a delisting operation.
 
-### 2. 部署`NFTSwap`合约
-部署`NFTSwap`合约。
+### 2. Deploying the `NFTSwap` contract
+Deploy the `NFTSwap` contract.
 
-![部署`NFTSwap`合约](./img/38-4.png)
+![Deploying the `NFTSwap` contract](./img/38-4.png)
 
-### 3. 将要上架的`NFT`授权给`NFTSwap`合约
-在`WTFApe`合约中调用 `approve()`授权函数，将自己持有的`tokenId`为0的NFT授权给`NFTSwap`合约地址。
+### 3. Authorizing the `NFTSwap` contract to list the NFT for sale
+In the `WTFApe` contract, call the `approve()` authorization function to grant permission for the `NFTSwap` contract to list the `tokenId` `0` NFT that you own for sale.
 
-`approve(address to, uint tokenId)`方法有2个参数:
+The `approve(address to, uint tokenId)` method has 2 parameters:
 
-`to`: 将tokenId授权给 `to` 地址，本案例中将授权给`NFTSwap`合约地址。
+`to`: The address `tokenId` will be authorized to be transferred to, in this case, the address of the `NFTSwap` contract.
 
-`tokenId`: `tokenId`为NFT的id，本案例中为上述mint的`0`Id。
+`tokenId`: `tokenId` is the unique identifier of the NFT, and in this example, it refers to the `0` id generated during the minting process described above.
 
 ![](./img/38-5.png)
 
-按照上述方法，同理将`tokenId`为`1`的NFT也授权给`NFTSwap`合约地址。
+Following the method above, authorizes the NFT with `tokenId` of `1` to the `NFTSwap` contract address.
 
-### 4. 上架`NFT`
-调用`NFTSwap`合约的`list()`函数，将自己持有的`tokenId`为0的NFT上架到`NFTSwap`，价格设为1 `wei`。
+### 4. List the NFT for Sale
+Call the `list()` function of the `NFTSwap` contract to list the NFT with `tokenId` of `0` that is held by the caller on the `NFTSwap`. Set the price to 1 `wei`.
 
-`list(address _nftAddr, uint256 _tokenId, uint256 _price)`方法有3个参数:
+The `list(address _nftAddr, uint256 _tokenId, uint256 _price)` method has 3 parameters:
 
-`_nftAddr`: `_nftAddr`为NFT合约地址，本案例中为`WTFApe`合约地址。
+`_nftAddr`: `_nftAddr` is the NFT contract address, which in this case is the `WTFApe` contract address.
 
-`_tokenId`: `_tokenId`为NFT的id，本案例中为上述mint的`0`Id。
+`_tokenId`: `_tokenId` is the ID of the NFT, which in this case is the minted `0` ID mentioned above.
 
-`_price`: `_price`为NFT的价格，本案例中为1 `wei`。
+`_price`: `_price` is the price of the NFT, which in this case is 1 `wei`.
 
 ![](./img/38-6.png)
 
-按照上述方法，同理将自己持有的`tokenId`为1的NFT上架到`NFTSwap`，价格设为1 `wei`。
+Following the above method, list the NFT with `tokenId` of `1` that is held by the caller on the `NFTSwap` and set the price to 1 `wei`.
 
-### 5. 查看上架NFT
+### 5. View Listed NFTs.
 
-调用`NFTSwap`合约的`nftList()`函数查看上架的NFT。
+Call the `nftList()` function of the `NFTSwap` contract to view the listed NFT.
 
-`nftList`:是一个NFT Order的映射，结构如下：
+`nftList`: is a mapping of NFT Orders with the following structure:
 
-`nftList[_nftAddr][_tokenId]`: 输入`_nftAddr`和`_tokenId`，返回一个NFT订单。 
+`nftList[_nftAddr][_tokenId]`: Input `_nftAddr` and `_tokenId`, and return an NFT order.
 
 ![](./img/38-7.png)
 
-### 6. 更新`NFT`价格
+### 6. Update NFT Price
 
-调用`NFTSwap`合约的`update()`函数，将`tokenId`为0的NFT价格更新为77 `wei`
+Call the `update()` function of the `NFTSwap` contract to update the price of NFT with `tokenId` 0 to 77 `wei`.
 
-`update(address _nftAddr, uint256 _tokenId, uint256 _newPrice)`方法有3个参数:
+The `update(address _nftAddr, uint256 _tokenId, uint256 _newPrice)` method has three parameters:
 
-`_nftAddr`: `_nftAddr`为NFT合约地址，本案例中为`WTFApe`合约地址。
+`_nftAddr`: `_nftAddr` is the address of the NFT contract, which in this case is the `WTFApe` contract address.
 
-`_tokenId`: `_tokenId`为NFT的id，本案例中为上述mint的`0`Id。
+`_tokenId`: `_tokenId` is the id of the NFT, which in this case is 0, the id of the minted NFT mentioned above.
 
-`_newPrice`: `_newPrice`为NFT的新价格，本案例中为77 `wei`。
+`_newPrice`: `_newPrice` is the new price of the NFT, which in this case is 77 `wei`.
 
-执行`update`之后，调用`nftList` 查看更新后的价格
+After executing `update()`, call `nftList` to view the updated price.
 
-![](./img/38-8.png)
+### 5. Dismantle NFT
 
+Call the `revoke()` function of the `NFTSwap` contract to dismantle the NFT.
 
-### 5. 下架NFT
+In the above article, we put up two NFTs with `tokenId` of `0` and `1`, respectively. In this method, we are dismantling the NFT with `tokenId` as `1`.
 
-调用`NFTSwap`合约的`revoke()`函数下架NFT。
+The `revoke(address _nftAddr, uint256 _tokenId)` function has 2 parameters:
 
-上述文章中，我们上架了2个NFT，`tokenId`分别为 `0` 和 `1`。本次方法中，我们下架`tokenId`为`1`的NFT。
+`_nftAddr`: The `_nftAddr` is the address of the NFT contract, which is the `WTFApe` contract address in this example.
 
-`revoke(address _nftAddr, uint256 _tokenId)`方法有2个参数:
+`_tokenId`: The `_tokenId` is the id of the NFT, which is the `1` Id for the minting in this example.
 
-`_nftAddr`: `_nftAddr`为NFT合约地址，本案例中为`WTFApe`合约地址。
+Call the `nftList()` function of the `NFTSwap` contract to see that the NFT has been dismantled. It will require reauthorization to put it up again.
 
-`_tokenId`: `_tokenId`为NFT的id，本案例中为上述mint的`1`Id。
+**Note that after taking down the NFT, you need to start again from step 3, authorize and relist the NFT before purchasing.**
 
-![](./img/38-9.png)
+### 6. Purchase `NFT`
 
-调用`NFTSwap`合约的`nftList()`函数，可以看到`NFT`已经下架。再次上架需要重新授权。
+Switch to another account and call the `purchase()` function of the `NFTSwap` contract to buy an NFT. When purchasing, you need to input the `NFT` contract address, `tokenId`, and the amount of `ETH` you want to pay.
 
-![](./img/38-10.png)
+We took down the NFT with `tokenId` 1, but there is still an NFT with `tokenId` 0 available for purchase.
 
-**注意下架NFT之后，需要重新从步骤3开始，重新授权和上架NFT之后，才能进行购买**
+The `purchase(address _nftAddr, uint256 _tokenId, uint256 _wei)` method has three parameters:
 
-### 6. 购买`NFT`
+`_nftAddr`: `_nftAddr` is the NFT contract address, which is the `WTFApe` contract address in this example.
 
-切换账号，调用`NFTSwap`合约的`purchase()`函数购买NFT，购买时需要输入`NFT`合约地址，`tokenId`，并输入支付的`ETH`。
+`_tokenId`: `_tokenId` is the ID of the NFT, which is 0 as we minted it earlier.
 
-我们下架了`tokenId`为`1`的NFT，现在还存在`tokenId`为`0`的NFT，所以我们可以购买`tokenId`为`0`的NFT。
-
-`purchase(address _nftAddr, uint256 _tokenId, uint256 _wei)`方法有3个参数:
-
-`_nftAddr`: `_nftAddr`为NFT合约地址，本案例中为`WTFApe`合约地址。
-
-`_tokenId`: `_tokenId`为NFT的id，本案例中为上述mint的`0`Id。
-
-`_wei`: `_wei`为支付的`ETH`数量，本案例中为1 `wei`。
+`_wei`: `_wei` is the amount of `ETH` to be paid, which is 77 `wei` in this example.
 
 ![](./img/38-11.png)
 
-### 7. 验证`NFT`持有人改变
+### 7. Verify change of NFT owner.
 
-购买成功之后，调用`WTFApe`合约的`ownerOf()`函数，可以看到`NFT`持有者发生变化，购买成功！
+After a successful purchase, calling the `ownerOf()` function of the `WTFApe` contract shows that the `NFT` owner has changed, indicating a successful purchase!
 
-![](./img/38-12.png)
-
-## 总结
-这一讲，我们建立了一个零手续费的去中心化`NFT`交易所。`OpenSea`虽然对`NFT`的发展做了很大贡献，但它的缺点也非常明显：高手续费、不发币回馈用户、交易机制容易被钓鱼导致用户资产丢失。目前`Looksrare`和`dydx`等新的`NFT`交易平台正在挑战`OpenSea`的位置，`Uniswap`也在研究新的`NFT`交易所。相信不久的将来，我们会用到更好的`NFT`交易所。
+In summary, in this lecture, we built a zero-fee decentralized `NFT` exchange. Although `OpenSea` has made significant contributions to the development of `NFTs`, its disadvantages are also very obvious: high transaction fees, no reward for users, and trading mechanisms that can easily lead to phishing attacks, causing users to lose their assets. Currently, new `NFT` trading platforms such as `Looksrare` and `dydx` are challenging the position of `OpenSea`, and `Uniswap` is also researching new `NFT` exchanges. We believe that in the near future, we will have better `NFT` exchanges to use.

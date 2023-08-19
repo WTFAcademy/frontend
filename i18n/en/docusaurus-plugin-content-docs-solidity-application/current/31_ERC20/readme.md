@@ -8,145 +8,150 @@ tags:
   - OpenZeppelin
 ---
 
-# WTF Solidity极简入门: 31. ERC20
+# WTF Solidity 31. ERC20
 
-我最近在重新学solidity，巩固一下细节，也写一个“WTF Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
-欢迎关注我的推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
+Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
 
-欢迎加入WTF科学家社区，内有加微信群方法：[链接](https://discord.gg/5akcruXrsk)
+Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
 
-所有代码和教程开源在github（1024个star发课程认证，2048个star发社群NFT）: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
 
 -----
 
-这一讲，我们将介绍以太坊上的`ERC20`代币标准，并发行自己的测试代币。
+In this lecture, we will introduce the ERC20 token standard on Ethereum and issue our own test tokens.
 
 ## ERC20
 
-`ERC20`是以太坊上的代币标准，来自2015年11月V神参与的[`EIP20`](https://eips.ethereum.org/EIPS/eip-20)。它实现了代币转账的基本逻辑：
+ERC20 is a token standard on Ethereum, which originated from the `EIP20` proposed by Vitalik Buterin in November 2015. It implements the basic logic of token transfer:
 
-- 账户余额
-- 转账
-- 授权转账
-- 代币总供给
-- 代币信息（可选）：名称，代号，小数位数
+- Account balance
+- Transfer
+- Approve transfer
+- Total token supply
+- Token Information (optional): name, symbol, decimal
 
 ## IERC20
-`IERC20`是`ERC20`代币标准的接口合约，规定了`ERC20`代币需要实现的函数和事件。
-之所以需要定义接口，是因为有了规范后，就存在所有的`ERC20`代币都通用的函数名称，输入参数，输出参数。
-在接口函数中，只需要定义函数名称，输入参数，输出参数，并不关心函数内部如何实现。
-由此，函数就分为内部和外部两个内容，一个重点是实现，另一个是对外接口，约定共同数据。
-这就是为什么需要`ERC20.sol`和`IERC20.sol`两个文件实现一个合约。
+`IERC20` is the interface contract of the `ERC20` token standard, which specifies the functions and events that `ERC20` tokens need to implement. The reason for defining an interface is that with the standard, there are universal function names, input and output parameters for all `ERC20` tokens. In the interface functions, only the function name, input parameters, and output parameters need to be defined, and it does not matter how the function is implemented internally. Therefore, the functions are divided into two contents: internal implementation and external interface, focusing on implementation and agreement of shared data between interfaces. This is why we need two files `ERC20.sol` and `IERC20.sol` to implement a contract.
 
-### 事件
-`IERC20`定义了`2`个事件：`Transfer`事件和`Approval`事件，分别在转账和授权时被释放
+### Event
+
+The `IERC20` defines `2` events: the `Transfer` event and the `Approval` event, which are emitted during token transfers and approvals, respectively.
 
 ```solidity
     /**
-     * @dev 释放条件：当 `value` 单位的货币从账户 (`from`) 转账到另一账户 (`to`)时.
+     * @dev Triggered when `value` tokens are transferred from `from` to `to`.
      */
     event Transfer(address indexed from, address indexed to, uint256 value);
 
     /**
-     * @dev 释放条件：当 `value` 单位的货币从账户 (`owner`) 授权给另一账户 (`spender`)时.
+     * @dev Triggered whenever `value` tokens are approved by `owner` to be spent by `spender`.
      */
     event Approval(address indexed owner, address indexed spender, uint256 value);
 ```
 
-### 函数
-`IERC20`定义了`6`个函数，提供了转移代币的基本功能，并允许代币获得批准，以便其他链上第三方使用。
+### Functions
+`IERC20` defines `6` functions, providing basic functionalities for transferring tokens, and allowing tokens to be approved for use by other third parties on the chain.
 
-- `totalSupply()`返回代币总供给
+- `totalSupply()` returns the total token supply.
+
 ```solidity
     /**
-     * @dev 返回代币总供给.
+     * @dev Returns the total amount of tokens.
      */
     function totalSupply() external view returns (uint256);
 ```
 
-- `balanceOf()`返回账户余额
+`balanceOf()` returns the account balance.
+
 ```solidity
     /**
-     * @dev 返回账户`account`所持有的代币数.
+     * @dev Returns the amount of tokens owned by `account`.
      */
     function balanceOf(address account) external view returns (uint256);
 ```
 
-- `transfer()`转账
+- `transfer()` means transfer of funds.
+
 ```solidity
     /**
-     * @dev 转账 `amount` 单位代币，从调用者账户到另一账户 `to`.
+     * @dev Transfers `amount` tokens from the caller's account to the recipient `to`.
      *
-     * 如果成功，返回 `true`.
+     * Returns a boolean value indicating whether the operation succeeded or not.
      *
-     * 释放 {Transfer} 事件.
+     * Emits a {Transfer} event.
      */
     function transfer(address to, uint256 amount) external returns (bool);
 ```
 
-- `allowance()`返回授权额度
+The `allowance()` function returns the authorized amount.
+
 ```solidity
     /**
-     * @dev 返回`owner`账户授权给`spender`账户的额度，默认为0。
+     * @dev Returns the amount authorized by the `owner` account to the `spender` account, default is 0.
      *
-     * 当{approve} 或 {transferFrom} 被调用时，`allowance`会改变.
+     * When {approve} or {transferFrom} is invoked，`allowance` will be changed.
      */
     function allowance(address owner, address spender) external view returns (uint256);
 ```
 
-- `approve()`授权
+- `approve()` Authorization
+
 ```solidity
-    /**
-     * @dev 调用者账户给`spender`账户授权 `amount`数量代币。
-     *
-     * 如果成功，返回 `true`.
-     *
-     * 释放 {Approval} 事件.
-     */
-    function approve(address spender, uint256 amount) external returns (bool);
+/**
+ * @dev Allows `spender` to spend `amount` tokens from caller's account.
+ *
+ * Returns a boolean value indicating whether the operation succeeded or not.
+ *
+ * Emits an {Approval} event.
+ */
+function approve(address spender, uint256 amount) external returns (bool);
 ```
 
-- `transferFrom()`授权转账
+- `transferFrom()` authorized transfer.
+
 ```solidity
-    /**
-     * @dev 通过授权机制，从`from`账户向`to`账户转账`amount`数量代币。转账的部分会从调用者的`allowance`中扣除。
-     *
-     * 如果成功，返回 `true`.
-     *
-     * 释放 {Transfer} 事件.
-     */
-    function transferFrom(
-        address from,
-        address to,
-        uint256 amount
-    ) external returns (bool);
+/**
+ * @dev Transfer `amount` of tokens from `from` account to `to` account, subject to the caller's
+ * allowance. The caller must have allowance for `from` account balance.
+ *
+ * Returns `true` if the operation is successful.
+ *
+ * Emits a {Transfer} event.
+ */
+function transferFrom(
+    address from,
+    address to,
+    uint256 amount
+) external returns (bool);
 ```
 
-## 实现ERC20
+## Implementation of ERC20
 
-现在我们写一个`ERC20`，将`IERC20`规定的函数简单实现。
+Now we will write an `ERC20` contract and implement the functions defined in the `IERC20` interface.
 
-### 状态变量
-我们需要状态变量来记录账户余额，授权额度和代币信息。其中`balanceOf`, `allowance`和`totalSupply`为`public`类型，会自动生成一个同名`getter`函数，实现`IERC20`规定的`balanceOf()`, `allowance()`和`totalSupply()`。而`name`, `symbol`, `decimals`则对应代币的名称，代号和小数位数。
+### State Variables
+We need state variables to record account balances, allowances, and token information. Among them, `balanceOf`, `allowance`, and `totalSupply` are of type `public`, which will automatically generate a same-name `getter` function, implementing `balanceOf()`, `allowance()` and `totalSupply()` functions defined in `IERC20`. `name`, `symbol`, and `decimals` correspond to the name, symbol, and decimal places of tokens.
 
-**注意**：用`override`修饰`public`变量，会重写继承自父合约的与变量同名的`getter`函数，比如`IERC20`中的`balanceOf()`函数。
+**Note**: adding `override` modifier to `public` variables will override the same-name `getter` function inherited from the parent contract, such as `balanceOf()` function in `IERC20`.
 
 ```solidity
     mapping(address => uint256) public override balanceOf;
 
     mapping(address => mapping(address => uint256)) public override allowance;
 
-    uint256 public override totalSupply;   // 代币总供给
+    uint256 public override totalSupply;   // total supply of the token
 
-    string public name;   // 名称
-    string public symbol;  // 代号
+    string public name;   // the name of the token
+    string public symbol;  // the symbol of the token
     
-    uint8 public decimals = 18; // 小数位数
+    uint8 public decimals = 18; // decimal places of the token
 ```
 
-### 函数
-- 构造函数：初始化代币名称、代号。
+### Functions
+- Constructor Function: Initializes the token name and symbol.
+
 ```solidity
     constructor(string memory name_, string memory symbol_){
         name = name_;
@@ -154,7 +159,8 @@ tags:
     }
 ```
 
-- `transfer()`函数：实现`IERC20`中的`transfer`函数，代币转账逻辑。调用方扣除`amount`数量代币，接收方增加相应代币。土狗币会魔改这个函数，加入税收、分红、抽奖等逻辑。
+- `transfer()` function: Implements the `transfer` function in `IERC20`, which handles token transfers. The caller deducts `amount` tokens and the recipient receives the corresponding tokens. Some coins will modify this function to include logic such as taxation, dividends, lottery, etc.
+
 ```solidity
     function transfer(address recipient, uint amount) external override returns (bool) {
         balanceOf[msg.sender] -= amount;
@@ -164,7 +170,7 @@ tags:
     }
 ```
 
-- `approve()`函数：实现`IERC20`中的`approve`函数，代币授权逻辑。被授权方`spender`可以支配授权方的`amount`数量的代币。`spender`可以是EOA账户，也可以是合约账户：当你用`uniswap`交易代币时，你需要将代币授权给`uniswap`合约。
+- `approve()` function: Implements the `approve` function in `IERC20`, which handles token authorization logic. The `spender` specified in the function can spend the authorized `amount` of tokens from the authorizer. The `spender` can be an EOA account or a contract account, for example, when you trade tokens on `Uniswap`, you need to authorize tokens to the `Uniswap` contract.
 
 ```solidity
     function approve(address spender, uint amount) external override returns (bool) {
@@ -174,7 +180,8 @@ tags:
     }
 ```
 
-- `transferFrom()`函数：实现`IERC20`中的`transferFrom`函数，授权转账逻辑。被授权方将授权方`sender`的`amount`数量的代币转账给接收方`recipient`。
+- `transferFrom()` function: Implements the `transferFrom` function in `IERC20`, which is the logic for authorized transfer. The authorized party transfers `amount` of tokens from `sender` to `recipient`.
+
 ```solidity
     function transferFrom(
         address sender,
@@ -189,7 +196,8 @@ tags:
     }
 ```
 
-- `mint()`函数：铸造代币函数，不在`IERC20`标准中。这里为了教程方便，任何人可以铸造任意数量的代币，实际应用中会加权限管理，只有`owner`可以铸造代币：
+- `mint()` function: Token minting function, not included in the `IERC20` standard. For the sake of the tutorial, anyone can mint any amount of tokens. In actual applications, permission management will be added, and only the `owner` can mint tokens.
+
 ```solidity
     function mint(uint amount) external {
         balanceOf[msg.sender] += amount;
@@ -198,7 +206,8 @@ tags:
     }
 ```
 
-- `burn()`函数：销毁代币函数，不在`IERC20`标准中。
+- `burn()` function: Function to destroy tokens, not included in the `IERC20` standard.
+
 ```solidity
     function burn(uint amount) external {
         balanceOf[msg.sender] -= amount;
@@ -207,33 +216,32 @@ tags:
     }
 ```
 
-## 发行`ERC20`代币
+## Issuing ERC20 Tokens
 
-有了`ERC20`标准后，在`ETH`链上发行代币变得非常简单。现在，我们发行属于我们的第一个代币。
+With the `ERC20` standard in place, it is very easy to issue tokens on the `ETH` chain. Now, let's issue our first token.
 
-在`Remix`上编译好`ERC20`合约，在部署栏输入构造函数的参数，`name_`和`symbol_`都设为`WTF`，然后点击`transact`键进行部署。
+Compile the `ERC20` contract in `Remix`, enter the constructor's parameters in the deployment section, set `name_` and `symbol_` to `WTF`, and then click the `transact` button to deploy.
 
-![部署合约](./img/31-1.png)
+![Deploying the contract](./img/31-1.png)
 
-这样，我们就创建好了`WTF`代币。我们需要运行`mint()`函数来给自己铸造一些代币。点开`Deployed Contract`中的`ERC20`合约，在`mint`函数那一栏输入`100`并点击`mint`按钮，为自己铸造`100`个`WTF`代币。
+Now, we have created the `WTF` token. We need to run the `mint()` function to mint some tokens for ourselves. Open up the `ERC20` contract in the `Deployed Contract` section, enter `100` in the `mint` function area, and click the `mint` button to mint `100` `WTF` tokens for ourselves.
 
-可以点开右侧的Debug按钮，具体查看下面的logs。
+You can click on the Debug button on the right to view the logs like below.
 
-里面包含四个关键信息：
-- 事件`Transfer`
-- 铸币地址`0x0000000000000000000000000000000000000000`
-- 接收地址`0x5B38Da6a701c568545dCfcB03FcB875f56beddC4`
-- 代币数额`100`
+There are four key pieces of information:
+- The `Transfer` event
+- The minting address `0x0000000000000000000000000000000000000000`
+- The receiving address `0x5B38Da6a701c568545dCfcB03FcB875f56beddC4`
+- The token amount `100`
 
-![铸造代币](./img/31-2.png)
+![Minting tokens](./img/31-2.png)
 
-我们利用`balanceOf()`函数来查询账户余额。输入我们当前的账户，可以看到余额变为`100`，铸造成功。
+We use the `balanceOf()` function to check the account balance. By inputting our current account, we can see the balance of our account is `100` which means minting is successful.
 
-账户信息如图左侧，右侧标注为函数执行的具体信息。
+The account information is shown on the left like below image, and the details of the function execution are indicated on the right side.
 
-![查询余额](./img/31-3.png)
+![Check Balance](./img/31-3.png)
 
+## Summary
 
-## 总结
-
-在这一讲，我们学习了以太坊上的`ERC20`标准及其实现，并且发行了我们的测试代币。2015年底提出的`ERC20`代币标准极大的降低了以太坊上发行代币的门槛，并开启了`ICO`大时代。在投资时，仔细阅读项目的代币合约，可以有效避开貔貅，增加投资成功率。
+In this lesson, we learned about the `ERC20` standard and its implementation on the Ethereum network, and issued our own test token. The `ERC20` token standard proposed at the end of 2015 greatly lowered the threshold for issuing tokens on the Ethereum network and ushered in the era of `ICO`. When investing, carefully read the project's token contract to effectively avoid risks and increase investment success rate.
