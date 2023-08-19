@@ -1,5 +1,5 @@
 ---
-title: 26. DeleteContract
+title: 26. Delete Contract
 tags:
   - solidity
   - advanced
@@ -7,7 +7,7 @@ tags:
   - selfdestruct
   - delete contract
 ---
-# WTF Solidity Tutorial: 26. DeleteContract
+# WTF Solidity: 26. Delete Contract
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

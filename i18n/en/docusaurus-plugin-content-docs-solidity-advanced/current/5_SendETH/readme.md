@@ -7,7 +7,7 @@ tags:
   - transfer/send/call
 ---
 
-# WTF Solidity Tutorial: 20. Sending ETH
+# WTF Solidity: 20. Sending ETH
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

@@ -7,7 +7,7 @@ tags:
   - import
 ---
 
-# WTF Solidity Tutorial: 18. Import
+# WTF Solidity: 18. Import
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

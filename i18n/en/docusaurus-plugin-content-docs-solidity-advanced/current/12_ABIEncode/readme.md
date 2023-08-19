@@ -8,7 +8,7 @@ tags:
   - abi decoding
 ---
 
-# Solidity Minimalist Tutorial: 27. ABIEncode&Decode
+# WTF Solidity: 27. ABIEncode&Decode
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

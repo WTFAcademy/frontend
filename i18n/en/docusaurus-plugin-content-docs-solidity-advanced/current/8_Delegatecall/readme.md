@@ -8,7 +8,7 @@ tags:
   - delegatecall
 ---
 
-# WTF Solidity Tutorial: 23. Delegatecall
+# WTF Solidity: 23. Delegatecall
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

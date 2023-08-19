@@ -6,7 +6,7 @@ tags:
   - wtfacademy
   - selector
 ---
-# WTF Solidity Tutorial: 29. Function Selector
+# WTF Solidity: 29. Function Selector
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

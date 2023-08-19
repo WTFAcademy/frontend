@@ -6,7 +6,7 @@ tags:
   - wtfacademy
   - overloading
 ---
-# WTF Solidity Tutorial: 16. Overloading
+# WTF Solidity: 16. Overloading
 
 <LessonProcess meta={require('./meta.json')} />
 
@@ -40,7 +40,7 @@ function saySomething(string memory something) public pure returns(string memory
 ```
 
 After compiling, all overloading functions become different function selectors due to different parameter types. 
-For the specific content of the function selector, please refer to [WTF Solidity Tutorial: 29. Function Selector](https://github.com/AmazingAng/WTFSolidity/tree/main/29_Selector).
+For the specific content of the function selector, please refer to [WTF Solidity: 29. Function Selector](https://github.com/AmazingAng/WTFSolidity/tree/main/29_Selector).
 
 Taking the `Overloading.sol` contract as an example, after compiling and deploying on Remix.
 After calling the overloading functions `saySomething()` and `saySomething(string memory something)` respectively, 

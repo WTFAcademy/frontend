@@ -8,7 +8,7 @@ tags:
   - create2
 ---
 
-# WTF Solidity Tutorial: 25. Create2
+# WTF Solidity: 25. Create2
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

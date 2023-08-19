@@ -8,7 +8,7 @@ tags:
   - using for
 ---
 
-# WTF Solidity Tutorial: 17. Library : Standing on the shoulders of giants
+# WTF Solidity: 17. Library : Standing on the shoulders of giants
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

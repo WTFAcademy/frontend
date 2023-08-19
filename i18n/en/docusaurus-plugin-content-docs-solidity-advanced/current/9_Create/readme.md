@@ -7,7 +7,7 @@ tags:
   - create contract
 ---
 
-# WTF Solidity Tutorial: 24. Creating a new smart contract in an existed smart contract
+# WTF Solidity: 24. Creating a new smart contract in an existed smart contract
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

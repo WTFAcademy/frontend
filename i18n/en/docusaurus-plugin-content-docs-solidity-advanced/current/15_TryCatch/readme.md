@@ -7,7 +7,7 @@ tags:
   - try catch
 ---
 
-# Solidity Minimalist Tutorial: 30. Try Catch
+# WTF Solidity: 30. Try Catch
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

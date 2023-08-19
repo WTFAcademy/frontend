@@ -8,7 +8,7 @@ tags:
   - call
 ---
 
-# WTF Solidity Tutorial: 22. Call
+# WTF Solidity: 22. Call
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

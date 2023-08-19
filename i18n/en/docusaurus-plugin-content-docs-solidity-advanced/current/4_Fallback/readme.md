@@ -8,7 +8,7 @@ tags:
   - fallback
 ---
 
-# WTF Solidity Tutorial:  19. Receive ETH,  receive and fallback
+# WTF Solidity:  19. Receive ETH,  receive and fallback
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

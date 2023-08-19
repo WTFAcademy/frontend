@@ -6,7 +6,7 @@ tags:
   - wtfacademy
   - hash
 ---
-# WTF Solidity Tutorial: 28. Hash
+# WTF Solidity: 28. Hash
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

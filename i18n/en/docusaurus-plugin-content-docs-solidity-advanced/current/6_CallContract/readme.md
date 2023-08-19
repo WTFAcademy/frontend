@@ -7,7 +7,7 @@ tags:
   - call contract
 ---
 
-# WTF Solidity Tutorial: 21. Interact with other Contract
+# WTF Solidity: 21. Interact with other Contract
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
