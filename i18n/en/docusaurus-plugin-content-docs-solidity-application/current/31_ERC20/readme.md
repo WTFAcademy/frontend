@@ -8,7 +8,7 @@ tags:
   - OpenZeppelin
 ---
 
-# WTF Solidity Tutorial: 31. ERC20
+# WTF Solidity 31. ERC20
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

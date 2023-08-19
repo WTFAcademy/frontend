@@ -6,7 +6,7 @@ tags:
 
 ---
 
-# WTF Solidity Tutorial: 46. Proxy Contract
+# WTF Solidity 46. Proxy Contract
 
 Recently, I have been re-learning Solidity to review the details and write a "WTF Solidity Tutorial" for beginners to use (programmer gurus can find other tutorials). The tutorial will be updated with 1-3 lectures per week. 
 

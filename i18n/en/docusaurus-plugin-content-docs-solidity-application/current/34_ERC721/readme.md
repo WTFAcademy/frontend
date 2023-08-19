@@ -9,7 +9,7 @@ tags:
   - OpenZeppelin
 ---
 
-# WTF Solidity Tutorial: 34. ERC721
+# WTF Solidity 34. ERC721
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

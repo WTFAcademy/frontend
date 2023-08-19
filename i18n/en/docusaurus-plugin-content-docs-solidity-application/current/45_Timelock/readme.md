@@ -5,7 +5,7 @@ tags:
   - application
 ---
 
-# WTF Solidity Tutorial: 45. Time Lock
+# WTF Solidity 45. Time Lock
 
 I've been relearning Solidity recently to strengthen some details and write a "WTF Solidity Tutorial" for beginners (programming experts can find other tutorials), updated weekly with 1-3 lessons.
 

@@ -7,7 +7,7 @@ tags:
 
 ---
 
-# WTF Solidity Tutorial: 47. Upgradeable Contract
+# WTF Solidity 47. Upgradeable Contract
 
 I have recently been revising Solidity to consolidate the details, and am writing a "WTF Solidity Tutorial" for beginners to use (programming experts can find other tutorials), with weekly updates of 1-3 lectures.
 

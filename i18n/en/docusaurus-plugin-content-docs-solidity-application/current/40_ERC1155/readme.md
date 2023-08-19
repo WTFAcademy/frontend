@@ -7,7 +7,7 @@ tags:
   - ERC1155
 ---
 
-# WTF Solidity Tutorial: 40. ERC1155
+# WTF Solidity 40. ERC1155
 
 I am currently relearning Solidity to reinforce my knowledge of its intricacies and write a "WTF Solidity Tutorial" for beginners (expert programmers may seek out other tutorials). Updates will be given on a weekly basis, covering 1-3 lessons per week.
 

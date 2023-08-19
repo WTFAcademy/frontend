@@ -8,7 +8,7 @@ tags:
   - faucet
 ---
 
-# WTF Solidity Tutorial: 32. Token Faucet
+# WTF Solidity 32. Token Faucet
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

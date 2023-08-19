@@ -8,7 +8,7 @@ tags:
   - Airdrop
 ---
 
-# WTF Solidity Tutorial: 33. Sending Airdrops
+# WTF Solidity 33. Sending Airdrops
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

@@ -5,7 +5,7 @@ tags:
   - application
 ---
 
-# WTF Solidity Tutorial: 42. Payment Splitting
+# WTF Solidity 42. Payment Splitting
 
 I have been relearning solidity recently to solidify some of the details and to create a "WTF Solidity Tutorial" for beginners (advanced programmers can seek other tutorials). New lectures will be updated every week, ranging from 1 to 3.
 

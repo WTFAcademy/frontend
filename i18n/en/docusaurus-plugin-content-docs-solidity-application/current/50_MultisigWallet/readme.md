@@ -8,7 +8,7 @@ tags:
 
 ---
 
-# WTF Solidity Tutorial: 50. Multisignature Wallet
+# WTF Solidity 50. Multisignature Wallet
 
 I am currently relearning Solidity to solidify some of the details and create a "WTF Solidity Tutorial" for beginners (advanced programmers may want to find another tutorial). I will update 1-3 lessons weekly.
 

@@ -6,7 +6,7 @@ tags:
   - ERC20
 ---
 
-# WTF Solidity Tutorial: 44. Token Lock
+# WTF Solidity 44. Token Lock
 
 I have been relearning Solidity recently to solidify my understanding of the language and to create a "WTF Solidity Tutorial" for beginners (advanced programmers can find other tutorials). I will update it weekly with 1-3 lessons.
 

@@ -8,7 +8,7 @@ tags:
   - Merkle Tree
 ---
 
-# WTF Solidity Tutorial: 36. Merkle Tree
+# WTF Solidity 36. Merkle Tree
 
 Recently, I have been reviewing solidity in order to consolidate some details and write a "WTF Solidity Tutorial" for novices (programming experts can find other tutorials). I will update 1-3 lessons weekly.
 

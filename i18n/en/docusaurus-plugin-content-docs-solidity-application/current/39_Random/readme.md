@@ -9,7 +9,7 @@ tags:
   - chainlink
 ---
 
-# WTF Solidity Tutorial: 39. On-chain Randomness
+# WTF Solidity 39. On-chain Randomness
 
 I am currently re-learning Solidity to sharpen my skills and writing a "WTF Solidity Tutorial" guide for beginners to use (advanced programmers can look for other tutorials). I will update 1-3 lectures every week.
 

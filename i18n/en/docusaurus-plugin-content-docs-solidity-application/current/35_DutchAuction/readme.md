@@ -8,7 +8,7 @@ tags:
   - Dutch Auction
 ---
 
-# WTF Solidity Tutorial: 35. Dutch Auction
+# WTF Solidity 35. Dutch Auction
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

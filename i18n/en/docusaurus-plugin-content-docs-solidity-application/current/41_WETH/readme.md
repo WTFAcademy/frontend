@@ -7,7 +7,7 @@ tags:
   - fallback
 ---
 
-# WTF Solidity Tutorial: 41. WETH
+# WTF Solidity 41. WETH
 
 I am currently re-learning Solidity to refresh my knowledge and create a "WTF Solidity Tutorial" for beginners to use (advanced programmers may find other resources more suitable). A new lesson will be added each week.
 

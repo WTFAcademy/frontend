@@ -8,7 +8,7 @@ tags:
   - NFT Swap
 ---
 
-# WTF Solidity Tutorial: 38. NFT Exchange
+# WTF Solidity 38. NFT Exchange
 
 I have been revisiting Solidity lately to review the details and create a "WTF Solidity Tutorial" for beginners (professional programmers may find other tutorials more suitable), with 1-3 updates per week.
 

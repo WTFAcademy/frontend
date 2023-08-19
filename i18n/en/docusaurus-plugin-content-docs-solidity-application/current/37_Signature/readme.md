@@ -8,7 +8,7 @@ tags:
   - Signature
 ---
 
-# WTF Solidity Tutorial: Lesson 37 Digital Signature
+# WTF Solidity Lesson 37 Digital Signature
 
 I'm currently relearning Solidity to consolidate some details and write a 'WTF Solidity Tutorial' for newbies to use (programming experts can find other tutorials), with 1-3 updates per week.
 

@@ -7,7 +7,7 @@ tags:
 
 ---
 
-# WTF Solidity Tutorial: 49. UUPS
+# WTF Solidity 49. UUPS
 
 I am currently relearning Solidity to solidify some of the details and create a "WTF Solidity Tutorial" for beginners (advanced programmers may want to find another tutorial). I will update 1-3 lessons weekly.
 

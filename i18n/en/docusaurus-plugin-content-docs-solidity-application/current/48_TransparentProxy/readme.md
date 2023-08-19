@@ -7,7 +7,7 @@ tags:
 
 ---
 
-# WTF Solidity Tutorial: 48. Transparent Proxy
+# WTF Solidity 48. Transparent Proxy
 
 I've been relearning Solidity lately to solidify some details and create a "WTF Solidity Tutorial" for beginners (advanced programmers might want to look for other tutorials). I'll be updating with 1-3 lessons per week.
 
