@@ -9,7 +9,7 @@ tags:
 ---
 
 # WTF Solidity: 23. Delegatecall
-
+<LessonProcess meta={require('./meta.json')} />
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
 Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
@@ -139,3 +139,4 @@ While function `delegatecallSetVars` calls `setVars` via `delegatecall`. Similar
 ## Summary
 In this lecture we introduce another low level function in `Solidity`, `delegatecall`. Similar to `call`, `delegatecall` can be used to call another contract; the difference of `delegatecall` and `call` is `execution context`, the `execution context` is `C` if `B` `call` `C`; but the `execution context` is `B` if `B` `delegatecall` `C`. The major use cases for delegatecall is `proxy contract` and `EIP-2535 Diamons`.
 
+<LessonQuizStart meta={require('./meta.json')} />
