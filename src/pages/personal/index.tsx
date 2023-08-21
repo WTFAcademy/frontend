@@ -13,9 +13,9 @@ function Personal() {
                 <PersonalBanner />
                 <div>
                     <PersonalAvatar />
-                    <div className="flex flex-col items-start w-full px-8 mx-auto mt-12 mb-10 md:flex-row md:w-[1024px] md:mb-28">
+                    <div className="flex flex-col items-start w-full px-8 mx-auto mt-12 mb-10 lg:flex-row lg:w-[1024px] lg:mb-28">
                         <PersonalInfo />
-                        <div className="w-full mt-10 md:mt-0">
+                        <div className="w-full mt-10 lg:mt-0">
                             <PersonalList />
                         </div>
                     </div>

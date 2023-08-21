@@ -54,7 +54,7 @@ function PersonalInfo() {
     },[data]);
 
     return (
-        <div className="box-border flex flex-col flex-shrink-0 w-full p-8 mr-12 overflow-hidden border border-border-input rounded-md md:w-[280px]">
+        <div className="box-border flex flex-col flex-shrink-0 w-full p-8 mr-12 overflow-hidden border border-border-input rounded-md lg:w-[280px]">
             <p className="mb-6 text-sm leading-5 text-content-muted">
                 { bio ?
                     bio
@@ -93,7 +93,7 @@ function PersonalInfo() {
             </div>
             <div className="flex">
                 <Link to="/personal/settings">
-                    <Button className="w-[82px] h-[34px] text-base bg-brand-muted text-content ">
+                    <Button className="w-auto h-[34px] text-base bg-brand-muted text-content ">
                         <Translate id="personal.Settings.button">
                             设置
                         </Translate>
