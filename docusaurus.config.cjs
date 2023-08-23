@@ -36,7 +36,7 @@ const SECTIONS = [
     defineSection('solidity-start'),
     defineSection('solidity-advanced'),
     defineSection('solidity-application'),
-    defineSection('ether-start'),
+    defineSection('ethers-101'),
 ];
 
 /** @type {import('@docusaurus/types').Config} */
