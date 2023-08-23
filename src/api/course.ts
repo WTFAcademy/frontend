@@ -21,10 +21,10 @@ export const getCourseInfo = (courseId: string) => {
   return request.get(`/course/${courseId}`).then((res) => res.data);
 };
 
-export const getCourses = (start_status: 1 | 2) => {
+export const getCourses = (start_status: 1 | 2, lan?: undefined | "en") => {
   return request
     .get<unknown, TResult<{ list: TCourse[] }>>(
-      `/courses?start_status=${start_status}`
+      `/courses?start_status=${start_status}&lan=${lan ?? ""}`
     )
     .then((res) => res.data);
 };

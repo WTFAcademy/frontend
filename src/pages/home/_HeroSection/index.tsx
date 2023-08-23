@@ -18,7 +18,7 @@ const HeroSection = () => {
                         在 Twitter 上关注我们，
                         </Translate>
                     </a>
-                    <span>{" "}
+                    <span>
                         <Translate id="home.hero.desc03">
                             与 web3 开发人员交流。
                         </Translate>

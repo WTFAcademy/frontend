@@ -83,7 +83,7 @@ const Profile = (props: TProps) => {
                 {renderWalletInfo()}
                 <DropdownMenuItem>
                     <UserIcon className="w-4 h-4 mr-2"/>
-                    <Link to="/personal">
+                    <Link to="/personal" className="text-popover-foreground hover:text-popover-foreground hover:decoration-transparent">
                         <Translate id="profile.Account.button">个人中心</Translate>
                     </Link>
                 </DropdownMenuItem>

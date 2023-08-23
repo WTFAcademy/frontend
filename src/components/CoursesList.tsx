@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "@docusaurus/router";
 import { useQuery } from "react-query";
 import Tag from "@site/src/components/ui/Tag";
@@ -17,7 +17,6 @@ type TProps = {
 const CourseCard = (props: TProps) => {
   const { course } = props;
   const history = useHistory();
-  const { i18n } = useDocusaurusContext();
 
   return (
     <div
@@ -55,8 +54,15 @@ const CourseList = ({
   isTotal?: boolean;
   isUpcoming: boolean;
 }) => {
-  const { data, isLoading } = useQuery(["getCourses", isUpcoming], () =>
-    getCourses(isUpcoming ? 2 : 1)
+  const { i18n } = useDocusaurusContext();
+
+  const { data, isLoading } = useQuery(
+    ["getCourses", isUpcoming, i18n.currentLocale],
+    () =>
+      getCourses(
+        isUpcoming ? 2 : 1,
+        i18n.currentLocale === "en" ? "en" : undefined
+      )
   );
 
   // const isLoading = true;
