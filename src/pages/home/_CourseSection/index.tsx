@@ -9,11 +9,13 @@ const CourseSection = () => {
   return (
     <div className="w-full pb-28 flex justify-center">
       <div className="flex flex-col items-center px-8 w-full md:w-[1028px]">
-        <div className="text-[32px]">🐝</div>
-        <div className="text-[42px] font-bold font-ubuntu">
-          <Translate id="home.courses.title">课程</Translate>
+        <div className="flex items-center gap-1">
+          <div className="text-[32px]">🐝</div>
+          <div className="text-[42px] font-bold font-ubuntu">
+            <Translate id="home.courses.title">课程</Translate>
+          </div>
         </div>
-        <div className="text-sm font-normal mb-[70px]">
+        <div className="text-sm font-normal mb-[70px] mt-4">
           <Translate id="home.courses.title">
             为开发者设计的 Web3 课程
           </Translate>
