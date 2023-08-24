@@ -11,13 +11,15 @@ const EventSection = () => {
   return (
     <div className="w-full flex justify-center">
       <div className="flex flex-col items-center md:w-[1224px] md:px-0 px-8 w-full">
-        <div className="text-[32px] mt-[96px]">🎪</div>
-        <div className="text-[42px] font-bold font-ubuntu">
-          <Translate id="home.events.title">
-            活动
-          </Translate>
+        <div className="flex items-center gap-1 mt-[96px]">
+          <div className="text-[32px]">🎪</div>
+          <div className="text-[42px] font-bold font-ubuntu">
+            <Translate id="home.events.title">
+              活动
+            </Translate>
+          </div>
         </div>
-        <div className="text-sm font-normal mb-[70px]">
+        <div className="text-sm font-normal mb-[70px] mt-4">
           <Translate id="home.events.intro">
             学习的目的是创新
           </Translate>
