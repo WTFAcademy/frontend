@@ -107,3 +107,4 @@ There are 3 elements in `Topics`: `[0]` is hash of the event, `[1]` and `[2]` ar
 
 ## Summary
 In this lecture, we introduced how to use and query events in `solidity`. Many on-chain analysis tools are based on solidity events, such as `Dune Analytics`.
+<LessonQuizStart meta={require('./meta.json')} />

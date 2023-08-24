@@ -9,9 +9,7 @@ tags:
 ---
 
 # WTF Solidity: 14. Abstract and Interface
-
 <LessonProcess meta={require('./meta.json')} />
-
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
 Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
@@ -139,3 +137,4 @@ contract interactBAYC {
 In this chapter, we introduced the `abstract` and `interface` contracts in Solidity, which are used to write contract templates and reduce code redundancy.
 We also learned the interface of `ERC721` token standard and how to interact with the `BAYC` contract using interface.
 
+<LessonQuizStart meta={require('./meta.json')} />

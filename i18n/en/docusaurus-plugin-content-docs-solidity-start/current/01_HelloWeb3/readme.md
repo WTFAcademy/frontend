@@ -7,7 +7,6 @@ tags:
 ---
 
 # WTF Solidity Tutorial: 1. HelloWeb3
-
 <LessonProcess meta={require('./meta.json')} />
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
@@ -112,4 +111,6 @@ In this tutorial, we briefly introduced `Solidity`, `Remix` IDE, and completed o
 
 1. [Solidity Documentation](https://docs.soliditylang.org/en/latest/)
 2. [Solidity Tutorial by freeCodeCamp](https://www.youtube.com/watch?v=ipwxYa-F1uY)
-2. [Solidity by Example](https://solidity-by-example.org/)
+3. [Solidity by Example](https://solidity-by-example.org/)
+
+<LessonQuizStart meta={require('./meta.json')} />

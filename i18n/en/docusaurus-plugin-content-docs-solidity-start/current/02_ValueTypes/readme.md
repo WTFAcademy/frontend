@@ -190,3 +190,4 @@ contract Quiz2{
 ## Summary 
 
 In this chapter, we introduced the variable types in Solidity, they are value type, reference type, mapping type, and function type. Then we introduced commonly used types: boolean, integer, address, fixed-length byte array, and enumeration in value types. We will cover other types in the subsequent tutorials.
+<LessonQuizStart meta={require('./meta.json')} />

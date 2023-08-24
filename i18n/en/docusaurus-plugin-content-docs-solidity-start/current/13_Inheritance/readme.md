@@ -295,3 +295,4 @@ Although `Eve` and `Adam` are both child contracts of the `God` parent contract,
 
 ## Summary
 In this tutorial, we introduced the basic uses of inheritance in Solidity, including simple inheritance, multiple inheritance, inheritance of modifiers and constructors, and calling functions from parent contracts.
+<LessonQuizStart meta={require('./meta.json')} />

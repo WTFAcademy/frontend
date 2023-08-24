@@ -8,7 +8,6 @@ tags:
 ---
 
 # WTF Solidity: 10. Control Flow
-
 <LessonProcess meta={require('./meta.json')} />
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
@@ -183,3 +182,4 @@ Result:
 ## Summary
 
 In this lecture, we introduced control flow in Solidity and wrote a simple but bug-prone sorting algorithm. Solidity looks simple but have many traps. Every month, projects get hacked and lose millions of dollars because of small bugs in the smart contract. To write a safe contract, we need to master the basics of the Solidity and keep practicing.
+<LessonQuizStart meta={require('./meta.json')} />

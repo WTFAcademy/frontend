@@ -151,3 +151,4 @@ Below are some commonly used global variables:
 
 ## Summary
 In this chapter, we introduced reference types, data storage locations and variable scopes in `solidity`. There are three types of data storage locations: `storage`, `memory` and `calldata`. Gas costs are different for different storage locations. The variable scope include state variables, local variables and global variables.
+<LessonQuizStart meta={require('./meta.json')} />
