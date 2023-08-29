@@ -119,14 +119,14 @@ const config = {
                         label: 'Solidity 102',
                     },
                     {
-                        href: '/evm-opcodes-101',
-                        position: 'left',
-                        label: 'EVM opcodes 101',
-                    },
-                    {
                         href: '/solidity-application',
                         position: 'left',
                         label: 'Solidity 103',
+                    },
+                    {
+                        href: '/evm-opcodes-101',
+                        position: 'left',
+                        label: 'EVM opcodes 101',
                     },
                     {
                         type: 'localeDropdown',
