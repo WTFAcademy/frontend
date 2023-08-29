@@ -37,6 +37,7 @@ const SECTIONS = [
     defineSection('solidity-advanced'),
     defineSection('solidity-application'),
     defineSection('ethers-101'),
+    defineSection('evm-opcodes-101'),
 ];
 
 /** @type {import('@docusaurus/types').Config} */
@@ -116,6 +117,11 @@ const config = {
                         href: '/solidity-advanced',
                         position: 'left',
                         label: 'Solidity 102',
+                    },
+                    {
+                        href: '/evm-opcodes-101',
+                        position: 'left',
+                        label: 'EVM opcodes 101',
                     },
                     {
                         href: '/solidity-application',
