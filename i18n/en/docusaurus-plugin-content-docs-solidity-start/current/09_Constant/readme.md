@@ -86,3 +86,4 @@ You can initialize the `immutable` variable using a global variable such as `add
 ## Summary
 
 In this section, we introduced two keywords to restrict modifications to their state in Solidity: `constant` and `immutable`. They keep the variables that should not be changed unchanged. It will help to save `gas` while improving the contract's security.
+<LessonQuizStart meta={require('./meta.json')} />

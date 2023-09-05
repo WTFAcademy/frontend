@@ -1,14 +1,22 @@
 [
   {
     "name": "EF",
-    "image_url": "https://vjcxgodediuyprqxqpzo.supabase.co/storage/v1/object/public/images/sponsor-ef.png?t=2023-07-14T14%3A21%3A34.690Z"
+    "image_url": "https://vjcxgodediuyprqxqpzo.supabase.co/storage/v1/object/public/images/sponsor-ef.png?t=2023-07-14T14%3A21%3A34.690Z",
+    "website_url": "https://esp.ethereum.foundation/"
   },
   {
     "name": "OP",
-    "image_url":  "https://vjcxgodediuyprqxqpzo.supabase.co/storage/v1/object/public/images/sponsor-op.png?t=2023-07-14T14%3A21%3A56.025Z"
+    "image_url":  "https://vjcxgodediuyprqxqpzo.supabase.co/storage/v1/object/public/images/sponsor-op.png?t=2023-07-14T14%3A21%3A56.025Z",
+    "website_url": "https://www.optimism.io/"
   },
   {
     "name": "StarkWare",
-    "image_url":  "https://vjcxgodediuyprqxqpzo.supabase.co/storage/v1/object/public/images/sponsor-starkware.png?t=2023-07-14T14%3A22%3A15.465Z"
+    "image_url":  "https://vjcxgodediuyprqxqpzo.supabase.co/storage/v1/object/public/images/sponsor-starkware.png?t=2023-07-14T14%3A22%3A15.465Z",
+    "website_url": "https://starkware.co/"
+  },
+  {
+    "name": "SlowMist",
+    "image_url":  "https://vjcxgodediuyprqxqpzo.supabase.co/storage/v1/object/public/images/sponsor-slowmist.png",
+    "website_url": "https://slowmist.com/"
   }
 ]

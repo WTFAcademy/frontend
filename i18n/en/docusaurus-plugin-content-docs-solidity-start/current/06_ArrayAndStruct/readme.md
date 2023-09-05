@@ -142,3 +142,4 @@ You can define new types in the form of `struct` in Solidity. Elements of `struc
 ## Summary
 
 In this lecture, we introduced the basic usage of `array` and `struct` in Solidity. In the next lecture, we will introduce the hash table in Solidity - `mapping`。
+<LessonQuizStart meta={require('./meta.json')} />

@@ -11,7 +11,6 @@ tags:
 # WTF Solidity: 11. Constructor & Modifier
 
 <LessonProcess meta={require('./meta.json')} />
-
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
 Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
@@ -86,3 +85,4 @@ Here, we take `Owner.sol` as an example.
 
 ## Summary
 In this lecture, we introduced `constructor` and `modifier` in Solidity, and wrote an `Ownable` contract that controls access of the contract.
+<LessonQuizStart meta={require('./meta.json')} />

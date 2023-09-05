@@ -8,7 +8,6 @@ tags:
 ---
 
 # WTF Solidity: 7. Mapping
-
 <LessonProcess meta={require('./meta.json')} />
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
@@ -88,3 +87,4 @@ The format of declaring the `mapping` is `mapping(_KeyType => _ValueType)`, wher
 
 In this section，we introduced the `mapping` type in Solidity. So far, we've learned all kinds of common variables.
 
+<LessonQuizStart meta={require('./meta.json')} />
