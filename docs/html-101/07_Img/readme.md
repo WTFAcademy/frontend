@@ -19,12 +19,12 @@ WTF HTML 教程，帮助新人快速入门 HTML。
 例如：
 
 ```html
-<img src="https://wtf.academy/img/wtflogo.png">
+<img src="https://wtf.academy/img/wtflogo.png" />
 ```
 
 浏览器效果：
 
-<img src="https://wtf.academy/img/wtflogo.png">
+<img src="https://wtf.academy/img/wtflogo.png" />
 
 ## 设置图片属性
 
@@ -37,12 +37,12 @@ WTF HTML 教程，帮助新人快速入门 HTML。
 例如：
 
 ```html
-<img src="https://wtf.academy/img/wtflogo.png" width="200" height="100">
+<img src="https://wtf.academy/img/wtflogo.png" width="200" height="100" />
 ```
 
 浏览器效果：
 
-<img src="https://wtf.academy/img/wtflogo.png" width="200" height="100">
+<img src="https://wtf.academy/img/wtflogo.png" width="200" height="100" />
 
 
 这将会设置图片的宽度为 200 像素，高度为 100 像素。
@@ -56,12 +56,12 @@ WTF HTML 教程，帮助新人快速入门 HTML。
 例如：
 
 ```html
-<img src="https://www.example.com/path/to/image.jpg" alt="A description of the image">
+<img src="https://www.example.com/path/to/image.jpg" alt="A description of the image" />
 ```
 
 浏览器效果：
 
-<img src="https://www.example.com/path/to/image.jpg" alt="A description of the image">
+<img src="https://www.example.com/path/to/image.jpg" alt="A description of the image" />
 
 
 如果图片无法加载，那么页面上将显示 "A description of the image"。
