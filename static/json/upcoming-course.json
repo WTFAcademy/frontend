@@ -6,7 +6,7 @@
       "path": "https://www.wtf.academy/solidity-application",
       "name": "solidity-application",
       "description": "学习Solidity应用内容",
-      "description-en": "Learn Solidity Applications"
+      "description_en": "Learn Solidity Applications"
     },
     {
         "title": "Ethers 101 入门",
@@ -15,7 +15,7 @@
         "path": "https://www.wtf.academy/ethers-101",
         "name": "ethers-101",
         "description": "学习Ethers.js基础",
-        "description-en": "Learn Ethers.js Basics"
+        "description_en": "Learn Ethers.js Basics"
     },    
     {
         "title": "Ethers 102 进阶",
@@ -24,7 +24,7 @@
         "path": "https://www.wtf.academy/ethers-102",
         "name": "ethers-102",
         "description": "学习Ethers.js进阶内容",
-        "description-en": "Learn Advanced Topics on Ethers.js"
+        "description_en": "Learn Advanced Topics on Ethers.js"
     },   
     {
         "title": "EVM Opcodes 101 入门",
@@ -33,7 +33,7 @@
         "path": "https://www.wtf.academy/evm-opcodes-101",
         "name": "evm-opcodes-101",
         "description": "入门EVM操作码和字节码",
-        "description-en": "Learn EVM Opcodes/Bytecode Basics"
+        "description_en": "Learn EVM Opcodes/Bytecode Basics"
     }, 
     {
         "title": "EVM Opcodes 102 进阶",
@@ -42,7 +42,7 @@
         "path": "https://www.wtf.academy/evm-opcodes-102",
         "name": "evm-opcodes-102",
         "description": "EVM操作码/字节码进阶",
-        "description-en": "Learn Advanced EVM Opcodes/Bytecode"
+        "description_en": "Learn Advanced EVM Opcodes/Bytecode"
     } 
   ]
   
