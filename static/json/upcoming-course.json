@@ -1,18 +1,20 @@
 [
     {
-      "title": "Solidity 103 应用",
-      "title_en": "Solidity 103 Application",
-      "image_url": "https://vjcxgodediuyprqxqpzo.supabase.co/storage/v1/object/public/images/Solidity103.png",
-      "path": "https://www.wtf.academy/solidity-application",
-      "name": "solidity-application",
-      "description": "学习Solidity应用内容",
-      "description_en": "Learn Solidity Applications"
+        "title": "Solidity 103 应用",
+        "title_en": "Solidity 103 Application",
+        "image_url": "https://vjcxgodediuyprqxqpzo.supabase.co/storage/v1/object/public/images/Solidity103.png",
+        "path": "https://www.wtf.academy/solidity-application",
+        "path_en": "https://www.wtf.academy/en/solidity-application",
+        "name": "solidity-application",
+        "description": "学习Solidity应用内容",
+        "description_en": "Learn Solidity Applications"
     },
     {
         "title": "Ethers 101 入门",
         "title_en": "Ethers 101 Intro",
         "image_url": "https://vjcxgodediuyprqxqpzo.supabase.co/storage/v1/object/public/images/Ethers101.png",
         "path": "https://www.wtf.academy/ethers-101",
+        "path_en": "https://www.wtf.academy/en/ethers-101",
         "name": "ethers-101",
         "description": "学习Ethers.js基础",
         "description_en": "Learn Ethers.js Basics"
@@ -22,6 +24,7 @@
         "title_en": "Ethers 102 Advanced",
         "image_url": "https://vjcxgodediuyprqxqpzo.supabase.co/storage/v1/object/public/images/Ethers102.png",
         "path": "https://www.wtf.academy/ethers-102",
+        "path_en": "https://www.wtf.academy/en/ethers-102",
         "name": "ethers-102",
         "description": "学习Ethers.js进阶内容",
         "description_en": "Learn Advanced Topics on Ethers.js"
@@ -31,6 +34,7 @@
         "title_en": "EVM Opcodes 101 Intro",
         "image_url": "https://vjcxgodediuyprqxqpzo.supabase.co/storage/v1/object/public/images/Opcodes101.png",
         "path": "https://www.wtf.academy/evm-opcodes-101",
+        "path_en": "https://www.wtf.academy/en/evm-opcodes-101",
         "name": "evm-opcodes-101",
         "description": "入门EVM操作码和字节码",
         "description_en": "Learn EVM Opcodes/Bytecode Basics"
@@ -40,9 +44,9 @@
         "title_en": "EVM Opcodes 102 Intro",
         "image_url": "https://vjcxgodediuyprqxqpzo.supabase.co/storage/v1/object/public/images/Opcodes102.png",
         "path": "https://www.wtf.academy/evm-opcodes-102",
+        "path_en": "https://www.wtf.academy/en/evm-opcodes-102",
         "name": "evm-opcodes-102",
         "description": "EVM操作码/字节码进阶",
         "description_en": "Learn Advanced EVM Opcodes/Bytecode"
     } 
-  ]
-  
+]
