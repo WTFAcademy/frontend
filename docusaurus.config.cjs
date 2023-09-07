@@ -37,7 +37,11 @@ const SECTIONS = [
     defineSection('solidity-advanced'),
     defineSection('solidity-application'),
     defineSection('ethers-101'),
+    defineSection('ethers-102'),
     defineSection('evm-opcodes-101'),
+    defineSection('evm-opcodes-102'),
+    defineSection('html-101'),
+    defineSection('langchain-101'),
 ];
 
 /** @type {import('@docusaurus/types').Config} */
