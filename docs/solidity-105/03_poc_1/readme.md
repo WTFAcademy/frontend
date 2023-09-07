@@ -14,9 +14,9 @@ tags:
 Author: [Ghost](https://twitter.com/h0wsO1)
 
 
-在 [01_Tools](/Topics/Onchain_debug/01_tools/readme.md) 教学中，我们学到了如何使用 Debug Tools 来观察一笔交易和智能合约互动的过程。
+在第一讲教学中，我们学到了如何使用 Debug Tools 来观察一笔交易和智能合约互动的过程。
 
-在 [02_Warm](/Topics/Onchain_debug/02_warmup/readme.md) 教学中，我们实际分析了一笔与 DEX 互动的交易，并且使用 Foundry 与 DEX 互动。
+在第二讲教学中，我们实际分析了一笔与 DEX 互动的交易，并且使用 Foundry 与 DEX 互动。
 
 在本次教学中，我们将带你实际分析一个攻击事件，并逐步带你利用 Foundry 测试框架撰写代码，完成 Reproduce PoC。
 
@@ -538,8 +538,6 @@ interface IEGD_Finance {
 </details>
 
 若一切顺利，命令列 `forge test --contracts ./src/test/EGD-Finance.exp.sol -vvv` 就可以看到 Reproduce 执行结果与 Balance 变化了。
-
-[DeFiHackLabs - EGD-Finance.exp.sol](/src/test/EGD-Finance.exp.sol)
 
 ```
 Running 1 test for src/test/EGD-Finance.exp.sol:Attacker
