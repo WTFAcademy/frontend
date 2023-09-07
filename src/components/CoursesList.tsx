@@ -72,7 +72,9 @@ const UpcomingCourseCard = (props: any) => {
 
   return (
     <div
-      onClick={() => viewCourse(i18n.currentLocale === "en" ? course.path_en : course.path)}
+      onClick={() =>
+        viewCourse(i18n.currentLocale === "en" ? course.path_en : course.path)
+      }
       className="w-full cursor-pointer md:w-[300px] border border-solid rounded-md shadow-sm transition-shadow hover:shadow-lg overflow-hidden"
     >
       <div className="bg-background-subtle w-full h-[150px]">
@@ -89,7 +91,9 @@ const UpcomingCourseCard = (props: any) => {
           </span>
         </div>
         <div className="text-sm leading-[17px] mt-[10px]">
-          {i18n.currentLocale === "en" ? course.description_en : course.description}
+          {i18n.currentLocale === "en"
+            ? course.description_en
+            : course.description}
         </div>
       </div>
     </div>
@@ -167,8 +171,8 @@ const CourseList = ({
             ))}
           </>
         ) : isUpcoming ? (
-          UpcomingCourseJSON.map(
-            (item) => <UpcomingCourseCard key={item.id} course={item} />
+          (isTotal ? UpcomingCourseJSON : UpcomingCourseJSON.slice(0, 6)).map(
+            (item, index) => <UpcomingCourseCard key={index} course={item} />
           )
         ) : (
           ((isTotal ? data?.list : data?.list.slice(0, 6)) || []).map(
