@@ -24,16 +24,16 @@ HTML5 引入了一系列新的标签和属性，以提供更丰富的内容展�
 
 ```html
 <video controls width="500">
-  <source src="movie.mp4" type="video/mp4">
-  <source src="movie.ogg" type="video/ogg">
+  <source src="movie.mp4" type="video/mp4"/>
+  <source src="movie.ogg" type="video/ogg"/>
   Your browser does not support the video tag.
 </video>
 ```
 浏览器效果：
 
 <video controls width="500">
-  <source src="movie.mp4" type="video/mp4">
-  <source src="movie.ogg" type="video/ogg">
+  <source src="movie.mp4" type="video/mp4"/>
+  <source src="movie.ogg" type="video/ogg"/>
   Your browser does not support the video tag.
 </video>
 
@@ -42,8 +42,8 @@ HTML5 引入了一系列新的标签和属性，以提供更丰富的内容展�
 
 ```html
 <audio controls>
-  <source src="audio.mp3" type="audio/mpeg">
-  <source src="audio.ogg" type="audio/ogg">
+  <source src="audio.mp3" type="audio/mpeg"/>
+  <source src="audio.ogg" type="audio/ogg"/>
   Your browser does not support the audio tag.
 </audio>
 ```
@@ -51,8 +51,8 @@ HTML5 引入了一系列新的标签和属性，以提供更丰富的内容展�
 浏览器效果：
 
 <audio controls>
-  <source src="audio.mp3" type="audio/mpeg">
-  <source src="audio.ogg" type="audio/ogg">
+  <source src="audio.mp3" type="audio/mpeg"/>
+  <source src="audio.ogg" type="audio/ogg"/>
   Your browser does not support the audio tag.
 </audio>
 
@@ -89,26 +89,26 @@ HTML5 提供了一些新的输入类型，如 `email`、`number`、`date` 等。
 ```html
 <form>
   <label for="email">Email:</label>
-  <input type="email" id="email" name="email">
+  <input type="email" id="email" name="email"/>
 
   <label for="quantity">Quantity (between 1 and 5):</label>
-  <input type="number" id="quantity" name="quantity" min="1" max="5">
+  <input type="number" id="quantity" name="quantity" min="1" max="5"/>
 
   <label for="birthday">Birthday:</label>
-  <input type="date" id="birthday" name="birthday">
+  <input type="date" id="birthday" name="birthday"/>
 </form>
 ```
 
 浏览器效果：
 <form>
   <label for="email">Email:</label>
-  <input type="email" id="email" name="email">
+  <input type="email" id="email" name="email"/>
 
   <label for="quantity">Quantity (between 1 and 5):</label>
-  <input type="number" id="quantity" name="quantity" min="1" max="5">
+  <input type="number" id="quantity" name="quantity" min="1" max="5"/>
 
   <label for="birthday">Birthday:</label>
-  <input type="date" id="birthday" name="birthday">
+  <input type="date" id="birthday" name="birthday"/>
 </form>
 
 
@@ -123,10 +123,10 @@ HTML5 还引入了一些新的输入属性，如 `placeholder`、`required` 等�
 ```html
 <form>
   <label for="fname">First name:</label>
-  <input type="text" id="fname" name="fname" placeholder="Your first name" required>
+  <input type="text" id="fname" name="fname" placeholder="Your first name" required/>
 
   <label for="lname">Last name:</label>
-  <input type="text" id="lname" name="lname" placeholder="Your last name">
+  <input type="text" id="lname" name="lname" placeholder="Your last name"/>
 </form>
 ```
 
@@ -134,10 +134,10 @@ HTML5 还引入了一些新的输入属性，如 `placeholder`、`required` 等�
 
 <form>
   <label for="fname">First name:</label>
-  <input type="text" id="fname" name="fname" placeholder="Your first name" required>
+  <input type="text" id="fname" name="fname" placeholder="Your first name" required/>
 
   <label for="lname">Last name:</label>
-  <input type="text" id="lname" name="lname" placeholder="Your last name">
+  <input type="text" id="lname" name="lname" placeholder="Your last name"/>
 </form>
 
 

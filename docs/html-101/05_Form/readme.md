@@ -34,16 +34,16 @@ WTF HTML教程，帮助新人快速入门HTML。
 
 ```html
 <form>
-First name: <input type="text" name="firstname"><br>
-Last name: <input type="text" name="lastname">
+First name: <input type="text" name="firstname"/><br/>
+Last name: <input type="text" name="lastname"/>
 </form>
 ```
 
 浏览器效果：
 
 <form>
-First name: <input type="text" name="firstname"><br>
-Last name: <input type="text" name="lastname">
+First name: <input type="text" name="firstname"/><br/>
+Last name: <input type="text" name="lastname"/>
 </form>
 
 ## 密码
@@ -54,14 +54,14 @@ Last name: <input type="text" name="lastname">
 
 ```html
 <form>
-Password: <input type="password" name="pwd">
+Password: <input type="password" name="pwd"/>
 </form>
 ```
 
 浏览器效果：
 
 <form>
-Password: <input type="password" name="pwd">
+Password: <input type="password" name="pwd"/>
 </form>
 
 ## 单选按钮（Radio Buttons）
@@ -71,8 +71,8 @@ Password: <input type="password" name="pwd">
 ```html
 <form action="">
 ACCOUNT:
-<input type="radio" name="address" value="addr1">0x5B38Da6a701c568545dCfcB03FcB875f56beddC4<br>
-<input type="radio" name="address" value="addr2">0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2
+<input type="radio" name="address" value="addr1"/>0x5B38Da6a701c568545dCfcB03FcB875f56beddC4<br/>
+<input type="radio" name="address" value="addr2"/>0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2
 </form>
 ```
 
@@ -81,8 +81,8 @@ ACCOUNT:
 <form action="">
 ACCOUNT:
 
-<input type="radio" name="address" value="addr1">0x5B38Da6a701c568545dCfcB03FcB875f56beddC4<br>
-<input type="radio" name="address" value="addr2">0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2
+<input type="radio" name="address" value="addr1"/>0x5B38Da6a701c568545dCfcB03FcB875f56beddC4<br/>
+<input type="radio" name="address" value="addr2"/>0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2
 </form>
 
 ### 复选框（Checkboxes）
@@ -93,20 +93,20 @@ ACCOUNT:
 
 ```html
 <form>
-  Token value <br>
-  <input type="checkbox" name="token_value" value="Wei">Wei<br>
-  <input type="checkbox" name="token_value" value="GWei">GWei<br>
-  <input type="checkbox" name="token_value" value="Ether">Ether<br>
+  Token value <br/>
+  <input type="checkbox" name="token_value" value="Wei"/>Wei<br/>
+  <input type="checkbox" name="token_value" value="GWei"/>GWei<br/>
+  <input type="checkbox" name="token_value" value="Ether"/>Ether<br/>
 </form>
 ```
 
 浏览器效果：
 
 <form>
-  Token value <br>
-  <input type="checkbox" name="token_value" value="Wei">Wei<br>
-  <input type="checkbox" name="token_value" value="GWei">GWei<br>
-  <input type="checkbox" name="token_value" value="Ether">Ether<br>
+  Token value <br/>
+  <input type="checkbox" name="token_value" value="Wei"/>Wei<br/>
+  <input type="checkbox" name="token_value" value="GWei"/>GWei<br/>
+  <input type="checkbox" name="token_value" value="Ether"/>Ether<br/>
 </form>
 
 
@@ -146,16 +146,16 @@ ACCOUNT:
 
 ```html
 <form name="input" action="action.php" method="get">
-  <input type="submit" value="Deploy">
-  <input type="text" name="user" placeholder='address'>
+  <input type="submit" value="Deploy"/>
+  <input type="text" name="user" placeholder='address'/>
 </form>
 ```
 
 浏览器效果：
 
 <form name="input" action="action.php" method="get">
-  <input type="submit" value="Deploy">
-  <input type="text" name="user" placeholder='address'>
+  <input type="submit" value="Deploy"/>
+  <input type="text" name="user" placeholder='address'/>
 </form>
 
 ## 表单其他元素
