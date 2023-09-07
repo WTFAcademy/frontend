@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
+import useBreakpoint from "@site/src/hooks/useBreakpoint";
 import { useHistory } from "@docusaurus/router";
 import { useQuery } from "react-query";
 import Tag from "@site/src/components/ui/Tag";
@@ -63,6 +64,7 @@ const CourseList = ({
   isUpcoming: boolean;
 }) => {
   const { i18n } = useDocusaurusContext();
+  const size = useBreakpoint();
 
   const { data, isLoading } = useQuery(
     ["getCourses", isUpcoming, i18n.currentLocale],
@@ -74,6 +76,18 @@ const CourseList = ({
   );
 
   // const isLoading = true;
+
+  const showCols = useMemo(() => {
+    switch (size) {
+      case "md":
+      case "sm":
+        return 2;
+      case "xs":
+        return 1;
+      default:
+        return 3;
+    }
+  }, [size]);
 
   return (
     <div
@@ -96,7 +110,9 @@ const CourseList = ({
           {data?.list.length ?? 0}
         </Tag>
       </div>
-      <div className="flex flex-wrap justify-center md:justify-around gap-6 mt-[35px]">
+      <div
+        className={`grid grid-cols-${showCols} content-between justify-items-center gap-6 mt-[35px] w-full`}
+      >
         {isLoading ? (
           <>
             {new Array(3).fill("").map((_, index) => (
@@ -115,11 +131,6 @@ const CourseList = ({
             (item) => <CourseCard key={item.id} course={item} />
           )
         )}
-        {Array(3 - (data?.list.length % 3) || 0)
-          .fill("")
-          .map((_, index: number) => (
-            <div key={index} className="w-full md:w-[300px] h-0"></div>
-          ))}
       </div>
     </div>
   );
