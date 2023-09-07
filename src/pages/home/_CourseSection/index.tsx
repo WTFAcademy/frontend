@@ -3,7 +3,7 @@ import Link from "@docusaurus/Link";
 
 import CourseList from "@site/src/components/CoursesList";
 import { Button } from "@site/src/components/ui/Button";
-import Translate from '@docusaurus/Translate';
+import Translate from "@docusaurus/Translate";
 
 const CourseSection = () => {
   return (
@@ -22,19 +22,16 @@ const CourseSection = () => {
         </div>
 
         <CourseList isTotal={false} isUpcoming={false} />
-        <CourseList isTotal={false} isUpcoming/>
+        <CourseList isTotal={false} isUpcoming />
 
         <Link to="/courses">
           <Button className="mt-16 text-base">
-            <Translate id="home.courses.button">
-              查看所有课程
-            </Translate>
+            <Translate id="home.courses.button">查看所有课程</Translate>
           </Button>
         </Link>
       </div>
     </div>
   );
 };
-
 
 export default CourseSection;
