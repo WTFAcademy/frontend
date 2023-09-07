@@ -1,3 +1,10 @@
+---
+title: 02. Element
+tags:
+  - html
+  - frontend
+  - web
+---
 # WTF HTML极简教程: 2. Element
 
 WTF HTML教程，帮助新人快速入门HTML。

@@ -1,3 +1,10 @@
+---
+title: 08. 语义元素
+tags:
+  - html
+  - frontend
+  - web
+---
 # WTF HTML极简教程: 8. 语义元素
 
 WTF HTML教程，帮助新人快速入门HTML。

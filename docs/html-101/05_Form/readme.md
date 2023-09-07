@@ -1,3 +1,10 @@
+---
+title: 05. 表单
+tags:
+  - html
+  - frontend
+  - web
+---
 # WTF HTML极简教程: 5. 表单
 
 WTF HTML教程，帮助新人快速入门HTML。

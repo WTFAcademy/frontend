@@ -1,3 +1,10 @@
+---
+title: 07. 图片
+tags:
+  - html
+  - frontend
+  - web
+---
 # WTF HTML 极简教程: 7. 图片
 
 WTF HTML 教程，帮助新人快速入门 HTML。

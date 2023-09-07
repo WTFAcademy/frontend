@@ -1,3 +1,10 @@
+---
+title: 03. 常用文本标签
+tags:
+  - html
+  - frontend
+  - web
+---
 # WTF HTML极简教程: 3. 常用文本标签
 
 WTF HTML教程，帮助新人快速入门HTML。
