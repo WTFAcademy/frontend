@@ -1,3 +1,14 @@
+---
+title: 1. HelloVitalik (6行代码)
+tags:
+  - ethers
+  - javascript
+  - ens
+  - vitalik
+  - frontend
+  - web
+---
+
 # Ethers极简入门: 1. HelloVitalik (6行代码)
 
 我最近在重新学`ethers.js`，巩固一下细节，也写一个`WTF Ethers极简入门`，供小白们使用。
@@ -6,11 +17,13 @@
 
 **WTF Academy社群：** [官网 wtf.academy](https://wtf.academy) | [WTF Solidity教程](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [微信群申请](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-所有代码和教程开源在github: [github.com/WTFAcademy/WTFEthers](https://github.com/WTFAcademy/WTFEthers)
+所有代码和教程开源在github: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
 -----
 
 这一讲，我们会介绍`ethers.js`库，javascript在线编辑器`playcode`，并且我们会写第一个程序`HelloVitalik`：查询V神的`ETH`余额，并输出在`console`中。
+
+> 教程使用 ethers.js 最新的 v6 版本，与 v5 改动较大。v5 版本教程，见 [链接](https://github.com/WTFAcademy/WTF-Ethers/tree/wtf-ethers-v5)。
 
 ## ethers.js简述
 
@@ -31,7 +44,7 @@
 你可以使用本地`vscode`进行开发。你需要安装[Node.js](https://nodejs.org/zh-cn/download/)，然后利用包管理工具`npm`安装`ethers`库：
 
 ```shell
-npm install --save ethers
+npm install ethers@6.2.3 --save
 ```
 
 ### 2. playcode
@@ -57,7 +70,7 @@ import { ethers } from "ethers";
 const provider = ethers.getDefaultProvider();
 const main = async () => {
     const balance = await provider.getBalance(`vitalik.eth`);
-    console.log(`ETH Balance of vitalik: ${ethers.utils.formatEther(balance)} ETH`);
+    console.log(`ETH Balance of vitalik: ${ethers.formatEther(balance)} ETH`);
 }
 main()
 ```
@@ -71,7 +84,7 @@ import { ethers } from "ethers";
 ```
 如果在`playcode`平台上，免费账号不能安装外部库。我们可以直接从`ethers`的CDN导入（出于安全考虑，仅用于教学）：
 ```javascript
-import { ethers } from "https://cdn-cors.ethers.io/lib/ethers-5.6.9.esm.min.js";
+import { ethers } from "https://cdnjs.cloudflare.com/ajax/libs/ethers/6.2.3/ethers.js";
 ```
 
 ### 2. 连接以太坊
@@ -82,11 +95,16 @@ import { ethers } from "https://cdn-cors.ethers.io/lib/ethers-5.6.9.esm.min.js";
 const provider = ethers.getDefaultProvider();
 ```
 
-**注意:**`ethers`内置的`rpc`访问速度有限制，仅测试用，生产环境还是要申请个人`rpc`。
+**注意:**`ethers`内置的`rpc`访问速度有限制，仅测试用，生产环境还是要申请个人`rpc`。比如:
+
+```js
+const ALCHEMY_MAINNET_URL = 'https://eth-mainnet.g.alchemy.com/v2/oKmOQKbneVkxgHZfibs-iFhIlIAl6HDN';
+const provider = new ethers.JsonRpcProvider(ALCHEMY_MAINNET_URL)
+```
 
 ### 3. 声明`async`函数
 
-由于和区块链交互不是实时的我们需要用到js的`async/await`语法糖。每次和链交互的调用需要用到`await`，再把这些这些用`async`函数包裹起来，最后再调用这个函数。
+由于和区块链交互不是实时的我们需要用到js的`async/await`语法糖。每次和链交互的调用需要用到`await`，再把这些用`async`函数包裹起来，最后再调用这个函数。
 ```javascript
 const main = async () => {
     //...
@@ -106,7 +124,7 @@ const balance = await provider.getBalance(`vitalik.eth`);
 我们从链上获取的以太坊余额以`wei`为单位，而`1 ETH = 10^18 wei`。我们打印在`console`之前，需要进行单位转换。`ethers`提供了功能函数`formatEther`，我们可以利用它将`wei`转换为`ETH`。
 
 ```javascript
-    console.log(`ETH Balance of vitalik: ${ethers.utils.formatEther(balance)} ETH`);
+    console.log(`ETH Balance of vitalik: ${ethers.formatEther(balance)} ETH`);
 ```
 如果你使用的是vscode开发工具的话，你需要在vscode控制台输入以下命令
 ```shell
@@ -123,5 +141,6 @@ node 01_HelloVitalik/HelloVitalik.js
 
 **课后作业**：在图4和图5中，v神的`ETH`余额并不一样。第一张余额为`2251 ETH`，而第二张变为了`1951 ETH`，减少`300 ETH`。其实，两张图片对应v神在`2022.07.30`和`2022.07.31`的持仓。那么，这一天v神用`300 ETH`干了什么？
 
-ethers官方文档：https://docs.ethers.io/v5/
+ethers[v5]官方文档：https://docs.ethers.io/v5/
+ethers[v6]官方文档：https://docs.ethers.io/v6/
 

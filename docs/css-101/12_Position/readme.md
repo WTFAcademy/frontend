@@ -1,4 +1,11 @@
-# WTF CSS 极简教程: 12. 定位定位
+---
+title: 12. 定位布局
+tags:
+  - css
+  - frontend
+  - web
+---
+# WTF CSS 极简教程: 12. 定位布局
 
 WTF CSS 教程，帮助新人快速入门 CSS。
 

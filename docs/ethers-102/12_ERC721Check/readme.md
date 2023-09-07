@@ -1,3 +1,15 @@
+---
+title: 12. 识别ERC721合约
+tags:
+  - ethers
+  - javascript
+  - erc165
+  - erc721
+  - selector
+  - frontend
+  - web
+---
+
 # Ethers极简入门: 12. 识别ERC721合约
 
 我最近在重新学`ethers.js`，巩固一下细节，也写一个`WTF Ethers极简入门`，供小白们使用。

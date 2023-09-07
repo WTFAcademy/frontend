@@ -1,3 +1,11 @@
+---
+title: 02. CSS语法
+tags:
+  - css
+  - frontend
+  - web
+---
+
 # WTF CSS 极简教程: 2. CSS 语法
 
 WTF CSS 教程，帮助新人快速入门 CSS。

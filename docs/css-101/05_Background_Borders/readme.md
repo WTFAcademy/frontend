@@ -1,3 +1,10 @@
+---
+title: 05. 背景和边框
+tags:
+  - css
+  - frontend
+  - web
+---
 # WTF CSS极简教程: 5. 背景和边框
 
 WTF CSS教程，帮助新人快速入门CSS。
