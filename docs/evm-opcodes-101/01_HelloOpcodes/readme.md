@@ -1,3 +1,17 @@
+---
+title: 01. Hello Opcodes
+tags:
+  - opcode
+  - evm
+  - push
+  - dup
+  - swap
+  - stack
+  - memory
+  - storage
+  - bytecode
+  - gas
+---
 # WTF Opcodes极简入门: 1. Hello Opcodes
 
 我最近在重新学以太坊opcodes，也写一个“WTF EVM Opcodes极简入门”，供小白们使用。
@@ -108,7 +122,7 @@ EVM上每笔交易的gas是如何计算的呢？其实是通过opcodes。以太�
 
 ![](./img/1-5.png)
 
-### 5. 执行模型
+### 6. 执行模型
 
 最后，咱们串联一下以上的内容，介绍EVM的执行模型。它可以概括为以下步骤：
 

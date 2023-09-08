@@ -1,3 +1,12 @@
+---
+title: 02. Opcodes分类
+tags:
+  - opcode
+  - evm
+  - push
+  - mstore
+  - bytecode
+---
 # WTF Opcodes极简入门: 2. Opcodes分类
 
 我最近在重新学以太坊opcodes，也写一个“WTF EVM Opcodes极简入门”，供小白们使用。

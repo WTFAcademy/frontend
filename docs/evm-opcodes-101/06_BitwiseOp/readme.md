@@ -1,3 +1,14 @@
+---
+title: 06. 位级指令
+tags:
+  - opcode
+  - evm
+  - comparison
+  - and
+  - or
+  - xor
+  - bytecode
+---
 # WTF Opcodes极简入门: 6. 位级指令
 
 我最近在重新学以太坊opcodes，也写一个“WTF EVM Opcodes极简入门”，供小白们使用。

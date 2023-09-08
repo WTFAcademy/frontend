@@ -1,3 +1,12 @@
+---
+title: 17. Revert指令
+tags:
+  - opcode
+  - evm
+  - revert
+  - invalid
+  - bytecode
+---
 # WTF Opcodes极简入门: 17. Revert指令
 
 我最近在重新学以太坊opcodes，也写一个“WTF EVM Opcodes极简入门”，供小白们使用。

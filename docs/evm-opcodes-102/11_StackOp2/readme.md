@@ -1,3 +1,13 @@
+---
+title: 11. 堆栈指令2
+tags:
+  - opcode
+  - evm
+  - stack
+  - dup
+  - swap
+  - bytecode
+---
 # WTF Opcodes极简入门: 11. 堆栈指令2
 
 我最近在重新学以太坊opcodes，也写一个“WTF EVM Opcodes极简入门”，供小白们使用。

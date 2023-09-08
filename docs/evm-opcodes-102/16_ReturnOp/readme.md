@@ -1,3 +1,14 @@
+---
+title: 16. Return指令
+tags:
+  - opcode
+  - evm
+  - return
+  - returndata
+  - returndatasize
+  - returndatacopy
+  - bytecode
+---
 # WTF Opcodes极简入门: 16. Return指令
 
 我最近在重新学以太坊opcodes，也写一个“WTF EVM Opcodes极简入门”，供小白们使用。

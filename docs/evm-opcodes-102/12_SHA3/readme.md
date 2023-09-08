@@ -1,3 +1,11 @@
+---
+title: 12. SHA3指令
+tags:
+  - opcode
+  - evm
+  - sha3
+  - bytecode
+---
 # WTF Opcodes极简入门: 12. SHA3指令
 
 我最近在重新学以太坊opcodes，也写一个“WTF EVM Opcodes极简入门”，供小白们使用。
