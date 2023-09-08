@@ -9,7 +9,7 @@ function Courses() {
   return (
     <Layout
       title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />"
+      description="Courses in WTF Academy."
     >
       <div className="w-full pb-[128px] flex justify-center">
         <div className="flex flex-col items-center px-8 w-full md:w-[1028px]">
