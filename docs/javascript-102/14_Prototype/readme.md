@@ -1,3 +1,10 @@
+---
+title: 14. 原型链
+tags:
+  - javascript
+  - frontend
+  - web
+---
 # WTF JavaScript 极简教程 14. 原型链
 
 WTF JavaScript 教程，帮助新人快速入门 JavaScript。

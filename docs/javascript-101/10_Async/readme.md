@@ -1,3 +1,10 @@
+---
+title: 10. 异步
+tags:
+  - javascript
+  - frontend
+  - web
+---
 # WTF JavaScript 极简教程: 10. 异步
 
 WTF JavaScript 教程，帮助新人快速入门 JavaScript。

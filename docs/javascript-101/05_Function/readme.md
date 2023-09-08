@@ -1,7 +1,10 @@
 ---
-title: 5. 函数
+title: 05. 函数
+tags:
+  - javascript
+  - frontend
+  - web
 ---
-
 # WTF JavaScript 极简教程: 5. 函数
 
 WTF JavaScript 教程，帮助新人快速入门 JavaScript。

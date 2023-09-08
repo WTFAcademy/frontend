@@ -1,3 +1,10 @@
+---
+title: 03. 常用类型
+tags:
+  - javascript
+  - frontend
+  - web
+---
 # WTF JavaScript 极简教程: 3. 常用类型
 
 WTF JavaScript 教程，帮助新人快速入门 JavaScript。

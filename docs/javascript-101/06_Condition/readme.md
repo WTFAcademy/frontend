@@ -1,3 +1,10 @@
+---
+title: 06. 条件语句
+tags:
+  - javascript
+  - frontend
+  - web
+---
 # WTF JavaScript 极简教程: 6. 条件语句
 
 WTF JavaScript 教程，帮助新人快速入门 JavaScript。

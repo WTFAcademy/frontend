@@ -1,3 +1,10 @@
+---
+title: 15. 继承
+tags:
+  - javascript
+  - frontend
+  - web
+---
 # WTF JavaScript 极简教程 15. 继承
 
 WTF JavaScript 教程，帮助新人快速入门 JavaScript。

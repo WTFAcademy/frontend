@@ -1,3 +1,10 @@
+---
+title: 09. 对象
+tags:
+  - javascript
+  - frontend
+  - web
+---
 # WTF JavaScript 极简教程: 9. 对象
 
 WTF JavaScript 教程，帮助新人快速入门 JavaScript。

@@ -1,3 +1,10 @@
+---
+title: 18. 异常处理
+tags:
+  - javascript
+  - frontend
+  - web
+---
 # WTF JavaScript 极简教程 18. 异常处理
 
 WTF JavaScript 教程，帮助新人快速入门 JavaScript。

@@ -1,3 +1,10 @@
+---
+title: 16. DOM
+tags:
+  - javascript
+  - frontend
+  - web
+---
 # WTF JavaScript 极简教程 16. DOM
 
 WTF JavaScript 教程，帮助新人快速入门 JavaScript。

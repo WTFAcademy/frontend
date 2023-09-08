@@ -1,4 +1,11 @@
-# WTF JavaScript 极简教程: 7. 循环语句
+---
+title: 07. 循环
+tags:
+  - javascript
+  - frontend
+  - web
+---
+# WTF JavaScript 极简教程: 7. 循环
 
 WTF JavaScript 教程，帮助新人快速入门 JavaScript。
 

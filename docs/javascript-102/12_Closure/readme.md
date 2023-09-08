@@ -1,3 +1,10 @@
+---
+title: 12. 闭包
+tags:
+  - javascript
+  - frontend
+  - web
+---
 # WTF JavaScript 极简教程 12. 闭包
 
 WTF JavaScript 教程，帮助新人快速入门 JavaScript。
