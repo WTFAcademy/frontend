@@ -43,6 +43,8 @@ const SECTIONS = [
     defineSection('evm-opcodes-101'),
     defineSection('evm-opcodes-102'),
     defineSection('langchain-101'),
+    defineSection('cairo-101'),
+    defineSection('cairo-102'),
     defineSection('html-101'),
     defineSection('css-101'),
     defineSection('javascript-101'),
