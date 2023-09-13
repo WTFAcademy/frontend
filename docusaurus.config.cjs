@@ -49,6 +49,7 @@ const SECTIONS = [
     defineSection('css-101'),
     defineSection('javascript-101'),
     defineSection('javascript-102'),
+    defineSection('analysis-101'),
 ];
 
 /** @type {import('@docusaurus/types').Config} */
