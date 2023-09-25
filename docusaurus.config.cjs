@@ -81,6 +81,7 @@ const config = {
                         require.resolve('./src/styles/docusaurus.css'),
                         require.resolve('./src/styles/tailwind.css'),
                         require.resolve('./src/styles/other.css'),
+                        require.resolve('./src/styles/prosemirror.css'),
                     ],
                 },
             }),
