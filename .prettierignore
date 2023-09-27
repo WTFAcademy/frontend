@@ -1,0 +1,5 @@
+/public/**
+/.husky/**
+/node_modules/**
+/blog/**
+/i18n/**
