@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import {toast, Toaster} from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import GlobalContext from "@site/src/contexts/GlobalContext";
 import { WagmiConfig } from "wagmi";
 import { wagmiClient, chains } from "@site/src/utils/connect";
-import { QueryClient, QueryCache, QueryClientProvider } from 'react-query'
-import {AuthProvider} from "@site/src/contexts/AuthContext";
+import { QueryClient, QueryCache, QueryClientProvider } from "react-query";
+import { AuthProvider } from "@site/src/contexts/AuthContext";
 
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from "@vercel/analytics/react";
 
 const queryClient = new QueryClient({
   defaultOptions: {

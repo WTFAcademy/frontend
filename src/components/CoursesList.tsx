@@ -21,17 +21,17 @@ const CourseCard = (props: TProps) => {
   return (
     <div
       onClick={() => history.push(course.route_path)}
-      className="w-full md:w-[300px] border border-solid rounded-md shadow-sm transition-shadow hover:shadow-lg overflow-hidden"
+      className="w-full overflow-hidden border border-solid md:w-[300px] rounded-md shadow-sm transition-shadow hover:shadow-lg"
     >
-      <div className="bg-background-subtle w-full h-[150px]">
+      <div className="w-full bg-background-subtle h-[150px]">
         <img
           src={course.cover_img}
           alt=""
-          className="w-full h-full object-cover"
+          className="object-cover w-full h-full"
         />
       </div>
       <div className="flex flex-col p-4">
-        <div className="flex justify-between items-center text-[22px] leading-[25px] font-bold font-ubuntu">
+        <div className="flex items-center justify-between font-bold text-[22px] leading-[25px] font-ubuntu">
           <span>{course.title}</span>
         </div>
         <div className="text-sm leading-[17px] mt-[10px]">
@@ -61,8 +61,8 @@ const CourseList = ({
     () =>
       getCourses(
         isUpcoming ? 2 : 1,
-        i18n.currentLocale === "en" ? "en" : undefined
-      )
+        i18n.currentLocale === "en" ? "en" : undefined,
+      ),
   );
 
   // const isLoading = true;
@@ -74,7 +74,7 @@ const CourseList = ({
         isUpcoming ? "mt-8" : "",
       ].join(" ")}
     >
-      <div className="w-full font-ubuntu font-bold">
+      <div className="w-full font-bold font-ubuntu">
         <span>
           {isUpcoming ? (
             <Translate id="home.courses.upcoming.title">
@@ -84,7 +84,7 @@ const CourseList = ({
             <Translate id="home.courses.popular.title">热门课程</Translate>
           )}
         </span>
-        <Tag circle className="h-6 w-6 bg-background-muted ml-3">
+        <Tag circle className="w-6 h-6 ml-3 bg-background-muted">
           {data?.list.length ?? 0}
         </Tag>
       </div>
@@ -94,23 +94,23 @@ const CourseList = ({
             {new Array(3).fill("").map((_, index) => (
               <Skeleton
                 key={index}
-                className="h-[276px] w-full md:w-[300px] rounded-md shadow-sm transition-shadow hover:shadow-lg"
+                className="w-full h-[276px] md:w-[300px] rounded-md shadow-sm transition-shadow hover:shadow-lg"
               >
-                <Skeleton className="h-[150px] w-full bg-gray-200" />
-                <Skeleton className="h-10 mt-4 mx-4 w-1/2 bg-gray-200" />
-                <Skeleton className="h-6 mt-4 mx-4 w-3/4 bg-gray-200" />
+                <Skeleton className="w-full bg-gray-200 h-[150px]" />
+                <Skeleton className="w-1/2 h-10 mx-4 mt-4 bg-gray-200" />
+                <Skeleton className="w-3/4 h-6 mx-4 mt-4 bg-gray-200" />
               </Skeleton>
             ))}
           </>
         ) : (
-          ((isTotal ? data?.list : data?.list.slice(0, 6)) || []).map(
-            (item) => <CourseCard key={item.id} course={item} />
-          )
+          ((isTotal ? data?.list : data?.list.slice(0, 6)) || []).map(item => (
+            <CourseCard key={item.id} course={item} />
+          ))
         )}
         {Array(3 - (data?.list.length % 3) || 0)
           .fill("")
           .map((_, index: number) => (
-            <div key={index} className="w-full md:w-[300px] h-0"></div>
+            <div key={index} className="w-full h-0 md:w-[300px]"></div>
           ))}
       </div>
     </div>

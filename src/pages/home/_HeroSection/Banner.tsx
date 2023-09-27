@@ -5,28 +5,28 @@ import Link from "@docusaurus/Link";
 
 const Banner = () => {
   return (
-    <div className="bg-image h-[500px] 4xl:h-[700px] w-full flex flex-col items-center justify-center bg-background-subtle text-white">
-      <div className="font-ubuntu font-bold text-[48px] leading-[55px] md:text-[56px] md:leading-[64px]">
+    <div className="flex flex-col items-center justify-center w-full text-white bg-image h-[500px] 4xl:h-[700px] bg-background-subtle">
+      <div className="font-bold font-ubuntu text-[48px] leading-[55px] md:text-[56px] md:leading-[64px]">
         WTF Academy
       </div>
-      <div className="font-ubuntu font-normal text-[20px] mt-4">
+      <div className="mt-4 font-normal font-ubuntu text-[20px]">
         <Translate id="home.hero.intro">开发者的 Web3 开源大学</Translate>
       </div>
-      <div className="rounded-full bg-[#251A12] h-10 flex gap-[10px] px-6 py-2 my-[42px] text-base">
+      <div className="flex h-10 px-6 py-2 text-base rounded-full bg-[#251A12] gap-[10px] my-[42px]">
         <div className="flex items-center gap-[10px]">
-          <span className="bg-[#C38E64] w-[3px] h-[3px] rounded-full" />
+          <span className="rounded-full bg-[#C38E64] w-[3px] h-[3px]" />
           <span className="font-medium text-[#EFDCCD]">
             <Translate id="home.hero.tag01">学习</Translate>
           </span>
         </div>
         <div className="flex items-center gap-[10px]">
-          <span className="bg-[#C38E64] w-[3px] h-[3px] rounded-full" />
+          <span className="rounded-full bg-[#C38E64] w-[3px] h-[3px]" />
           <span className="font-medium text-[#EFDCCD]">
             <Translate id="home.hero.tag02">贡献</Translate>
           </span>
         </div>
         <div className="flex items-center gap-[10px]">
-          <span className="bg-[#C38E64] w-[3px] h-[3px] rounded-full" />
+          <span className="rounded-full bg-[#C38E64] w-[3px] h-[3px]" />
           <span className="font-medium text-[#EFDCCD]">
             <Translate id="home.hero.tag03">获取认证</Translate>
           </span>
@@ -34,13 +34,13 @@ const Banner = () => {
       </div>
       <div className="flex gap-[10px]">
         <Link to="/courses">
-          <Button className="h-[42px] text-base">
+          <Button className="text-base h-[42px]">
             <Translate id="home.hero.button01">开始学习</Translate>
           </Button>
         </Link>
         <Link to="https://discord.com/invite/5akcruXrsk">
           <Button
-            className="h-[42px] text-base border-border border border-solid"
+            className="text-base border border-solid h-[42px] border-border"
             variant="ghost"
           >
             <Translate id="home.hero.button02">加入社区</Translate>

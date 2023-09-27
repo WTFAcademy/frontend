@@ -6,7 +6,7 @@ export const getContributors = async (
   owner = "wtfacademy",
   repo = "WTFSolidity",
   page = 1,
-  perPage = 100
+  perPage = 100,
 ) => {
   let { data } = await octokit.repos.listContributors({
     owner,

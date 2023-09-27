@@ -4,21 +4,25 @@
     "es2021": true
   },
   "extends": [
-    "standard-with-typescript",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
     "plugin:tailwind/recommended"
   ],
   "rules": {
     "quotes": [2, "double"],
-    "semi": [2, "double"],
-    "no-undef": "error",
-    "no-var": "error",
-    "no-debugger": "off",
-    "no-console": "off",
-    "@typescript-eslint/no-unused-vars": "error",
+    "no-undef": "off",
+    "no-var": "warn",
+    "no-debugger": "warn",
+    "no-console": "warn",
+    "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "react-refresh/only-export-components": "off"
+    "@typescript-eslint/ban-ts-ignore": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "react-refresh/only-export-components": "off",
+    "react/prop-types": "off",
+    "react/no-children-prop": "off"
   },
   "overrides": [
     {
@@ -35,5 +39,10 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react"]
+  "plugins": ["react"],
+  "settings": {
+    "react": {
+     "version": "detect"
+    }
+  }
 }

@@ -1,5 +1,5 @@
-import {SVGProps} from "react";
+import { SVGProps } from "react";
 
 export type TIconProps = Partial<SVGProps<SVGSVGElement>> & {
-  size?: string | number
-}
+  size?: string | number;
+};

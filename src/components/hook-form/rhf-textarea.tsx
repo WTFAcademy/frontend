@@ -1,20 +1,20 @@
 // form
-import * as Form from "@radix-ui/react-form"
-import React, { ChangeEvent } from "react"
-import { Controller, useFormContext } from "react-hook-form"
-import { ControllerRenderProps } from "react-hook-form/dist/types/controller"
+import * as Form from "@radix-ui/react-form";
+import React, { ChangeEvent } from "react";
+import { Controller, useFormContext } from "react-hook-form";
+import { ControllerRenderProps } from "react-hook-form/dist/types/controller";
 
-import { Textarea, TextareaProps } from "@site/src/components/ui/Textarea"
+import { Textarea, TextareaProps } from "@site/src/components/ui/Textarea";
 
 // ----------------------------------------------------------------------
 
 type TProps = {
-  name: string
-  label: string
-  onChange?: (value: string) => void
-  onBlur?: (value: string) => void
-  errorMessage?: string
-} & TextareaProps
+  name: string;
+  label: string;
+  onChange?: (value: string) => void;
+  onBlur?: (value: string) => void;
+  errorMessage?: string;
+} & TextareaProps;
 
 export default function RHFTextarea({
   name,
@@ -24,20 +24,20 @@ export default function RHFTextarea({
   errorMessage,
   ...other
 }: TProps) {
-  const { control } = useFormContext()
+  const { control } = useFormContext();
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement>,
     field: ControllerRenderProps,
   ) => {
-    field.onChange(e.target.value)
-    onChange?.(e.target.value)
-  }
+    field.onChange(e.target.value);
+    onChange?.(e.target.value);
+  };
 
   const handleBlur = (e: any, field: ControllerRenderProps) => {
-    field.onBlur()
-    onBlur?.(e.target.value)
-  }
+    field.onBlur();
+    onBlur?.(e.target.value);
+  };
 
   return (
     <Controller
@@ -50,7 +50,7 @@ export default function RHFTextarea({
               {label}
             </Form.Label>
             {(error?.message || errorMessage) && (
-              <Form.Message className="text-[13px] text-red-500">
+              <Form.Message className="text-red-500 text-[13px]">
                 {error?.message || errorMessage}
               </Form.Message>
             )}
@@ -66,5 +66,5 @@ export default function RHFTextarea({
         </Form.Field>
       )}
     />
-  )
+  );
 }

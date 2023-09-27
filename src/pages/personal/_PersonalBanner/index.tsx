@@ -1,9 +1,7 @@
-import React from 'react';
+import React from "react";
 
 function PersonalBanner() {
-    return (
-        <div className="personal-bg-image h-48 w-full"></div>
-    );
+  return <div className="w-full h-48 personal-bg-image"></div>;
 }
 
 export default PersonalBanner;

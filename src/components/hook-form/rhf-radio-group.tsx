@@ -1,22 +1,22 @@
 // form
-import * as Form from "@radix-ui/react-form"
-import { RadioGroupProps } from "@radix-ui/react-radio-group"
-import React from "react"
-import { Controller, useFormContext } from "react-hook-form"
-import { ControllerRenderProps } from "react-hook-form/dist/types/controller"
+import * as Form from "@radix-ui/react-form";
+import { RadioGroupProps } from "@radix-ui/react-radio-group";
+import React from "react";
+import { Controller, useFormContext } from "react-hook-form";
+import { ControllerRenderProps } from "react-hook-form/dist/types/controller";
 
-import { Label } from "@site/src/components/ui/Label"
-import { RadioGroup, RadioGroupItem } from "@site/src/components/ui/RadioGroup"
+import { Label } from "@site/src/components/ui/Label";
+import { RadioGroup, RadioGroupItem } from "@site/src/components/ui/RadioGroup";
 
 // ----------------------------------------------------------------------
 
 type TProps = {
-  name: string
-  label: string
-  onChange?: (value: string) => void
-  options: { value: string; label: string }[]
-  errorMessage?: string
-} & RadioGroupProps
+  name: string;
+  label: string;
+  onChange?: (value: string) => void;
+  options: { value: string; label: string }[];
+  errorMessage?: string;
+} & RadioGroupProps;
 
 export default function RHFInput({
   name,
@@ -25,12 +25,12 @@ export default function RHFInput({
   errorMessage,
   options,
 }: TProps) {
-  const { control } = useFormContext()
+  const { control } = useFormContext();
 
   const handleChange = (e: string, field: ControllerRenderProps) => {
-    field.onChange(e)
-    onChange?.(e)
-  }
+    field.onChange(e);
+    onChange?.(e);
+  };
 
   return (
     <Controller
@@ -39,11 +39,11 @@ export default function RHFInput({
       render={({ field, fieldState: { error } }) => (
         <Form.Field className="grid mb-[10px]" name={name}>
           <div className="flex items-baseline justify-between">
-            <Form.Label className="text-[15px] font-medium leading-[35px]">
+            <Form.Label className="font-medium text-[15px] leading-[35px]">
               {label}
             </Form.Label>
             {(error?.message || errorMessage) && (
-              <Form.Message className="text-[13px] text-red-500">
+              <Form.Message className="text-red-500 text-[13px]">
                 {error?.message || errorMessage}
               </Form.Message>
             )}
@@ -51,7 +51,7 @@ export default function RHFInput({
           <Form.Control asChild>
             <RadioGroup
               {...field}
-              onValueChange={(value) => handleChange(value, field)}
+              onValueChange={value => handleChange(value, field)}
             >
               {options.map((option, index) => (
                 <div
@@ -67,5 +67,5 @@ export default function RHFInput({
         </Form.Field>
       )}
     />
-  )
+  );
 }

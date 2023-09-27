@@ -1,31 +1,31 @@
-import * as Form from "@radix-ui/react-form"
-import { PlusIcon, TrashIcon } from "@radix-ui/react-icons"
-import React from "react"
-import { Controller, useFormContext } from "react-hook-form"
-import { ControllerRenderProps } from "react-hook-form/dist/types/controller"
+import * as Form from "@radix-ui/react-form";
+import { PlusIcon, TrashIcon } from "@radix-ui/react-icons";
+import React from "react";
+import { Controller, useFormContext } from "react-hook-form";
+import { ControllerRenderProps } from "react-hook-form/dist/types/controller";
 
-import { Textarea } from "@site/src/components/ui/Textarea"
+import { Textarea } from "@site/src/components/ui/Textarea";
 
 interface IProps {
-  name: string
-  label: string
-  onChange?: (value: string) => void
-  onBlur?: (value: string) => void
-  errorMessage?: string
-  warningMessage?: string
+  name: string;
+  label: string;
+  onChange?: (value: string) => void;
+  onBlur?: (value: string) => void;
+  errorMessage?: string;
+  warningMessage?: string;
 }
 
-type Props = IProps & React.InputHTMLAttributes<HTMLInputElement>
+type Props = IProps & React.InputHTMLAttributes<HTMLInputElement>;
 
 export default function RHFArrayInput(props: Props) {
-  const { name, label, errorMessage, ...other } = props
-  const { register, control } = useFormContext()
+  const { name, label, errorMessage, ...other } = props;
+  const { register, control } = useFormContext();
 
   const handleDelete = (index: number, field: ControllerRenderProps) => {
-    const list = [...field.value]
-    list.splice(index, 1)
-    field.onChange(list)
-  }
+    const list = [...field.value];
+    list.splice(index, 1);
+    field.onChange(list);
+  };
 
   return (
     <Controller
@@ -34,11 +34,11 @@ export default function RHFArrayInput(props: Props) {
       render={({ field, fieldState: { error } }) => (
         <Form.Field className="mb-[10px] grid" name={name}>
           <div className="flex items-baseline justify-between">
-            <Form.Label className="text-[15px] font-medium leading-[35px]">
+            <Form.Label className="font-medium text-[15px] leading-[35px]">
               {label}
             </Form.Label>
             {(error?.message || errorMessage) && (
-              <Form.Message className="text-[13px] text-red-500">
+              <Form.Message className="text-red-500 text-[13px]">
                 {error?.message || errorMessage}
               </Form.Message>
             )}
@@ -50,26 +50,26 @@ export default function RHFArrayInput(props: Props) {
                   <div className="text-[14px] leading-[35px]">
                     · {`${label} ${index + 1}`}
                   </div>
-                  <div className="group flex items-center">
+                  <div className="flex items-center group">
                     <Textarea
                       {...field}
                       {...register(`${name}.${index}`)}
                       value={item}
-                      onChange={(e) => {
-                        const list = [...field.value]
-                        list[index] = e.target.value
-                        field.onChange(list)
+                      onChange={e => {
+                        const list = [...field.value];
+                        list[index] = e.target.value;
+                        field.onChange(list);
                       }}
                     />
                     <TrashIcon
-                      className="ml-2 hidden h-6 w-6 cursor-pointer text-red-500 group-hover:inline-block"
+                      className="hidden w-6 h-6 ml-2 text-red-500 cursor-pointer group-hover:inline-block"
                       onClick={() => handleDelete(index, field)}
                     />
                   </div>
                 </div>
               ))}
               <div
-                className="text-md focus:shadow-outline-blue mb-3 mt-4 box-border flex w-full cursor-pointer justify-center rounded border border-dashed border-gray-300 px-3 py-2 leading-5 text-black transition duration-150 ease-in-out placeholder:text-gray-400 focus:border-blue-300 focus:outline-none"
+                className="flex justify-center w-full px-3 py-2 mt-4 mb-3 text-black border border-gray-300 border-dashed rounded cursor-pointer text-md focus:shadow-outline-blue box-border leading-5 transition duration-150 ease-in-out placeholder:text-gray-400 focus:border-blue-300 focus:outline-none"
                 onClick={() => field.onChange([...field.value, ""])}
               >
                 <PlusIcon className="w-6" />
@@ -98,5 +98,5 @@ export default function RHFArrayInput(props: Props) {
         // </div>
       )}
     />
-  )
+  );
 }

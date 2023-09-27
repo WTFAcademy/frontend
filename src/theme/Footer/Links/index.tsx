@@ -5,17 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React from "react";
 
-import {isMultiColumnFooterLinks} from '@docusaurus/theme-common';
-import FooterLinksMultiColumn from '@theme/Footer/Links/MultiColumn';
-import FooterLinksSimple from '@theme/Footer/Links/Simple';
-import {TAny} from "@site/src/typings/common";
+import { isMultiColumnFooterLinks } from "@docusaurus/theme-common";
+import FooterLinksMultiColumn from "@theme/Footer/Links/MultiColumn";
+import FooterLinksSimple from "@theme/Footer/Links/Simple";
+import { TAny } from "@site/src/typings/common";
 
-export default function FooterLinks({links}: TAny): JSX.Element {
-    return isMultiColumnFooterLinks(links) ? (
-        <FooterLinksMultiColumn columns={links} />
-    ) : (
-        <FooterLinksSimple links={links} />
-    );
+export default function FooterLinks({ links }: TAny): JSX.Element {
+  return isMultiColumnFooterLinks(links) ? (
+    <FooterLinksMultiColumn columns={links} />
+  ) : (
+    <FooterLinksSimple links={links} />
+  );
 }

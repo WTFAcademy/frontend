@@ -1,6 +1,6 @@
 import React from "react";
 
-const StepSvg = (props) => {
+const StepSvg = props => {
   const { stepIndex, ...others } = props;
 
   return (

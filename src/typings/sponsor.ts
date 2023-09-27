@@ -1,4 +1,4 @@
 export type TSponsor = {
-    name: string;
-    image_url: string
-}
+  name: string;
+  image_url: string;
+};

@@ -1,3 +1,3 @@
-import {createContext} from "react";
+import { createContext } from "react";
 
-export const CertificateContext = createContext(null)
+export const CertificateContext = createContext(null);

@@ -4,23 +4,21 @@ import { TResult } from "@site/src/typings/common";
 
 export const getUserInfo = () => {
   return request
-    .get<unknown, TResult<TAuthUser>>(`/user`, { ignore: true })
-    .then((res) => res.data);
+    .get<unknown, TResult<TAuthUser>>("/user", { ignore: true })
+    .then(res => res.data);
 };
 
-export const getUserCourse = (i18n=null) => {
+export const getUserCourse = (i18n = null) => {
   return request
     .get<unknown, TResult<any>>(
-      `/user/my_course`, i18n ? { params: { lan : i18n } } : null
+      "/user/my_course",
+      i18n ? { params: { lan: i18n } } : null,
     )
-    .then((res) => res.data);
+    .then(res => res.data);
 };
 
-export const updateUserInfo = (userInfo) => {
+export const updateUserInfo = userInfo => {
   return request
-    .put<unknown, TResult<TAuthUser>>(
-      `/user`, userInfo
-    )
-    .then((res) => res.data);
-}
-
+    .put<unknown, TResult<TAuthUser>>("/user", userInfo)
+    .then(res => res.data);
+};

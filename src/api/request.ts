@@ -19,29 +19,27 @@ export const BASE_URL =
     ? "https://api.wtf.academy/"
     : "https://api.wtf.academy/";
 
-let request = axios.create({
+const request = axios.create({
   baseURL: BASE_URL,
   timeout: 30000,
   turnOnValve: false,
   ignore: false,
 });
 
-request.interceptors.request.use(async (config) => {
+request.interceptors.request.use(async config => {
   const access_token = getStorageWTFToken();
   config.headers.Authorization = `Bearer ${access_token}`;
   return config;
 });
 
 request.interceptors.response.use(
-  (response) => {
+  response => {
     const { data, config, status } = response;
     const ignoreCodes = config.ignore;
 
     let promptError = false;
     if (ignoreCodes instanceof Array) {
-      promptError = ignoreCodes.every(
-        (code) => ERROR_CODES[code] === undefined
-      );
+      promptError = ignoreCodes.every(code => ERROR_CODES[code] === undefined);
     } else {
       promptError = ignoreCodes ? false : true;
     }
@@ -58,9 +56,9 @@ request.interceptors.response.use(
     }
     return config.turnOnValve ? response : data;
   },
-  (err) => {
+  err => {
     console.log("error", err);
-  }
+  },
 );
 
 export default request;

@@ -1,6 +1,6 @@
 import React from "react";
 
-const CheckCircleSvg = (props) => {
+const CheckCircleSvg = props => {
   return (
     <svg
       fill="currentColor"

@@ -1,4 +1,4 @@
-import React, {useMemo, ReactNode, ReactElement} from "react";
+import React, { useMemo, ReactNode, ReactElement } from "react";
 
 export const StepperContext = React.createContext(null);
 
