@@ -16,7 +16,7 @@ const quizzes: IQuiz[] = [
       extend: [
         {
           type: "paragraph",
-          raw: "![](https://avatars.githubusercontent.com/u/20828177?v=4)",
+          raw: `![](https://avatars.githubusercontent.com/u/20828177?v=4)`,
         },
         {
           type: "code",
@@ -36,11 +36,11 @@ const quizzes: IQuiz[] = [
       options: [
         {
           label:
-            "Two Strings are printed: The current time is 3 pm and aThe mood is good",
+            'Two Strings are printed: `"The current time is 3 pm"` and aThe mood is good"',
           value: "A",
         },
         {
-          label: "One Strings is printed: The current time is 3 pm",
+          label: 'One Strings is printed: `"The current time is 3 pm"`',
           value: "B",
         },
         { label: "No String is printed", value: "C" },
@@ -59,20 +59,31 @@ const quizzes: IQuiz[] = [
       extend: [
         {
           type: "paragraph",
-          raw: "![](https://avatars.githubusercontent.com/u/20828177?v=4)",
+          raw: `![](https://avatars.githubusercontent.com/u/20828177?v=4)`,
         },
         {
           type: "code",
-          raw: "",
+          raw: `
+        // 用户领取代币函数
+        function requestTokens() external {
+            require(requestedAddress[msg.sender] == false, "Can't Request Multiple Times!"); // 每个地址只能领一次
+            IERC20 token = IERC20(tokenContract); // 创建IERC20合约对象
+            require(token.balanceOf(address(this)) >= amountAllowed, "Faucet Empty!"); // 水龙头空了
+
+            token.transfer(msg.sender, amountAllowed); // 发送token
+            requestedAddress[msg.sender] = true; // 记录领取地址
+            emit SendToken(msg.sender, amountAllowed); // 释放SendToken事件
+        }`,
         },
       ],
       options: [
         {
-          label: `"Two Strings are printed: The current time is 3 pm and aThe mood is good"`,
+          label:
+            'Two Strings are printed: `"The current time is 3 pm"` and aThe mood is good"',
           value: "A",
         },
         {
-          label: "One Strings is printed: `The current time is 3 pm`",
+          label: 'One Strings is printed: `"The current time is 3 pm"`',
           value: "B",
         },
         { label: "No String is printed", value: "C" },
@@ -91,11 +102,21 @@ const quizzes: IQuiz[] = [
       extend: [
         {
           type: "paragraph",
-          raw: "![](https://avatars.githubusercontent.com/u/20828177?v=4)<<!!>>",
+          raw: `![](https://avatars.githubusercontent.com/u/20828177?v=4)<<!!>>`,
         },
         {
           type: "code",
-          raw: "requestedAddress[msg.sender] = <<!!>> <<!!>> ",
+          raw: `
+        // 用户领取代币函数
+        function requestTokens() external {
+            require(requestedAddress[msg.sender] == false, "Can't Request Multiple Times!"); // 每个地址只能领一次
+            IERC20 token = IERC20(tokenContract); // 创建IERC20合约对象
+            require(token.balanceOf(address(this)) >= amountAllowed, "Faucet Empty!"); // 水龙头空了
+
+            token.transfer(123, amountAllowed); // 发送token
+            requestedAddress[msg.sender] = <<!!>>; // 记录领取地址
+            emit SendToken(msg.sender, <<!!>>); // 释放SendToken事件
+        }`,
         },
       ],
       options: [
@@ -108,19 +129,21 @@ const quizzes: IQuiz[] = [
 ];
 
 const QuizCreate = () => {
-  const [quiz, setQuiz] = useState(quizzes);
-  const handleChange = quiz => {
-    setQuiz(quiz);
+  const [quiz, setQuiz] = useState<IQuiz[]>(quizzes);
+  const handleChange = (value: IQuiz[]) => {
+    setQuiz(value);
   };
 
   return (
     <Layout
-      title={"Hello from"}
+      title={`Hello from`}
       description="Description will go into a meta tag in <head />"
       noFooter
     >
-      <div className="flex">
-        <Editor className="flex-1" onChange={handleChange} />
+      <div className="flex space-x-2">
+        <div className="flex-1 h-full">
+          <Editor onChange={handleChange} />
+        </div>
         <div className="flex flex-col flex-1">
           <PreviewForm quizzes={quiz} />
         </div>
