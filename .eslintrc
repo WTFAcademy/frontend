@@ -11,7 +11,7 @@
     "plugin:tailwind/recommended"
   ],
   "rules": {
-    "quotes": [2, "double"],
+    "quotes": [0, "double"],
     "no-undef": "off",
     "no-var": "warn",
     "no-debugger": "warn",

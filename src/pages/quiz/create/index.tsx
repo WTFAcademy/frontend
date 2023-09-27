@@ -68,8 +68,7 @@ const quizzes: IQuiz[] = [
       ],
       options: [
         {
-          label:
-            "Two Strings are printed: The current time is 3 pm and aThe mood is good",
+          label: `"Two Strings are printed: The current time is 3 pm and aThe mood is good"`,
           value: "A",
         },
         {
