@@ -17,10 +17,10 @@ const QuizBridge = ({
   index: number;
   control: any;
 }) => {
-  if (quiz.meta.type === "select") {
+  if (quiz?.meta?.type === "select") {
     return <QuizSelect control={control} name={`select${index}`} quiz={quiz} />;
   }
-  if (quiz.meta.type === "multiple-select") {
+  if (quiz?.meta?.type === "multiple-select") {
     return (
       <QuizMultipleSelect
         control={control}
@@ -29,7 +29,7 @@ const QuizBridge = ({
       />
     );
   }
-  if (quiz.meta.type === "inset") {
+  if (quiz?.meta?.type === "inset") {
     return <QuizInset control={control} name={`inset${index}`} quiz={quiz} />;
   }
   return null;
