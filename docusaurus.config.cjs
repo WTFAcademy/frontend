@@ -50,6 +50,7 @@ const SECTIONS = [
     defineSection('javascript-101'),
     defineSection('javascript-102'),
     defineSection('analysis-101'),
+    defineSection('huff-101'),
 ];
 
 /** @type {import('@docusaurus/types').Config} */

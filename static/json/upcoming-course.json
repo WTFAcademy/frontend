@@ -90,6 +90,16 @@
         "description_en": "Learn Advanced EVM Opcodes/Bytecode"
     },
     {
+        "title": "Huff 101 入门",
+        "title_en": "Huff 101 Intro",
+        "image_url": "https://vjcxgodediuyprqxqpzo.supabase.co/storage/v1/object/public/images/Huff101.png",
+        "path": "https://www.wtf.academy/huff-101",
+        "path_en": "https://www.wtf.academy/en/huff-101",
+        "name": "huff-101",
+        "description": "Huff智能合约入门",
+        "description_en": "Write optimized smart contract in Huff"
+    },
+    {
         "title": "Cairo 101 入门",
         "title_en": "Cairo 101 Intro",
         "image_url": "https://vjcxgodediuyprqxqpzo.supabase.co/storage/v1/object/public/images/Cairo101.png",
