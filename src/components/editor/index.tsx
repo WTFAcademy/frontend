@@ -6,6 +6,7 @@ import { resolveMdMeta } from "@site/src/components/editor/utils/md-meta";
 import { endowWithPosition } from "./utils/common";
 import { resolveMdContent } from "@site/src/components/editor/utils/md-content";
 import { compact } from "lodash-es";
+import { TError } from "@site/src/components/editor/utils/error";
 
 function initTheme(monaco: Monaco) {
   monaco.editor.defineTheme("myCustomTheme", {
@@ -139,8 +140,13 @@ course_id: xxx
 
 `;
 
+export interface IQuizEditorValue {
+  course: any;
+  quizzes: IQuiz[];
+}
+
 type TProps = {
-  onChange: (value: IQuiz[]) => void;
+  onChange: (value: IQuizEditorValue, errors: TError[]) => void;
 };
 
 function Editor(props: TProps) {
@@ -154,17 +160,17 @@ function Editor(props: TProps) {
 
   const handleChange = value => {
     try {
-      const { meta, content, error: metaResolveError } = resolveMdMeta(value);
-      const out = marked.lexer(content || value);
+      const { course, quizzes, error: metaResolveError } = resolveMdMeta(value);
+      const out = marked.lexer(quizzes || value);
       const outWithPosition = endowWithPosition(out);
       const { result, errors } = resolveMdContent(outWithPosition);
       const allErrors = compact([...errors, metaResolveError]);
       const allResult = {
-        meta,
-        content: result,
+        course,
+        quizzes: result,
       };
       console.log(allResult, allErrors);
-      // onChange(allResult, allErrors);
+      onChange(allResult, allErrors);
     } catch (e) {
       console.log(e);
     }

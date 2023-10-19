@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { Control, useForm } from "react-hook-form";
 import FormProvider from "@site/src/components/hook-form/form-provider";
 import React from "react";
 import QuizSelect from "@site/src/components/quiz-form/QuizSelect";
@@ -15,7 +15,7 @@ const QuizBridge = ({
 }: {
   quiz: IQuiz;
   index: number;
-  control: any;
+  control: Control<Record<string, string | string[]>, any>;
 }) => {
   if (quiz?.meta?.type === "select") {
     return <QuizSelect control={control} name={`select${index}`} quiz={quiz} />;
@@ -36,6 +36,7 @@ const QuizBridge = ({
 };
 
 const Preview = ({ quizzes }: { quizzes: IQuiz[] }) => {
+  console.log(quizzes);
   const methods = useForm<IQuizFormValues>({
     mode: "onChange",
   });

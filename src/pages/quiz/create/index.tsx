@@ -1,14 +1,10 @@
-import Editor from "@site/src/components/editor";
+import Editor, { IQuizEditorValue } from "@site/src/components/editor";
 import Layout from "@theme/Layout";
 import React, { useState } from "react";
 import PreviewForm from "@site/src/components/quiz-form/Preview";
-import { IQuiz } from "@site/src/typings/quiz";
 
 const QuizCreate = () => {
-  const [quiz, setQuiz] = useState<IQuiz[]>([]);
-  const handleChange = (value: IQuiz[]) => {
-    setQuiz(value);
-  };
+  const [value, setQuiz] = useState<IQuizEditorValue>();
   return (
     <Layout
       title={`Hello from`}
@@ -17,10 +13,10 @@ const QuizCreate = () => {
     >
       <div className="flex space-x-2">
         <div className="flex-1 h-full">
-          <Editor onChange={handleChange} />
+          <Editor onChange={setQuiz} />
         </div>
         <div className="flex flex-col flex-1">
-          <PreviewForm quizzes={quiz} />
+          <PreviewForm quizzes={value?.quizzes || []} />
         </div>
       </div>
     </Layout>

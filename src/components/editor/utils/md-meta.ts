@@ -30,13 +30,13 @@ export const resolveMdMeta = (source: string) => {
     const frontMatter = yaml.load(frontMatterString);
 
     return {
-      meta: frontMatter,
-      content: markdownString,
+      course: frontMatter,
+      quizzes: markdownString,
     };
   } catch (e) {
     return {
-      meta: null,
-      content: source,
+      course: null,
+      quizzes: source,
       error: e,
     };
   }
