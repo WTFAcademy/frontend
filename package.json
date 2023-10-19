@@ -55,6 +55,7 @@
     "ethers": "^5.7.2",
     "graphql": "^16.7.1",
     "graphql-request": "^6.1.0",
+    "js-yaml": "^4.1.0",
     "lodash-es": "^4.17.21",
     "lucide-react": "^0.217.0",
     "marked": "^9.0.3",

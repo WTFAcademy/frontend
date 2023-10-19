@@ -22,7 +22,8 @@
     "@typescript-eslint/ban-ts-comment": "off",
     "react-refresh/only-export-components": "off",
     "react/prop-types": "off",
-    "react/no-children-prop": "off"
+    "react/no-children-prop": "off",
+    "no-case-declarations": "off"
   },
   "overrides": [
     {

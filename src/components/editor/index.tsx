@@ -1,8 +1,11 @@
 import React, { useRef } from "react";
 import MonacoEditor, { Monaco } from "@monaco-editor/react";
 import { marked } from "marked";
-import { transform } from "@site/src/components/editor/transform";
 import { IQuiz } from "@site/src/typings/quiz";
+import { resolveMdMeta } from "@site/src/components/editor/utils/md-meta";
+import { endowWithPosition } from "./utils/common";
+import { resolveMdContent } from "@site/src/components/editor/utils/md-content";
+import { compact } from "lodash-es";
 
 function initTheme(monaco: Monaco) {
   monaco.editor.defineTheme("myCustomTheme", {
@@ -106,7 +109,11 @@ function initTheme(monaco: Monaco) {
   monaco.editor.setTheme("myCustomTheme");
 }
 
-const DEFAULT_VALUE = `
+const DEFAULT_VALUE = `---
+quiz_id: xxx
+course_id: xxx
+---
+
 ## What happens when you call \`__string()\` ?
 > {index: 1, type: 'select', answer: ['A']}
 
@@ -147,8 +154,17 @@ function Editor(props: TProps) {
 
   const handleChange = value => {
     try {
-      const out = marked.lexer(value);
-      onChange(transform(out));
+      const { meta, content, error: metaResolveError } = resolveMdMeta(value);
+      const out = marked.lexer(content || value);
+      const outWithPosition = endowWithPosition(out);
+      const { result, errors } = resolveMdContent(outWithPosition);
+      const allErrors = compact([...errors, metaResolveError]);
+      const allResult = {
+        meta,
+        content: result,
+      };
+      console.log(allResult, allErrors);
+      // onChange(allResult, allErrors);
     } catch (e) {
       console.log(e);
     }
