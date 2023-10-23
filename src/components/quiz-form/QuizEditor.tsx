@@ -13,14 +13,13 @@ const QuizEditor = ({
   const { value = "", onChange } = field;
 
   return (
-    <div>
-      <Editor
-        value={value}
-        onChange={onChange}
-        onQuizChange={onQuizChange}
-        onError={onError}
-      />
-    </div>
+    <Editor
+      height="85vh"
+      value={value}
+      onChange={onChange}
+      onQuizChange={onQuizChange}
+      onError={onError}
+    />
   );
 };
 

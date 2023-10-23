@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import MonacoEditor, { Monaco } from "@monaco-editor/react";
+import MonacoEditor, { EditorProps, Monaco } from "@monaco-editor/react";
 import { marked } from "marked";
 import { IQuiz } from "@site/src/typings/quiz";
 import { resolveMdMeta } from "@site/src/components/editor/utils/md-meta";
@@ -7,7 +7,6 @@ import { endowWithPosition } from "./utils/common";
 import { resolveMdContent } from "@site/src/components/editor/utils/md-content";
 import { compact } from "lodash-es";
 import { TError } from "@site/src/components/editor/utils/error";
-import { useEditor } from "@tiptap/react";
 
 function initTheme(monaco: Monaco) {
   monaco.editor.defineTheme("myCustomTheme", {
@@ -127,8 +126,9 @@ export type TQuizEditorProps = {
   defaultValue?: string;
 };
 
-function Editor(props: TQuizEditorProps) {
-  const { onChange, value, onQuizChange, onError, defaultValue } = props;
+function Editor(props: TQuizEditorProps & EditorProps) {
+  const { onChange, value, onQuizChange, onError, defaultValue, ...rest } =
+    props;
   const editorRef = useRef(null);
 
   const handleEditorDidMount = (editor, monaco) => {
@@ -156,7 +156,6 @@ function Editor(props: TQuizEditorProps) {
 
   return (
     <MonacoEditor
-      height="90vh"
       defaultLanguage="markdown"
       defaultValue={defaultValue}
       value={value}
@@ -169,6 +168,7 @@ function Editor(props: TQuizEditorProps) {
         },
         fontSize: 14,
       }}
+      {...rest}
     />
   );
 }
