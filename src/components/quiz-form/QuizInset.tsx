@@ -1,19 +1,18 @@
-import { useController, UseControllerProps } from "react-hook-form";
 import { IQuiz } from "@site/src/typings/quiz";
 import ReactMarkdown from "react-markdown";
 import { cn } from "@site/src/utils/class-utils";
 import React, { useMemo } from "react";
-import { IQuizFormValues } from "@site/src/components/quiz-form/Preview";
 
 const REPLACEMENT_INSET = "<<!!>>";
 const QuizInset = ({
   quiz,
-  ...props
-}: UseControllerProps<IQuizFormValues> & { quiz: IQuiz }) => {
-  const { field } = useController(props);
-
-  const { value = [], onChange } = field;
-
+  value,
+  onChange,
+}: {
+  quiz: IQuiz;
+  value?: string[];
+  onChange?: (value: string[]) => void;
+}) => {
   const extend = useMemo(() => {
     return (value as string[]).reduce(
       (prev, next) =>

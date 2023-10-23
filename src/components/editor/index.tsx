@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import MonacoEditor, { Monaco } from "@monaco-editor/react";
 import { marked } from "marked";
 import { IQuiz } from "@site/src/typings/quiz";
@@ -7,6 +7,7 @@ import { endowWithPosition } from "./utils/common";
 import { resolveMdContent } from "@site/src/components/editor/utils/md-content";
 import { compact } from "lodash-es";
 import { TError } from "@site/src/components/editor/utils/error";
+import { useEditor } from "@tiptap/react";
 
 function initTheme(monaco: Monaco) {
   monaco.editor.defineTheme("myCustomTheme", {
@@ -110,47 +111,24 @@ function initTheme(monaco: Monaco) {
   monaco.editor.setTheme("myCustomTheme");
 }
 
-const DEFAULT_VALUE = `---
-quiz_id: xxx
-course_id: xxx
----
-
-## What happens when you call \`__string()\` ?
-> {index: 1, type: 'select', answer: ['A']}
-
-![图片](https://avatars.githubusercontent.com/u/20828177?v=4)
-
-\`\`\`solidity
-    // 用户领取代币函数
-    function requestTokens() external {
-        require(requestedAddress[msg.sender] == false, "Can't Request Multiple Times!"); // 每个地址只能领一次
-        IERC20 token = IERC20(tokenContract); // 创建IERC20合约对象
-        require(token.balanceOf(address(this)) >= amountAllowed, "Faucet Empty!"); // 水龙头空了
-
-        token.transfer(msg.sender, amountAllowed); // 发送token
-        requestedAddress[msg.sender] = true; // 记录领取地址
-        emit SendToken(msg.sender, amountAllowed); // 释放SendToken事件
-    }
-\`\`\`
-
-- (A) Two Strings are printed: "The current time is 3 pm" and aThe mood is good"
-- (B) One Strings is printed: "The current time is 3 pm"
-- (C) No String is printed
-- (D) All of above are correct.
-
-`;
-
 export interface IQuizEditorValue {
-  course: any;
-  quizzes: IQuiz[];
+  course: {
+    quiz_id: string;
+    course_id: string;
+  };
+  content: IQuiz[];
 }
 
-type TProps = {
-  onChange: (value: IQuizEditorValue, errors: TError[]) => void;
+export type TQuizEditorProps = {
+  onChange?: (value: string) => void;
+  onQuizChange?: (value: IQuizEditorValue) => void;
+  onError?: (errors: TError[]) => void;
+  value?: string;
+  defaultValue?: string;
 };
 
-function Editor(props: TProps) {
-  const { onChange } = props;
+function Editor(props: TQuizEditorProps) {
+  const { onChange, value, onQuizChange, onError, defaultValue } = props;
   const editorRef = useRef(null);
 
   const handleEditorDidMount = (editor, monaco) => {
@@ -158,7 +136,7 @@ function Editor(props: TProps) {
     initTheme(monaco);
   };
 
-  const handleChange = value => {
+  useEffect(() => {
     try {
       const { course, quizzes, error: metaResolveError } = resolveMdMeta(value);
       const out = marked.lexer(quizzes || value);
@@ -167,22 +145,23 @@ function Editor(props: TProps) {
       const allErrors = compact([...errors, metaResolveError]);
       const allResult = {
         course,
-        quizzes: result,
+        content: result,
       };
-      console.log(allResult, allErrors);
-      onChange(allResult, allErrors);
+      onQuizChange?.(allResult);
+      onError?.(allErrors);
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [value]);
 
   return (
     <MonacoEditor
       height="90vh"
       defaultLanguage="markdown"
-      defaultValue={DEFAULT_VALUE}
+      defaultValue={defaultValue}
+      value={value}
       onMount={handleEditorDidMount}
-      onChange={handleChange}
+      onChange={onChange}
       options={{
         lineNumbersMinChars: 3,
         minimap: {

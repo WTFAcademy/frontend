@@ -1,17 +1,18 @@
-import { useController, UseControllerProps } from "react-hook-form";
 import { IQuiz } from "@site/src/typings/quiz";
 import ReactMarkdown from "react-markdown";
 import Image from "@site/src/components/docs/Image";
 import { cn } from "@site/src/utils/class-utils";
-import { IQuizFormValues } from "@site/src/components/quiz-form/Preview";
 import React from "react";
 
 const QuizSelect = ({
   quiz,
-  ...props
-}: UseControllerProps<IQuizFormValues> & { quiz: IQuiz }) => {
-  const { field } = useController(props);
-  const { value = "", onChange } = field;
+  value,
+  onChange,
+}: {
+  quiz: IQuiz;
+  value?: string;
+  onChange?: (value: string) => void;
+}) => {
   return (
     <div>
       <div className="font-bold py-[20px] text-[16px]">
