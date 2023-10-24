@@ -43,7 +43,7 @@ const QuizInset = ({
           <ReactMarkdown key={index} children={md.raw} />
         ))}
       </div>
-      <div className="flex flex-wrap border border-solid px-[10px] py-[20px] border-black-500 min-h-[100px]">
+      <div className="flex flex-wrap items-center px-5 pt-4 border border-solid pb-2.5 border-black-500">
         {quiz.content.options.map(answer => (
           <div
             key={answer.value}
@@ -55,10 +55,10 @@ const QuizInset = ({
               }
             }}
             className={cn(
-              "border flex items-center px-[10px] mx-[10px] border-solid border-black-500 rounded-[4px] mb-[20px] cursor-pointer",
-              {
-                "border-green-500 text-green-500": value.includes(answer.value),
-              },
+              "h-10 mr-2 flex  items-center mb-1.5 ",
+              value.includes(answer.value)
+                ? "px-4 py-1 rounded-md shadow-sm border border-solid border-blue-600 cursor-pointer bg-blue-600 text-white"
+                : "px-4 py-1 bg-bg rounded-md shadow-sm border border-solid border-content-faint cursor-pointer hover:bg-bg-faint",
             )}
           >
             {`${answer.value}. ${answer.label}`}

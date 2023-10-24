@@ -43,8 +43,10 @@ const QuizSelect = ({
               }
             }}
             className={cn(
-              "px-[10px] py-[20px] border border-solid border-black-500 rounded-[4px] mb-[20px] cursor-pointer",
-              { "border-green-500 text-green-500": value === answer.value },
+              "mb-2",
+              value.includes(answer.value)
+                ? "px-4 py-4 rounded-md shadow-sm border border-solid border-blue-600 cursor-pointer bg-blue-600 text-white"
+                : "px-4 py-4 bg-bg rounded-md shadow-sm border border-solid border-content-faint cursor-pointer hover:bg-bg-faint",
             )}
           >
             <ReactMarkdown>{`${answer.value}. ${answer.label}`}</ReactMarkdown>

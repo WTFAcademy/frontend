@@ -36,7 +36,7 @@ const QuizCreate = () => {
           <div className="flex-1 h-full overflow-x-auto w-max-[50%]">
             <QuizEditor name="quiz" onQuizChange={setQuiz} />
           </div>
-          <div className="flex-1 p-2 overflow-y-auto h-[75vh]">
+          <div className="flex-1 p-2 overflow-y-auto h-[77vh]">
             {(quiz?.content || []).map((item, index) => (
               <QuizItem
                 key={`${item.type}-${index}`}
