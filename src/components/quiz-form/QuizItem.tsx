@@ -7,22 +7,45 @@ import { IQuiz } from "@site/src/typings/quiz";
 
 const QuizItem = ({
   quiz,
+  index,
   ...rest
 }: {
   quiz: IQuiz;
+  index?: number;
   control: Control;
 } & UseControllerProps) => {
   const { field } = useController(rest);
   const { value = [], onChange } = field;
 
   if (quiz?.meta?.type === "select") {
-    return <QuizSelect value={value} quiz={quiz} onChange={onChange} />;
+    return (
+      <QuizSelect
+        value={value}
+        quiz={quiz}
+        onChange={onChange}
+        index={quiz?.meta?.index || index}
+      />
+    );
   }
   if (quiz?.meta?.type === "multiple-select") {
-    return <QuizMultipleSelect value={value} quiz={quiz} onChange={onChange} />;
+    return (
+      <QuizMultipleSelect
+        value={value}
+        quiz={quiz}
+        onChange={onChange}
+        index={quiz?.meta?.index || index}
+      />
+    );
   }
   if (quiz?.meta?.type === "inset") {
-    return <QuizInset value={value} quiz={quiz} onChange={onChange} />;
+    return (
+      <QuizInset
+        value={value}
+        quiz={quiz}
+        onChange={onChange}
+        index={quiz?.meta?.index || index}
+      />
+    );
   }
   return null;
 };

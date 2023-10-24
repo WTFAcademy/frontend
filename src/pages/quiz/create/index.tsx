@@ -22,7 +22,10 @@ const QuizCreate = () => {
     <Layout
       title={`Hello from`}
       description="Description will go into a meta tag in <head />"
+      wrapperClassName="p-5"
+      noFooter
     >
+      <EditorTabs />
       <FormProvider
         methods={methods}
         onSubmit={() => {
@@ -31,24 +34,24 @@ const QuizCreate = () => {
       >
         <div className="flex space-x-2 p-[20px]">
           <div className="flex-1 h-full overflow-x-auto w-max-[50%]">
-            <EditorTabs />
             <QuizEditor name="quiz" onQuizChange={setQuiz} />
           </div>
-          <div className="flex-1 overflow-y-auto h-[85vh] p-[20px]">
+          <div className="flex-1 p-2 overflow-y-auto h-[75vh]">
             {(quiz?.content || []).map((item, index) => (
               <QuizItem
                 key={`${item.type}-${index}`}
                 control={methods.control}
                 quiz={item}
+                index={index}
                 name={`${item.type}-preview-${index}`}
               />
             ))}
           </div>
-          <div>
-            <Button> 发布</Button>
-          </div>
         </div>
       </FormProvider>
+      <div className="fixed bottom-0 left-0 right-0 flex items-center justify-end navbar h-15">
+        <Button className="m-5"> 发布</Button>
+      </div>
     </Layout>
   );
 };

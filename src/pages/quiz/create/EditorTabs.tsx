@@ -77,7 +77,7 @@ const EditorTabs = () => {
       <TabsList ref={tabRef} className="relative">
         {tabs.slice(0, maxLength).map(tab => (
           <TabsTrigger
-            className="flex items-center mr-8 pb-2.5"
+            className="flex items-center h-10 mr-8 pb-2.5"
             value={tab.value}
             key={tab.value}
           >

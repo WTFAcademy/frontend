@@ -7,9 +7,11 @@ const REPLACEMENT_INSET = "<<!!>>";
 const QuizInset = ({
   quiz,
   value,
+  index,
   onChange,
 }: {
   quiz: IQuiz;
+  index?: number;
   value?: string[];
   onChange?: (value: string[]) => void;
 }) => {
@@ -32,10 +34,11 @@ const QuizInset = ({
 
   return (
     <div>
-      <div className="font-bold py-[20px] text-[16px]">
-        <ReactMarkdown children={quiz.title} />
+      <div className="flex items-center text-xl font-bold">
+        {index && <span className="pr-2 font-bold">{index}.</span>}
+        <ReactMarkdown children={quiz?.title} />
       </div>
-      <div className="my-[20px]">
+      <div className="my-5">
         {extend.map((md, index) => (
           <ReactMarkdown key={index} children={md.raw} />
         ))}

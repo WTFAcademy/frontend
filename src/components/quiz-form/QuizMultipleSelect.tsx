@@ -8,17 +8,21 @@ const QuizMultipleSelect = ({
   quiz,
   value,
   onChange,
+  index,
 }: {
   quiz: IQuiz;
+  index?: number;
   value?: string[];
   onChange?: (value: string[]) => void;
 }) => {
   return (
     <div>
-      <div className="font-bold py-[20px] text-[16px]">
-        <ReactMarkdown children={quiz.title} />
+      <div className="flex items-center text-xl font-bold">
+        {index && <span className="pr-2 font-bold">{index}.</span>}
+        <ReactMarkdown children={quiz?.title} />
       </div>
-      <div className="my-[20px]">
+
+      <div className="my-5">
         {quiz.content.extend.length &&
           quiz.content.extend.map((md, index) => (
             <ReactMarkdown

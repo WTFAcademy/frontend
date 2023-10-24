@@ -14,7 +14,7 @@ const QuizEditor = ({
 
   return (
     <Editor
-      height="85vh"
+      height="75vh"
       value={value}
       onChange={onChange}
       onQuizChange={onQuizChange}
