@@ -32,8 +32,8 @@ const QuizCreate = () => {
           console.log(123);
         }}
       >
-        <div className="flex space-x-2 p-[20px]">
-          <div className="flex-1 h-full overflow-x-auto w-max-[50%]">
+        <div className="flex flex-col pb-10 space-x-2  md:flex-row md:p-5 ">
+          <div className="flex-1 h-full mb-5 overflow-x-auto w-max-[50%] md:mb-0">
             <QuizEditor name="quiz" onQuizChange={setQuiz} />
           </div>
           <div className="flex-1 p-2 overflow-y-auto h-[77vh]">
