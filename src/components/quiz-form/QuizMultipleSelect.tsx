@@ -32,7 +32,9 @@ const QuizMultipleSelect = ({
             />
           ))}
       </div>
-
+      <div className="mb-4">
+        <span className="text-xs opacity-50 text-content">Choose answers</span>
+      </div>
       <div>
         {quiz.content.options.map(answer => (
           <div

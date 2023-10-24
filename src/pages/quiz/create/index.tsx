@@ -17,7 +17,6 @@ const QuizCreate = () => {
       quiz: DEFAULT_VALUE,
     },
   });
-
   return (
     <Layout
       title={`Hello from`}

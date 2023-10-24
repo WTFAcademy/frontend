@@ -43,7 +43,10 @@ const QuizInset = ({
           <ReactMarkdown key={index} children={md.raw} />
         ))}
       </div>
-      <div className="flex flex-wrap items-center px-5 pt-4 border border-solid pb-2.5 border-black-500">
+      <div className="mb-4">
+        <span className="text-xs opacity-50 text-content">Choose answers</span>
+      </div>
+      <div className="flex flex-wrap items-center px-5 pt-4 mb-2 border border-solid pb-2.5 border-black-500">
         {quiz.content.options.map(answer => (
           <div
             key={answer.value}
