@@ -61,7 +61,7 @@ course_id: 100
 ## What happens when you call \`__string()\` ?
 > {index: 1, type: 'select', answer: ['A']}
 
-![图片](https://avatars.githubusercontent.com/u/20828177?v=4)
+![图片](    https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG)
 
 \`\`\`solidity
     // 用户领取代币函数
@@ -90,7 +90,7 @@ course_id: 101
 ## What happens when you call \`__string()\` ?
 > {index: 1, type: 'inset', answer: ['A']}
 
-![图片](https://avatars.githubusercontent.com/u/20828177?v=4)
+![图片](    https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG)
 
 \`\`\`solidity
     // 用户领取代币函数
@@ -120,7 +120,7 @@ course_id: 100
 ## What happens when you call \`__string()\` ?
 > {index: 1, type: 'multiple-select', answer: ['A','B']}
 
-![图片](https://avatars.githubusercontent.com/u/20828177?v=4)
+![图片](    https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG)
 
 \`\`\`solidity
     // 用户领取代币函数
@@ -156,13 +156,13 @@ export const DEFAULT_QUIZZES = [
       extend: [
         {
           type: "paragraph",
-          raw: "![图片](https://avatars.githubusercontent.com/u/20828177?v=4)",
-          text: "![图片](https://avatars.githubusercontent.com/u/20828177?v=4)",
+          raw: "![图片](    https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG)",
+          text: "![图片](    https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG)",
           tokens: [
             {
               type: "image",
-              raw: "![图片](https://avatars.githubusercontent.com/u/20828177?v=4)",
-              href: "https://avatars.githubusercontent.com/u/20828177?v=4",
+              raw: "![图片](    https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG)",
+              href: "    https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG",
               title: null,
               text: "图片",
             },
@@ -274,13 +274,13 @@ export const DEFAULT_QUIZZES = [
       extend: [
         {
           type: "paragraph",
-          raw: "![图片](https://avatars.githubusercontent.com/u/20828177?v=4)",
-          text: "![图片](https://avatars.githubusercontent.com/u/20828177?v=4)",
+          raw: "![图片](    https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG)",
+          text: "![图片](    https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG)",
           tokens: [
             {
               type: "image",
-              raw: "![图片](https://avatars.githubusercontent.com/u/20828177?v=4)",
-              href: "https://avatars.githubusercontent.com/u/20828177?v=4",
+              raw: "![图片](    https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG)",
+              href: "    https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG",
               title: null,
               text: "图片",
             },
@@ -391,13 +391,13 @@ export const DEFAULT_QUIZZES = [
       extend: [
         {
           type: "paragraph",
-          raw: "![图片](https://avatars.githubusercontent.com/u/20828177?v=4)",
-          text: "![图片](https://avatars.githubusercontent.com/u/20828177?v=4)",
+          raw: "![图片](    https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG)",
+          text: "![图片](    https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG)",
           tokens: [
             {
               type: "image",
-              raw: "![图片](https://avatars.githubusercontent.com/u/20828177?v=4)",
-              href: "https://avatars.githubusercontent.com/u/20828177?v=4",
+              raw: "![图片](    https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG)",
+              href: "    https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG",
               title: null,
               text: "图片",
             },
