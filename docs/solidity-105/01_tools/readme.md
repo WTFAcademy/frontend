@@ -21,7 +21,7 @@ Author: [SunSec](https://twitter.com/1nf0s3cpt)
 [Phalcon](https://phalcon.blocksec.com/) | [Tx.viewer](https://tx.eth.samczsun.com/) | [Cruise](https://cruise.supremacy.team/) | [Ethtx](https://ethtx.info/) | [Tenderly](https://dashboard.tenderly.co/explorer)
 
 Transaction Viewer 这类工具是最常用的，可以帮助我们针对想要分析的交易 Transaction，以可视化列出函数呼叫的流程以及每个函数带入了什么的参数等。
-每个工具大同小异，只差异在链的支援度不同和辅助功能，我个人是比较常用 Phalcon 和 Sam 的 Transaction Viewer，如果遇到不支援的链则会使用 Tenderly，Tenderly 支援最多链，但是可读性就不是这么方便，需要 Debug 慢慢分析。不过我最初在研究链上分析是先学习 Ethtx 和 Tenderly。
+每个工具大同小异，只差异在链的支援度不同和辅助功能，我个人是比较常用 Phalcon 和 Sam 的 Transaction Viewer，如果遇到不支持的链则会使用 Tenderly，Tenderly 支持最多链，但是可读性就不是这么方便，需要 Debug 慢慢分析。不过我最初在研究链上分析是先学习 Ethtx 和 Tenderly。
 
 #### 链支援度比较
 
