@@ -1,6 +1,5 @@
-import { marked } from "marked";
 import yaml from "js-yaml";
-import { requireError } from "@site/src/components/editor/utils/error";
+import { requireError } from "@site/src/components/editor/md-utils/error";
 
 export const resolveMdMeta = (source: string) => {
   try {
@@ -13,6 +12,10 @@ export const resolveMdMeta = (source: string) => {
         line: 0,
         column: 0,
       },
+      end: {
+        line: 0,
+        column: 3,
+      },
     });
 
     requireError(source.split("---").length === 3, {
@@ -20,6 +23,10 @@ export const resolveMdMeta = (source: string) => {
       start: {
         line: 0,
         column: 0,
+      },
+      end: {
+        line: 0,
+        column: 3,
       },
     });
 
@@ -29,15 +36,29 @@ export const resolveMdMeta = (source: string) => {
 
     const frontMatter = yaml.load(frontMatterString);
 
+    const endLine = (splitSource[0] + splitSource[1]).split("\n").length;
+
     return {
       course: frontMatter,
       quizzes: markdownString,
+      start: {
+        line: 0,
+      },
+      end: {
+        line: endLine,
+      },
     };
   } catch (e) {
     return {
       course: null,
       quizzes: source,
       error: e,
+      start: {
+        line: 0,
+      },
+      end: {
+        line: 0,
+      },
     };
   }
 };

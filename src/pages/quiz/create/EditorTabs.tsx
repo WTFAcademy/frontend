@@ -1,26 +1,43 @@
 import { TabsList, TabsTrigger } from "@site/src/components/ui/Tabs";
-import Translate from "@docusaurus/Translate";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Tabs } from "@radix-ui/react-tabs";
-import { TABS } from "@site/src/pages/quiz/create/demo";
+import { TModelWrapper } from "@site/src/components/editor/type";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@site/src/components/ui/DropdownMenu";
-import { clone } from "lodash-es";
-const EditorTabs = () => {
-  const [tab, setTab] = useState("1");
-  const tabRef = useRef<HTMLElement>();
-  const [maxLength, setMaxLength] = useState(TABS.length);
+} from "@radix-ui/react-dropdown-menu";
+import Translate from "@docusaurus/Translate";
 
-  const [tabs, setTabs] = useState(TABS);
+type TProps = {
+  modelWrappers: TModelWrapper[];
+  activeModelIndex: string;
+  onActiveModelChange: (index: string) => void;
+};
+
+const EditorTabs = ({
+  modelWrappers,
+  activeModelIndex,
+  onActiveModelChange,
+}: TProps) => {
+  const tabRef = useRef<HTMLElement | undefined>();
+  const [maxLength, setMaxLength] = useState(modelWrappers.length);
+
+  const hideTabs = useMemo(() => {
+    return modelWrappers.slice(maxLength, modelWrappers.length);
+  }, [maxLength, modelWrappers]);
 
   const calcTabsLength = () => {
     const rect = tabRef.current.getBoundingClientRect();
-    const maxlength = [...tabRef.current.childNodes].reduce(
+    const maxlength = [...(tabRef.current.childNodes as any)].reduce(
       (prev, next) => {
         const style = window.getComputedStyle(next);
         const marginRight = style.marginRight.replace("px", "");
@@ -37,7 +54,7 @@ const EditorTabs = () => {
   };
 
   const onHandleResize = () => {
-    setMaxLength(TABS.length);
+    setMaxLength(modelWrappers.length);
     const maxlength = calcTabsLength();
     setMaxLength(maxlength);
   };
@@ -57,34 +74,33 @@ const EditorTabs = () => {
     }
   }, [tabRef.current]);
 
-  const onFoldTabClick = (tab, index) => {
-    setTabs(prev => {
-      prev.splice(index + maxLength, 1);
-      prev.splice(1, 0, tab);
-      return prev;
-    });
-
-    setTab(tab.value);
-  };
+  // const onFoldTabClick = (tab, index) => {
+  //     setTabs(prev => {
+  //         prev.splice(index + maxLength, 1);
+  //         prev.splice(1, 0, tab);
+  //         return prev;
+  //     });
+  //
+  //     setTab(tab.value);
+  // };
 
   return (
     <Tabs
-      key={tab}
       className="w-full overflow-hidden"
-      value={tab}
-      onValueChange={setTab}
+      value={activeModelIndex}
+      onValueChange={onActiveModelChange}
     >
-      <TabsList ref={tabRef} className="relative">
-        {tabs.slice(0, maxLength).map(tab => (
+      <TabsList className="relative">
+        {modelWrappers.map((tab, index) => (
           <TabsTrigger
             className="flex items-center h-10 mr-8 pb-2.5"
-            value={tab.value}
-            key={tab.value}
+            value={index}
+            key={index}
           >
-            {tab.label}
+            {tab.filename}
           </TabsTrigger>
         ))}
-        {maxLength < tabs.length && (
+        {hideTabs?.length > 0 && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className="absolute top-0 flex items-end justify-end overflow-hidden text-2xl font-bold leading-snug border-none cursor-pointer pb-2.5 mr-[0] w-[50px] h-[30px] right-3.5">
@@ -92,20 +108,20 @@ const EditorTabs = () => {
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              {tabs.slice(maxLength, tabs.length).map((tab, index) => (
+              {hideTabs.slice(maxLength, hideTabs.length).map((tab, index) => (
                 <>
                   <DropdownMenuItem
                     key={tab.value}
                     onClick={() => {
-                      console.log(tab);
-                      onFoldTabClick(tab, index);
+                      onActiveModelChange(index);
                     }}
                   >
                     <Translate id="profile.Account.button">
-                      {tab.label}
+                      {tab.filename}
                     </Translate>
                   </DropdownMenuItem>
-                  {index !== tabs.slice(maxLength, tabs.length).length - 1 && (
+                  {index !==
+                    hideTabs.slice(maxLength, hideTabs.length).length - 1 && (
                     <DropdownMenuSeparator />
                   )}
                 </>

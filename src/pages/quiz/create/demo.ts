@@ -81,12 +81,6 @@ course_id: 100
 - (C) No String is printed
 - (D) All of above are correct.
 
-
----
-quiz_id: 01
-course_id: 101
----
-
 ## What happens when you call \`__string()\` ?
 > {index: 1, type: 'inset', answer: ['A']}
 
@@ -112,15 +106,38 @@ course_id: 101
 - (E) true
 - (F) true
 - (G) true
----
-quiz_id: 00
-course_id: 100
----
 
 ## What happens when you call \`__string()\` ?
 > {index: 1, type: 'multiple-select', answer: ['A','B']}
 
 ![图片](    https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG)
+
+\`\`\`solidity
+    // 用户领取代币函数
+    function requestTokens() external {
+        require(requestedAddress[msg.sender] == false, "Can't Request Multiple Times!"); // 每个地址只能领一次
+        IERC20 token = IERC20(tokenContract); // 创建IERC20合约对象
+        require(token.balanceOf(address(this)) >= amountAllowed, "Faucet Empty!"); // 水龙头空了
+
+        token.transfer(msg.sender, amountAllowed); // 发送token
+        requestedAddress[msg.sender] = true; // 记录领取地址
+        emit SendToken(msg.sender, amountAllowed); // 释放SendToken事件
+    }
+\`\`\`
+
+- (A) Two Strings are printed: "The current time is 3 pm" and aThe mood is good"
+- (B) One Strings is printed: "The current time is 3 pm"
+- (C) No String is printed
+- (D) All of above are correct.
+`;
+
+export const DEFAULT_VALUE2 = `---
+quiz_id: 1
+course_id: 100
+---
+
+## What happens when you call \`__string()\` ?
+> {index: 1, type: 'select', answer: ['A']}
 
 \`\`\`solidity
     // 用户领取代币函数

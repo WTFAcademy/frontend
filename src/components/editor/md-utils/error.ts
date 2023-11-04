@@ -1,6 +1,6 @@
 type TPosition = {
   line: number;
-  column: number;
+  column?: number;
 };
 
 export type TError = {

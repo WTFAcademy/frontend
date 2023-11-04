@@ -3,47 +3,19 @@
     "browser": true,
     "es2021": true
   },
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
-    "plugin:prettier/recommended",
-    "plugin:tailwind/recommended"
-  ],
-  "rules": {
-    "quotes": [0, "double"],
-    "no-undef": "off",
-    "no-var": "warn",
-    "no-debugger": "warn",
-    "no-console": "warn",
-    "@typescript-eslint/no-unused-vars": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/ban-ts-ignore": "off",
-    "@typescript-eslint/ban-ts-comment": "off",
-    "react-refresh/only-export-components": "off",
-    "react/prop-types": "off",
-    "react/no-children-prop": "off",
-    "no-case-declarations": "off"
-  },
-  "overrides": [
-    {
-      "env": {
-        "node": true
-      },
-      "files": [".eslintrc.{js,cjs}"],
-      "parserOptions": {
-        "sourceType": "script"
-      }
-    }
-  ],
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "overrides": [],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react"],
-  "settings": {
-    "react": {
-     "version": "detect"
-    }
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "off",
+    "no-case-declarations": "off",
+  },
+  "plugins": ["@typescript-eslint", "prettier"],
+  "globals": {
+    "process": true
   }
 }

@@ -1,22 +1,42 @@
-import { IQuizEditorValue } from "@site/src/components/editor";
 import Layout from "@theme/Layout";
 import React, { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import FormProvider from "@site/src/components/hook-form/form-provider";
-import QuizEditor from "@site/src/components/quiz-form/QuizEditor";
-import QuizItem from "@site/src/components/quiz-form/QuizItem";
-import { DEFAULT_VALUE } from "@site/src/pages/quiz/create/demo";
+import {
+  DEFAULT_VALUE,
+  DEFAULT_VALUE2,
+} from "@site/src/pages/quiz/create/demo";
 import EditorTabs from "@site/src/pages/quiz/create/EditorTabs";
 import { Button } from "@site/src/components/ui/Button";
+import {
+  ESupportLanguage,
+  TModelWrapper,
+} from "@site/src/components/editor/type";
+import QuizEditor from "@site/src/components/quiz-form/QuizEditor";
+import FormProvider from "@site/src/components/hook-form/form-provider";
+import QuizItem from "@site/src/components/quiz-form/QuizItem";
 
 const QuizCreate = () => {
-  const [quiz, setQuiz] = useState<IQuizEditorValue>();
   const methods = useForm<FieldValues>({
-    mode: "onChange",
     defaultValues: {
       quiz: DEFAULT_VALUE,
     },
   });
+  const quiz = methods.watch("quiz");
+  const [modelWrappers, setModelWrappers] = useState<TModelWrapper[]>([
+    {
+      filename: "my_quiz",
+      value: DEFAULT_VALUE,
+      language: ESupportLanguage.MARKDOWN,
+    },
+    {
+      filename: "my_quiz_01",
+      value: DEFAULT_VALUE2,
+      language: ESupportLanguage.MARKDOWN,
+      readOnly: true,
+    },
+  ]);
+  const [activeModelIndex, setActiveModelIndex] = useState(0);
+
   return (
     <Layout
       title={`Hello from`}
@@ -24,7 +44,11 @@ const QuizCreate = () => {
       wrapperClassName="p-5"
       noFooter
     >
-      <EditorTabs />
+      <EditorTabs
+        modelWrappers={modelWrappers}
+        activeModelIndex={activeModelIndex}
+        onActiveModelChange={setActiveModelIndex}
+      />
       <FormProvider
         methods={methods}
         onSubmit={() => {
@@ -33,7 +57,13 @@ const QuizCreate = () => {
       >
         <div className="flex flex-col pb-10 space-x-2  md:flex-row md:p-5 ">
           <div className="flex-1 h-full mb-5 overflow-x-auto w-max-[50%] md:mb-0">
-            <QuizEditor name="quiz" onQuizChange={setQuiz} />
+            <QuizEditor
+              name="quiz"
+              modelWrappers={modelWrappers}
+              onModelWrappersChange={setModelWrappers}
+              activeModelIndex={activeModelIndex}
+              onActiveModelChange={setActiveModelIndex}
+            />
           </div>
           <div className="flex-1 p-2 overflow-y-auto h-[77vh]">
             {(quiz?.content || []).map((item, index) => (

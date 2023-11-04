@@ -1,24 +1,37 @@
 import React from "react";
-import { useController, UseControllerProps } from "react-hook-form";
+import {
+  Controller,
+  UseControllerProps,
+  useFormContext,
+} from "react-hook-form";
 
 import Editor, { TQuizEditorProps } from "../editor";
+import { ControllerRenderProps } from "react-hook-form/dist/types/controller";
 
 const QuizEditor = ({
   onQuizChange,
-  onError,
+  name,
   ...rest
-}: UseControllerProps & Pick<TQuizEditorProps, "onQuizChange" | "onError">) => {
-  const { field } = useController(rest);
+}: UseControllerProps & TQuizEditorProps) => {
+  const { control } = useFormContext();
 
-  const { value = "", onChange } = field;
+  const handleChange = (e, field: ControllerRenderProps) => {
+    field.onChange(e);
+    onQuizChange?.(e);
+  };
 
   return (
-    <Editor
-      height="77vh"
-      value={value}
-      onChange={onChange}
-      onQuizChange={onQuizChange}
-      onError={onError}
+    <Controller
+      name={name}
+      control={control}
+      render={({ field }) => (
+        <Editor
+          height="77vh"
+          onQuizChange={e => handleChange(e, field)}
+          {...field}
+          {...rest}
+        />
+      )}
     />
   );
 };

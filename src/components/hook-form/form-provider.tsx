@@ -1,6 +1,5 @@
 import React from "react";
 import * as Form from "@radix-ui/react-form";
-import { ReactNode } from "react";
 import {
   FormProvider as RHFFormProvider,
   UseFormReturn,
@@ -9,7 +8,7 @@ import {
 // ----------------------------------------------------------------------
 
 interface Props {
-  children: ReactNode;
+  children: any;
   methods: UseFormReturn<any>;
   onSubmit?: VoidFunction;
 }

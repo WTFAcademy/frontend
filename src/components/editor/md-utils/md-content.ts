@@ -1,10 +1,10 @@
-import { Token, Tokens, TokensList } from "Tokens";
+import { Token, Tokens } from "Tokens";
 import { IQuiz } from "@site/src/typings/quiz";
 import {
   callError,
   makeError,
   TError,
-} from "@site/src/components/editor/utils/error";
+} from "@site/src/components/editor/md-utils/error";
 import { TTokenPosition } from "@site/src/components/editor/type";
 
 const chunkMdGroup = (md: (Token & TTokenPosition)[]) => {
@@ -43,8 +43,14 @@ const resolveQuizMeta = (token: Tokens.Blockquote & TTokenPosition) => {
     return {
       result: callError(() => JSON.parse(processedData), {
         message: "Quiz meta data must be a valid JSON",
-        start: token.start,
-        end: token.end,
+        start: {
+          ...token.start,
+          column: 0,
+        },
+        end: {
+          ...token.end,
+          column: metaString.length - 1,
+        },
       }),
     };
   } catch (e) {
