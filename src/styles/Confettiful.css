@@ -25,14 +25,15 @@
   }
 }
 
-.container {
-  width: 100vw;
-  height: 100vh;
-  background: #fff;
-  border: 1px solid white;
-  display: fixed;
-  top: 0px;
-}
+/*TODO(daxiongya): 更换classname*/
+/*.container {*/
+/*  width: 100vw;*/
+/*  height: 100vh;*/
+/*  background: #fff;*/
+/*  border: 1px solid white;*/
+/*  display: fixed;*/
+/*  top: 0px;*/
+/*}*/
 
 .confetti-container {
   perspective: 700px;
