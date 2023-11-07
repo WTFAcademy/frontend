@@ -15,7 +15,7 @@ export const { chains, provider, webSocketProvider } = configureChains(
 const connectors = connectorsForWallets([
   {
     groupName: "Suggested",
-    wallets: [metaMaskWallet({ chains })],
+    wallets: [metaMaskWallet({ chains, projectId: "" })],
   },
 ]);
 export const wagmiClient = createClient({
