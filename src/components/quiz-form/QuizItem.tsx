@@ -3,47 +3,47 @@ import React from "react";
 import QuizSelect from "@site/src/components/quiz-form/QuizSelect";
 import QuizMultipleSelect from "@site/src/components/quiz-form/QuizMultipleSelect";
 import QuizInset from "@site/src/components/quiz-form/QuizInset";
-import { IQuiz } from "@site/src/typings/quiz";
+import { IExercise } from "@site/src/typings/quiz";
 
 const QuizItem = ({
-  quiz,
+  exercise,
   index,
   ...rest
 }: {
-  quiz: IQuiz;
+  exercise: IExercise;
   index?: number;
   control: Control;
 } & UseControllerProps) => {
   const { field } = useController(rest);
   const { value = [], onChange } = field;
 
-  if (quiz?.meta?.type === "select") {
+  if (exercise?.meta?.type === "select") {
     return (
       <QuizSelect
         value={value}
-        quiz={quiz}
+        quiz={exercise}
         onChange={onChange}
-        index={quiz?.meta?.index || index}
+        index={exercise?.meta?.index || index}
       />
     );
   }
-  if (quiz?.meta?.type === "multiple-select") {
+  if (exercise?.meta?.type === "multiple-select") {
     return (
       <QuizMultipleSelect
         value={value}
-        quiz={quiz}
+        quiz={exercise}
         onChange={onChange}
-        index={quiz?.meta?.index || index}
+        index={exercise?.meta?.index || index}
       />
     );
   }
-  if (quiz?.meta?.type === "inset") {
+  if (exercise?.meta?.type === "inset") {
     return (
       <QuizInset
         value={value}
-        quiz={quiz}
+        quiz={exercise}
         onChange={onChange}
-        index={quiz?.meta?.index || index}
+        index={exercise?.meta?.index || index}
       />
     );
   }

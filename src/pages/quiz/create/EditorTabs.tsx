@@ -74,16 +74,6 @@ const EditorTabs = ({
     }
   }, [tabRef.current]);
 
-  // const onFoldTabClick = (tab, index) => {
-  //     setTabs(prev => {
-  //         prev.splice(index + maxLength, 1);
-  //         prev.splice(1, 0, tab);
-  //         return prev;
-  //     });
-  //
-  //     setTab(tab.value);
-  // };
-
   return (
     <Tabs
       className="w-full overflow-hidden"

@@ -1,16 +1,16 @@
-import { IQuiz } from "@site/src/typings/quiz";
+import { IExercise } from "@site/src/typings/quiz";
 import ReactMarkdown from "react-markdown";
 import { cn } from "@site/src/utils/class-utils";
 import React, { useMemo } from "react";
 
-const REPLACEMENT_INSET = "<<!!>>";
+// const REPLACEMENT_INSET = "<<!!>>";
 const QuizInset = ({
   quiz,
   value,
   index,
   onChange,
 }: {
-  quiz: IQuiz;
+  quiz: IExercise;
   index?: number;
   value?: string[];
   onChange?: (value: string[]) => void;

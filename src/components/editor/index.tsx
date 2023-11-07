@@ -1,15 +1,17 @@
 import React, { useEffect, useRef } from "react";
 import MonacoEditor, { EditorProps, Monaco } from "@monaco-editor/react";
 import { marked } from "marked";
-import { IQuiz } from "@site/src/typings/quiz";
 import { compact } from "lodash-es";
 import { resolveMdContent } from "./md-utils/md-content";
 import { endowWithPosition } from "./md-utils/common";
 import { resolveMdMeta } from "./md-utils/md-meta";
 import { TError } from "@site/src/components/editor/md-utils/error";
-import { TModelWrapper } from "@site/src/components/editor/type";
+import {
+  IQuizEditorValue,
+  TModelWrapper,
+} from "@site/src/components/editor/type";
 import { formatModels } from "@site/src/components/editor/utils/model";
-import { useDeepCompareEffect } from "ahooks";
+import { useDebounceFn, useDeepCompareEffect } from "ahooks";
 
 function initTheme(monaco: Monaco) {
   monaco.editor.defineTheme("myCustomTheme", {
@@ -113,21 +115,9 @@ function initTheme(monaco: Monaco) {
   monaco.editor.setTheme("myCustomTheme");
 }
 
-export interface IQuizEditorValue {
-  course: {
-    quiz_id: string;
-    course_id: string;
-  };
-  content: IQuiz[];
-}
-
 export type TQuizEditorProps = {
-  onChange?: (value: string) => void;
   onQuizChange?: (value: IQuizEditorValue) => void;
   onError?: (errors: TError[]) => void;
-  value?: string;
-  defaultValue?: string;
-
   activeModelIndex?: number;
   onActiveModelChange?: (index: number) => void;
   modelWrappers?: TModelWrapper[];
@@ -136,11 +126,8 @@ export type TQuizEditorProps = {
 
 function Editor(props: TQuizEditorProps & EditorProps) {
   const {
-    onChange,
-    value,
     onQuizChange,
     onError,
-    defaultValue,
     modelWrappers = [],
     onModelWrappersChange,
     activeModelIndex,
@@ -153,42 +140,29 @@ function Editor(props: TQuizEditorProps & EditorProps) {
   const handleEditorDidMount = (editor, monaco) => {
     editorRef.current = editor;
     monacoRef.current = monaco;
-    initModels(monaco, editor);
+    initModels(monaco, editor, modelWrappers);
     initTheme(monaco);
   };
 
-  const initModels = (monaco, editor) => {
-    const formatModelWrappers = formatModels(monaco, modelWrappers, [], true);
-    onModelWrappersChange?.(formatModelWrappers);
-    const firstModelWrapper = formatModelWrappers[0];
-    if (!firstModelWrapper?.notInitial) {
-      editor.setModel(firstModelWrapper?.model);
-      onActiveModelChange?.(0);
-    }
-  };
-
   const handleEditorChange = value => {
-    if (activeModelIndex === 0) {
-      onChange?.(value);
-    }
-
     try {
       const {
-        course,
-        quizzes,
+        meta = {},
+        content,
         error: metaResolveError,
         start,
         end,
       } = resolveMdMeta(value);
       const usedLineCount = end.line - start.line;
-      const out = marked.lexer(quizzes || value);
+      const out = marked.lexer(content || value);
       const outWithPosition = endowWithPosition(out, usedLineCount);
       const { result, errors } = resolveMdContent(outWithPosition);
 
-      const allErrors = compact([...errors, metaResolveError]);
+      const allErrors = compact([metaResolveError, ...errors]);
+
       const allResult = {
-        course,
-        content: result,
+        meta,
+        exercises: result,
       };
 
       const models = monacoRef.current.editor.getModels();
@@ -212,11 +186,28 @@ function Editor(props: TQuizEditorProps & EditorProps) {
     }
   };
 
-  // const {run: debounceEditorChange} = useDebounceFn(handleEditorChange, {
-  //     wait: 200,
-  //     leading: true,
-  //     trailing: true
-  // })
+  const { run: debounceEditorChange } = useDebounceFn(handleEditorChange, {
+    wait: 1000,
+    leading: true,
+    trailing: true,
+  });
+
+  const initModels = (monaco, editor, newModelWrappers) => {
+    const formatModelWrappers = formatModels(
+      monaco,
+      newModelWrappers,
+      [],
+      false,
+    );
+    onModelWrappersChange?.(formatModelWrappers);
+    const firstModelWrapper = formatModelWrappers[0];
+    if (!firstModelWrapper?.notInitial) {
+      editor.setModel(firstModelWrapper?.model);
+      const content = firstModelWrapper?.model?.getValue();
+      handleEditorChange(content);
+      onActiveModelChange?.(0);
+    }
+  };
 
   useEffect(() => {
     if (activeModelIndex !== undefined) {
@@ -232,20 +223,18 @@ function Editor(props: TQuizEditorProps & EditorProps) {
   }, [activeModelIndex]);
 
   useDeepCompareEffect(() => {
-    if (value) {
-      console.log(value);
-      // console.log(modelWrappers[0])
-      // modelWrappers[0]?.model?.setValue(value);
+    if (modelWrappers?.length > 0 && editorRef.current && monacoRef.current) {
+      initModels(monacoRef.current, editorRef.current, modelWrappers);
     }
-  }, [value, modelWrappers[0].model]);
+  }, [modelWrappers, editorRef.current, monacoRef.current]);
 
   return (
     <MonacoEditor
       height="77vh"
       defaultLanguage="markdown"
-      defaultValue={defaultValue}
+      defaultValue={"# Hello, world!\n\nSome content"}
       onMount={handleEditorDidMount}
-      onChange={value => handleEditorChange(value)}
+      onChange={value => debounceEditorChange(value)}
       options={{
         lineNumbersMinChars: 3,
         minimap: {

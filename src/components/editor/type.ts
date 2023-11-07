@@ -1,4 +1,6 @@
 import BaseMonaco, { editor } from "monaco-editor";
+import { IExercise } from "@site/src/typings/quiz";
+import { Token } from "Tokens";
 
 export type TPosition = {
   line: number;
@@ -33,3 +35,13 @@ export type TModelWrapper = {
 };
 
 export type TEditor = BaseMonaco.editor.IStandaloneCodeEditor;
+
+export interface IQuizEditorValue {
+  meta: {
+    quiz_id: string;
+    course_id: string;
+  };
+  exercises: IExercise[];
+}
+
+export type TTokenWithAny = Token & { [key: string]: any };

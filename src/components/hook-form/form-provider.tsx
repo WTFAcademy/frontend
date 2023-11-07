@@ -4,6 +4,7 @@ import {
   FormProvider as RHFFormProvider,
   UseFormReturn,
 } from "react-hook-form";
+import { cn } from "@site/src/utils/class-utils";
 
 // ----------------------------------------------------------------------
 
@@ -11,12 +12,21 @@ interface Props {
   children: any;
   methods: UseFormReturn<any>;
   onSubmit?: VoidFunction;
+  className?: string;
 }
 
-export default function FormProvider({ children, onSubmit, methods }: Props) {
+export default function FormProvider({
+  children,
+  onSubmit,
+  methods,
+  className,
+}: Props) {
   return (
     <RHFFormProvider {...methods}>
-      <Form.Root className="w-full text-black" onSubmit={onSubmit}>
+      <Form.Root
+        className={cn("w-full text-black", className)}
+        onSubmit={onSubmit}
+      >
         {children}
       </Form.Root>
     </RHFFormProvider>

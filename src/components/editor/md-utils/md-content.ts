@@ -1,11 +1,13 @@
 import { Token, Tokens } from "Tokens";
-import { IQuiz } from "@site/src/typings/quiz";
+import { IExercise } from "@site/src/typings/quiz";
 import {
   callError,
   makeError,
+  requireError,
   TError,
 } from "@site/src/components/editor/md-utils/error";
 import { TTokenPosition } from "@site/src/components/editor/type";
+import { EExerciseType } from "@site/src/constants/quiz";
 
 const chunkMdGroup = (md: (Token & TTokenPosition)[]) => {
   const result = [];
@@ -29,29 +31,22 @@ const chunkMdGroup = (md: (Token & TTokenPosition)[]) => {
   return result;
 };
 
-const resolveQuizTitle = (md: Tokens.Heading) => {
-  return md.raw;
-};
-
-const resolveQuizMeta = (token: Tokens.Blockquote & TTokenPosition) => {
-  const metaString = token.text.trim().replace(/\n/g, "");
-  const processedData = metaString
-    .replace(/(\w+):/g, '"$1":')
-    .replace(/'/g, '"');
-
+const resolveExerciseTitle = (md: Tokens.Heading & TTokenPosition) => {
   try {
+    requireError(md.raw.includes("## "), {
+      message: "Exercise title must be use ## to start",
+      start: {
+        ...md.start,
+        column: 0,
+      },
+      end: {
+        ...md.end,
+        column: md.raw.length - 1,
+      },
+    });
+
     return {
-      result: callError(() => JSON.parse(processedData), {
-        message: "Quiz meta data must be a valid JSON",
-        start: {
-          ...token.start,
-          column: 0,
-        },
-        end: {
-          ...token.end,
-          column: metaString.length - 1,
-        },
-      }),
+      result: md.raw,
     };
   } catch (e) {
     return {
@@ -61,7 +56,77 @@ const resolveQuizMeta = (token: Tokens.Blockquote & TTokenPosition) => {
   }
 };
 
-const resolveQuizOptions = (md: Tokens.List) => {
+const resolveExerciseMeta = (token: Tokens.Blockquote & TTokenPosition) => {
+  const metaString = token.text.trim().replace(/\n/g, "");
+  const processedData = metaString
+    .replace(/(\w+):/g, '"$1":')
+    .replace(/'/g, '"');
+
+  try {
+    const position = {
+      start: {
+        ...token.start,
+        column: 0,
+      },
+      end: {
+        ...token.end,
+        column: metaString.length - 1,
+      },
+    };
+    const meta =
+      callError(() => JSON.parse(processedData), {
+        message: "Exercise meta data must be a valid JSON",
+        ...position,
+      }) || {};
+
+    requireError(meta.index, {
+      message: "Exercise meta data must have index",
+      ...position,
+    });
+
+    // todo: 单选题，多选题，插空题
+    requireError(meta.type, {
+      message: "Exercise meta data must have type",
+      ...position,
+    });
+
+    requireError(
+      meta.type === EExerciseType.MULTIPLE_SELECT ||
+        meta.type === EExerciseType.INSET ||
+        meta.type === EExerciseType.SELECT,
+      {
+        message:
+          "Exercise meta data type must be one of [multiple_select, inset, select]",
+        ...position,
+      },
+    );
+
+    const answer = meta.answer;
+    requireError(answer, {
+      message: "Exercise meta data must have answer",
+      ...position,
+    });
+    requireError(Array.isArray(answer), {
+      message: "Exercise meta data answer must be an array",
+      ...position,
+    });
+    requireError(answer.length > 0, {
+      message: "Exercise meta data answer must have at least one item",
+      ...position,
+    });
+
+    return {
+      result: meta,
+    };
+  } catch (e) {
+    return {
+      result: null,
+      error: e,
+    };
+  }
+};
+
+const resolveExerciseOptions = (md: Tokens.List) => {
   const transformOption = (md: Tokens.ListItem) => {
     // (A) 选项内容
     const text = md.text.trim();
@@ -77,20 +142,25 @@ const resolveQuizOptions = (md: Tokens.List) => {
 
 export const resolveMdContent = (
   mds: (Token & TTokenPosition)[],
-): { result: IQuiz[]; errors: TError[] } => {
+): { result: IExercise[]; errors: TError[] } => {
   const group = chunkMdGroup(mds);
   const errors = [];
   const result = group.map(tokens => {
-    const quiz: IQuiz = {} as IQuiz;
+    const quiz: IExercise = {} as IExercise;
     let hasList = false;
 
     for (const token of tokens) {
       switch (token.type) {
         case "heading":
-          quiz.title = resolveQuizTitle(token);
+          const { result: titleResult, error: titleError } =
+            resolveExerciseTitle(token);
+          if (titleError) {
+            errors.push(titleError);
+          }
+          quiz.title = titleResult;
           break;
         case "blockquote":
-          const { result, error } = resolveQuizMeta(token);
+          const { result, error } = resolveExerciseMeta(token);
           if (error) {
             errors.push(error);
           }
@@ -101,7 +171,7 @@ export const resolveMdContent = (
           // list 后表示QUIZ内容获取结束，直接返回
           quiz.content = {
             ...(quiz.content || {}),
-            options: resolveQuizOptions(token),
+            options: resolveExerciseOptions(token),
           };
           break;
         default:
@@ -116,7 +186,7 @@ export const resolveMdContent = (
     if (!hasList) {
       errors.push(
         makeError({
-          message: "Quiz content must be a list",
+          message: "Exercise content must be a list",
           start: (tokens[0] as Token & TTokenPosition).start,
           end: (tokens[0] as Token & TTokenPosition).end,
           severity: "warning",

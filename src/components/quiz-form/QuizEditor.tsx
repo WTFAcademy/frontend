@@ -5,7 +5,7 @@ import {
   useFormContext,
 } from "react-hook-form";
 
-import Editor, { TQuizEditorProps } from "../editor";
+import Editor, { IQuizEditorValue, TQuizEditorProps } from "../editor";
 import { ControllerRenderProps } from "react-hook-form/dist/types/controller";
 
 const QuizEditor = ({
@@ -15,7 +15,8 @@ const QuizEditor = ({
 }: UseControllerProps & TQuizEditorProps) => {
   const { control } = useFormContext();
 
-  const handleChange = (e, field: ControllerRenderProps) => {
+  const handleChange = (e: IQuizEditorValue, field: ControllerRenderProps) => {
+    console.log(e);
     field.onChange(e);
     onQuizChange?.(e);
   };

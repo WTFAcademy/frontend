@@ -1,9 +1,11 @@
-interface IQuizMata {
+import { EExerciseType } from "@site/src/constants/quiz";
+
+interface IExerciseMata {
   index?: number;
-  type: "inset" | "select" | "multiple-select";
+  type: EExerciseType;
   answer: string[];
 }
-interface IQuizOption {
+interface IExerciseOption {
   label: string;
   value: string;
 }
@@ -15,13 +17,13 @@ interface IMarkDown {
   deep?: number;
   lang?: string;
 }
-interface IQuizContent {
+interface IExerciseContent {
   extend?: IMarkDown[];
-  options?: IQuizOption[];
+  options?: IExerciseOption[];
 }
 
-export interface IQuiz {
+export interface IExercise {
   title: string;
-  meta: IQuizMata;
-  content: IQuizContent;
+  meta: IExerciseMata;
+  content: IExerciseContent;
 }

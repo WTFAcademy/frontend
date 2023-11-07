@@ -1,4 +1,4 @@
-import { IQuiz } from "@site/src/typings/quiz";
+import { IExercise } from "@site/src/typings/quiz";
 import React, { useState } from "react";
 import QuizItem from "@site/src/components/quiz-form/QuizItem";
 import FormProvider from "../hook-form/form-provider";
@@ -10,7 +10,7 @@ const QuizForm = ({
   quizzes = [],
   onSubmit,
 }: {
-  quizzes: IQuiz[];
+  quizzes: IExercise[];
   onSubmit?: (values: FieldValues) => void;
 }) => {
   const [quizIndex, setQuizIndex] = useState(0);
@@ -40,7 +40,7 @@ const QuizForm = ({
         >
           <QuizItem
             control={methods.control}
-            quiz={item}
+            exercise={item}
             index={index + 1}
             name={`${item.meta.type}-preview-${index}`}
           />

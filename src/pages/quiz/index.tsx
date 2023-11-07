@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Layout from "@theme/Layout";
-import { Button } from "@site/src/components/ui/Button";
-import Link from "@docusaurus/Link";
 import QuizForm from "@site/src/components/quiz-form";
-import { DEFAULT_QUIZZES } from "@site/src/pages/quiz/create/demo";
-import { IQuiz } from "@site/src/typings/quiz";
+import { IExercise } from "@site/src/typings/quiz";
 import { useHistory } from "@docusaurus/router";
+import { DEFAULT_QUIZ } from "@site/src/pages/quiz/create/demo";
 
 function Quiz() {
   const history = useHistory();
@@ -21,7 +19,9 @@ function Quiz() {
 
           <QuizForm
             quizzes={
-              DEFAULT_QUIZZES.filter(item => !!item?.meta?.type) as IQuiz[]
+              DEFAULT_QUIZ.exercises.filter(
+                item => !!item?.meta?.type,
+              ) as IExercise[]
             }
             onSubmit={values => {
               console.log(values);

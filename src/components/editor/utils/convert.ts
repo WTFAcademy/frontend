@@ -1,0 +1,84 @@
+import { IExercise } from "@site/src/typings/quiz";
+import {
+  IQuizEditorValue,
+  TTokenWithAny,
+} from "@site/src/components/editor/type";
+
+function convertTokenToMd(token: TTokenWithAny) {
+  switch (token.type) {
+    case "heading":
+      return `${"#".repeat(token.depth)} ${
+        token.tokens ? convertTokensToMd(token.tokens) : token.text
+      }\n`;
+    case "paragraph":
+      return `${token.tokens ? convertTokensToMd(token.tokens) : token.text}\n`;
+    case "list_item":
+      return `* ${
+        token.tokens ? convertTokensToMd(token.tokens) : token.text
+      }\n`;
+    case "list":
+      return `${token.items
+        .map(item => `${convertTokensToMd(item.tokens)}\n`)
+        .join("")}\n`;
+    case "text":
+      return `${token.tokens ? convertTokensToMd(token.tokens) : token.text}`;
+    case "link":
+      return `[${
+        token.tokens ? convertTokensToMd(token.tokens) : token.text
+      }](${token.href})`;
+    case "image":
+      return `![${token.text}](${token.href}${
+        token.title ? ` "${token.title}"` : ""
+      })`;
+    case "strong":
+      return `**${
+        token.tokens ? convertTokensToMd(token.tokens) : token.text
+      }**`;
+    case "em":
+      return `*${token.tokens ? convertTokensToMd(token.tokens) : token.text}*`;
+    case "codespan":
+      return `\`${token.text}\``;
+    case "space":
+      return token.raw;
+    case "table": {
+      const header = token.header.map(convertTokensToMd);
+      const aligns = token.align.reduce(
+        (prev, cur) => prev + (cur === null ? "-" : cur) + " | ",
+        "| ",
+      );
+      const rows = token.rows
+        .map(row => "| " + row.map(convertTokensToMd).join(" | ") + " |")
+        .join("\n");
+      return header + "\n" + aligns + "\n" + rows;
+    }
+    // Add more cases as needed
+    default:
+      return token.raw || "";
+  }
+}
+
+function convertTokensToMd(tokens: TTokenWithAny[]) {
+  return tokens.map(token => convertTokenToMd(token)).join("");
+}
+
+export function convertQuizToMd(exercise: IExercise) {
+  const quizTitle = `${exercise.title}`;
+  const quizMeta = `> {index: 1, type: '${exercise.meta
+    ?.type}', answer: ${JSON.stringify(exercise.meta?.answer)}}\n\n`;
+  const quizExtend = exercise.content?.extend
+    ? convertTokensToMd(exercise.content.extend)
+    : "";
+  const quizSelection = exercise.content?.options
+    ?.map(option => `- (${option.value}) ${option.label}\n`)
+    ?.join("");
+  return quizTitle + quizMeta + quizExtend + quizSelection;
+}
+
+export function convertCourseToMd(quiz: IQuizEditorValue) {
+  const { meta, exercises } = quiz;
+  const courseMeta = `---\nquiz_id: ${meta.quiz_id}\ncourse_id: ${meta.course_id}\n---\n\n`;
+  const courseContents = exercises
+    .map(item => convertQuizToMd(item))
+    .join("\n\n");
+  return courseMeta + courseContents;
+}
