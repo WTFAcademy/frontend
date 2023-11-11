@@ -9,3 +9,9 @@ export const getQuizByLessonId = (lessonId: string) => {
     )
     .then(res => res.data);
 };
+
+export const submitQuizGrade = (data: any) => {
+  return request
+    .post<unknown, TResult<{ list: TLesson[] }>>(`/grade`, data)
+    .then(res => res.data);
+};

@@ -4,8 +4,8 @@ import QuizForm from "@site/src/components/quiz-form";
 import { IExercise } from "@site/src/typings/quiz";
 import { useHistory } from "@docusaurus/router";
 import { DEFAULT_QUIZ } from "@site/src/pages/quiz/create/demo";
-import { useQuery } from "react-query";
-import { getQuizByLessonId } from "@site/src/api/quiz";
+import { useQuery, useMutation } from "react-query";
+import { getQuizByLessonId, submitQuizGrade } from "@site/src/api/quiz";
 import useSearch from "@site/src/hooks/useSearch";
 
 function Quiz() {
@@ -18,7 +18,21 @@ function Quiz() {
     id ? getQuizByLessonId(params.get("lesson_id")) : null,
   );
 
-  console.log(data);
+  const { data: grades, mutateAsync } = useMutation(
+    ["getQuizByLessonId"],
+    submitQuizGrade,
+  );
+
+  const onSubmit = async (values: any) => {
+    mutateAsync(values)
+      .then(() => {
+        history.push("/quiz/score");
+      })
+      .catch(() => {
+        //
+      });
+  };
+  console.log(data, grades);
   return (
     <Layout>
       <div className="relative">
@@ -35,11 +49,7 @@ function Quiz() {
                 item => !!item?.meta?.type,
               ) as IExercise[]
             }
-            onSubmit={values => {
-              console.log(values);
-              // navigate to score
-              history.push("/quiz/score");
-            }}
+            onSubmit={onSubmit}
           />
         </div>
       </div>

@@ -6,6 +6,7 @@ import QuizInset from "@site/src/components/quiz-form/QuizInset";
 import { IExercise } from "@site/src/typings/quiz";
 
 const QuizItem = ({
+  required = true,
   exercise,
   index,
   ...rest
@@ -13,8 +14,12 @@ const QuizItem = ({
   exercise: IExercise;
   index?: number;
   control: Control;
+  required?: boolean;
 } & UseControllerProps) => {
-  const { field } = useController(rest);
+  const { field } = useController({
+    ...rest,
+    rules: { required },
+  });
   const { value = [], onChange } = field;
 
   if (exercise?.meta?.type === "select") {

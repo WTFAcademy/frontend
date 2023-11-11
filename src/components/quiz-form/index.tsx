@@ -1,36 +1,60 @@
 import { IExercise } from "@site/src/typings/quiz";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import QuizItem from "@site/src/components/quiz-form/QuizItem";
 import FormProvider from "../hook-form/form-provider";
 import { FieldValues, useForm } from "react-hook-form";
 import { cn } from "@site/src/utils/class-utils";
 import { buttonVariants } from "@site/src/components/ui/Button";
+import { LoaderIcon } from "lucide-react";
+import { isEmpty } from "lodash-es";
 
 const QuizForm = ({
   quizzes = [],
   onSubmit,
 }: {
   quizzes: IExercise[];
-  onSubmit?: (values: FieldValues) => void;
+  onSubmit?: (values: FieldValues) => Promise<void>;
 }) => {
   const [quizIndex, setQuizIndex] = useState(0);
+  const [loading, setLoading] = useState(false);
   const methods = useForm<FieldValues>({
     mode: "onChange",
   });
+  const { getValues, formState, control } = methods;
   const prev = () => {
     setQuizIndex(quizIndex - 1 < 0 ? quizIndex : quizIndex - 1);
   };
 
-  const next = () => {
+  const next = async () => {
     const nextIndex = quizIndex + 1;
     if (nextIndex > quizzes.length - 1) {
-      //TODO 1. validate form values.
-      //TODO 2. disabled button if need.
-      onSubmit?.(methods.getValues());
+      setLoading(true);
+      Promise.resolve(onSubmit)
+        .then(submit => {
+          submit?.(getValues());
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     } else {
       setQuizIndex(nextIndex);
     }
   };
+
+  const disabled = useMemo(() => {
+    console.log(formState);
+    const values = getValues();
+    const currentKey = Object.keys(values).find(
+      key => key.split("@@")[1] === String(quizIndex),
+    );
+    console.log(currentKey);
+    return !Object.keys(values).length || isEmpty(values[currentKey]);
+  }, [quizIndex, formState.isValidating]);
+
+  const continueText = useMemo(() => {
+    return quizIndex < quizzes.length - 1 ? "Continue" : "Submit";
+  }, [quizIndex, quizzes]);
+
   return (
     <FormProvider methods={methods}>
       {quizzes.map((item, index) => (
@@ -39,10 +63,10 @@ const QuizForm = ({
           className={cn({ hidden: quizIndex !== index })}
         >
           <QuizItem
-            control={methods.control}
+            control={control}
             exercise={item}
             index={index + 1}
-            name={`${item.meta.type}-preview-${index}`}
+            name={`${item.meta.type}-preview@@${index}`}
           />
         </div>
       ))}
@@ -60,10 +84,11 @@ const QuizForm = ({
           className={cn(
             "cursor-pointer ml-3",
             buttonVariants({ variant: "default" }),
+            { "cursor-not-allowed opacity-50": disabled },
           )}
-          onClick={next}
+          onClick={() => !disabled && next()}
         >
-          Continue
+          {loading ? <LoaderIcon className="animate-spin" /> : continueText}
         </div>
       </div>
     </FormProvider>
