@@ -75,8 +75,9 @@ const QuizForm = ({
           className={cn(
             "cursor-pointer",
             buttonVariants({ variant: "outline" }),
+            { "cursor-not-allowed opacity-50 hover:bg-white": quizIndex === 0 },
           )}
-          onClick={prev}
+          onClick={() => quizIndex !== 0 && prev()}
         >
           Back
         </div>
