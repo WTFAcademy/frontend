@@ -4,9 +4,21 @@ import QuizForm from "@site/src/components/quiz-form";
 import { IExercise } from "@site/src/typings/quiz";
 import { useHistory } from "@docusaurus/router";
 import { DEFAULT_QUIZ } from "@site/src/pages/quiz/create/demo";
+import { useQuery } from "react-query";
+import { getQuizByLessonId } from "@site/src/api/quiz";
+import useSearch from "@site/src/hooks/useSearch";
 
 function Quiz() {
   const history = useHistory();
+  const { params } = useSearch();
+
+  const id = params.get("lesson_id");
+  console.log(id);
+  const { data } = useQuery(["getQuizByLessonId"], () =>
+    id ? getQuizByLessonId(params.get("lesson_id")) : null,
+  );
+
+  console.log(data);
   return (
     <Layout>
       <div className="relative">
