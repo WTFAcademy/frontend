@@ -80,7 +80,7 @@ const EditorTabs = ({
       value={activeModelIndex}
       onValueChange={onActiveModelChange}
     >
-      <TabsList className="relative">
+      <TabsList className="relative" ref={tabRef}>
         {modelWrappers.map((tab, index) => (
           <TabsTrigger
             className="flex items-center h-10 mr-8 pb-2.5"

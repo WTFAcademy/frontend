@@ -4,6 +4,7 @@ interface IExerciseMata {
   index?: number;
   type: EExerciseType;
   answer: string[];
+  id?: string;
 }
 interface IExerciseOption {
   label: string;
@@ -26,4 +27,16 @@ export interface IExercise {
   title: string;
   meta: IExerciseMata;
   content: IExerciseContent;
+}
+
+export interface IAnswer {
+  id: string;
+  answers: string[];
+}
+
+export interface IQuizSubmitPayload {
+  lesson_id: string;
+  course_id: string;
+  quiz_id: string;
+  answers: IAnswer[];
 }

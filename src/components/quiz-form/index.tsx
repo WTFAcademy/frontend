@@ -42,12 +42,10 @@ const QuizForm = ({
   };
 
   const disabled = useMemo(() => {
-    console.log(formState);
     const values = getValues();
     const currentKey = Object.keys(values).find(
       key => key.split("@@")[1] === String(quizIndex),
     );
-    console.log(currentKey);
     return !Object.keys(values).length || isEmpty(values[currentKey]);
   }, [quizIndex, formState.isValidating]);
 
@@ -66,7 +64,7 @@ const QuizForm = ({
             control={control}
             exercise={item}
             index={index + 1}
-            name={`${item.meta.type}-preview@@${index}`}
+            name={`${item.meta.id}@@${index}`}
           />
         </div>
       ))}
