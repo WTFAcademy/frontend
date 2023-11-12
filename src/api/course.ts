@@ -1,6 +1,7 @@
 import request from "@site/src/api/request";
 import { TLesson, TCourse } from "@site/src/typings/course";
 import { TResult } from "@site/src/typings/common";
+import { ECourseRole } from "@site/src/constants/quiz";
 
 // TODO 待增加类型
 export const getLessons = (courseId: string) => {
@@ -26,5 +27,11 @@ export const getCourses = (start_status: 1 | 2, lan?: undefined | "en") => {
     .get<unknown, TResult<{ list: TCourse[] }>>(
       `/courses?start_status=${start_status}&lan=${lan ?? ""}`,
     )
+    .then(res => res.data);
+};
+
+export const getCourseRoel = (courseId: string) => {
+  return request
+    .get<unknown, TResult<ECourseRole>>(`/course/auth?course_id=${courseId}`)
     .then(res => res.data);
 };

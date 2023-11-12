@@ -16,10 +16,9 @@ import {
 import { IEditorQuizSubmitPayload, IExercise } from "@site/src/typings/quiz";
 import { convertCourseToMd } from "@site/src/components/editor/utils/convert";
 import { useMemo } from "react";
-import { DEMO_MD } from "@site/src/pages/quiz/create/demo";
 
-const useQuizEditor = (lessonId: string) => {
-  const role = useCourseRole();
+const useQuizEditor = (courseId: string, lessonId: string) => {
+  const role = useCourseRole(courseId);
 
   const { data: quizDetail } = useQuery(
     ["quiz-editor-detail", role, lessonId],
@@ -73,17 +72,18 @@ const useQuizEditor = (lessonId: string) => {
   const toEditorData = (): TModelWrapper[] => {
     const selfModelWrappers = {
       filename: "My Quiz",
-      value: convertCourseToMd(toEditorJSON(quizDetail?.exercise_list)),
+      value: convertCourseToMd(toEditorJSON(quizDetail?.exercises || [])),
       language: ESupportLanguage.MARKDOWN,
     };
-    const userModelWrappers = userQuizList?.map(quiz => {
-      return {
-        filename: quiz.user.user_name,
-        value: convertCourseToMd(toEditorJSON(quiz.exercise_list)),
-        language: ESupportLanguage.MARKDOWN,
-        readOnly: true,
-      };
-    });
+    const userModelWrappers =
+      userQuizList?.map(quiz => {
+        return {
+          filename: quiz.user.user_name,
+          value: convertCourseToMd(toEditorJSON(quiz?.exercises || [])),
+          language: ESupportLanguage.MARKDOWN,
+          readOnly: true,
+        };
+      }) || [];
 
     return [selfModelWrappers, ...userModelWrappers];
   };
@@ -91,34 +91,17 @@ const useQuizEditor = (lessonId: string) => {
   const toSubmitData = (quiz: IQuizEditorValue): IEditorQuizSubmitPayload => {
     return {
       lesson_id: quiz.meta.lesson_id,
-      exercise_list: quiz.exercises,
+      exercises: quiz.exercises,
     };
   };
 
-  const initModelWrappers = useMemo(
-    () => toEditorData(),
-    [quizDetail, userQuizList],
-  );
-  console.log(initModelWrappers);
-  const initModelWrappers1 = useMemo(
-    () => [
-      {
-        filename: "My Quiz",
-        value: DEMO_MD,
-        language: ESupportLanguage.MARKDOWN,
-      },
-      {
-        filename: "daxiongya",
-        value: DEMO_MD,
-        language: ESupportLanguage.MARKDOWN,
-        readOnly: true,
-      },
-    ],
-    [],
-  );
+  const initModelWrappers = useMemo(() => {
+    console.log("userQuizList: ", userQuizList);
+    return toEditorData();
+  }, [quizDetail, userQuizList]);
 
   return {
-    initModelWrappers: initModelWrappers1,
+    initModelWrappers,
     updateQuiz,
     toSubmitData,
   };

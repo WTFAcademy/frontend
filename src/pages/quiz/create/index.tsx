@@ -16,11 +16,14 @@ import useRouterQuery from "@site/src/hooks/useRouterQuery";
 const QuizCreate = () => {
   const query = useRouterQuery();
   const lessonId = query.get("lessonId");
-
+  const courseId = query.get("courseId");
+  console.log(lessonId);
   const methods = useForm<FieldValues>();
 
-  const { initModelWrappers, updateQuiz, toSubmitData } =
-    useQuizEditor(lessonId);
+  const { initModelWrappers, updateQuiz, toSubmitData } = useQuizEditor(
+    courseId,
+    lessonId,
+  );
 
   const [modelWrappers, setModelWrappers] = useState<TModelWrapper[]>([]);
   const [activeModelIndex, setActiveModelIndex] = useState(0);

@@ -43,13 +43,13 @@ export interface IQuizSubmitPayload {
 }
 
 export interface IEditorQuizSubmitPayload {
-  exercise_list: IExercise[];
+  exercises: IExercise[];
   lesson_id: string;
   quiz_id?: string;
 }
 
 export interface IResponseEditorQuiz {
-  exercise_list: IExercise[];
+  exercises: IExercise[];
   user: {
     uid: string;
     user_name: string;

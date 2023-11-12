@@ -22,7 +22,7 @@ const QuizSelect = ({
         <ReactMarkdown children={quiz?.title} />
       </div>
       <div className="my-5">
-        {quiz.content.extend.length &&
+        {quiz.content.extend?.length &&
           quiz.content.extend.map((md, index) => (
             <ReactMarkdown
               components={{ img: Image }}

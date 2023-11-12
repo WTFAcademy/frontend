@@ -33,13 +33,13 @@ export const submitQuizGrade = (data: IQuizSubmitPayload) => {
 
 export const getEditorQuizDetail = (lessonId: string) => {
   return request
-    .get<unknown, TResult<{ exercise_list: IExercise[] }>>(`/quiz/${lessonId}`)
+    .get<unknown, TResult<{ exercises: IExercise[] }>>(`/quiz/${lessonId}`)
     .then(res => res.data);
 };
 
 export const getSelectedEditorQuizDetail = (lessonId: string) => {
   return request
-    .get<unknown, TResult<{ exercise_list: IExercise[] }>>(
+    .get<unknown, TResult<{ exercises: IExercise[] }>>(
       `/quiz/selected?lesson_id=${lessonId}`,
     )
     .then(res => res.data);
