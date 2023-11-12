@@ -38,8 +38,7 @@ export type TEditor = BaseMonaco.editor.IStandaloneCodeEditor;
 
 export interface IQuizEditorValue {
   meta: {
-    quiz_id: string;
-    course_id: string;
+    lesson_id: string;
   };
   exercises: IExercise[];
 }

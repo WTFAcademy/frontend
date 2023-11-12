@@ -16,7 +16,7 @@ declare module "axios" {
 
 export const BASE_URL =
   process.env.NODE_ENV === "development"
-    ? "https://api.wtf.academy/"
+    ? "http://features-testing-env.eba-mau9qkgr.us-east-1.elasticbeanstalk.com/"
     : "https://api.wtf.academy/";
 
 const request = axios.create({

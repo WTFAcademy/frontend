@@ -1,4 +1,4 @@
-import { TabsList, TabsTrigger } from "@site/src/components/ui/Tabs";
+import { Tabs, TabsList, TabsTrigger } from "@site/src/components/ui/Tabs";
 import React, {
   useEffect,
   useLayoutEffect,
@@ -6,7 +6,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Tabs } from "@radix-ui/react-tabs";
 import { TModelWrapper } from "@site/src/components/editor/type";
 import {
   DropdownMenu,
@@ -19,8 +18,8 @@ import Translate from "@docusaurus/Translate";
 
 type TProps = {
   modelWrappers: TModelWrapper[];
-  activeModelIndex: string;
-  onActiveModelChange: (index: string) => void;
+  activeModelIndex: number;
+  onActiveModelChange: (index: number) => void;
 };
 
 const EditorTabs = ({

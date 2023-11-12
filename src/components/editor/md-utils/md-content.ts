@@ -84,6 +84,11 @@ const resolveExerciseMeta = (token: Tokens.Blockquote & TTokenPosition) => {
       ...position,
     });
 
+    requireError(meta.score, {
+      message: "Exercise meta data must have score",
+      ...position,
+    });
+
     // todo: 单选题，多选题，插空题
     requireError(meta.type, {
       message: "Exercise meta data must have type",

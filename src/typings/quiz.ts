@@ -3,9 +3,10 @@ import { EExerciseType } from "@site/src/constants/quiz";
 interface IExerciseMata {
   index?: number;
   type: EExerciseType;
-  answer: string[];
+  answer?: string[];
   id?: string;
 }
+
 interface IExerciseOption {
   label: string;
   value: string;
@@ -39,4 +40,18 @@ export interface IQuizSubmitPayload {
   course_id: string;
   quiz_id: string;
   answers: IAnswer[];
+}
+
+export interface IEditorQuizSubmitPayload {
+  exercise_list: IExercise[];
+  lesson_id: string;
+  quiz_id?: string;
+}
+
+export interface IResponseEditorQuiz {
+  exercise_list: IExercise[];
+  user: {
+    uid: string;
+    user_name: string;
+  };
 }

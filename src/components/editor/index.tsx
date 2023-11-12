@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MonacoEditor, { EditorProps, Monaco } from "@monaco-editor/react";
 import { marked } from "marked";
 import { compact } from "lodash-es";
@@ -136,15 +136,20 @@ function Editor(props: TQuizEditorProps & EditorProps) {
   } = props;
   const editorRef = useRef(null);
   const monacoRef = useRef(null);
+  const refresh = useState({})[1];
 
   const handleEditorDidMount = (editor, monaco) => {
     editorRef.current = editor;
     monacoRef.current = monaco;
-    initModels(monaco, editor, modelWrappers);
+    // initModels(monaco, editor, modelWrappers);
     initTheme(monaco);
+    refresh({});
   };
 
   const handleEditorChange = value => {
+    if (!value) {
+      return;
+    }
     try {
       const {
         meta = {},

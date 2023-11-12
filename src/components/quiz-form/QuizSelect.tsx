@@ -16,7 +16,7 @@ const QuizSelect = ({
   onChange?: (value: string) => void;
 }) => {
   return (
-    <div>
+    <div className="text-content">
       <div className="flex items-center text-xl font-bold">
         {index && <span className="pr-2 font-bold">{index}.</span>}
         <ReactMarkdown children={quiz?.title} />
@@ -51,7 +51,7 @@ const QuizSelect = ({
               "mb-2",
               value.includes(answer.value)
                 ? "px-4 py-4 rounded-md shadow-sm border border-solid border-blue-600 cursor-pointer bg-blue-600 text-white"
-                : "px-4 py-4 bg-bg rounded-md shadow-sm border border-solid border-content-faint cursor-pointer hover:bg-bg-faint",
+                : "px-4 py-4 bg-bg rounded-md shadow-sm border border-solid border-border-muted cursor-pointer hover:bg-bg-faint",
             )}
           >
             <ReactMarkdown>{`${answer.value}. ${answer.label}`}</ReactMarkdown>

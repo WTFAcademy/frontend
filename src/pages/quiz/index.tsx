@@ -17,7 +17,7 @@ function Quiz() {
   const courseId =
     params.get("course_id") || "4f58676C-4a60-49d3-8ce6-6a36e9b49c2c";
 
-  const { data } = useQuery(["getQuizByLessonId"], () =>
+  const { data } = useQuery(["getQuizByLessonId", lessonId], () =>
     lessonId ? getQuizByLessonId(lessonId) : null,
   );
 

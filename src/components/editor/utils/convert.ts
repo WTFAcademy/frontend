@@ -63,8 +63,7 @@ function convertTokensToMd(tokens: TTokenWithAny[]) {
 
 export function convertQuizToMd(exercise: IExercise) {
   const quizTitle = `${exercise.title}`;
-  const quizMeta = `> {index: 1, type: '${exercise.meta
-    ?.type}', answer: ${JSON.stringify(exercise.meta?.answer)}}\n\n`;
+  const quizMeta = `> ${JSON.stringify(exercise.meta)}\n\n`;
   const quizExtend = exercise.content?.extend
     ? convertTokensToMd(exercise.content.extend)
     : "";
@@ -76,7 +75,8 @@ export function convertQuizToMd(exercise: IExercise) {
 
 export function convertCourseToMd(quiz: IQuizEditorValue) {
   const { meta, exercises } = quiz;
-  const courseMeta = `---\nquiz_id: ${meta.quiz_id}\ncourse_id: ${meta.course_id}\n---\n\n`;
+
+  const courseMeta = `---\nlesson_id: ${meta.lesson_id}\n---\n\n`;
   const courseContents = exercises
     .map(item => convertQuizToMd(item))
     .join("\n\n");

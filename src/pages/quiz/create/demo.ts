@@ -3,8 +3,7 @@ import { EExerciseType } from "@site/src/constants/quiz";
 
 export const DEFAULT_QUIZ = {
   meta: {
-    quiz_id: "0",
-    course_id: "100",
+    lesson_id: "xxxx",
   },
   exercises: [
     {
@@ -13,6 +12,7 @@ export const DEFAULT_QUIZ = {
         index: 1,
         type: EExerciseType.SELECT,
         answer: ["A"],
+        score: 1,
       },
       content: {
         extend: [
@@ -103,9 +103,10 @@ export const DEFAULT_QUIZ = {
     {
       title: "## What happens when you call `__string()` ?\n",
       meta: {
-        index: 1,
+        index: 2,
         type: EExerciseType.INSET,
         answer: ["A"],
+        score: 1,
       },
       content: {
         extend: [
@@ -207,20 +208,21 @@ export const DEFAULT_QUIZ = {
     {
       title: "## What happens when you call `__string()` ?\n",
       meta: {
-        index: 1,
+        index: 3,
         type: EExerciseType.MULTIPLE_SELECT,
         answer: ["A", "B"],
+        score: 1,
       },
       content: {
         extend: [
           {
             type: "paragraph",
-            raw: "![图片](    https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG)",
-            text: "![图片](    https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG)",
+            raw: "![图片(https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG)",
+            text: "![图片(https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG)",
             tokens: [
               {
                 type: "image",
-                raw: "![图片](    https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG)",
+                raw: "![图片](https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG)",
                 href: "https://user-images.githubusercontent.com/3956472/112517347-97f0ed00-8d6e-11eb-9415-e0ed06e69f9a.PNG",
                 title: null,
                 text: "图片",

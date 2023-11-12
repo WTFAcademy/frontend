@@ -34,7 +34,6 @@ export const resolveMdMeta = (source: string) => {
     const frontMatter = yaml.load(frontMatterString);
     const endLine = (splitSource[0] + splitSource[1]).split("\n").length;
 
-    console.log(frontMatter);
     requireError(!!frontMatter, {
       message: "Markdown meta is empty",
       start: {
@@ -46,19 +45,8 @@ export const resolveMdMeta = (source: string) => {
         column: 3,
       },
     });
-    requireError(!isNil(frontMatter.quiz_id), {
+    requireError(!isNil(frontMatter.lesson_id), {
       message: "Markdown meta must have quiz_id",
-      start: {
-        line: 0,
-        column: 0,
-      },
-      end: {
-        line: endLine,
-        column: 3,
-      },
-    });
-    requireError(!isNil(frontMatter.course_id), {
-      message: "Markdown meta must have course_id",
       start: {
         line: 0,
         column: 0,
