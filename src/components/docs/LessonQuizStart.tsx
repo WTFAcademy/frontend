@@ -23,9 +23,9 @@ const LessonQuizStart = (props: TProps) => {
     }
 
     return (
-        <Link to={get(data, 'viewform_url', '')}>
+        <Link to={`/quiz?course_id=${meta.course_id}&lesson_id=${meta.lesson_id}`}>
             <Button size="sm">
-                <span><Translate id="docs.101.LessonQuizStart.button">开始测试</Translate></span>
+                <span><Translate id="docs.101.LessonQuizStart.button">开始测试 Beta</Translate></span>
                 <ArrowRightIcon className="w-4 h-4 ml-2"/>
             </Button>
         </Link>
