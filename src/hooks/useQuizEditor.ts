@@ -18,9 +18,9 @@ import { convertCourseToMd } from "@site/src/components/editor/utils/convert";
 import { useMemo } from "react";
 
 const useQuizEditor = (courseId: string, lessonId: string) => {
-  const role = useCourseRole(courseId);
+  const { role, isLoading: roleLoading } = useCourseRole(courseId);
 
-  const { data: quizDetail } = useQuery(
+  const { data: quizDetail, isLoading: detailLoading } = useQuery(
     ["quiz-editor-detail", role, lessonId],
     async () => {
       if (role === ECourseRole.REVIEWER) {
@@ -32,11 +32,11 @@ const useQuizEditor = (courseId: string, lessonId: string) => {
       }
     },
     {
-      enabled: !!lessonId,
+      enabled: !!lessonId && !roleLoading,
     },
   );
 
-  const { data: userQuizList } = useQuery(
+  const { data: userQuizList, isLoading: listLoading } = useQuery(
     ["user-quiz-list", role, lessonId],
     async () => {
       if (role === ECourseRole.REVIEWER) {
@@ -46,11 +46,11 @@ const useQuizEditor = (courseId: string, lessonId: string) => {
       }
     },
     {
-      enabled: !!lessonId,
+      enabled: !!lessonId && !roleLoading,
     },
   );
 
-  const { mutate: updateQuiz } = useMutation(
+  const { mutateAsync: updateQuiz, isLoading: updateLoading } = useMutation(
     async (data: IEditorQuizSubmitPayload) => {
       if (role === ECourseRole.REVIEWER) {
         return reviewEditorQuiz(data);
@@ -96,7 +96,6 @@ const useQuizEditor = (courseId: string, lessonId: string) => {
   };
 
   const initModelWrappers = useMemo(() => {
-    console.log("userQuizList: ", userQuizList);
     return toEditorData();
   }, [quizDetail, userQuizList]);
 
@@ -104,6 +103,9 @@ const useQuizEditor = (courseId: string, lessonId: string) => {
     initModelWrappers,
     updateQuiz,
     toSubmitData,
+    role,
+    loading: detailLoading || listLoading,
+    updateLoading,
   };
 };
 

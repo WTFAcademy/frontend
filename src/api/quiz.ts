@@ -47,7 +47,7 @@ export const getSelectedEditorQuizDetail = (lessonId: string) => {
 
 export const submitEditorQuiz = (data: IEditorQuizSubmitPayload) => {
   return request
-    .post<unknown, TResult<{ quiz_id: string }>>(`/quiz/submit`, data)
+    .post<unknown, TResult<number>>(`/quiz/submit`, data)
     .then(res => res.data);
 };
 
@@ -61,7 +61,7 @@ export const getUserQuizList = (lessonId: string) => {
 
 export const reviewEditorQuiz = (data: IEditorQuizSubmitPayload) => {
   return request
-    .post<unknown, TResult<{ quiz_id: string }>>(`/quiz/review`, data)
+    .post<unknown, TResult<number>>(`/quiz/review`, data)
     .then(res => res.data);
 };
 

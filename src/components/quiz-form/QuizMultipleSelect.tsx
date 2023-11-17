@@ -23,8 +23,8 @@ const QuizMultipleSelect = ({
       </div>
 
       <div className="my-5">
-        {quiz.content.extend.length &&
-          quiz.content.extend.map((md, index) => (
+        {quiz.content?.extend?.length &&
+          quiz.content?.extend?.map((md, index) => (
             <ReactMarkdown
               components={{ img: Image }}
               key={index}
@@ -36,7 +36,7 @@ const QuizMultipleSelect = ({
         <span className="text-xs opacity-50 text-content">Choose answers</span>
       </div>
       <div>
-        {quiz.content.options.map(answer => (
+        {quiz.content?.options?.map(answer => (
           <div
             key={answer.value}
             onClick={() => {

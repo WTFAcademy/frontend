@@ -22,15 +22,15 @@ const QuizInset = ({
           ...md,
           raw: md.raw.replace(
             "_____",
-            quiz.content.options.find(option => option.value === next).label,
+            quiz.content?.options?.find(option => option.value === next).label,
           ),
         })),
-      quiz.content.extend.map(md => ({
+      quiz.content?.extend?.map(md => ({
         ...md,
         raw: md.raw.replace(/<<!!>>/g, "_____"),
       })),
     );
-  }, [quiz.content.extend, value]);
+  }, [quiz.content?.extend, value]);
 
   return (
     <div className="text-content">
@@ -47,7 +47,7 @@ const QuizInset = ({
         <span className="text-xs opacity-50 text-content">Choose answers</span>
       </div>
       <div className="flex flex-wrap items-center px-5 pt-4 mb-2 border border-solid pb-2.5 border-black-500">
-        {quiz.content.options.map(answer => (
+        {quiz.content?.options?.map(answer => (
           <div
             key={answer.value}
             onClick={() => {

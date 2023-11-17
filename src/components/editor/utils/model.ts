@@ -21,7 +21,6 @@ export const formatModels = (
         modelWrapper.language,
         monaco.Uri.file(modelWrapper.filename),
       );
-      console.log(curModel);
       // monaco.editor.setModelLanguage(curModel, modelWrapper.language);
     } else if (overWriteExisting) {
       curModel.setValue(modelWrapper.value);
