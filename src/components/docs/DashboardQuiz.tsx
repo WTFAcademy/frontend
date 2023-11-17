@@ -3,6 +3,7 @@ import {TLesson} from "@site/src/typings/course";
 import {Button} from "../ui/Button";
 import {useQuery} from "react-query";
 import {getLessons} from "@site/src/api/course";
+import {getUserQuizRole} from "@site/src/api/quiz";
 
 import {cn} from "@site/src/utils/class-utils";
 import {TCourseMeta} from "@site/src/typings/doc";
@@ -35,47 +36,64 @@ const Empty = () => (
     </>
 )
 
-const LessonItem = ({lesson}: { lesson: TLesson }) => {
-    const {isLogin} = useAuth();
-    const {i18n} = useDocusaurusContext();
+const LessonItem = ({ lesson, role }: { lesson: TLesson, role: string }) => {
+    const { isLogin } = useAuth();
+    const { i18n } = useDocusaurusContext();
+    const history = useHistory();
+
+    const goEditorQuiz = (event: React.MouseEvent, lesson_id: string) => {
+        event.preventDefault();
+        history.push(`/quiz/create/?lessonId=${lesson_id}`);
+    };
+      
+    const goReviewQuiz = (event: React.MouseEvent, quiz_id: string) => {
+        event.preventDefault();
+        history.push(`/quiz/review/${quiz_id}`);
+    };
 
     return (
-        <div className="relative border-[0.5px] shadow rounded-md h-[57px] overflow-hidden">
-            <div className="bg-brand-faint h-full" style={{width: `${lesson.score_percent}%`}}/>
-            <div className="flex items-center justify-between absolute inset-0 px-5 py-[18px] text-sm md:text-base">
-                <div>{i18n.currentLocale === 'zh' ? lesson.lesson_title : lesson.en_title}</div>
-                {isLogin ? (
-                    <>
-                        <div className="flex items-center gap-2 md:hidden">
-                            <span className="text-primary font-bold">{lesson.score_percent}%</span>
-                            <div className="w-px h-[16px] bg-gray-300"/>
-                            <span
-                                className={cn("text-[#626770] font-bold", {"text-primary": lesson.is_finish})}>{lesson.is_finish ?
-                                <Translate id="docs.101.DashboardQuiz.LessonItem.complete">完成</Translate> :
-                                <Translate id="docs.101.DashboardQuiz.LessonItem.pending">进行中</Translate>}</span>
-                        </div>
-                        <div className="items-center hidden md:flex">
-                            <div className="inline-flex items-center mr-5">
-                                <span className="text-[#626770] mr-2"><Translate
-                                    id="docs.101.DashboardQuiz.LessonItem.progress">进度</Translate>{" "}</span>
+        <Link to={lesson.route_path}>
+            <div className="relative border-[0.5px] shadow rounded-md h-[57px] overflow-hidden">
+                <div className="bg-brand-faint h-full" style={{ width: `${lesson.score_percent}%` }} />
+                <div className="flex items-center justify-between absolute inset-0 px-5 py-[18px] text-sm md:text-base">
+                    <div className="text-content">{i18n.currentLocale === 'zh' ? lesson.lesson_title : lesson.en_title}</div>
+                    {isLogin ? (
+                        <>
+                            <div className="flex items-center gap-2 md:hidden">
                                 <span className="text-primary font-bold">{lesson.score_percent}%</span>
-                            </div>
-                            <div className="inline-flex items-center">
-                                <span className="text-[#626770] mr-2"><Translate
-                                    id="docs.101.DashboardQuiz.LessonItem.status">状态</Translate>{" "}</span>
+                                <div className="w-px h-[16px] bg-gray-300"></div>
                                 <span
-                                    className={cn("text-[#626770] font-bold", {"text-primary": lesson.is_finish})}>{lesson.is_finish ?
-                                    <Translate id="docs.101.DashboardQuiz.LessonItem.complete">完成</Translate> :
-                                    <Translate id="docs.101.DashboardQuiz.LessonItem.pending">进行中</Translate>}</span>
+                                    className={cn("text-[#626770] font-bold", { "text-primary": lesson.is_finish })}>{lesson.is_finish ?
+                                        <Translate id="docs.101.DashboardQuiz.LessonItem.complete">完成</Translate> :
+                                        <Translate id="docs.101.DashboardQuiz.LessonItem.pending">进行中</Translate>}</span>
                             </div>
-                        </div>
-                    </>
-                ) : (
-                    <a className="mr-2 text-sm cursor-pointer"><Translate
-                        id="docs.101.DashboardQuiz.LessonItem.loginLink">去登录</Translate></a>
-                )}
+                            <div className="items-center hidden md:flex">
+                                <div className="mr-3">
+                                    {role === 'editor' && <span className="mr-2 text-primary" onClick={(event) => goEditorQuiz(event, lesson.lesson_id)}>去出题</span>}
+                                    {role === 'reviewer' && lesson.quiz_id && <span className="mr-2 text-primary" onClick={(event) => goReviewQuiz(event, lesson.quiz_id)}>去审核</span>}
+                                </div>
+                                <div className="inline-flex items-center mr-5">
+                                    <span className="text-[#626770] mr-2"><Translate
+                                        id="docs.101.DashboardQuiz.LessonItem.progress">进度</Translate>{" "}</span>
+                                    <span className="text-primary font-bold">{lesson.score_percent}%</span>
+                                </div>
+                                <div className="inline-flex items-center">
+                                    <span className="text-[#626770] mr-2"><Translate
+                                        id="docs.101.DashboardQuiz.LessonItem.status">状态</Translate>{" "}</span>
+                                    <span
+                                        className={cn("text-[#626770] font-bold", { "text-primary": lesson.is_finish })}>{lesson.is_finish ?
+                                            <Translate id="docs.101.DashboardQuiz.LessonItem.complete">完成</Translate> :
+                                            <Translate id="docs.101.DashboardQuiz.LessonItem.pending">进行中</Translate>}</span>
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <a className="mr-2 text-sm cursor-pointer"><Translate
+                            id="docs.101.DashboardQuiz.LessonItem.loginLink">去登录</Translate></a>
+                    )}
+                </div>
             </div>
-        </div>
+        </Link>
     )
 }
 
@@ -86,6 +104,8 @@ const DashboardQuiz = (props: TProps) => {
     const history = useHistory();
     const { i18n } = useDocusaurusContext();
 
+    const {data: userRole} = useQuery(["role", courseId], () => getUserQuizRole(courseId));
+    
     const {data: lessons, isLoading} = useQuery(["course", courseId], () => getLessons(courseId));
 
     const handleGraduate = () => {
@@ -99,7 +119,7 @@ const DashboardQuiz = (props: TProps) => {
                 {isLoading ? <Empty/> : (
                     <>
                         {lessons?.map(lesson => (
-                            <LessonItem key={lesson.lesson_id} lesson={lesson}/>
+                            <LessonItem key={lesson.lesson_id} lesson={lesson} role={userRole}/>
                         ))}
                     </>
                 )}

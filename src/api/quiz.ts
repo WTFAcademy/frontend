@@ -64,3 +64,9 @@ export const reviewEditorQuiz = (data: IEditorQuizSubmitPayload) => {
     .post<unknown, TResult<{ quiz_id: string }>>(`/quiz/review`, data)
     .then(res => res.data);
 };
+
+export const getUserQuizRole = (courseId: any) => {
+  return request
+    .get<unknown, TResult<any>>(`/course/auth?course_id=${courseId}`)
+    .then(res => res.data);
+};
