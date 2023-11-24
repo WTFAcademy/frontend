@@ -46,7 +46,7 @@ const LessonItem = ({ lesson, role, cursor_id }: { lesson: TLesson, role: string
         event.preventDefault();
         history.push(`/quiz/create/?lessonId=${lesson_id}&courseId=${course_id}`);
     };
-    
+
     return (
         <Link to={lesson.route_path}>
             <div className="relative border-[0.5px] shadow rounded-md h-[57px] overflow-hidden">
@@ -68,7 +68,7 @@ const LessonItem = ({ lesson, role, cursor_id }: { lesson: TLesson, role: string
                                     {role && role !== ECourseRole.USER && (
                                         <span className="mr-2 text-primary" onClick={ (event) => goEditorQuiz(event, lesson.lesson_id, cursor_id)}>
                                             { role === ECourseRole.EDITOR && ('去出题') }
-                                            { role === ECourseRole.REVIEWER && ('去审核') }
+                                            { role === ECourseRole.REVIEWER && ('去审核') } 
                                         </span>
                                     )}
                                 </div>
