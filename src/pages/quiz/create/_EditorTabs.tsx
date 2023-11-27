@@ -22,7 +22,7 @@ type TProps = {
   onActiveModelChange: (index: number) => void;
 };
 
-const EditorTabs = ({
+const _EditorTabs = ({
   modelWrappers,
   activeModelIndex,
   onActiveModelChange,
@@ -123,4 +123,4 @@ const EditorTabs = ({
   );
 };
 
-export default EditorTabs;
+export default _EditorTabs;

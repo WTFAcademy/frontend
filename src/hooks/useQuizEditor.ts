@@ -54,13 +54,15 @@ const useQuizEditor = (courseId: string, lessonId: string) => {
 
   console.log(detailLoading, listLoading);
 
-  const { mutateAsync: updateQuiz, isLoading: updateLoading } = useMutation(
+  const { mutateAsync: publishQuiz, isLoading: publishLoading } = useMutation(
     async (data: IEditorQuizSubmitPayload) => {
-      if (role === ECourseRole.REVIEWER) {
-        return reviewEditorQuiz(data);
-      } else {
-        return submitEditorQuiz(data);
-      }
+      return reviewEditorQuiz(data);
+    },
+  );
+
+  const { mutateAsync: submitQuiz, isLoading: submitLoading } = useMutation(
+    async (data: IEditorQuizSubmitPayload) => {
+      return submitEditorQuiz(data);
     },
   );
 
@@ -109,11 +111,13 @@ const useQuizEditor = (courseId: string, lessonId: string) => {
 
   return {
     initModelWrappers,
-    updateQuiz,
     toSubmitData,
     role,
     loading: detailLoading || listLoading || roleLoading,
-    updateLoading,
+    publishQuiz,
+    publishLoading,
+    submitLoading,
+    submitQuiz,
   };
 };
 

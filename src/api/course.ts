@@ -6,8 +6,10 @@ import { ECourseRole } from "@site/src/constants/quiz";
 // TODO 待增加类型
 export const getLessons = (courseId: string) => {
   return request
-    .get<unknown, TResult<{ list: TLesson[] }>>(`/courses/${courseId}/lessons`)
-    .then(res => res.data.list);
+    .get<unknown, TResult<{ list: TLesson[]; course: TCourse }>>(
+      `/courses/${courseId}/lessons`,
+    )
+    .then(res => res.data);
 };
 
 export const getLesson = (courseId: string, lessonId: string) => {

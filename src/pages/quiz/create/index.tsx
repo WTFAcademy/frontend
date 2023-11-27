@@ -1,7 +1,7 @@
 import Layout from "@theme/Layout";
 import React, { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import EditorTabs from "@site/src/pages/quiz/create/EditorTabs";
+import _EditorTabs from "@site/src/pages/quiz/create/_EditorTabs";
 import { Button } from "@site/src/components/ui/Button";
 import {
   IQuizEditorValue,
@@ -29,16 +29,41 @@ const QuizCreate = () => {
   const { role, isLoading: roleLoading } = useCourseRole(courseId);
   const {
     initModelWrappers,
-    updateQuiz,
     toSubmitData,
     loading,
-    updateLoading,
+    submitLoading,
+    submitQuiz,
+    publishQuiz,
+    publishLoading,
   } = useQuizEditor(courseId, lessonId);
 
   const [modelWrappers, setModelWrappers] = useState<TModelWrapper[]>([]);
   const [activeModelIndex, setActiveModelIndex] = useState(0);
   const [quiz, setQuiz] = useState<IQuizEditorValue>();
   const [error, setError] = useState<TError[]>();
+
+  const handlePublish = async () => {
+    if (error?.length > 0) {
+      toast.error("请检查题目是否有错误");
+      return;
+    }
+
+    if (!quiz) {
+      toast.error("请勿提交空题库");
+      return;
+    }
+
+    const data = toSubmitData(quiz);
+    const res = await publishQuiz(data);
+    if (res) {
+      toast.success("发布成功");
+      if (history.length > 1) {
+        history.goBack();
+      } else {
+        history.push(`/`);
+      }
+    }
+  };
 
   const handleSubmit = async () => {
     if (error?.length > 0) {
@@ -52,9 +77,9 @@ const QuizCreate = () => {
     }
 
     const data = toSubmitData(quiz);
-    const res = await updateQuiz(data);
+    const res = await submitQuiz(data);
     if (res) {
-      toast.success(role === ECourseRole.REVIEWER ? "发布成功" : "提交成功");
+      toast.success("提交成功");
       if (history.length > 1) {
         history.goBack();
       } else {
@@ -92,7 +117,7 @@ const QuizCreate = () => {
       noFooter
     >
       <Spinner loading={loading}>
-        <EditorTabs
+        <_EditorTabs
           modelWrappers={modelWrappers}
           activeModelIndex={activeModelIndex}
           onActiveModelChange={e => setActiveModelIndex(Number(e))}
@@ -127,18 +152,25 @@ const QuizCreate = () => {
           <Button
             variant="outline"
             onClick={handleBack}
-            disabled={updateLoading}
+            disabled={publishLoading || submitLoading}
           >
             返回
           </Button>
           <Button
             className="m-5"
             onClick={handleSubmit}
-            disabled={updateLoading}
+            disabled={publishLoading || submitLoading}
           >
-            {" "}
-            {role === ECourseRole.REVIEWER ? "发布" : "提交"}
+            提交
           </Button>
+          {role === ECourseRole.REVIEWER && (
+            <Button
+              onClick={handlePublish}
+              disabled={publishLoading || submitLoading}
+            >
+              发布
+            </Button>
+          )}
         </div>
       </Spinner>
     </Layout>

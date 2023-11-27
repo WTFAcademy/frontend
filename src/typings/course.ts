@@ -20,6 +20,7 @@ export type TCourse = {
   cover_img: string;
   tags: string[];
   share_url: string;
+  start_status: number;
   user_cnt: number;
 };
 
@@ -29,4 +30,5 @@ export type TCourseResponse = {
     image_url: string;
     token_id: number;
   };
+  course: TCourse;
 };

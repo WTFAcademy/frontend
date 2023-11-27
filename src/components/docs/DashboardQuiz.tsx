@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { TLesson } from "@site/src/typings/course";
+import { TCourse, TLesson } from "@site/src/typings/course";
 import { Button } from "../ui/Button";
 import { useQuery } from "react-query";
 import { getLessons } from "@site/src/api/course";
@@ -174,9 +174,12 @@ const DashboardQuiz = (props: TProps) => {
 
   const { role } = useCourseRole(courseId);
 
-  const { data: lessons, isLoading } = useQuery(["course", courseId], () =>
+  const { data, isLoading } = useQuery(["course", courseId], () =>
     getLessons(courseId),
   );
+
+  const lessons = data?.list || [];
+  const course = data?.course || ({} as TCourse);
 
   const handleGraduate = () => {
     i18n.currentLocale === "zh"
@@ -185,7 +188,9 @@ const DashboardQuiz = (props: TProps) => {
   };
 
   const finished = useMemo(
-    () => lessons.every(item => Number(item.quiz_id) > 0),
+    () =>
+      course?.start_status !== 1 &&
+      lessons?.every(item => Number(item.quiz_id) > 0),
     [lessons],
   );
 

@@ -207,6 +207,13 @@ export const resolveMdContent = (
             options: resolveExerciseOptions(token),
           };
           break;
+        case "space":
+          if (hasList) break;
+          quiz.content = {
+            ...(quiz.content || {}),
+            extend: (quiz.content?.extend || []).concat(token),
+          };
+          break;
         default:
           quiz.content = {
             ...(quiz.content || {}),
