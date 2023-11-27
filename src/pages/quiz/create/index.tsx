@@ -46,6 +46,11 @@ const QuizCreate = () => {
       return;
     }
 
+    if (!quiz) {
+      toast.error("请勿提交空题库");
+      return;
+    }
+
     const data = toSubmitData(quiz);
     const res = await updateQuiz(data);
     if (res) {
@@ -55,6 +60,14 @@ const QuizCreate = () => {
       } else {
         history.push(`/`);
       }
+    }
+  };
+
+  const handleBack = () => {
+    if (history.length > 1) {
+      history.goBack();
+    } else {
+      history.push(`/`);
     }
   };
 
@@ -111,6 +124,13 @@ const QuizCreate = () => {
           </div>
         </div>
         <div className="fixed bottom-0 left-0 right-0 flex items-center justify-end navbar h-15 border-t border-t-border">
+          <Button
+            variant="outline"
+            onClick={handleBack}
+            disabled={updateLoading}
+          >
+            返回
+          </Button>
           <Button
             className="m-5"
             onClick={handleSubmit}
