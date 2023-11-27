@@ -6,6 +6,8 @@ import { useQuery, useMutation } from "react-query";
 import { getQuizByLessonId, submitQuizGrade } from "@site/src/api/quiz";
 import useSearch from "@site/src/hooks/useSearch";
 import { IAnswer } from "@site/src/typings/quiz";
+import useCourse from "@site/src/hooks/useCourse";
+import Spinner from "@site/src/components/ui/Spinner";
 
 function Quiz() {
   const history = useHistory();
@@ -17,14 +19,17 @@ function Quiz() {
   const courseId =
     params.get("course_id") || "4f58676C-4a60-49d3-8ce6-6a36e9b49c2c";
 
-  const { data } = useQuery(["getQuizByLessonId", lessonId], () =>
-    lessonId ? getQuizByLessonId(lessonId) : null,
+  const { data, isLoading: isQuizLoading } = useQuery(
+    ["getQuizByLessonId", lessonId],
+    () => (lessonId ? getQuizByLessonId(lessonId) : null),
   );
+  const { courseDetail, isCourseLoading, isLessonsLoading } =
+    useCourse(courseId);
 
   const { mutateAsync } = useMutation(["getQuizByLessonId"], submitQuizGrade);
 
   const quizId = useMemo(() => {
-    return data?.quiz_id || 1;
+    return data?.quiz_id || "1";
   }, [data]);
 
   const onSubmit = async (values: Record<string, string | Array<string>>) => {
@@ -32,7 +37,7 @@ function Quiz() {
       const [id] = next.split("@@");
       const answers =
         typeof values[next] === "string" ? [values[next]] : values[next];
-      prev.push({ id, answers } as IAnswer);
+      prev.push({ id: Number(id), answers } as any);
       return prev;
     }, []);
 
@@ -41,25 +46,27 @@ function Quiz() {
       course_id: courseId,
       answers,
       quiz_id: quizId,
-    })
-      .then(() => {
-        history.push("/quiz/score");
-      })
-      .catch(() => {
-        //
-      });
+    }).then(res => {
+      console.log(res);
+      history.push(
+        `/quiz/score?score=${res?.score}&error_count=${res?.error_cnt}&course_id=${courseId}`,
+      );
+    });
   };
+
+  const isLoading = isQuizLoading || isCourseLoading || isLessonsLoading;
+
   return (
     <Layout>
       <div className="relative">
         <div className="relative mx-auto mt-8 w-[960px] min-h-[1080px]">
-          <div className="mb-8">
-            <span className="text-content">Solidity 101</span> /
-            <span className="text-content">3. Function</span> /
-            <span className="opacity-50 text-content">Quiz</span>
-          </div>
-
-          <QuizForm quizzes={data?.exercise_list || []} onSubmit={onSubmit} />
+          <Spinner loading={isLoading}>
+            <QuizForm
+              courseDetail={courseDetail}
+              quizzes={data?.exercise_list || []}
+              onSubmit={onSubmit}
+            />
+          </Spinner>
         </div>
       </div>
     </Layout>

@@ -1,5 +1,5 @@
 import request from "@site/src/api/request";
-import { TLesson, TCourse } from "@site/src/typings/course";
+import { TLesson, TCourse, TCourseResponse } from "@site/src/typings/course";
 import { TResult } from "@site/src/typings/common";
 import { ECourseRole } from "@site/src/constants/quiz";
 
@@ -19,7 +19,9 @@ export const getLesson = (courseId: string, lessonId: string) => {
 };
 
 export const getCourseInfo = (courseId: string) => {
-  return request.get(`/course/${courseId}`).then(res => res.data);
+  return request
+    .get<TCourseResponse>(`/course/${courseId}`)
+    .then(res => res.data);
 };
 
 export const getCourses = (start_status: 1 | 2, lan?: undefined | "en") => {

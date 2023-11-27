@@ -8,27 +8,53 @@ import {
 } from "@site/src/components/editor/md-utils/error";
 import { TTokenPosition } from "@site/src/components/editor/type";
 import { EExerciseType } from "@site/src/constants/quiz";
+import { isNil } from "lodash-es";
 
-const chunkMdGroup = (md: (Token & TTokenPosition)[]) => {
-  const result = [];
+const chunkMdGroup = (mds: (Token & TTokenPosition)[]) => {
+  try {
+    const result = [];
+    let hasHeading = false;
 
-  for (let i = 0; i < md.length; i++) {
-    const token = md[i];
+    for (let i = 0; i < mds.length; i++) {
+      const token = mds[i];
 
-    if (result.length === 0 && token.type !== "heading") {
-      continue;
+      if (result.length === 0 && token.type !== "heading") {
+        continue;
+      }
+
+      switch (token.type) {
+        case "heading":
+          hasHeading = true;
+          result.push([token]);
+          break;
+        default:
+          result[result.length - 1].push(token);
+      }
     }
 
-    switch (token.type) {
-      case "heading":
-        result.push([token]);
-        break;
-      default:
-        result[result.length - 1].push(token);
-    }
+    const notEmptyMd = mds.find(item => item.type !== "space");
+
+    requireError(hasHeading, {
+      message: "习题必须还有标题##开头",
+      start: {
+        line: notEmptyMd.start.line,
+        column: 0,
+      },
+      end: {
+        line: notEmptyMd.end.line,
+        column: notEmptyMd.raw.length - 1,
+      },
+    });
+
+    return {
+      result,
+    };
+  } catch (e) {
+    return {
+      result: [],
+      error: e,
+    };
   }
-
-  return result;
 };
 
 const resolveExerciseTitle = (md: Tokens.Heading & TTokenPosition) => {
@@ -79,7 +105,7 @@ const resolveExerciseMeta = (token: Tokens.Blockquote & TTokenPosition) => {
         ...position,
       }) || {};
 
-    requireError(meta.index, {
+    requireError(!isNil(meta.index) || meta.index !== 0, {
       message: "Exercise meta data must have index",
       ...position,
     });
@@ -148,9 +174,9 @@ const resolveExerciseOptions = (md: Tokens.List) => {
 export const resolveMdContent = (
   mds: (Token & TTokenPosition)[],
 ): { result: IExercise[]; errors: TError[] } => {
-  const group = chunkMdGroup(mds);
-  const errors = [];
-  const result = group.map(tokens => {
+  const { result: group, error } = chunkMdGroup(mds);
+  const errors = [error];
+  const result = group?.map(tokens => {
     const quiz: IExercise = {} as IExercise;
     let hasList = false;
 
@@ -173,9 +199,11 @@ export const resolveMdContent = (
           break;
         case "list":
           hasList = true;
+          console.log(token);
           // list 后表示QUIZ内容获取结束，直接返回
           quiz.content = {
             ...(quiz.content || {}),
+            extend: quiz.content?.extend || [],
             options: resolveExerciseOptions(token),
           };
           break;

@@ -7,12 +7,16 @@ import { cn } from "@site/src/utils/class-utils";
 import { buttonVariants } from "@site/src/components/ui/Button";
 import { LoaderIcon } from "lucide-react";
 import { isEmpty } from "lodash-es";
+import { TCourseResponse, TLesson } from "@site/src/typings/course";
+import { get } from "lodash-es";
 
 const QuizForm = ({
+  courseDetail,
   quizzes = [],
   onSubmit,
 }: {
   quizzes: IExercise[];
+  courseDetail?: TCourseResponse["course_info"] & { lessons: TLesson[] };
   onSubmit?: (values: FieldValues) => Promise<void>;
 }) => {
   const [quizIndex, setQuizIndex] = useState(0);
@@ -50,47 +54,67 @@ const QuizForm = ({
   }, [quizIndex, formState.isValidating]);
 
   const continueText = useMemo(() => {
-    return quizIndex < quizzes.length - 1 ? "Continue" : "Submit";
+    return quizIndex < quizzes.length - 1 ? "继续" : "提交";
   }, [quizIndex, quizzes]);
 
+  const courseTitle = useMemo(
+    () => get(courseDetail, "course_title", ""),
+    [courseDetail],
+  );
+  const lessonTitle = useMemo(
+    () => get(courseDetail, `lessons[${quizIndex}].lesson_title`, ""),
+    [quizIndex, courseDetail],
+  );
+
   return (
-    <FormProvider methods={methods}>
-      {quizzes.map((item, index) => (
-        <div
-          key={`${item?.meta?.type}-${index}`}
-          className={cn({ hidden: quizIndex !== index })}
-        >
-          <QuizItem
-            control={control}
-            exercise={item}
-            index={index + 1}
-            name={`${item.meta.id}@@${index}`}
-          />
-        </div>
-      ))}
-      <div className="flex justify-end w-full mt-5 mb-12">
-        <div
-          className={cn(
-            "cursor-pointer",
-            buttonVariants({ variant: "outline" }),
-            { "cursor-not-allowed opacity-50 hover:bg-white": quizIndex === 0 },
-          )}
-          onClick={() => quizIndex !== 0 && prev()}
-        >
-          Back
-        </div>
-        <div
-          className={cn(
-            "cursor-pointer ml-3",
-            buttonVariants({ variant: "default" }),
-            { "cursor-not-allowed opacity-50": disabled },
-          )}
-          onClick={() => !disabled && next()}
-        >
-          {loading ? <LoaderIcon className="animate-spin" /> : continueText}
-        </div>
+    <>
+      <div className="mb-8">
+        <span className="text-content">{courseTitle}</span> /{" "}
+        <span className="text-content opacity-50">
+          {quizIndex + 1}. {lessonTitle}
+        </span>
       </div>
-    </FormProvider>
+
+      <FormProvider methods={methods}>
+        {quizzes.map((item, index) => (
+          <div
+            key={`${item?.meta?.type}-${index}`}
+            className={cn({ hidden: quizIndex !== index })}
+          >
+            <QuizItem
+              control={control}
+              exercise={item}
+              index={index + 1}
+              name={`${item.meta.id}@@${index}`}
+            />
+          </div>
+        ))}
+        <div className="flex justify-end w-full mt-5 mb-12">
+          <div
+            className={cn(
+              "cursor-pointer",
+              buttonVariants({ variant: "outline" }),
+              {
+                "cursor-not-allowed opacity-50 hover:bg-white": quizIndex === 0,
+              },
+            )}
+            onClick={() => quizIndex !== 0 && prev()}
+          >
+            返回上一题
+          </div>
+          <div
+            className={cn(
+              "cursor-pointer ml-3",
+              buttonVariants({ variant: "default" }),
+              { "cursor-not-allowed opacity-50": disabled },
+            )}
+            onClick={() => !disabled && next()}
+          >
+            {loading ? <LoaderIcon className="animate-spin" /> : continueText}
+          </div>
+        </div>
+      </FormProvider>
+    </>
   );
 };
 

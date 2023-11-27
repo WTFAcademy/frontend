@@ -22,7 +22,8 @@ const QuizSelect = ({
         <ReactMarkdown children={quiz?.title} />
       </div>
       <div className="my-5">
-        {quiz.content?.extend?.length &&
+        {quiz.content?.extend &&
+          quiz.content?.extend.length !== 0 &&
           quiz.content?.extend?.map((md, index) => (
             <ReactMarkdown
               components={{ img: Image }}
@@ -32,9 +33,7 @@ const QuizSelect = ({
           ))}
       </div>
       <div className="mb-4">
-        <span className="text-xs opacity-50 text-content">
-          Choose an answer
-        </span>
+        <span className="text-xs opacity-50 text-content">选择一个答案</span>
       </div>
       <div>
         {quiz.content?.options?.map(answer => (

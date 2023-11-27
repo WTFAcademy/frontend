@@ -1,15 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useMemo } from "react";
 import Layout from "@theme/Layout";
 import { Button } from "@site/src/components/ui/Button";
 import Link from "@docusaurus/Link";
 import Confettiful from "@site/src/components/Confettiful";
+import useSearch from "@site/src/hooks/useSearch";
+import { useHistory } from "@docusaurus/router";
+import useCourse from "@site/src/hooks/useCourse";
+import { get } from "lodash-es";
+import Spinner from "@site/src/components/ui/Spinner";
 
 function QuizScore() {
-  const [score, setScore] = useState(60);
+  const { params } = useSearch();
+  const history = useHistory();
+  const score = Number(params.get("score")) || 0;
+  const errorCount = Number(params.get("error_count")) || 0;
+  const courseId = params.get("course_id") || "";
+  const { courseDetail, isCourseLoading } = useCourse(courseId);
 
-  const handleClick = () => {
-    setScore(100);
+  const handleTryAgain = () => {
+    history.goBack();
   };
+
+  const courseTitle = useMemo(
+    () => get(courseDetail, "course_title", ""),
+    [courseDetail],
+  );
 
   return (
     <Layout>
@@ -17,9 +32,11 @@ function QuizScore() {
         {score == 100 && <Confettiful />}
         <div className="relative mx-auto mt-8 w-[960px] min-h-[1080px]">
           <div className="mb-8">
-            <span className="text-content">Solidity 101</span> /{" "}
-            <span className="text-content">3. Function</span> /{" "}
-            <span className="opacity-50 text-content">Quiz</span>
+            <span className="text-content inline-flex items-center">
+              <Spinner loading={isCourseLoading} />
+              {courseTitle}
+            </span>{" "}
+            / <span className="opacity-50 text-content">结果</span>
           </div>
           {score == 100 ? (
             <div>
@@ -44,7 +61,7 @@ function QuizScore() {
 
               <div className="flex justify-center w-full mb-12 mt-14">
                 <Link to="/quiz">
-                  <Button>Back to Tutorials</Button>
+                  <Button>回到教程</Button>
                 </Link>
               </div>
             </div>
@@ -53,7 +70,8 @@ function QuizScore() {
               <div className="text-center mb-[42px]">
                 <p className="text-[64px]">🚧</p>
                 <p className="mt-4 text-sm font-normal text-content">
-                  There are <span className="text-lg font-bold">3</span> wrong
+                  There are{" "}
+                  <span className="text-lg font-bold">{errorCount}</span> wrong
                   answers.
                 </p>
               </div>
@@ -72,12 +90,12 @@ function QuizScore() {
 
               <div className="flex justify-center w-full mb-12 mt-14">
                 {/* <Link to="/quiz/score"> */}
-                <Button variant="outline" onClick={handleClick}>
-                  Try Again
+                <Button variant="outline" onClick={handleTryAgain}>
+                  再做一轮
                 </Button>
                 {/* </Link> */}
-                <Link to="/quiz">
-                  <Button className="ml-3">Back to Tutorials</Button>
+                <Link to={`/`}>
+                  <Button className="ml-3">结束答题</Button>
                 </Link>
               </div>
             </div>

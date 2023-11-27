@@ -1,6 +1,5 @@
 import request from "@site/src/api/request";
 import { TResult } from "@site/src/typings/common";
-import { TLesson } from "@site/src/typings/course";
 import {
   IExercise,
   IEditorQuizSubmitPayload,
@@ -13,7 +12,7 @@ export const getQuizByLessonId = (lessonId: string) => {
     request
       // .get<unknown, TResult<{ list: TLesson[] }>>(
       .get<unknown, TResult<{ exercise_list: IExercise[]; quiz_id: string }>>(
-        `http://features-testing-env.eba-mau9qkgr.us-east-1.elasticbeanstalk.com/lesson/quiz?lesson_id=${lessonId}`,
+        `/lesson/quiz?lesson_id=${lessonId}`,
       )
       .then(res => res.data)
   );
@@ -22,8 +21,8 @@ export const getQuizByLessonId = (lessonId: string) => {
 export const submitQuizGrade = (data: IQuizSubmitPayload) => {
   return (
     request
-      .post<unknown, TResult<{ list: TLesson[] }>>(
-        `http://features-testing-env.eba-mau9qkgr.us-east-1.elasticbeanstalk.com/grade`,
+      .post<unknown, TResult<{ error_cnt: number; score: number }>>(
+        `/grade`,
         data,
       )
       // .post<unknown, TResult<{ list: TLesson[] }>>(`/grade`, data)

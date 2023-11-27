@@ -33,6 +33,7 @@ const useQuizEditor = (courseId: string, lessonId: string) => {
     },
     {
       enabled: !!lessonId && !roleLoading,
+      cacheTime: 0,
     },
   );
 
@@ -47,8 +48,11 @@ const useQuizEditor = (courseId: string, lessonId: string) => {
     },
     {
       enabled: !!lessonId && !roleLoading,
+      cacheTime: 0,
     },
   );
+
+  console.log(detailLoading, listLoading);
 
   const { mutateAsync: updateQuiz, isLoading: updateLoading } = useMutation(
     async (data: IEditorQuizSubmitPayload) => {
@@ -70,6 +74,10 @@ const useQuizEditor = (courseId: string, lessonId: string) => {
   };
 
   const toEditorData = (): TModelWrapper[] => {
+    if (detailLoading || listLoading || roleLoading) {
+      return;
+    }
+
     const selfModelWrappers = {
       filename: "My Quiz",
       value: convertCourseToMd(toEditorJSON(quizDetail?.exercises || [])),
@@ -97,14 +105,14 @@ const useQuizEditor = (courseId: string, lessonId: string) => {
 
   const initModelWrappers = useMemo(() => {
     return toEditorData();
-  }, [quizDetail, userQuizList]);
+  }, [quizDetail, userQuizList, detailLoading, listLoading]);
 
   return {
     initModelWrappers,
     updateQuiz,
     toSubmitData,
     role,
-    loading: detailLoading || listLoading,
+    loading: detailLoading || listLoading || roleLoading,
     updateLoading,
   };
 };

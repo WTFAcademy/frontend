@@ -22,3 +22,11 @@ export type TCourse = {
   share_url: string;
   user_cnt: number;
 };
+
+export type TCourseResponse = {
+  course_info: {
+    course_title: string;
+    image_url: string;
+    token_id: number;
+  };
+};

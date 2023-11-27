@@ -18,41 +18,49 @@ export const resolveMdMeta = (source: string) => {
   };
   try {
     requireError(!!source, {
-      message: "Markdown source is empty",
+      message: "Markdown不允许为空",
       ...position,
     });
 
     requireError(source.split("---").length === 3, {
-      message: "Markdown meta must be wrapped by ---",
+      message: "Markdown元数据缺少---包裹",
       ...position,
     });
 
-    const splitSource = source.split("---");
+    console.log("----------------------------------------");
+    console.log(JSON.stringify(source));
+
+    const splitSource = source.includes("---\n")
+      ? source.split("---\n")
+      : source.split("---");
+    console.log("splitSource: ", splitSource);
     const frontMatterString = splitSource[1];
     const markdownString = splitSource[2];
 
     const frontMatter = yaml.load(frontMatterString);
+    console.log((splitSource[0] + splitSource[1]).split("\n"));
     const endLine = (splitSource[0] + splitSource[1]).split("\n").length;
+    console.log("----------------------------------------");
 
     requireError(!!frontMatter, {
-      message: "Markdown meta is empty",
+      message: "Markdown元数据不能为空",
       start: {
         line: 0,
         column: 0,
       },
       end: {
-        line: endLine,
+        line: endLine + 1,
         column: 3,
       },
     });
     requireError(!isNil(frontMatter.lesson_id), {
-      message: "Markdown meta must have quiz_id",
+      message: "Markdown元数据缺少lesson_id",
       start: {
         line: 0,
         column: 0,
       },
       end: {
-        line: endLine,
+        line: endLine + 1,
         column: 3,
       },
     });
@@ -64,7 +72,7 @@ export const resolveMdMeta = (source: string) => {
         line: 0,
       },
       end: {
-        line: endLine,
+        line: endLine + 1,
       },
     };
   } catch (e) {
@@ -95,7 +103,7 @@ export const resolveMdMeta = (source: string) => {
         meta: {},
         content: markdownString,
         error: makeError({
-          message: "Markdown meta is not valid yaml",
+          message: "Markdown元数据格式错误",
           start: {
             line: e?.mark?.line,
             column: 0,

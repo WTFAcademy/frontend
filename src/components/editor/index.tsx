@@ -123,6 +123,7 @@ export type TQuizEditorProps = {
   onActiveModelChange?: (index: number) => void;
   modelWrappers?: TModelWrapper[];
   onModelWrappersChange?: (modelWrappers: TModelWrapper[]) => void;
+  isLoading?: boolean;
 };
 
 function Editor(props: TQuizEditorProps & EditorProps) {
@@ -133,6 +134,7 @@ function Editor(props: TQuizEditorProps & EditorProps) {
     onModelWrappersChange,
     activeModelIndex,
     onActiveModelChange,
+    isLoading,
     ...rest
   } = props;
   const editorRef = useRef(null);
@@ -142,14 +144,13 @@ function Editor(props: TQuizEditorProps & EditorProps) {
   const handleEditorDidMount = (editor, monaco) => {
     editorRef.current = editor;
     monacoRef.current = monaco;
-    // initModels(monaco, editor, modelWrappers);
     initTheme(monaco);
-    registerSnippet(monaco, editor);
+    registerSnippet(monaco);
     refresh({});
   };
 
   const handleEditorChange = value => {
-    if (!value) {
+    if (!value || isLoading) {
       return;
     }
     try {
@@ -161,8 +162,10 @@ function Editor(props: TQuizEditorProps & EditorProps) {
         end,
       } = resolveMdMeta(value);
       const usedLineCount = end.line - start.line;
+      console.log("usedLineCount: ", usedLineCount);
       const out = marked.lexer(content || value);
       const outWithPosition = endowWithPosition(out, usedLineCount);
+      console.log("outWithPosition: ", outWithPosition);
       const { result, errors } = resolveMdContent(outWithPosition);
 
       const allErrors = compact([metaResolveError, ...errors]);
@@ -184,12 +187,13 @@ function Editor(props: TQuizEditorProps & EditorProps) {
           endColumn: item.end.column,
         };
       });
+
       monacoRef.current.editor.setModelMarkers(curModel, "owner", editorErrors);
 
       onQuizChange?.(allResult);
       onError?.(allErrors);
     } catch (e) {
-      console.log(e);
+      console.log("error: ", e);
     }
   };
 
@@ -230,12 +234,21 @@ function Editor(props: TQuizEditorProps & EditorProps) {
   }, [activeModelIndex]);
 
   useDeepCompareEffect(() => {
-    if (modelWrappers?.length > 0 && editorRef.current && monacoRef.current) {
+    if (
+      modelWrappers?.length > 0 &&
+      editorRef.current &&
+      monacoRef.current &&
+      !isLoading
+    ) {
       initModels(monacoRef.current, editorRef.current, modelWrappers);
     }
-  }, [modelWrappers, editorRef.current, monacoRef.current]);
+  }, [modelWrappers, editorRef.current, monacoRef.current, isLoading]);
 
   const registerSnippet = monaco => {
+    if (isLoading) {
+      return;
+    }
+
     monaco.languages.registerCompletionItemProvider(ESupportLanguage.MARKDOWN, {
       triggerCharacters: ["#"], // 触发自动补全的字符
       provideCompletionItems: function (model, position) {

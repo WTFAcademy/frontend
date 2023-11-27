@@ -93,6 +93,7 @@ const QuizCreate = () => {
               onActiveModelChange={setActiveModelIndex}
               onQuizChange={e => setQuiz(e)}
               onError={e => setError(e)}
+              isLoading={loading}
             />
           </div>
           <div className="flex-1 p-2 overflow-y-auto h-[77vh]">

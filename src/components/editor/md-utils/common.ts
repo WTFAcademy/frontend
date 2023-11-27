@@ -6,9 +6,13 @@ const cleanHeadAndLastNewlineChar = (str: string) => {
 
 export const endowWithPosition = (tokens: TokensList, initialLine: number) => {
   let curLine = initialLine || 0;
+  console.log("------------------------------------");
+  console.log("curLine: ", curLine);
+
   return tokens.map(token => {
     const raw = token.raw;
-    let clearRaw = cleanHeadAndLastNewlineChar(raw);
+    console.log("raw: ", JSON.stringify(raw));
+    let clearRaw = raw;
 
     while (clearRaw.endsWith("\n")) {
       curLine++;
