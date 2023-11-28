@@ -51,6 +51,7 @@ const SECTIONS = [
     defineSection('javascript-102'),
     defineSection('analysis-101'),
     defineSection('huff-101'),
+    defineSection('starknet-basecamp-2023'),
 ];
 
 /** @type {import('@docusaurus/types').Config} */
@@ -135,6 +136,11 @@ const config = {
                         href: '/solidity-application',
                         position: 'left',
                         label: 'Solidity 103',
+                    },
+                    {
+                        href: '/starknet-basecamp-2023',
+                        position: 'left',
+                        label: 'Starknet Basecamp',
                     },
                     {
                         type: 'localeDropdown',
