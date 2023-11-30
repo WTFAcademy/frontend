@@ -174,8 +174,10 @@ const DashboardQuiz = (props: TProps) => {
 
   const { role } = useCourseRole(courseId);
 
-  const { data, isLoading } = useQuery(["course", courseId], () =>
-    getLessons(courseId),
+  const { data, isLoading } = useQuery(
+    ["course", courseId],
+    () => getLessons(courseId),
+    { enabled: courseId && isLogin },
   );
 
   const lessons = data?.list || [];

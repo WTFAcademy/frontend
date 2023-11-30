@@ -5,14 +5,7 @@ import { StepContext } from "@site/src/components/ui/Stepper/Step";
 import useMint from "@site/src/hooks/useMint";
 import { getMintInfoByCourse } from "@site/src/api/mint-sbt";
 import StepCard from "@site/src/components/StepCard";
-import {
-  ArrowRightCircleIcon,
-  InfoIcon,
-  RedoIcon,
-  RefreshCw,
-  RefreshCwIcon,
-} from "lucide-react";
-import Tooltip from "@site/src/components/ui/Tooltip";
+import { ArrowRightCircleIcon, RefreshCwIcon } from "lucide-react";
 import { Input } from "@site/src/components/ui/Input";
 import { Checkbox } from "@site/src/components/ui/Checkbox";
 import Spinner from "@site/src/components/ui/Spinner";
@@ -20,7 +13,7 @@ import { cn } from "@site/src/utils/class-utils";
 
 const StepMint = props => {
   const { next, info } = props;
-  const { active, completed } = useContext(StepContext);
+  const { active } = useContext(StepContext);
   const { loading, error, mint, errorMessage, setError, setErrorMessage } =
     useMint(tx => {
       next({

@@ -1,6 +1,6 @@
 import { TLessonMeta } from "@site/src/typings/doc";
 import { useQuery } from "react-query";
-import { getLesson, getLessons } from "@site/src/api/course";
+import { getLessons } from "@site/src/api/course";
 import { Button } from "@site/src/components/ui/Button";
 import { ArrowRightIcon } from "lucide-react";
 import React from "react";
