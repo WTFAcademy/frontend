@@ -105,9 +105,10 @@ const QuizCreate = () => {
 
   useEffect(() => {
     if (initModelWrappers) {
-      setModelWrappers(initModelWrappers);
+      setModelWrappers([...initModelWrappers]);
     }
-  }, [initModelWrappers]);
+    // Use length. Object Reference Always Changed.
+  }, [JSON.stringify(initModelWrappers)]);
 
   return (
     <Layout
@@ -117,37 +118,41 @@ const QuizCreate = () => {
       noFooter
     >
       <Spinner loading={loading}>
-        <_EditorTabs
-          modelWrappers={modelWrappers}
-          activeModelIndex={activeModelIndex}
-          onActiveModelChange={e => setActiveModelIndex(Number(e))}
-        />
-        <div className="flex flex-col pb-10 space-x-2  md:flex-row md:p-5 ">
-          <div className="flex-1 h-full mb-5 overflow-x-auto w-max-[50%] md:mb-0">
-            <Editor
+        {modelWrappers?.length > 0 && (
+          <>
+            <_EditorTabs
               modelWrappers={modelWrappers}
-              onModelWrappersChange={setModelWrappers}
               activeModelIndex={activeModelIndex}
-              onActiveModelChange={setActiveModelIndex}
-              onQuizChange={e => setQuiz(e)}
-              onError={e => setError(e)}
-              isLoading={loading}
+              onActiveModelChange={e => setActiveModelIndex(Number(e))}
             />
-          </div>
-          <div className="flex-1 p-2 overflow-y-auto h-[77vh]">
-            <FormProvider methods={methods} className="flex flex-col gap-6">
-              {(quiz?.exercises || []).map((item, index) => (
-                <QuizItem
-                  key={`${item.meta?.type}-${index}`}
-                  control={methods.control}
-                  exercise={item}
-                  index={index}
-                  name={`${item.meta?.type}-preview-${index}`}
+            <div className="flex flex-col pb-10 space-x-2  md:flex-row md:p-5 ">
+              <div className="flex-1 h-full mb-5 overflow-x-auto w-max-[50%] md:mb-0">
+                <Editor
+                  modelWrappers={modelWrappers}
+                  onModelWrappersChange={setModelWrappers}
+                  activeModelIndex={activeModelIndex}
+                  onActiveModelChange={setActiveModelIndex}
+                  onQuizChange={e => setQuiz(e)}
+                  onError={e => setError(e)}
+                  isLoading={loading}
                 />
-              ))}
-            </FormProvider>
-          </div>
-        </div>
+              </div>
+              <div className="flex-1 p-2 overflow-y-auto h-[77vh]">
+                <FormProvider methods={methods} className="flex flex-col gap-6">
+                  {(quiz?.exercises || []).map((item, index) => (
+                    <QuizItem
+                      key={`${item.meta?.type}-${index}`}
+                      control={methods.control}
+                      exercise={item}
+                      index={index}
+                      name={`${item.meta?.type}-preview-${index}`}
+                    />
+                  ))}
+                </FormProvider>
+              </div>
+            </div>
+          </>
+        )}
         <div className="fixed bottom-0 left-0 right-0 flex items-center justify-end navbar h-15 border-t border-t-border">
           <Button
             variant="outline"
