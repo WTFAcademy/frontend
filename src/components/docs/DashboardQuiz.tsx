@@ -181,7 +181,6 @@ const DashboardQuiz = (props: TProps) => {
   );
 
   const lessons = data?.list || [];
-  const course = data?.course || ({} as TCourse);
 
   const handleGraduate = () => {
     i18n.currentLocale === "zh"
@@ -189,20 +188,12 @@ const DashboardQuiz = (props: TProps) => {
       : history.push(`/en/certificate?cid=${courseId}`);
   };
 
-  const finished = useMemo(
-    () =>
-      course?.start_status !== 1 &&
-      lessons?.every(item => Number(item.quiz_id) > 0),
-    [lessons],
-  );
-
   return (
     <div className="w-full mt-[60px]">
       <div className="flex items-center justify-between">
         <h4>
           <Translate id="docs.101.DashboardQuiz.title">学习进度</Translate>
         </h4>
-        {finished && <Button>发布课程全部习题</Button>}
       </div>
       <div className="flex flex-col gap-[14px] mt-7">
         {isLoading ? (
