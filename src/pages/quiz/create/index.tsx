@@ -164,14 +164,14 @@ const QuizCreate = () => {
           <Button
             className="m-5"
             onClick={handleSubmit}
-            disabled={publishLoading || submitLoading}
+            disabled={publishLoading || submitLoading || loading}
           >
             提交
           </Button>
           {role === ECourseRole.REVIEWER && (
             <Button
               onClick={handlePublish}
-              disabled={publishLoading || submitLoading}
+              disabled={publishLoading || submitLoading || loading}
             >
               发布
             </Button>

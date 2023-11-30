@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import Layout from "@theme/Layout";
 import PersonalBanner from "@site/src/pages/personal/_PersonalBanner";
 import { Button } from "@site/src/components/ui/Button";
 import Link from "@docusaurus/Link";
 import useAuth from "@site/src/hooks/useAuth";
 import truncation from "@site/src/utils/truncation";
-import { getUserInfo, updateUserInfo } from "@site/src/api/user";
+import { updateUserInfo } from "@site/src/api/user";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import RHFInput from "@site/src/components/hook-form/rhf-input";
 import Translate, { translate } from "@docusaurus/Translate";
 
 function Settings() {
