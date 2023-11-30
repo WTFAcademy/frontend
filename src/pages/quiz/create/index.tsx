@@ -1,7 +1,7 @@
 import Layout from "@theme/Layout";
 import React, { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import _EditorTabs from "@site/src/pages/quiz/create/_EditorTabs";
+import EditorTabs from "@site/src/pages/quiz/create/_EditorTabs";
 import { Button } from "@site/src/components/ui/Button";
 import {
   IQuizEditorValue,
@@ -97,7 +97,7 @@ const QuizCreate = () => {
   };
 
   useEffect(() => {
-    if (!roleLoading && role === ECourseRole.USER) {
+    if ((!roleLoading && role === ECourseRole.USER) || !lessonId || !courseId) {
       history.replace("/");
       toast.error("您没有权限访问该页面");
     }
@@ -105,10 +105,9 @@ const QuizCreate = () => {
 
   useEffect(() => {
     if (initModelWrappers) {
-      setModelWrappers([...initModelWrappers]);
+      setModelWrappers(initModelWrappers);
     }
-    // Use length. Object Reference Always Changed.
-  }, [JSON.stringify(initModelWrappers)]);
+  }, [initModelWrappers]);
 
   return (
     <Layout
@@ -117,42 +116,38 @@ const QuizCreate = () => {
       wrapperClassName="p-5"
       noFooter
     >
-      <Spinner loading={loading}>
-        {modelWrappers?.length > 0 && (
-          <>
-            <_EditorTabs
+      <Spinner loading={loading || publishLoading || submitLoading}>
+        <EditorTabs
+          modelWrappers={modelWrappers}
+          activeModelIndex={activeModelIndex}
+          onActiveModelChange={e => setActiveModelIndex(Number(e))}
+        />
+        <div className="flex flex-col pb-10 space-x-2  md:flex-row md:p-5 ">
+          <div className="flex-1 h-full mb-5 overflow-x-auto w-max-[50%] md:mb-0">
+            <Editor
               modelWrappers={modelWrappers}
+              onModelWrappersChange={setModelWrappers}
               activeModelIndex={activeModelIndex}
-              onActiveModelChange={e => setActiveModelIndex(Number(e))}
+              onActiveModelChange={setActiveModelIndex}
+              onQuizChange={e => setQuiz(e)}
+              onError={e => setError(e)}
+              isLoading={loading}
             />
-            <div className="flex flex-col pb-10 space-x-2  md:flex-row md:p-5 ">
-              <div className="flex-1 h-full mb-5 overflow-x-auto w-max-[50%] md:mb-0">
-                <Editor
-                  modelWrappers={modelWrappers}
-                  onModelWrappersChange={setModelWrappers}
-                  activeModelIndex={activeModelIndex}
-                  onActiveModelChange={setActiveModelIndex}
-                  onQuizChange={e => setQuiz(e)}
-                  onError={e => setError(e)}
-                  isLoading={loading}
+          </div>
+          <div className="flex-1 p-2 overflow-y-auto h-[77vh]">
+            <FormProvider methods={methods} className="flex flex-col gap-6">
+              {(quiz?.exercises || []).map((item, index) => (
+                <QuizItem
+                  key={`${item.meta?.type}-${index}`}
+                  control={methods.control}
+                  exercise={item}
+                  index={index}
+                  name={`${item.meta?.type}-preview-${index}`}
                 />
-              </div>
-              <div className="flex-1 p-2 overflow-y-auto h-[77vh]">
-                <FormProvider methods={methods} className="flex flex-col gap-6">
-                  {(quiz?.exercises || []).map((item, index) => (
-                    <QuizItem
-                      key={`${item.meta?.type}-${index}`}
-                      control={methods.control}
-                      exercise={item}
-                      index={index}
-                      name={`${item.meta?.type}-preview-${index}`}
-                    />
-                  ))}
-                </FormProvider>
-              </div>
-            </div>
-          </>
-        )}
+              ))}
+            </FormProvider>
+          </div>
+        </div>
         <div className="fixed bottom-0 left-0 right-0 flex items-center justify-end navbar h-15 border-t border-t-border">
           <Button
             variant="outline"
