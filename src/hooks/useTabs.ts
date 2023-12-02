@@ -1,7 +1,11 @@
 import { TModelWrapper } from "@site/src/components/editor/type";
 import { useEffect, useRef, useState, useMemo } from "react";
 
-const useTabs = ({ modelWrappers }: { modelWrappers: TModelWrapper[] }) => {
+const useTabs = ({
+  modelWrappers = [],
+}: {
+  modelWrappers: TModelWrapper[];
+}) => {
   const tabRef = useRef<HTMLElement>(null);
 
   const [maxLength, setMaxLength] = useState();
@@ -48,11 +52,11 @@ const useTabs = ({ modelWrappers }: { modelWrappers: TModelWrapper[] }) => {
   }, [tabRef.current]);
 
   const hideTabs = useMemo(() => {
-    return modelWrappers.slice(maxLength, modelWrappers.length);
+    return modelWrappers?.slice(maxLength, modelWrappers.length);
   }, [maxLength, modelWrappers]);
 
   const calculatedData = useMemo(() => {
-    return modelWrappers.slice(0, maxLength || modelWrappers.length);
+    return modelWrappers?.slice(0, maxLength || modelWrappers.length);
   }, [maxLength, modelWrappers]);
 
   return { calculatedData, hideTabs, tabRef, maxLength };

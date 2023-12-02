@@ -2,7 +2,7 @@ import { Tabs, TabsList, TabsTrigger } from "@site/src/components/ui/Tabs";
 import React from "react";
 import { TModelWrapper } from "@site/src/components/editor/type";
 import Translate from "@docusaurus/Translate";
-import useTabs from "./useTabs";
+import useTabs from "@site/src/hooks/useTabs";
 import {
   DropdownMenu,
   DropdownMenuContent,
