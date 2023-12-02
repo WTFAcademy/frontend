@@ -7,11 +7,9 @@ import React, { useMemo } from "react";
 const QuizInset = ({
   quiz,
   value,
-  index,
   onChange,
 }: {
   quiz: IExercise;
-  index?: number;
   value?: string[];
   onChange?: (value: string[]) => void;
 }) => {
@@ -35,7 +33,7 @@ const QuizInset = ({
   return (
     <div className="text-content">
       <div className="flex items-center text-xl font-bold">
-        {index && <span className="pr-2 font-bold">{index}.</span>}
+        {/*{index && <span className="pr-2 font-bold">{index}.</span>}*/}
         <ReactMarkdown children={quiz?.title} />
       </div>
       <div className="my-5 flex flex-col gap-2">

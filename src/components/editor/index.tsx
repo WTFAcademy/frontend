@@ -13,6 +13,8 @@ import {
 } from "@site/src/components/editor/type";
 import { formatModels } from "@site/src/components/editor/utils/model";
 import { useDebounceFn, useDeepCompareEffect } from "ahooks";
+import prettier from "prettier/standalone";
+import parserMarkdown from "prettier/plugins/markdown";
 
 function initTheme(monaco: Monaco) {
   monaco.editor.defineTheme("myCustomTheme", {
@@ -146,6 +148,24 @@ function Editor(props: TQuizEditorProps & EditorProps) {
     monacoRef.current = monaco;
     initTheme(monaco);
     registerSnippet(monaco);
+
+    editor.addAction({
+      id: "format-markdown",
+      label: "Format Markdown",
+      keybindings: ["ctrl+shift+f"],
+      contextMenuGroupId: "navigation",
+      contextMenuOrder: 1.5,
+      run: async (ed: any) => {
+        const value = ed.getValue();
+        const formatted = await prettier.format(value, {
+          parser: "markdown",
+          plugins: [parserMarkdown],
+        });
+        console.log(formatted);
+        ed.setValue(formatted);
+      },
+    });
+
     refresh({});
   };
 
@@ -162,10 +182,8 @@ function Editor(props: TQuizEditorProps & EditorProps) {
         end,
       } = resolveMdMeta(value);
       const usedLineCount = end.line - start.line;
-      console.log("usedLineCount: ", usedLineCount);
       const out = marked.lexer(content || value);
       const outWithPosition = endowWithPosition(out, usedLineCount);
-      console.log("outWithPosition: ", outWithPosition);
       const { result, errors } = resolveMdContent(outWithPosition);
 
       const allErrors = compact([metaResolveError, ...errors]);
@@ -258,7 +276,7 @@ function Editor(props: TQuizEditorProps & EditorProps) {
               label: "## 插入题目模板",
               kind: monaco.languages.CompletionItemKind.Keyword,
               insertText:
-                '## ${1:输入题目内容}\n> {index: ${2:1}, type: ${3:"select"}, answer: [${4:"A"}], score: ${5:5}}\n\n- (${6:A}) ${7:选项内容}',
+                '## ${1:输入题目内容}\n> {index: ${2:1}, type: ${3:"select"}, answer: ["${4:A}"], score: ${5:5}}\n\n- (${6:A}) ${7:选项内容}',
               insertTextRules:
                 monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
               range: {
@@ -281,7 +299,7 @@ function Editor(props: TQuizEditorProps & EditorProps) {
               label: "> 快速插入meta",
               kind: monaco.languages.CompletionItemKind.Keyword,
               insertText:
-                '> {index: ${1:1}, type: ${2:"select"}, answer: [${3:"A"}], score: ${4:5}}',
+                '> {type: ${2:"select"}, answer: [${3:"A"}], score: ${4:1}}',
               insertTextRules:
                 monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
               range: {

@@ -8,17 +8,15 @@ const QuizSelect = ({
   quiz,
   value,
   onChange,
-  index,
 }: {
   quiz: IExercise;
   value?: string;
-  index?: number;
   onChange?: (value: string) => void;
 }) => {
   return (
     <div className="text-content">
       <div className="flex items-center text-xl font-bold">
-        {index && <span className="pr-2 font-bold">{index}.</span>}
+        {/*{index && <span className="pr-2 font-bold">{index}.</span>}*/}
         <ReactMarkdown children={quiz?.title} />
       </div>
       <div className="my-5">

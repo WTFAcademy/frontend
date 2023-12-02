@@ -8,7 +8,6 @@ import {
 } from "@site/src/components/editor/md-utils/error";
 import { TTokenPosition } from "@site/src/components/editor/type";
 import { EExerciseType } from "@site/src/constants/quiz";
-import { isNil } from "lodash-es";
 
 const chunkMdGroup = (mds: (Token & TTokenPosition)[]) => {
   try {
@@ -104,11 +103,6 @@ const resolveExerciseMeta = (token: Tokens.Blockquote & TTokenPosition) => {
         message: "Exercise meta data must be a valid JSON",
         ...position,
       }) || {};
-
-    requireError(!isNil(meta.index) || meta.index !== 0, {
-      message: "Exercise meta data must have index",
-      ...position,
-    });
 
     requireError(meta.score, {
       message: "Exercise meta data must have score",
