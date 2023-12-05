@@ -26,7 +26,6 @@ const _EditorTabs = ({
     modelWrappers,
   });
 
-  console.log(hideTabs, "+++++++++++++++++");
   return (
     <Tabs
       className="w-full overflow-hidden"

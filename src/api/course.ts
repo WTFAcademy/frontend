@@ -34,7 +34,7 @@ export const getCourses = (start_status: 1 | 2, lan?: undefined | "en") => {
     .then(res => res.data);
 };
 
-export const getCourseRoel = (courseId: string) => {
+export const getCourseRole = (courseId: string) => {
   return request
     .get<unknown, TResult<ECourseRole>>(`/course/auth?course_id=${courseId}`)
     .then(res => res.data);
