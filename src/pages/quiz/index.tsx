@@ -60,13 +60,17 @@ function Quiz() {
     <Layout>
       <div className="relative">
         <div className="relative mx-auto mt-8 w-[960px] min-h-[1080px]">
-          <Spinner loading={isLoading}>
+          {isLoading ? (
+            <div className="flex items-center justify-center min-h-[200px]">
+              <Spinner loading />
+            </div>
+          ) : (
             <QuizForm
               courseDetail={courseDetail}
               quizzes={data?.exercise_list || []}
               onSubmit={onSubmit}
             />
-          </Spinner>
+          )}
         </div>
       </div>
     </Layout>
