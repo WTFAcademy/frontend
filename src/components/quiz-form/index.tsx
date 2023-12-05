@@ -95,7 +95,7 @@ const QuizForm = ({
               "cursor-pointer",
               buttonVariants({ variant: "outline" }),
               {
-                "cursor-not-allowed opacity-50 hover:bg-white": quizIndex === 0,
+                "cursor-not-allowed": quizIndex === 0,
               },
             )}
             onClick={() => quizIndex !== 0 && prev()}

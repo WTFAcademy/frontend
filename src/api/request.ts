@@ -19,6 +19,8 @@ export const BASE_URL =
     ? "http://features-testing-env.eba-mau9qkgr.us-east-1.elasticbeanstalk.com/"
     : "https://api.wtf.academy/";
 
+console.log(process.env.NODE_ENV);
+
 const request = axios.create({
   baseURL: BASE_URL,
   timeout: 30000,

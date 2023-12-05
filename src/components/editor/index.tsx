@@ -194,7 +194,7 @@ function Editor(props: TQuizEditorProps & EditorProps) {
               label: "## 插入题目模板",
               kind: monaco.languages.CompletionItemKind.Keyword,
               insertText:
-                '## ${1:输入题目内容}\n> {index: ${2:1}, type: ${3:"select"}, answer: ["${4:A}"], score: ${5:5}}\n\n- (${6:A}) ${7:选项内容}',
+                '## ${1:1}. ${2:输入题目内容}\n> {type: ${3:"select"}, answer: ["${4:A}"], score: ${5:1}}\n\n- (${6:A}) ${7:选项内容}',
               insertTextRules:
                 monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
               range: {

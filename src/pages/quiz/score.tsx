@@ -26,6 +26,11 @@ function QuizScore() {
     [courseDetail],
   );
 
+  const routePath = useMemo(
+    () => "/" + get(courseDetail, "course.route_path", ""),
+    [courseDetail],
+  );
+
   return (
     <Layout>
       <div className="relative">
@@ -60,8 +65,8 @@ function QuizScore() {
               </div>
 
               <div className="flex justify-center w-full mb-12 mt-14">
-                <Link to="/quiz">
-                  <Button>回到教程</Button>
+                <Link to={routePath}>
+                  <Button className="ml-3">结束答题</Button>
                 </Link>
               </div>
             </div>
@@ -94,7 +99,7 @@ function QuizScore() {
                   再做一轮
                 </Button>
                 {/* </Link> */}
-                <Link to={`/`}>
+                <Link to={routePath}>
                   <Button className="ml-3">结束答题</Button>
                 </Link>
               </div>

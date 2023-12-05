@@ -8,36 +8,36 @@ function convertTokenToMd(token: TTokenWithAny) {
   switch (token.type) {
     case "heading":
       return `${"#".repeat(token.depth)} ${
-        token.tokens ? convertTokensToMd(token.tokens) : token.text
+        token.tokens ? convertTokensToMd(token.tokens) : token.raw
       }\n`;
     case "paragraph":
-      return `${token.tokens ? convertTokensToMd(token.tokens) : token.text}\n`;
+      return `${token.tokens ? convertTokensToMd(token.tokens) : token.raw}\n`;
     case "list_item":
       return `* ${
-        token.tokens ? convertTokensToMd(token.tokens) : token.text
+        token.tokens ? convertTokensToMd(token.tokens) : token.raw
       }\n`;
     case "list":
       return `${token.items
         .map(item => `${convertTokensToMd(item.tokens)}\n`)
         .join("")}\n`;
     case "text":
-      return `${token.tokens ? convertTokensToMd(token.tokens) : token.text}`;
+      return `${token.tokens ? convertTokensToMd(token.tokens) : token.raw}`;
     case "link":
-      return `[${
-        token.tokens ? convertTokensToMd(token.tokens) : token.text
-      }](${token.href})`;
+      return `[${token.tokens ? convertTokensToMd(token.tokens) : token.raw}](${
+        token.href
+      })`;
     case "image":
-      return `![${token.text}](${token.href}${
+      return `![${token.raw}](${token.href}${
         token.title ? ` "${token.title}"` : ""
       })`;
     case "strong":
       return `**${
-        token.tokens ? convertTokensToMd(token.tokens) : token.text
+        token.tokens ? convertTokensToMd(token.tokens) : token.raw
       }**`;
     case "em":
-      return `*${token.tokens ? convertTokensToMd(token.tokens) : token.text}*`;
+      return `*${token.tokens ? convertTokensToMd(token.tokens) : token.raw}*`;
     case "codespan":
-      return `\`${token.text}\``;
+      return `\`${token.raw}\``;
     case "space":
       return token.raw;
     case "table": {

@@ -22,6 +22,7 @@ const useCourse = courseId => {
   return {
     courseDetail: {
       ...course?.course_info,
+      course: course?.course,
       lessons: lessons ?? [],
     },
     lessons,
