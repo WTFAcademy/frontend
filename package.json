@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "docusaurus start",
+    "start": "cross-env REACT_APP_API_URL='http://features-testing-env.eba-mau9qkgr.us-east-1.elasticbeanstalk.com/' docusaurus start",
     "build": "docusaurus build",
     "build:preview": "docusaurus build",
     "swizzle": "docusaurus swizzle",
@@ -88,6 +88,7 @@
     "assert": "^2.0.0",
     "browserify-zlib": "^0.2.0",
     "buffer": "^6.0.3",
+    "cross-env": "^7.0.3",
     "crypto-browserify": "^3.12.0",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^9.0.0",

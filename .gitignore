@@ -22,4 +22,4 @@ yarn-error.log*
 # Editor
 .idea
 .vscode
-
+.env

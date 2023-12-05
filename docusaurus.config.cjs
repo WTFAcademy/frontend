@@ -199,6 +199,9 @@ const config = {
                 additionalLanguages: ["solidity"]
             },
         }),
+    customFields: {
+        APP_URL: process.env.REACT_APP_API_URL,
+    }
 };
 
 module.exports = config;

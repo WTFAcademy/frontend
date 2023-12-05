@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { getStorageWTFToken } from "@site/src/utils/local-storage";
+import siteConfig from "@generated/docusaurus.config";
 
 enum ERROR_CODES {
   NOT_LOGIN = 401,
@@ -14,12 +15,7 @@ declare module "axios" {
   }
 }
 
-export const BASE_URL =
-  process.env.NODE_ENV === "development"
-    ? "http://features-testing-env.eba-mau9qkgr.us-east-1.elasticbeanstalk.com/"
-    : "https://api.wtf.academy/";
-
-console.log(process.env.NODE_ENV);
+export const BASE_URL = siteConfig.customFields.APP_URL;
 
 const request = axios.create({
   baseURL: BASE_URL,
