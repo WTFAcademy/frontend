@@ -26,7 +26,7 @@ export const submitQuizGrade = (data: IQuizSubmitPayload) => {
         data,
       )
       // .post<unknown, TResult<{ list: TLesson[] }>>(`/grade`, data)
-      .then(res => res.data)
+      .then(res => res?.data || {})
   );
 };
 
