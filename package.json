@@ -72,6 +72,8 @@
     "react-syntax-highlighter": "^15.5.0",
     "react-wrap-balancer": "^1.0.0",
     "rehype-raw": "^7.0.0",
+    "remark-gfm": "^3.0.1",
+    "remark-math": "^6.0.0",
     "siwe": "^2",
     "solive-docusaurus-theme-code": "*",
     "tailwind-merge": "^1.12.0",
