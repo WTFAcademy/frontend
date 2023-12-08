@@ -3,8 +3,8 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coldarkDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 import { useCopyToClipboard } from "@site/src/hooks/useCopyToClipboard";
-import { IconCheck, IconCopy } from "@site/src/components/ui/icons";
-import { Button } from "@site/src/components/ui/button";
+import { IconCheck, IconCopy } from "@site/src/components/ui/Icons";
+import { Button } from "@site/src/components/ui/Button";
 
 interface Props {
   language: string;
