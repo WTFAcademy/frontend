@@ -27,18 +27,13 @@ export const resolveMdMeta = (source: string) => {
       ...position,
     });
 
-    console.log("----------------------------------------");
-    console.log(JSON.stringify(source));
-
     const splitSource = source.includes("---\n")
       ? source.split("---\n")
       : source.split("---");
-    console.log("splitSource: ", splitSource);
     const frontMatterString = splitSource[1];
     const markdownString = splitSource[2];
 
     const frontMatter = yaml.load(frontMatterString);
-    console.log((splitSource[0] + splitSource[1]).split("\n"));
     const endLine = (splitSource[0] + splitSource[1]).split("\n").length;
     console.log("----------------------------------------");
 

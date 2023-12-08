@@ -47,8 +47,6 @@ function Editor(props: TQuizEditorProps & EditorProps) {
   const refresh = useState({})[1];
   const { colorMode } = useColorMode();
 
-  console.log(colorMode);
-
   const handleEditorDidMount = (editor, monaco) => {
     editorRef.current = editor;
     monacoRef.current = monaco;
@@ -67,7 +65,6 @@ function Editor(props: TQuizEditorProps & EditorProps) {
           parser: "markdown",
           plugins: [parserMarkdown],
         });
-        console.log(formatted);
         ed.setValue(formatted);
       },
     });
@@ -90,6 +87,7 @@ function Editor(props: TQuizEditorProps & EditorProps) {
       const usedLineCount = end.line - start.line;
       const out = marked.lexer(content || value);
       const outWithPosition = endowWithPosition(out, usedLineCount);
+      console.log("outWithPosition: ", outWithPosition);
       const { result, errors } = resolveMdContent(outWithPosition);
 
       const allErrors = compact([metaResolveError, ...errors]);

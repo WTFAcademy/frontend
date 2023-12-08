@@ -155,7 +155,7 @@ const resolveExerciseOptions = (md: Tokens.List) => {
   const transformOption = (md: Tokens.ListItem) => {
     // (A) 选项内容
     const text = md.text.trim();
-    const [, option, content] = /\((\w)\)\s*(.*)/.exec(text) || [];
+    const [, option, content] = /\((\w)\)\s*(.*)/s.exec(text) || [];
     return {
       label: content,
       value: option,
@@ -192,8 +192,39 @@ export const resolveMdContent = (
           quiz.meta = result;
           break;
         case "list":
+          // dev(daxiongya): 处理extend存在list的情况
+          if (!/^-\s*\([A-Z]\)/.test(token.raw)) {
+            const items = token.items;
+            const nonOptionItems = items.filter(
+              it => !/^-\s*\([A-Z]\)/.test(it.raw),
+            );
+            const optionItems = items.slice(nonOptionItems.length);
+            if (optionItems.length > 0) {
+              hasList = true;
+            }
+
+            const splitRawFlag =
+              nonOptionItems[nonOptionItems.length - 1]?.raw || "";
+            const nonOptionRaw =
+              token.raw.split(splitRawFlag)[0] + splitRawFlag;
+            const optionRaw = token.raw.split(splitRawFlag)[1];
+
+            quiz.content = {
+              ...(quiz.content || {}),
+              extend: (quiz.content?.extend || []).concat({
+                ...token,
+                raw: nonOptionRaw,
+                items: nonOptionItems,
+              }),
+              options: resolveExerciseOptions({
+                ...token,
+                raw: optionRaw,
+                items: optionItems,
+              }),
+            };
+            break;
+          }
           hasList = true;
-          console.log(token);
           // list 后表示QUIZ内容获取结束，直接返回
           quiz.content = {
             ...(quiz.content || {}),
