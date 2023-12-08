@@ -6,8 +6,6 @@ const cleanHeadAndLastNewlineChar = (str: string) => {
 
 export const endowWithPosition = (tokens: TokensList, initialLine: number) => {
   let curLine = initialLine || 0;
-  console.log("------------------------------------");
-
   return tokens.map(token => {
     const raw = token.raw;
     let clearRaw = raw;

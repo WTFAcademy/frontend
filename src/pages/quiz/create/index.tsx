@@ -42,8 +42,6 @@ const QuizCreate = () => {
   const [quiz, setQuiz] = useState<IQuizEditorValue>();
   const [error, setError] = useState<TError[]>();
 
-  console.log(quiz?.exercises);
-
   const handlePublish = async () => {
     if (error?.length > 0) {
       toast.error("请检查题目是否有错误");

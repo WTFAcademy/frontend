@@ -52,8 +52,6 @@ const useQuizEditor = (courseId: string, lessonId: string) => {
     },
   );
 
-  console.log(detailLoading, listLoading);
-
   const { mutateAsync: publishQuiz, isLoading: publishLoading } = useMutation(
     async (data: IEditorQuizSubmitPayload) => {
       return reviewEditorQuiz(data);

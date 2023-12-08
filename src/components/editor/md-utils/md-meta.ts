@@ -35,8 +35,6 @@ export const resolveMdMeta = (source: string) => {
 
     const frontMatter = yaml.load(frontMatterString);
     const endLine = (splitSource[0] + splitSource[1]).split("\n").length;
-    console.log("----------------------------------------");
-
     requireError(!!frontMatter, {
       message: "Markdown元数据不能为空",
       start: {
