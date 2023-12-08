@@ -9,16 +9,21 @@ import { LoaderIcon } from "lucide-react";
 import { isEmpty } from "lodash-es";
 import { TCourseResponse, TLesson } from "@site/src/typings/course";
 import { get } from "lodash-es";
+import Link from "@docusaurus/Link";
+
+interface IProps {
+  quizzes: IExercise[];
+  lessonId: string;
+  courseDetail?: TCourseResponse["course_info"] & { lessons: TLesson[] };
+  onSubmit?: (values: FieldValues) => Promise<void>;
+}
 
 const QuizForm = ({
   courseDetail,
+  lessonId,
   quizzes = [],
   onSubmit,
-}: {
-  quizzes: IExercise[];
-  courseDetail?: TCourseResponse["course_info"] & { lessons: TLesson[] };
-  onSubmit?: (values: FieldValues) => Promise<void>;
-}) => {
+}: IProps) => {
   const [quizIndex, setQuizIndex] = useState(0);
   const [loading, setLoading] = useState(false);
   const methods = useForm<FieldValues>({
@@ -61,18 +66,37 @@ const QuizForm = ({
     () => get(courseDetail, "course_title", ""),
     [courseDetail],
   );
-  const lessonTitle = useMemo(
-    () => get(courseDetail, `lessons[${quizIndex}].lesson_title`, ""),
-    [quizIndex, courseDetail],
-  );
+  const lessonTitle = useMemo(() => {
+    const lessons = get(courseDetail, "lessons", []);
+    const lesson = lessons.find(item => item.lesson_id === lessonId);
+    return lesson?.lesson_title || "";
+  }, [courseDetail]);
+  const currentExerciseTitle = useMemo(() => {
+    return get(quizzes, `${quizIndex}.title`, "").replace("##", "");
+  }, [quizIndex, courseDetail]);
+
+  const courseRoutePath = useMemo(() => {
+    return get(courseDetail, "course.route_path", "");
+  }, [courseDetail]);
+
+  const lessonRoutePath = useMemo(() => {
+    const lessons = get(courseDetail, "lessons", []);
+    const lesson = lessons.find(item => item.lesson_id === lessonId);
+    return lesson?.route_path || "";
+  }, [courseDetail]);
 
   return (
     <>
       <div className="mb-8">
-        <span className="text-content">{courseTitle}</span> /{" "}
-        <span className="text-content opacity-50">
-          {quizIndex + 1}. {lessonTitle}
-        </span>
+        <Link className="text-content hover:text-blue-600" to={courseRoutePath}>
+          {courseTitle}
+        </Link>{" "}
+        /{" "}
+        <Link className="text-content hover:text-blue-600" to={lessonRoutePath}>
+          {lessonTitle}
+        </Link>{" "}
+        /{" "}
+        <span className="text-content opacity-50">{currentExerciseTitle}</span>
       </div>
 
       <FormProvider methods={methods}>
@@ -95,10 +119,10 @@ const QuizForm = ({
               "cursor-pointer",
               buttonVariants({ variant: "outline" }),
               {
-                "cursor-not-allowed": quizIndex === 0,
+                hidden: quizIndex === 0,
               },
             )}
-            onClick={() => quizIndex !== 0 && prev()}
+            onClick={() => prev()}
           >
             返回上一题
           </div>

@@ -47,7 +47,6 @@ function Quiz() {
       answers,
       quiz_id: quizId,
     }).then(res => {
-      console.log(res);
       history.push(
         `/quiz/score?score=${res?.score}&error_count=${res?.error_cnt}&course_id=${courseId}`,
       );
@@ -66,6 +65,7 @@ function Quiz() {
             </div>
           ) : (
             <QuizForm
+              lessonId={lessonId}
               courseDetail={courseDetail}
               quizzes={data?.exercise_list || []}
               onSubmit={onSubmit}
