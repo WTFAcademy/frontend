@@ -31,6 +31,8 @@ export type TQuizEditorProps = {
   isLoading?: boolean;
 };
 
+let initialized = false;
+
 function Editor(props: TQuizEditorProps & EditorProps) {
   const {
     onQuizChange,
@@ -51,24 +53,27 @@ function Editor(props: TQuizEditorProps & EditorProps) {
     editorRef.current = editor;
     monacoRef.current = monaco;
     initTheme(monaco);
-    registerSnippet(monaco);
 
-    editor.addAction({
-      id: "format-markdown",
-      label: "Format Markdown",
-      keybindings: ["ctrl+shift+f"],
-      contextMenuGroupId: "navigation",
-      contextMenuOrder: 1.5,
-      run: async (ed: any) => {
-        const value = ed.getValue();
-        const formatted = await prettier.format(value, {
-          parser: "markdown",
-          plugins: [parserMarkdown],
-        });
-        ed.setValue(formatted);
-      },
-    });
+    if (!initialized) {
+      registerSnippet(monaco);
+      editor.addAction({
+        id: "format-markdown",
+        label: "Format Markdown",
+        keybindings: ["ctrl+shift+f"],
+        contextMenuGroupId: "navigation",
+        contextMenuOrder: 1.5,
+        run: async (ed: any) => {
+          const value = ed.getValue();
+          const formatted = await prettier.format(value, {
+            parser: "markdown",
+            plugins: [parserMarkdown],
+          });
+          ed.setValue(formatted);
+        },
+      });
+    }
 
+    initialized = true;
     refresh({});
   };
 
@@ -87,7 +92,6 @@ function Editor(props: TQuizEditorProps & EditorProps) {
       const usedLineCount = end.line - start.line;
       const out = marked.lexer(content || value);
       const outWithPosition = endowWithPosition(out, usedLineCount);
-      console.log("outWithPosition: ", outWithPosition);
       const { result, errors } = resolveMdContent(outWithPosition);
 
       const allErrors = compact([metaResolveError, ...errors]);
