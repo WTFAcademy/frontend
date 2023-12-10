@@ -30,7 +30,10 @@ const LessonQuizStart = (props: TProps) => {
   }
 
   return (
-    <Link to={`/quiz?course_id=${meta.course_id}&lesson_id=${meta.lesson_id}`}>
+    <Link
+      to={`/quiz?course_id=${meta.course_id}&lesson_id=${meta.lesson_id}`}
+      target="_blank"
+    >
       <Button size="sm">
         <span>
           <Translate id="docs.101.LessonQuizStart.button">
