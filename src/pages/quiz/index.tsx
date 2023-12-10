@@ -58,7 +58,7 @@ function Quiz() {
   return (
     <Layout>
       <div className="relative">
-        <div className="relative mx-auto mt-8 w-[960px] min-h-[1080px]">
+        <div className="relative mx-auto mt-8 max-sm:w-full max-sm:min-h-[auto] max-sm:px-4 w-[960px] min-h-[1080px]">
           {isLoading ? (
             <div className="flex items-center justify-center min-h-[200px]">
               <Spinner loading />
