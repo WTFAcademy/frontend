@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@site/src/components/ui/DropdownMenu";
 import { cn } from "@site/src/utils/class-utils";
+import { Skeleton } from "@site/src/components/ui/Skeleton";
 
 type TProps = {
   modelWrappers: TModelWrapper[];
@@ -35,6 +36,22 @@ const _EditorTabs = ({
       }}
     >
       <TabsList className="relative" ref={tabRef}>
+        {!calculatedData?.length && (
+          <>
+            <TabsTrigger
+              className="flex items-center h-10 mr-8 pb-2.5"
+              value={String(0)}
+            >
+              <Skeleton className="h-4 w-[56px] bg-gray-200" />
+            </TabsTrigger>
+            <TabsTrigger
+              className="flex items-center h-10 mr-8 pb-2.5"
+              value={String(1)}
+            >
+              <Skeleton className="h-4 w-[56px] bg-gray-200" />
+            </TabsTrigger>
+          </>
+        )}
         {calculatedData.map((tab, index) => (
           <TabsTrigger
             className="flex items-center h-10 mr-8 pb-2.5"

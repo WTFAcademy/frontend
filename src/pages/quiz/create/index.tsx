@@ -116,12 +116,12 @@ const QuizCreate = () => {
       wrapperClassName="p-5"
       noFooter
     >
+      <EditorTabs
+        modelWrappers={modelWrappers}
+        activeModelIndex={activeModelIndex}
+        onActiveModelChange={e => setActiveModelIndex(Number(e))}
+      />
       <Spinner loading={loading || publishLoading || submitLoading}>
-        <EditorTabs
-          modelWrappers={modelWrappers}
-          activeModelIndex={activeModelIndex}
-          onActiveModelChange={e => setActiveModelIndex(Number(e))}
-        />
         <div className="flex flex-col pb-10 space-x-2  md:flex-row md:p-5 ">
           <div className="flex-1 h-full mb-5 overflow-x-auto w-max-[50%] md:mb-0">
             <Editor
@@ -148,31 +148,31 @@ const QuizCreate = () => {
             </FormProvider>
           </div>
         </div>
-        <div className="fixed bottom-0 left-0 right-0 flex items-center justify-end navbar h-15 border-t border-t-border">
+      </Spinner>
+      <div className="fixed bottom-0 left-0 right-0 flex items-center justify-end navbar h-15 border-t border-t-border">
+        <Button
+          variant="outline"
+          onClick={handleBack}
+          disabled={publishLoading || submitLoading}
+        >
+          返回
+        </Button>
+        <Button
+          className="m-5"
+          onClick={handleSubmit}
+          disabled={publishLoading || submitLoading || loading}
+        >
+          提交
+        </Button>
+        {role === ECourseRole.REVIEWER && (
           <Button
-            variant="outline"
-            onClick={handleBack}
-            disabled={publishLoading || submitLoading}
-          >
-            返回
-          </Button>
-          <Button
-            className="m-5"
-            onClick={handleSubmit}
+            onClick={handlePublish}
             disabled={publishLoading || submitLoading || loading}
           >
-            提交
+            发布
           </Button>
-          {role === ECourseRole.REVIEWER && (
-            <Button
-              onClick={handlePublish}
-              disabled={publishLoading || submitLoading || loading}
-            >
-              发布
-            </Button>
-          )}
-        </div>
-      </Spinner>
+        )}
+      </div>
     </Layout>
   );
 };
