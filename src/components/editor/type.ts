@@ -4,13 +4,17 @@ import { Token } from "Tokens";
 
 export type TPosition = {
   line: number;
-  column?: number;
+  column: number;
 };
 
 export type TTokenPosition = {
-  start: TPosition;
-  end: TPosition;
+  startLine: number;
+  endLine: number;
+  lineColumns: TPosition[];
 };
+
+export type TToken = Token & { position: TTokenPosition };
+export type TTokenList = TToken[];
 
 export enum ESupportLanguage {
   MARKDOWN = "markdown",

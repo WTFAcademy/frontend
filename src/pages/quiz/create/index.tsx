@@ -162,7 +162,7 @@ const QuizCreate = () => {
           onClick={handleSubmit}
           disabled={publishLoading || submitLoading || loading}
         >
-          提交
+          {ECourseRole.REVIEWER === role ? "保存" : "提交"}
         </Button>
         {role === ECourseRole.REVIEWER && (
           <Button

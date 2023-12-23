@@ -1,4 +1,4 @@
-import { Token, Tokens } from "Tokens";
+import { Tokens } from "Tokens";
 import { IExercise } from "@site/src/typings/quiz";
 import {
   callError,
@@ -6,10 +6,14 @@ import {
   requireError,
   TError,
 } from "@site/src/components/editor/md-utils/error";
-import { TTokenPosition } from "@site/src/components/editor/type";
+import {
+  TToken,
+  TTokenList,
+  TTokenPosition,
+} from "@site/src/components/editor/type";
 import { EExerciseType } from "@site/src/constants/quiz";
 
-const chunkMdGroup = (mds: (Token & TTokenPosition)[]) => {
+const chunkMdGroup = (mds: TTokenList) => {
   try {
     const result = [];
     let hasHeading = false;
@@ -36,11 +40,11 @@ const chunkMdGroup = (mds: (Token & TTokenPosition)[]) => {
     requireError(hasHeading, {
       message: "习题必须还有标题##开头",
       start: {
-        line: notEmptyMd.start.line,
+        line: notEmptyMd.position.startLine,
         column: 0,
       },
       end: {
-        line: notEmptyMd.end.line,
+        line: notEmptyMd.position.endLine,
         column: notEmptyMd.raw.length - 1,
       },
     });
@@ -56,16 +60,16 @@ const chunkMdGroup = (mds: (Token & TTokenPosition)[]) => {
   }
 };
 
-const resolveExerciseTitle = (md: Tokens.Heading & TTokenPosition) => {
+const resolveExerciseTitle = (md: TToken) => {
   try {
     requireError(md.raw.includes("## "), {
       message: "Exercise title must be use ## to start",
       start: {
-        ...md.start,
+        line: md.position.startLine,
         column: 0,
       },
       end: {
-        ...md.end,
+        line: md.position.endLine,
         column: md.raw.length - 1,
       },
     });
@@ -81,7 +85,9 @@ const resolveExerciseTitle = (md: Tokens.Heading & TTokenPosition) => {
   }
 };
 
-const resolveExerciseMeta = (token: Tokens.Blockquote & TTokenPosition) => {
+const resolveExerciseMeta = (
+  token: Tokens.Blockquote & { position: TTokenPosition },
+) => {
   const metaString = token.text.trim().replace(/\n/g, "");
   const processedData = metaString
     .replace(/(\w+):/g, '"$1":')
@@ -90,11 +96,11 @@ const resolveExerciseMeta = (token: Tokens.Blockquote & TTokenPosition) => {
   try {
     const position = {
       start: {
-        ...token.start,
+        line: token.position.startLine,
         column: 0,
       },
       end: {
-        ...token.end,
+        line: token.position.endLine,
         column: metaString.length - 1,
       },
     };
@@ -166,7 +172,7 @@ const resolveExerciseOptions = (md: Tokens.List) => {
 };
 
 export const resolveMdContent = (
-  mds: (Token & TTokenPosition)[],
+  mds: TTokenList,
 ): { result: IExercise[]; errors: TError[] } => {
   const { result: group, error } = chunkMdGroup(mds);
   const errors = [error];
@@ -252,8 +258,14 @@ export const resolveMdContent = (
       errors.push(
         makeError({
           message: "Exercise content must be a list",
-          start: (tokens[0] as Token & TTokenPosition).start,
-          end: (tokens[0] as Token & TTokenPosition).end,
+          start: {
+            line: (tokens[0] as TToken).position.startLine,
+            column: 0,
+          },
+          end: {
+            line: (tokens[0] as TToken).position.endLine,
+            column: (tokens[0] as TToken).raw.length - 1,
+          },
           severity: "warning",
         }),
       );
@@ -267,15 +279,3 @@ export const resolveMdContent = (
     errors,
   };
 };
-
-// const resolveMdContent = (source: string) => {
-//     // 1. 去除无用的空行
-//
-//     // 2. 根据title 拆分成多个quiz
-//
-//     // 3. 解析每个quiz内容
-//     //  a. 解析title，要求##等级开头，给出警告
-//     //  b. 解析meta，要求>开头，给出警告，若无>开头，则报错：无quiz meta数据
-//     //  c. 解析content, 一直遇到list为止，list后面的内容为quiz的选项，根据meta给出的quiz类型判读若无list，是否报错：无quiz选项数据
-//     //  d. 解析quiz选项，要求-开头，给出警告，若无-开头，但则报错：无quiz选项数据
-// }

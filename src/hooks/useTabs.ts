@@ -12,7 +12,7 @@ const useTabs = ({
 
   const calcTabsLength = () => {
     const rect = tabRef.current.getBoundingClientRect();
-    const maxLength = [...tabRef.current.childNodes].reduce(
+    const maxLength = [...(tabRef.current.childNodes as any)].reduce(
       (prev, next) => {
         const style = window.getComputedStyle(next);
         const marginRight = style.marginRight.replace("px", "");
@@ -49,7 +49,7 @@ const useTabs = ({
       const maxLength = calcTabsLength();
       setMaxLength(maxLength);
     }
-  }, [tabRef.current]);
+  }, [tabRef.current, modelWrappers]);
 
   const hideTabs = useMemo(() => {
     return modelWrappers?.slice(maxLength, modelWrappers.length);

@@ -3,11 +3,10 @@ import MonacoEditor, { EditorProps, Monaco } from "@monaco-editor/react";
 import { marked } from "marked";
 import { compact } from "lodash-es";
 import { resolveMdContent } from "./md-utils/md-content";
-import { endowWithPosition } from "./md-utils/common";
+import { endowWithPosition } from "./utils/position";
 import { resolveMdMeta } from "./md-utils/md-meta";
 import { TError } from "@site/src/components/editor/md-utils/error";
 import {
-  ESupportLanguage,
   IQuizEditorValue,
   TModelWrapper,
 } from "@site/src/components/editor/type";
@@ -16,6 +15,8 @@ import { useDebounceFn, useDeepCompareEffect } from "ahooks";
 import prettier from "prettier/standalone";
 import parserMarkdown from "prettier/plugins/markdown";
 import { useColorMode } from "@docusaurus/theme-common";
+import { isNil } from "lodash-es";
+import useSnippet from "@site/src/components/editor/hooks/useSnippet";
 
 function initTheme(monaco: Monaco) {
   monaco.editor.setTheme("vs");
@@ -30,8 +31,6 @@ export type TQuizEditorProps = {
   onModelWrappersChange?: (modelWrappers: TModelWrapper[]) => void;
   isLoading?: boolean;
 };
-
-let initialized = false;
 
 function Editor(props: TQuizEditorProps & EditorProps) {
   const {
@@ -48,32 +47,28 @@ function Editor(props: TQuizEditorProps & EditorProps) {
   const monacoRef = useRef(null);
   const refresh = useState({})[1];
   const { colorMode } = useColorMode();
+  const { registerSnippet } = useSnippet();
 
   const handleEditorDidMount = (editor, monaco) => {
     editorRef.current = editor;
     monacoRef.current = monaco;
     initTheme(monaco);
-
-    if (!initialized) {
-      registerSnippet(monaco);
-      editor.addAction({
-        id: "format-markdown",
-        label: "Format Markdown",
-        keybindings: ["ctrl+shift+f"],
-        contextMenuGroupId: "navigation",
-        contextMenuOrder: 1.5,
-        run: async (ed: any) => {
-          const value = ed.getValue();
-          const formatted = await prettier.format(value, {
-            parser: "markdown",
-            plugins: [parserMarkdown],
-          });
-          ed.setValue(formatted);
-        },
-      });
-    }
-
-    initialized = true;
+    registerSnippet(monaco);
+    editor.addAction({
+      id: "format-markdown",
+      label: "Format Markdown",
+      keybindings: ["ctrl+shift+f"],
+      contextMenuGroupId: "navigation",
+      contextMenuOrder: 1.5,
+      run: async (ed: any) => {
+        const value = ed.getValue();
+        const formatted = await prettier.format(value, {
+          parser: "markdown",
+          plugins: [parserMarkdown],
+        });
+        ed.setValue(formatted);
+      },
+    });
     refresh({});
   };
 
@@ -91,7 +86,7 @@ function Editor(props: TQuizEditorProps & EditorProps) {
       } = resolveMdMeta(value);
       const usedLineCount = end.line - start.line;
       const out = marked.lexer(content || value);
-      const outWithPosition = endowWithPosition(out, usedLineCount);
+      const outWithPosition = endowWithPosition(out, usedLineCount + 1);
       const { result, errors } = resolveMdContent(outWithPosition);
 
       const allErrors = compact([metaResolveError, ...errors]);
@@ -101,8 +96,7 @@ function Editor(props: TQuizEditorProps & EditorProps) {
         exercises: result,
       };
 
-      const models = monacoRef.current.editor.getModels();
-      const curModel = models[1];
+      const curModel = editorRef.current.getModel();
 
       const editorErrors = allErrors.map(item => {
         return {
@@ -147,7 +141,7 @@ function Editor(props: TQuizEditorProps & EditorProps) {
   };
 
   useEffect(() => {
-    if (activeModelIndex !== undefined) {
+    if (!isNil(activeModelIndex)) {
       const curModelWrapper = modelWrappers[activeModelIndex];
       const model = curModelWrapper?.model;
       if (model) {
@@ -181,81 +175,6 @@ function Editor(props: TQuizEditorProps & EditorProps) {
       initModels(monacoRef.current, editorRef.current, modelWrappers);
     }
   }, [modelWrappers, editorRef.current, monacoRef.current, isLoading]);
-
-  const registerSnippet = monaco => {
-    if (isLoading) {
-      return;
-    }
-
-    monaco.languages.registerCompletionItemProvider(ESupportLanguage.MARKDOWN, {
-      triggerCharacters: ["#"], // 触发自动补全的字符
-      provideCompletionItems: function (model, position) {
-        return {
-          suggestions: [
-            {
-              label: "## 插入题目模板",
-              kind: monaco.languages.CompletionItemKind.Keyword,
-              insertText:
-                '## ${1:1}. ${2:输入题目内容}\n> {type: ${3:"select"}, answer: ["${4:A}"], score: ${5:1}}\n\n- (${6:A}) ${7:选项内容}',
-              insertTextRules:
-                monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-              range: {
-                startLineNumber: position.lineNumber,
-                endLineNumber: position.lineNumber,
-                startColumn: position.column - 1,
-                endColumn: position.column,
-              },
-            },
-          ],
-        };
-      },
-    });
-    monaco.languages.registerCompletionItemProvider(ESupportLanguage.MARKDOWN, {
-      triggerCharacters: [">"], // 触发自动补全的字符
-      provideCompletionItems: function (model, position) {
-        return {
-          suggestions: [
-            {
-              label: "> 快速插入meta",
-              kind: monaco.languages.CompletionItemKind.Keyword,
-              insertText:
-                '> {type: ${2:"select"}, answer: [${3:"A"}], score: ${4:1}}',
-              insertTextRules:
-                monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-              range: {
-                startLineNumber: position.lineNumber,
-                endLineNumber: position.lineNumber,
-                startColumn: position.column - 1,
-                endColumn: position.column,
-              },
-            },
-          ],
-        };
-      },
-    });
-    monaco.languages.registerCompletionItemProvider(ESupportLanguage.MARKDOWN, {
-      triggerCharacters: ["-"], // 触发自动补全的字符
-      provideCompletionItems: function (model, position) {
-        return {
-          suggestions: [
-            {
-              label: "- 插入选项模版",
-              kind: monaco.languages.CompletionItemKind.Keyword,
-              insertText: "- (${1:A}) ${2:选项内容}",
-              insertTextRules:
-                monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-              range: {
-                startLineNumber: position.lineNumber,
-                endLineNumber: position.lineNumber,
-                startColumn: position.column - 1,
-                endColumn: position.column,
-              },
-            },
-          ],
-        };
-      },
-    });
-  };
 
   return (
     <MonacoEditor
