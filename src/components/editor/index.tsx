@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import MonacoEditor, { EditorProps, Monaco } from "@monaco-editor/react";
 import { marked } from "marked";
 import { compact } from "lodash-es";
-import { resolveMdContent } from "./md-utils/md-content";
+import { resolveMdContent } from "./utils/md-content";
 import { endowWithPosition } from "./utils/position";
-import { resolveMdMeta } from "./md-utils/md-meta";
-import { TError } from "@site/src/components/editor/md-utils/error";
+import { resolveMdMeta } from "./utils/md-meta";
+import { TError } from "./utils/error";
 import {
   IQuizEditorValue,
   TModelWrapper,

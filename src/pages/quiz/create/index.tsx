@@ -17,7 +17,7 @@ import { ECourseRole } from "@site/src/constants/quiz";
 import { useHistory } from "@docusaurus/router";
 import { toast } from "react-hot-toast";
 import Spinner from "@site/src/components/ui/Spinner";
-import { TError } from "@site/src/components/editor/md-utils/error";
+import { TError } from "@site/src/components/editor/utils/error";
 
 const QuizCreate = () => {
   const query = useRouterQuery();

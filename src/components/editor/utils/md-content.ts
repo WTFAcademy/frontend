@@ -5,7 +5,7 @@ import {
   makeError,
   requireError,
   TError,
-} from "@site/src/components/editor/md-utils/error";
+} from "@site/src/components/editor/utils/error";
 import {
   TToken,
   TTokenList,

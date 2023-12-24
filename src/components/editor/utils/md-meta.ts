@@ -2,7 +2,7 @@ import yaml from "js-yaml";
 import {
   makeError,
   requireError,
-} from "@site/src/components/editor/md-utils/error";
+} from "@site/src/components/editor/utils/error";
 import { isNil } from "lodash-es";
 
 export const resolveMdMeta = (source: string) => {
