@@ -1,9 +1,7 @@
-import React, { useMemo } from "react";
-import useBreakpoint from "@site/src/hooks/useBreakpoint";
+import React from "react";
 import { useHistory } from "@docusaurus/router";
 import { useQuery } from "react-query";
 import Tag from "@site/src/components/ui/Tag";
-import UpcomingCourseJSON from "@site/static/json/upcoming-course.json";
 import { Skeleton } from "@site/src/components/ui/Skeleton";
 import { getCourses } from "@site/src/api/course";
 import { TCourse } from "../typings/course";
@@ -29,17 +27,17 @@ const CourseCard = (props: TProps) => {
   return (
     <div
       onClick={() => viewCourse(course.route_path)}
-      className="w-full cursor-pointer overflow-hidden border border-solid md:w-[300px] rounded-md shadow-sm transition-shadow hover:shadow-lg"
+      className="w-full overflow-hidden border border-solid md:w-[300px] rounded-md shadow-sm transition-shadow hover:shadow-lg"
     >
-      <div className="bg-background-subtle w-full h-[150px]">
+      <div className="w-full bg-background-subtle h-[150px]">
         <img
           src={course.cover_img}
           alt=""
-          className="w-full h-full object-cover"
+          className="object-cover w-full h-full"
         />
       </div>
       <div className="flex flex-col p-4">
-        <div className="flex justify-between items-center text-[22px] leading-[25px] font-bold font-ubuntu">
+        <div className="flex items-center justify-between font-bold text-[22px] leading-[25px] font-ubuntu">
           <span>{course.title}</span>
         </div>
         <div className="text-sm leading-[17px] mt-[10px]">
@@ -55,49 +53,6 @@ const CourseCard = (props: TProps) => {
   );
 };
 
-const UpcomingCourseCard = (props: any) => {
-  const { course } = props;
-  const history = useHistory();
-  const { i18n } = useDocusaurusContext();
-
-  const viewCourse = (path: string) => {
-    if (path.startsWith("http")) {
-      window.location.href = path;
-    } else {
-      history.push(path);
-    }
-  };
-
-  return (
-    <div
-      onClick={() =>
-        viewCourse(i18n.currentLocale === "en" ? course.path_en : course.path)
-      }
-      className="w-full cursor-pointer md:w-[300px] border border-solid rounded-md shadow-sm transition-shadow hover:shadow-lg overflow-hidden"
-    >
-      <div className="bg-background-subtle w-full h-[150px]">
-        <img
-          src={course.image_url}
-          alt=""
-          className="w-full h-full object-cover"
-        />
-      </div>
-      <div className="flex flex-col p-4">
-        <div className="flex justify-between items-center text-[22px] leading-[25px] font-bold font-ubuntu">
-          <span>
-            {i18n.currentLocale === "en" ? course.title_en : course.title}
-          </span>
-        </div>
-        <div className="text-sm leading-[17px] mt-[10px]">
-          {i18n.currentLocale === "en"
-            ? course.description_en
-            : course.description}
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const CourseList = ({
   isTotal = true,
   isUpcoming,
@@ -106,7 +61,6 @@ const CourseList = ({
   isUpcoming: boolean;
 }) => {
   const { i18n } = useDocusaurusContext();
-  const size = useBreakpoint();
 
   const { data, isLoading } = useQuery(
     ["getCourses", isUpcoming, i18n.currentLocale],
@@ -116,20 +70,6 @@ const CourseList = ({
         i18n.currentLocale === "en" ? "en" : undefined,
       ),
   );
-
-  // const isLoading = true;
-
-  const showCols = useMemo(() => {
-    switch (size) {
-      case "md":
-      case "sm":
-        return 2;
-      case "xs":
-        return 1;
-      default:
-        return 3;
-    }
-  }, [size]);
 
   return (
     <div
@@ -148,13 +88,11 @@ const CourseList = ({
             <Translate id="home.courses.popular.title">热门课程</Translate>
           )}
         </span>
-        <Tag circle className="h-6 w-6 bg-background-muted ml-3">
-          {isUpcoming ? UpcomingCourseJSON.length : data?.list.length ?? 0}
+        <Tag circle className="w-6 h-6 ml-3 bg-background-muted">
+          {data?.list.length ?? 0}
         </Tag>
       </div>
-      <div
-        className={`grid grid-cols-${showCols} content-between justify-items-center gap-6 mt-[35px] w-full`}
-      >
+      <div className="flex flex-wrap justify-center md:justify-around gap-6 mt-[35px]">
         {isLoading ? (
           <>
             {new Array(3).fill("").map((_, index) => (
@@ -168,15 +106,16 @@ const CourseList = ({
               </Skeleton>
             ))}
           </>
-        ) : isUpcoming ? (
-          (isTotal ? UpcomingCourseJSON : UpcomingCourseJSON.slice(0, 6)).map(
-            (item, index) => <UpcomingCourseCard key={index} course={item} />,
-          )
         ) : (
           ((isTotal ? data?.list : data?.list.slice(0, 6)) || []).map(item => (
             <CourseCard key={item.id} course={item} />
           ))
         )}
+        {Array(3 - (data?.list.length % 3) || 0)
+          .fill("")
+          .map((_, index: number) => (
+            <div key={index} className="w-full h-0 md:w-[300px]"></div>
+          ))}
       </div>
     </div>
   );
