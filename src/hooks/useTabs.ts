@@ -8,7 +8,7 @@ const useTabs = ({
 }) => {
   const tabRef = useRef<HTMLElement>(null);
 
-  const [maxLength, setMaxLength] = useState();
+  const [maxLength, setMaxLength] = useState<number>(0);
 
   const calcTabsLength = () => {
     const rect = tabRef.current.getBoundingClientRect();
