@@ -101,7 +101,7 @@ const LessonItem = ({
                 <div className="mr-3">
                   {role && role !== ECourseRole.USER && (
                     <div className="inline-flex items-center gap-2">
-                      {isReviewed && (
+                      {isReviewed && role === ECourseRole.REVIEWER && (
                         <span className="text-content-muted text-xs">
                           已审核
                         </span>

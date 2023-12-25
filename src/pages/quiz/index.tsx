@@ -46,7 +46,7 @@ function Quiz() {
       course_id: courseId,
       answers,
       quiz_id: quizId,
-    }).then(res => {
+    }).then((res: any) => {
       history.push(
         `/quiz/score?score=${res?.score}&error_count=${res?.error_cnt}&course_id=${courseId}`,
       );
