@@ -1,3 +1,13 @@
+---
+title: 14. BAYC官网
+tags:
+  - html
+  - nft
+  - mint
+  - bayc
+  - frontend
+  - web
+---
 # WTF HTML极简教程: 14. BAYC官网
 
 WTF HTML教程，帮助新人快速入门HTML。

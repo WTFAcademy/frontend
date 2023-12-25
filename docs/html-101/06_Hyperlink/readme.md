@@ -1,3 +1,10 @@
+---
+title: 06. 超链接
+tags:
+  - html
+  - frontend
+  - web
+---
 # WTF HTML极简教程: 6. Hyperlink 超链接
 
 WTF HTML教程，帮助新人快速入门HTML。

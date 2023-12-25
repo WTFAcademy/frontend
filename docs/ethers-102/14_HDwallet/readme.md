@@ -1,12 +1,26 @@
+---
+title: 14. 批量生成钱包
+tags:
+  - ethers
+  - javascript
+  - wallet
+  - hdwallet
+  - bip32
+  - bip44
+  - bip39
+  - frontend
+  - web
+---
+
 # Ethers极简入门: 14. 批量生成钱包
 
 我最近在重新学`ethers.js`，巩固一下细节，也写一个`WTF Ethers极简入门`，供小白们使用。
 
 **推特**：[@0xAA_Science](https://twitter.com/0xAA_Science)
 
-**WTF Academy社群：** [官网 wtf.academy](https://wtf.academy) | [WTF Solidity教程](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [微信群申请](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
+**WTF Academy社群：** [官网 wtf.academy](https://wtf.academy) | [WTF Solidity教程](https://github.com/AmazingAng/WTF-Solidity) | [discord](https://discord.gg/5akcruXrsk) | [微信群申请](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-所有代码和教程开源在github: [github.com/WTFAcademy/WTFEthers](https://github.com/WTFAcademy/WTFEthers)
+所有代码和教程开源在github: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
 -----
 
@@ -51,14 +65,14 @@ air organ twist rule prison symptom jazz cheap rather dizzy verb glare jeans orb
 
 ## 批量生成钱包
 
-`ethers.js`提供了[HDNode类](https://docs.ethers.io/v5/api/utils/hdnode/)，方便开发者使用HD钱包。下面我们利用它从一个助记词批量生成20个钱包。
+`ethers.js`提供了[HDNode类](https://docs.ethers.org/v6-beta/api/wallet/#HDNodeWallet)，方便开发者使用HD钱包。下面我们利用它从一个助记词批量生成20个钱包。
 
 1. 创建`HDNode`钱包变量，可以看到助记词为`'air organ twist rule prison symptom jazz cheap rather dizzy verb glare jeans orbit weapon universe require tired sing casino business anxiety seminar hunt'`
     ```js
     // 生成随机助记词
-    const mnemonic = utils.entropyToMnemonic(utils.randomBytes(32))
+    const mnemonic = ethers.Mnemonic.entropyToPhrase(randomBytes(32))
     // 创建HD钱包
-    const hdNode = ethers.utils.HDNode.fromMnemonic(mnemonic)
+    const hdNode = ethers.HDNodeWallet.fromPhrase(mnemonic)
     console.log(hdNode);
     ```
     ![HDNode](img/14-2.png)
@@ -83,7 +97,7 @@ air organ twist rule prison symptom jazz cheap rather dizzy verb glare jeans orb
 3. 保存钱包为加密json：
 
     ```js
-    const wallet = ethers.Wallet.fromMnemonic(mnemonic)
+    const wallet = ethers.Wallet.fromPhrase(mnemonic)
     console.log("通过助记词创建钱包：")
     console.log(wallet)
     // 加密json用的密码，可以更改成别的
@@ -103,4 +117,4 @@ air organ twist rule prison symptom jazz cheap rather dizzy verb glare jeans orb
     ![读取钱包](img/14-5.png)
 
 ## 总结
-这一讲我们介绍了HD钱包（BIP32，BIP44，BIP39），并利用它在`ethers.js`批量生成了20个钱包。
+这一讲我们介绍了HD钱包（BIP32，BIP44，BIP39），并利用它使用`ethers.js`批量生成了20个钱包。

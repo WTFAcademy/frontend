@@ -49,7 +49,7 @@ function PersonalList() {
                                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M6 3.66667V6L7.75 7.75M11.25 6C11.25 8.8995 8.8995 11.25 6 11.25C3.10051 11.25 0.75 8.8995 0.75 6C0.75 3.10051 3.10051 0.75 6 0.75C8.8995 0.75 11.25 3.10051 11.25 6Z" stroke="#F9FAFB" strokeWidth="1.16667" strokeLinecap="round" strokeLinejoin="round"/>
                                     </svg>
-                                    <p className="ml-1 text-xs text-white">{new Date(item.course.updated_at).toISOString().split('T')[0] || '2023-03-03'}</p>
+                                    <p className="ml-1 text-xs text-white">{new Date(item.nft_info.created_at).toISOString().split('T')[0] || '2023-03-03'}</p>
                                 </div>
                             </div>
                         </div>
@@ -70,8 +70,6 @@ function PersonalList() {
                         </div>
                     </Skeleton>
                 }
-                
-
             </TabsContent>
             <TabsContent value="courses">
                 { courses ? courses?.length > 0 ? (courses.map((item, index) => (
@@ -87,7 +85,7 @@ function PersonalList() {
                                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M6 3.66667V6L7.75 7.75M11.25 6C11.25 8.8995 8.8995 11.25 6 11.25C3.10051 11.25 0.75 8.8995 0.75 6C0.75 3.10051 3.10051 0.75 6 0.75C8.8995 0.75 11.25 3.10051 11.25 6Z" stroke="#F9FAFB" strokeWidth="1.16667" strokeLinecap="round" strokeLinejoin="round"/>
                                     </svg>
-                                    <p className="ml-1 text-xs text-white">{new Date(item.course.updated_at).toISOString().split('T')[0] || '2023-03-03'}</p>
+                                    <p className="ml-1 text-xs text-white">{new Date(item.course.created_at).toISOString().split('T')[0] || '2023-03-03'}</p>
                                 </div>
                             </div>
                         </div>
@@ -108,7 +106,7 @@ function PersonalList() {
                         </div>
                     </Skeleton>
                 }
-                </TabsContent>
+            </TabsContent>
         </Tabs>
     );
 }

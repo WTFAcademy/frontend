@@ -1,12 +1,24 @@
+---
+title: 5. 合约交互
+tags:
+  - ethers
+  - javascript
+  - provider
+  - wallet
+  - contract
+  - frontend
+  - web
+---
+
 # Ethers极简入门: 5. 合约交互
 
 我最近在重新学`ethers.js`，巩固一下细节，也写一个`WTF Ethers极简入门`，供小白们使用。
 
 **推特**：[@0xAA_Science](https://twitter.com/0xAA_Science)
 
-**WTF Academy社群：** [官网 wtf.academy](https://wtf.academy) | [WTF Solidity教程](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [微信群申请](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
+**WTF Academy社群：** [官网 wtf.academy](https://wtf.academy) | [WTF Solidity教程](https://github.com/AmazingAng/WTF-Solidity) | [discord](https://discord.gg/5akcruXrsk) | [微信群申请](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-所有代码和教程开源在github: [github.com/WTFAcademy/WTFEthers](https://github.com/WTFAcademy/WTFEthers)
+所有代码和教程开源在github: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
 -----
 
@@ -31,7 +43,7 @@ const contract2 = contract.connect(signer)
 
 我们在[第三讲](https://github.com/WTFAcademy/WTFEthers/blob/main/03_ReadContract/readme.md)介绍了读取合约信息。它不需要`gas`。这里我们介绍写入合约信息，你需要构建交易，并且支付`gas`。该交易将由整个网络上的每个节点以及矿工验证，并改变区块链状态。
 
-你可以用下面方法方法进行合约交互：
+你可以用下面的方法进行合约交互：
 
 ```js
 // 发送交易
@@ -57,20 +69,19 @@ await tx.wait()
     ```js
     import { ethers } from "ethers";
 
-    // 利用Infura的rpc节点连接以太坊网络
-    const INFURA_ID = '184d4c5ec78243c290d151d3f1a10f1d'
-    // 连接Rinkeby测试网
-    const provider = new ethers.providers.JsonRpcProvider(`https://rinkeby.infura.io/v3/${INFURA_ID}`)
+    // 利用Alchemy的rpc节点连接以太坊网络
+    const ALCHEMY_GOERLI_URL = 'https://eth-goerli.alchemyapi.io/v2/GlaeWuylnNM3uuOo-SAwJxuwTdqHaY5l';
+    const provider = new ethers.JsonRpcProvider(ALCHEMY_GOERLI_URL);
 
     // 利用私钥和provider创建wallet对象
     const privateKey = '0x227dbb8586117d55284e26620bc76534dfbd2394be34cf4a09cb775d593b6f2b'
     const wallet = new ethers.Wallet(privateKey, provider)
     ```
-2. 创建可写`WETH`合约变量，我们在`ABI`中加入了3个我们要调用的函数：
-    - `balanceOf()`：查询地址的`WETH`余额。
+2. 创建可写`WETH`合约变量，我们在`ABI`中加入了4个我们要调用的函数：
+    - `balanceOf(address)`：查询地址的`WETH`余额。
     - `deposit()`：将转入合约的`ETH`转为`WETH`。
-    - `transfer()`：转账。
-
+    - `transfer(adress, uint256)`：转账。
+    - `withdraw(uint256)`：取款。
     ```js
     // WETH的ABI
     const abiWETH = [
@@ -79,11 +90,14 @@ await tx.wait()
         "function transfer(address, uint) public returns (bool)",
         "function withdraw(uint) public",
     ];
-    // WETH合约地址（Rinkeby测试网）
-    const addressWETH = '0xc778417e063141139fce010982780140aa0cd5ab' // WETH Contract
+    // WETH合约地址（Goerli测试网）
+    const addressWETH = '0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6' // WETH Contract
 
     // 声明可写合约
     const contractWETH = new ethers.Contract(addressWETH, abiWETH, wallet)
+    // 也可以声明一个只读合约，再用connect(wallet)函数转换成可写合约。
+    // const contractWETH = new ethers.Contract(addressWETH, abiWETH, provider)
+    // contractWETH.connect(wallet)
     ```
 
 3. 读取账户`WETH`余额，可以看到余额为`1.001997`。
@@ -93,7 +107,7 @@ await tx.wait()
     // 读取WETH合约的链上信息（WETH abi）
     console.log("\n1. 读取WETH余额")
     const balanceWETH = await contractWETH.balanceOf(address)
-    console.log(`存款前WETH持仓: ${ethers.utils.formatEther(balanceWETH)}\n`)
+    console.log(`存款前WETH持仓: ${ethers.formatEther(balanceWETH)}\n`)
     ```
 
     ![读取WETH余额](img/5-1.png)
@@ -104,13 +118,13 @@ await tx.wait()
     ```js
         console.log("\n2. 调用desposit()函数，存入0.001 ETH")
         // 发起交易
-        const tx = await contractWETH.deposit({value: ethers.utils.parseEther("0.001")})
+        const tx = await contractWETH.deposit({value: ethers.parseEther("0.001")})
         // 等待交易上链
         await tx.wait()
         console.log(`交易详情：`)
         console.log(tx)
         const balanceWETH_deposit = await contractWETH.balanceOf(address)
-        console.log(`存款后WETH持仓: ${ethers.utils.formatEther(balanceWETH_deposit)}\n`)
+        console.log(`存款后WETH持仓: ${ethers.formatEther(balanceWETH_deposit)}\n`)
     ```
     ![调用deposit](img/5-2.png)
 
@@ -119,11 +133,11 @@ await tx.wait()
     ```js
         console.log("\n3. 调用transfer()函数，给vitalik转账0.001 WETH")
         // 发起交易
-        const tx2 = await contractWETH.transfer("vitalik.eth", ethers.utils.parseEther("0.001"))
+        const tx2 = await contractWETH.transfer("vitalik.eth", ethers.parseEther("0.001"))
         // 等待交易上链
         await tx2.wait()
         const balanceWETH_transfer = await contractWETH.balanceOf(address)
-        console.log(`转账后WETH持仓: ${ethers.utils.formatEther(balanceWETH_transfer)}\n`)
+        console.log(`转账后WETH持仓: ${ethers.formatEther(balanceWETH_transfer)}\n`)
     ```
     ![给V神转WETH](img/5-3.png)
 

@@ -36,12 +36,22 @@ const SECTIONS = [
     defineSection('solidity-start'),
     defineSection('solidity-advanced'),
     defineSection('solidity-application'),
+    defineSection('solidity-104'),
+    defineSection('solidity-105'),
     defineSection('ethers-101'),
     defineSection('ethers-102'),
     defineSection('evm-opcodes-101'),
     defineSection('evm-opcodes-102'),
-    defineSection('html-101'),
     defineSection('langchain-101'),
+    defineSection('cairo-101'),
+    defineSection('cairo-102'),
+    defineSection('html-101'),
+    defineSection('css-101'),
+    defineSection('javascript-101'),
+    defineSection('javascript-102'),
+    defineSection('analysis-101'),
+    defineSection('huff-101'),
+    defineSection('starknet-basecamp-2023'),
 ];
 
 /** @type {import('@docusaurus/types').Config} */
@@ -126,6 +136,11 @@ const config = {
                         href: '/solidity-application',
                         position: 'left',
                         label: 'Solidity 103',
+                    },
+                    {
+                        href: '/starknet-basecamp-2023',
+                        position: 'left',
+                        label: 'Starknet Basecamp',
                     },
                     {
                         type: 'localeDropdown',

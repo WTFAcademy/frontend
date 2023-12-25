@@ -92,7 +92,7 @@ solidity官方文档里把函数归到数值类型，但我觉得差别很大，
         number = number + 1;
     }
 ```
-如果`add()`包含了`pure`关键字，例如 `function add() pure external`，就会报错。因为`pure`（纯纯牛马）是不配读取合约里的状态变量的，更不配改写。那`pure`函数能做些什么？举个例子，你可以给函数传递一个参数 `_number`，然后让他返回 `_number+1`。
+如果`add()`包含了`pure`关键字，例如 `function add() external pure`，就会报错。因为`pure`（纯纯牛马）是不配读取合约里的状态变量的，更不配改写。那`pure`函数能做些什么？举个例子，你可以给函数传递一个参数 `_number`，然后让他返回 `_number+1`。
 ```solidity
     // pure: 纯纯牛马
     function addPure(uint256 _number) external pure returns(uint256 new_number){
@@ -103,7 +103,7 @@ solidity官方文档里把函数归到数值类型，但我觉得差别很大，
 **Example:**
 ![3-3.png](./img/3-3.png)
 
-如果`add()`包含`view`，比如`function add() view external`，也会报错。因为`view`能读取，但不能够改写状态变量。可以稍微改写下方程，让他不改写`number`，而是返回一个新的变量。
+如果`add()`包含`view`，比如`function add() external view`，也会报错。因为`view`能读取，但不能够改写状态变量。可以稍微改写下方程，让他不改写`number`，而是返回一个新的变量。
 ```solidity
     // view: 看客
     function addView() external view returns(uint256 new_number) {

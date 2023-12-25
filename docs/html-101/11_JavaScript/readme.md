@@ -1,3 +1,11 @@
+---
+title: 11. HTML和JavaScript
+tags:
+  - html
+  - javascript
+  - frontend
+  - web
+---
 # WTF HTML极简教程: 11. HTML和JavaScript
 
 WTF HTML 教程，帮助新人快速入门 HTML。

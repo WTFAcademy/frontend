@@ -11,7 +11,7 @@ function Events() {
   return (
     <Layout
       title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />"
+      description="Web3 Events."
     >
       <div className="w-full flex justify-center mb-36">
         <div className="flex flex-col items-center md:w-[1224px] md:px-0 px-8 w-full">

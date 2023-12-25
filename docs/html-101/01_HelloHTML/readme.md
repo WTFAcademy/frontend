@@ -1,3 +1,10 @@
+---
+title: 01. Hello HTML
+tags:
+  - html
+  - frontend
+  - web
+---
 # WTF HTML极简教程: 1. Hello HTML （9行代码）
 
 WTF HTML教程，帮助新人快速入门HTML。

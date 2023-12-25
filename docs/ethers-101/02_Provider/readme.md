@@ -1,12 +1,22 @@
+---
+title: 2. 提供器 Provider
+tags:
+  - ethers
+  - javascript
+  - provider
+  - frontend
+  - web
+---
+
 # Ethers极简入门: 2. Provider 提供器
 
 我最近在重新学`ethers.js`，巩固一下细节，也写一个`WTF Ethers极简入门`，供小白们使用。
 
 **推特**：[@0xAA_Science](https://twitter.com/0xAA_Science)
 
-**WTF Academy社群：** [官网 wtf.academy](https://wtf.academy) | [WTF Solidity教程](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [微信群申请](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
+**WTF Academy社群：** [官网 wtf.academy](https://wtf.academy) | [WTF Solidity教程](https://github.com/AmazingAng/WTF-Solidity) | [discord](https://discord.gg/5akcruXrsk) | [微信群申请](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-所有代码和教程开源在github: [github.com/WTFAcademy/WTFEthers](https://github.com/WTFAcademy/WTFEthers)
+所有代码和教程开源在github: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
 -----
 
@@ -16,7 +26,7 @@
 
 `Provider`类是对以太坊网络连接的抽象，为标准以太坊节点功能提供简洁、一致的接口。在`ethers`中，`Provider`不接触用户私钥，只能读取链上信息，不能写入，这一点比`web3.js`要安全。
 
-除了[之前](https://github.com/WTFAcademy/WTFEthers)介绍的默认提供者`defaultProvider`以外，`ethers`中最常用的是`jsonRpcProvider`，可以让用户连接到特定节点服务商的节点。
+除了[之前](https://github.com/WTFAcademy/WTF-Ethers)介绍的默认提供者`defaultProvider`以外，`ethers`中最常用的是`jsonRpcProvider`，可以让用户连接到特定节点服务商的节点。
 
 ## `jsonRpcProvider`
 
@@ -28,7 +38,7 @@
 
 ### 连接Infura节点
 
-这里，我们用Infura节点作为例子。在创建好Infura API Key之后，就可以利用`ethers.provider.JsonRpcProvider()`方法来创建`Provider`变量。`JsonRpcProvider()`以节点服务的`url`作为参数。
+这里，我们用Infura节点作为例子。在创建好Infura API Key之后，就可以利用`ethers.JsonRpcProvider()`方法来创建`Provider`变量，该方法以节点服务的`url`链接作为参数。
 
 在下面这个例子中，我们分别创建连接到`ETH`主网和`Goerli`测试网的`provider`：
 
@@ -37,9 +47,9 @@
 // 填入Infura API Key, 教程：https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL02_Infura/readme.md
 const INFURA_ID = ''
 // 连接以太坊主网
-const providerETH = new ethers.providers.JsonRpcProvider(`https://mainnet.infura.io/v3/${INFURA_ID}`)
+const providerETH = new ethers.JsonRpcProvider(`https://mainnet.infura.io/v3/${INFURA_ID}`)
 // 连接Goerli测试网
-const providerGoerli = new ethers.providers.JsonRpcProvider(`https://goerli.infura.io/v3/${INFURA_ID}`)
+const providerGoerli = new ethers.JsonRpcProvider(`https://goerli.infura.io/v3/${INFURA_ID}`)
 ```
 
 ### 利用`Provider`读取链上数据
@@ -54,9 +64,9 @@ const providerGoerli = new ethers.providers.JsonRpcProvider(`https://goerli.infu
     const balance = await providerETH.getBalance(`vitalik.eth`);
     const balanceGoerli = await providerGoerli.getBalance(`vitalik.eth`);
     // 将余额输出在console（主网）
-    console.log(`ETH Balance of vitalik: ${ethers.utils.formatEther(balance)} ETH`);
+    console.log(`ETH Balance of vitalik: ${ethers.formatEther(balance)} ETH`);
     // 输出Goerli测试网ETH余额
-    console.log(`Goerli ETH Balance of vitalik: ${ethers.utils.formatEther(balanceGoerli)} ETH`);
+    console.log(`Goerli ETH Balance of vitalik: ${ethers.formatEther(balanceGoerli)} ETH`);
 ```
 
 ![V神余额](img/2-2.png)
@@ -67,8 +77,9 @@ const providerGoerli = new ethers.providers.JsonRpcProvider(`https://goerli.infu
     // 2. 查询provider连接到了哪条链
     console.log("\n2. 查询provider连接到了哪条链")
     const network = await providerETH.getNetwork();
-    console.log(network);
+    console.log(network.toJSON());
 ```
+> ethers v6版本, 以上代码中`network`不能直接`console.log()`, 具体原因参考: [discussion-3977](https://github.com/ethers-io/ethers.js/discussions/3977)
 
 ![getNetwork](img/2-3.png)
 
@@ -83,19 +94,19 @@ const providerGoerli = new ethers.providers.JsonRpcProvider(`https://goerli.infu
 
 ![getBlockNumber](img/2-4.png)
 
-**4.** 利用`getGasPrice()`查询当前`gas price`，返回的数据格式为`BigNumber`，可以用`BigNumber`类的`toNumber()`或`toString()`方法转换成数字和字符串。
+**4.** 利用`getTransactionCount()`查询某个钱包的历史交易次数。
 
 ```javascript
-    // 4. 查询当前gas price
-    console.log("\n4. 查询当前gas price")
-    const gasPrice = await providerETH.getGasPrice();
-    console.log(gasPrice);
+    // 4. 查询 vitalik 钱包历史交易次数
+    console.log("\n4. 查询 vitalik 钱包历史交易次数")
+    const txCount = await providerETH.getTransactionCount("vitalik.eth");
+    console.log(txCount);
 ```
 
 ![getGasPrice](img/2-5.png)
 
 
-**5.** 利用`getFeeData()`查询当前建议的`gas`设置，返回的数据格式为`BigNumber`。
+**5.** 利用`getFeeData()`查询当前建议的`gas`设置，返回的数据格式为`bigint`。
 
 ```javascript
     // 5. 查询当前建议的gas设置

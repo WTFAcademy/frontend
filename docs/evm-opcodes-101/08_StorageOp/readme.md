@@ -1,3 +1,14 @@
+---
+title: 08. 存储指令
+tags:
+  - opcode
+  - evm
+  - comparison
+  - storage
+  - sstore
+  - sload
+  - bytecode
+---
 # WTF Opcodes极简入门: 8. 存储指令
 
 我最近在重新学以太坊opcodes，也写一个“WTF EVM Opcodes极简入门”，供小白们使用。

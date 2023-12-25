@@ -1,3 +1,10 @@
+---
+title: 04. 列表和表格
+tags:
+  - html
+  - frontend
+  - web
+---
 # WTF HTML极简教程: 4. 列表和表格
 
 WTF HTML教程，帮助新人快速入门HTML。

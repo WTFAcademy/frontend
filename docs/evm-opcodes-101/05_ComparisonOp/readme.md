@@ -1,3 +1,14 @@
+---
+title: 05. 比较指令
+tags:
+  - opcode
+  - evm
+  - comparison
+  - lt
+  - gt
+  - eq
+  - bytecode
+---
 # WTF Opcodes极简入门: 5. 比较指令
 
 我最近在重新学以太坊opcodes，也写一个“WTF EVM Opcodes极简入门”，供小白们使用。

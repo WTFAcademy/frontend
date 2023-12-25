@@ -1,3 +1,13 @@
+---
+title: 23. Selfdestruct指令
+tags:
+  - opcode
+  - evm
+  - selfdestruct
+  - eip-4758
+  - eip-6049
+  - bytecode
+---
 # WTF Opcodes极简入门: 23. Selfdestruct指令
 
 我最近在重新学以太坊opcodes，也写一个“WTF EVM Opcodes极简入门”，供小白们使用。
