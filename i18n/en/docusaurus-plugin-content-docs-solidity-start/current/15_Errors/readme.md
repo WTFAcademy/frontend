@@ -113,3 +113,4 @@ Therefore, `error` not only informs the user on the error message, but also save
 ## Summary
 In this chapter, we introduced 3 statements to handle errors in Solidity: `error`, `require`, and `assert`. After comparing their gas consumption, `error` statement is the cheapest, while `require` has the highest gas consumption.
 
+<LessonQuizStart meta={require('./meta.json')} />

@@ -1,10 +1,17 @@
+---
+title: 09. HTML5新特性
+tags:
+  - html
+  - frontend
+  - web
+---
 # WTF HTML极简教程: 9. HTML5新特性
 
 WTF HTML 教程，帮助新人快速入门 HTML。
 
 **推特**：[@WTFAcademy_](https://twitter.com/WTFAcademy_) ｜ [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-**WTF Academy 社群：** [官网 wtf.academy](https://wtf.academy) | [WTF Solidity 教程](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.wtf.academy) | [微信群申请](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
+**WTF Academy 社群：** [官网 wtf.academy](https://wtf.academy) | [WTF Solidity 教程](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [微信群申请](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
 所有代码和教程开源在 github: [github.com/WTFAcademy/WTF-HTML](https://github.com/WTFAcademy/WTF-HTML)
 
@@ -24,16 +31,16 @@ HTML5 引入了一系列新的标签和属性，以提供更丰富的内容展�
 
 ```html
 <video controls width="500">
-  <source src="movie.mp4" type="video/mp4">
-  <source src="movie.ogg" type="video/ogg">
+  <source src="movie.mp4" type="video/mp4"/>
+  <source src="movie.ogg" type="video/ogg"/>
   Your browser does not support the video tag.
 </video>
 ```
 浏览器效果：
 
 <video controls width="500">
-  <source src="movie.mp4" type="video/mp4">
-  <source src="movie.ogg" type="video/ogg">
+  <source src="movie.mp4" type="video/mp4"/>
+  <source src="movie.ogg" type="video/ogg"/>
   Your browser does not support the video tag.
 </video>
 
@@ -42,8 +49,8 @@ HTML5 引入了一系列新的标签和属性，以提供更丰富的内容展�
 
 ```html
 <audio controls>
-  <source src="audio.mp3" type="audio/mpeg">
-  <source src="audio.ogg" type="audio/ogg">
+  <source src="audio.mp3" type="audio/mpeg"/>
+  <source src="audio.ogg" type="audio/ogg"/>
   Your browser does not support the audio tag.
 </audio>
 ```
@@ -51,8 +58,8 @@ HTML5 引入了一系列新的标签和属性，以提供更丰富的内容展�
 浏览器效果：
 
 <audio controls>
-  <source src="audio.mp3" type="audio/mpeg">
-  <source src="audio.ogg" type="audio/ogg">
+  <source src="audio.mp3" type="audio/mpeg"/>
+  <source src="audio.ogg" type="audio/ogg"/>
   Your browser does not support the audio tag.
 </audio>
 
@@ -89,26 +96,26 @@ HTML5 提供了一些新的输入类型，如 `email`、`number`、`date` 等。
 ```html
 <form>
   <label for="email">Email:</label>
-  <input type="email" id="email" name="email">
+  <input type="email" id="email" name="email"/>
 
   <label for="quantity">Quantity (between 1 and 5):</label>
-  <input type="number" id="quantity" name="quantity" min="1" max="5">
+  <input type="number" id="quantity" name="quantity" min="1" max="5"/>
 
   <label for="birthday">Birthday:</label>
-  <input type="date" id="birthday" name="birthday">
+  <input type="date" id="birthday" name="birthday"/>
 </form>
 ```
 
 浏览器效果：
 <form>
   <label for="email">Email:</label>
-  <input type="email" id="email" name="email">
+  <input type="email" id="email" name="email"/>
 
   <label for="quantity">Quantity (between 1 and 5):</label>
-  <input type="number" id="quantity" name="quantity" min="1" max="5">
+  <input type="number" id="quantity" name="quantity" min="1" max="5"/>
 
   <label for="birthday">Birthday:</label>
-  <input type="date" id="birthday" name="birthday">
+  <input type="date" id="birthday" name="birthday"/>
 </form>
 
 
@@ -123,10 +130,10 @@ HTML5 还引入了一些新的输入属性，如 `placeholder`、`required` 等�
 ```html
 <form>
   <label for="fname">First name:</label>
-  <input type="text" id="fname" name="fname" placeholder="Your first name" required>
+  <input type="text" id="fname" name="fname" placeholder="Your first name" required/>
 
   <label for="lname">Last name:</label>
-  <input type="text" id="lname" name="lname" placeholder="Your last name">
+  <input type="text" id="lname" name="lname" placeholder="Your last name"/>
 </form>
 ```
 
@@ -134,10 +141,10 @@ HTML5 还引入了一些新的输入属性，如 `placeholder`、`required` 等�
 
 <form>
   <label for="fname">First name:</label>
-  <input type="text" id="fname" name="fname" placeholder="Your first name" required>
+  <input type="text" id="fname" name="fname" placeholder="Your first name" required/>
 
   <label for="lname">Last name:</label>
-  <input type="text" id="lname" name="lname" placeholder="Your last name">
+  <input type="text" id="lname" name="lname" placeholder="Your last name"/>
 </form>
 
 

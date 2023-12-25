@@ -14,7 +14,7 @@ function Login() {
   return (
     <Layout
       title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />"
+      description="Login to WTF Academy"
       noFooter
     >
       <div className="mx-auto text-center mt-14">

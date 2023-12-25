@@ -1,12 +1,23 @@
+---
+title: 3. 读取合约信息
+tags:
+  - ethers
+  - javascript
+  - provider
+  - contract
+  - frontend
+  - web
+---
+
 # Ethers极简入门: 3. 读取合约信息
 
 我最近在重新学`ethers.js`，巩固一下细节，也写一个`WTF Ethers极简入门`，供小白们使用。
 
 **推特**：[@0xAA_Science](https://twitter.com/0xAA_Science)
 
-**WTF Academy社群：** [官网 wtf.academy](https://wtf.academy) | [WTF Solidity教程](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.wtf.academy) | [微信群申请](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
+**WTF Academy社群：** [官网 wtf.academy](https://wtf.academy) | [WTF Solidity教程](https://github.com/AmazingAng/WTF-Solidity) | [discord](https://discord.gg/5akcruXrsk) | [微信群申请](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-所有代码和教程开源在github: [github.com/WTFAcademy/WTFEthers](https://github.com/WTFAcademy/WTFEthers)
+所有代码和教程开源在github: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
 -----
 
@@ -47,14 +58,14 @@ import { ethers } from "ethers";
 // 准备Infura API Key, 教程：https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL02_Infura/readme.md
 const INFURA_ID = ''
 // 连接以太坊主网
-const provider = new ethers.providers.JsonRpcProvider(`https://mainnet.infura.io/v3/${INFURA_ID}`)
+const provider = new ethers.JsonRpcProvider(`https://mainnet.infura.io/v3/${INFURA_ID}`)
 ```
 
 ### 2. 创建只读Contract实例
 
 创建只读Contract实例需要填入`3`个参数，分别是合约地址，合约`abi`和`provider`变量。合约地址可以在网上查到，`provider`变量上一步我们已经创建了，那么`abi`怎么填？
 
-`ABI` (Application Binary Interface) 是与以太坊智能合约交互的标准，更多内容见[WTF Solidity教程第27讲: ABI编码](https://github.com/AmazingAng/WTFSolidity/blob/main/27_ABIEncode/readme.md)。`ethers`支持两种`abi`填法：
+`ABI` (Application Binary Interface) 是与以太坊智能合约交互的标准，更多内容见[WTF Solidity教程第27讲: ABI编码](https://github.com/AmazingAng/WTF-Solidity/blob/main/27_ABIEncode/readme.md)。`ethers`支持两种`abi`填法：
 
 - **方法1.**  直接输入合约`abi`。你可以从`remix`的编译页面中复制，在本地编译合约时生成的`artifact`文件夹的`json`文件中得到，或者从`etherscan`开源合约的代码页面得到。我们用这个方法创建`WETH`的合约实例：
 
@@ -101,9 +112,9 @@ const main = async () => {
     console.log(`合约地址: ${addressWETH}`)
     console.log(`名称: ${nameWETH}`)
     console.log(`代号: ${symbolWETH}`)
-    console.log(`总供给: ${ethers.utils.formatEther(totalSupplyWETH)}`)
+    console.log(`总供给: ${ethers.formatEther(totalSupplyWETH)}`)
     const balanceWETH = await contractWETH.balanceOf('vitalik.eth')
-    console.log(`Vitalik持仓: ${ethers.utils.formatEther(balanceWETH)}\n`)
+    console.log(`Vitalik持仓: ${ethers.formatEther(balanceWETH)}\n`)
 
     // 2. 读取DAI合约的链上信息（IERC20接口合约）
     const nameDAI = await contractDAI.name()
@@ -113,9 +124,9 @@ const main = async () => {
     console.log(`合约地址: ${addressDAI}`)
     console.log(`名称: ${nameDAI}`)
     console.log(`代号: ${symbolDAI}`)
-    console.log(`总供给: ${ethers.utils.formatEther(totalSupplDAI)}`)
+    console.log(`总供给: ${ethers.formatEther(totalSupplDAI)}`)
     const balanceDAI = await contractDAI.balanceOf('vitalik.eth')
-    console.log(`Vitalik持仓: ${ethers.utils.formatEther(balanceDAI)}\n`)
+    console.log(`Vitalik持仓: ${ethers.formatEther(balanceDAI)}\n`)
 }
 
 main()

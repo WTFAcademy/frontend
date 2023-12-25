@@ -1,16 +1,26 @@
+---
+title: 15. 批量转账
+tags:
+  - ethers
+  - javascript
+  - multitransfer
+  - frontend
+  - web
+---
+
 # Ethers极简入门: 15. 批量转账
 
 我最近在重新学`ethers.js`，巩固一下细节，也写一个`WTF Ethers极简入门`，供小白们使用。
 
 **推特**：[@0xAA_Science](https://twitter.com/0xAA_Science)
 
-**WTF Academy社群：** [官网 wtf.academy](https://wtf.academy) | [WTF Solidity教程](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.wtf.academy) | [微信群申请](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
+**WTF Academy社群：** [官网 wtf.academy](https://wtf.academy) | [WTF Solidity教程](https://github.com/AmazingAng/WTF-Solidity) | [discord](https://discord.gg/5akcruXrsk) | [微信群申请](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-所有代码和教程开源在github: [github.com/WTFAcademy/WTFEthers](https://github.com/WTFAcademy/WTFEthers)
+所有代码和教程开源在github: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
 -----
 
-这一讲，我们将介绍用`ethers.js`进行批量转账。通过调用[WTF Solidity极简入门第33讲：空投](https://github.com/AmazingAng/WTFSolidity/blob/main/33_Airdrop/readme.md)中的`Airdrop`合约，可以在一笔交易中实现批量转账，节省gas费。
+这一讲，我们将介绍用`ethers.js`进行批量转账。通过调用[WTF Solidity极简入门第33讲：空投](https://github.com/AmazingAng/WTF-Solidity/blob/main/33_Airdrop/readme.md)中的`Airdrop`合约，可以在一笔交易中实现批量转账，节省gas费。
 
 ## Airdrop合约
 
@@ -40,7 +50,7 @@
     console.log("\n1. 创建HD钱包")
     // 通过助记词生成HD钱包
     const mnemonic = `air organ twist rule prison symptom jazz cheap rather dizzy verb glare jeans orbit weapon universe require tired sing casino business anxiety seminar hunt`
-    const hdNode = utils.HDNode.fromMnemonic(mnemonic)
+    const hdNode = ethers.HDNodeWallet.fromPhrase(mnemonic)
     console.log(hdNode);
     ```
     ![HD钱包](img/15-1.png)
@@ -59,7 +69,7 @@
         addresses.push(walletNew.address);
     }
     console.log(addresses)
-    const amounts = Array(20).fill(utils.parseEther("0.0001"))
+    const amounts = Array(20).fill(ethers.parseEther("0.0001"))
     console.log(`发送数额：${amounts}`)
     ```
     ![生成20个地址](img/15-2.png)
@@ -67,13 +77,15 @@
 3. 创建provider和wallet，发送代币用。
 
     ```js
-    //准备 alchemy API 可以参考https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md 
+    //准备 alchemy API 可以参考https://github.com/AmazingAng/WTF-Solidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md 
     const ALCHEMY_GOERLI_URL = 'https://eth-goerli.alchemyapi.io/v2/GlaeWuylnNM3uuOo-SAwJxuwTdqHaY5l';
-    const provider = new ethers.providers.JsonRpcProvider(ALCHEMY_GOERLI_URL);
+    const provider = new ethers.JsonRpcProvider(ALCHEMY_GOERLI_URL);
 
     // 利用私钥和provider创建wallet对象
-    // 如果这个钱包没goerli测试网ETH了，去水龙头领一些，钱包地址: 0xe16C1623c1AA7D919cd2241d8b36d9E79C1Be2A2
-    const privateKey = '0x227dbb8586117d55284e26620bc76534dfbd2394be34cf4a09cb775d593b6f2b'
+    // 如果这个钱包没goerli测试网ETH了
+    // 请使用自己的小号钱包测试，钱包地址: 0x338f8891D6BdC58eEB4754352459cC461EfD2a5E ,请不要给此地址发送任何ETH
+    // 注意不要把自己的私钥上传到github上
+    const privateKey = '0x21ac72b6ce19661adf31ef0d2bf8c3fcad003deee3dc1a1a64f5fa3d6b049c06'
     const wallet = new ethers.Wallet(privateKey, provider)
     ```
 
@@ -108,10 +120,10 @@
     console.log("\n3. 读取一个地址的ETH和WETH余额")
     //读取WETH余额
     const balanceWETH = await contractWETH.balanceOf(addresses[10])
-    console.log(`WETH持仓: ${ethers.utils.formatEther(balanceWETH)}\n`)
+    console.log(`WETH持仓: ${ethers.formatEther(balanceWETH)}\n`)
     //读取ETH余额
     const balanceETH = await provider.getBalance(addresses[10])
-    console.log(`ETH持仓: ${ethers.utils.formatEther(balanceETH)}\n`)
+    console.log(`ETH持仓: ${ethers.formatEther(balanceETH)}\n`)
     ```
     ![读取WETH和ETH持仓](img/15-3.png)
 
@@ -120,13 +132,13 @@
     ```js
     console.log("\n4. 调用multiTransferETH()函数，给每个钱包转 0.0001 ETH")
     // 发起交易
-    const tx = await contractAirdrop.multiTransferETH(addresses, amounts, {value: ethers.utils.parseEther("0.002")})
+    const tx = await contractAirdrop.multiTransferETH(addresses, amounts, {value: ethers.parseEther("0.002")})
     // 等待交易上链
     await tx.wait()
     // console.log(`交易详情：`)
     // console.log(tx)
     const balanceETH2 = await provider.getBalance(addresses[10])
-    console.log(`发送后该钱包ETH持仓: ${ethers.utils.formatEther(balanceETH2)}\n`)
+    console.log(`发送后该钱包ETH持仓: ${ethers.formatEther(balanceETH2)}\n`)
     ```
     ![批量发送ETH](img/15-4.png)
 
@@ -135,7 +147,7 @@
     ```js
     console.log("\n5. 调用multiTransferToken()函数，给每个钱包转 0.001 WETH")
     // 先approve WETH给Airdrop合约
-    const txApprove = await contractWETH.approve(addressAirdrop, utils.parseEther("1"))
+    const txApprove = await contractWETH.approve(addressAirdrop, ethers.parseEther("1"))
     await txApprove.wait()
     // 发起交易
     const tx2 = await contractAirdrop.multiTransferToken(addressWETH, addresses, amounts)
@@ -145,7 +157,7 @@
     // console.log(tx2)
     // 读取WETH余额
     const balanceWETH2 = await contractWETH.balanceOf(addresses[10])
-    console.log(`发送后该钱包WETH持仓: ${ethers.utils.formatEther(balanceWETH2)}\n`)
+    console.log(`发送后该钱包WETH持仓: ${ethers.formatEther(balanceWETH2)}\n`)
     ```
     ![批量发送WETH](img/15-5.png)
 

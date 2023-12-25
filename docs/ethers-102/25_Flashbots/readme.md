@@ -1,5 +1,13 @@
 ---
 title: 25. Flashbots
+tags:
+  - ethers
+  - javascript
+  - mev
+  - flashbots
+  - bundle
+  - frontend
+  - web
 ---
 
 # Ethers极简入门: 25. Flashbots

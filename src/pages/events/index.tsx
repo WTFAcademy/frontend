@@ -9,10 +9,7 @@ import eventJson from "@site/static/json/events.json";
 function Events() {
   const { siteConfig } = useDocusaurusContext();
   return (
-    <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />"
-    >
+    <Layout title={`Hello from ${siteConfig.title}`} description="Web3 Events.">
       <div className="flex justify-center w-full mb-36">
         <div className="flex flex-col items-center w-full px-8 md:w-[1224px] md:px-0">
           <div className="font-bold text-[42px] font-ubuntu">Events</div>

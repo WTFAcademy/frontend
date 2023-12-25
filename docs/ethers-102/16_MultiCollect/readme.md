@@ -1,12 +1,22 @@
-# Ethers极简入门: 15. 批量归集
+---
+title: 16. 批量归集
+tags:
+  - ethers
+  - javascript
+  - collect
+  - frontend
+  - web
+---
+
+# Ethers极简入门: 16. 批量归集
 
 我最近在重新学`ethers.js`，巩固一下细节，也写一个`WTF Ethers极简入门`，供小白们使用。
 
 **推特**：[@0xAA_Science](https://twitter.com/0xAA_Science)
 
-**WTF Academy社群：** [官网 wtf.academy](https://wtf.academy) | [WTF Solidity教程](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.wtf.academy) | [微信群申请](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
+**WTF Academy社群：** [官网 wtf.academy](https://wtf.academy) | [WTF Solidity教程](https://github.com/AmazingAng/WTF-Solidity) | [discord](https://discord.gg/5akcruXrsk) | [微信群申请](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-所有代码和教程开源在github: [github.com/WTFAcademy/WTFEthers](https://github.com/WTFAcademy/WTFEthers)
+所有代码和教程开源在github: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
 -----
 
@@ -14,16 +24,16 @@
 
 ## 批量归集
 
-在链上交互、撸毛之后，就需要将多个钱包的资产进行归集管理。你可以用[HD钱包](https://github.com/WTFAcademy/WTFEthers/blob/main/14_HDwallet/readme.md)或者保存多份密钥的方式操作多个钱包，然后用`ethers.js`脚本完成归集。下面我们分别示范归集`ETH`（原生代币）和`WETH`（ERC20代币）。
+在链上交互、撸毛之后，就需要将多个钱包的资产进行归集管理。你可以用[HD钱包](https://github.com/WTFAcademy/WTF-Ethers/blob/main/14_HDwallet/readme.md)或者保存多份密钥的方式操作多个钱包，然后用`ethers.js`脚本完成归集。下面我们分别示范归集`ETH`（原生代币）和`WETH`（ERC20代币）。
 
 1. 创建`provider`和`wallet`，其中`wallet`是接收资产的钱包。
 
     ```js
-    // 准备 alchemy API 可以参考https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md 
+    // 准备 alchemy API 可以参考https://github.com/AmazingAng/WTF-Solidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md 
     const ALCHEMY_GOERLI_URL = 'https://eth-goerli.alchemyapi.io/v2/GlaeWuylnNM3uuOo-SAwJxuwTdqHaY5l';
-    const provider = new ethers.providers.JsonRpcProvider(ALCHEMY_GOERLI_URL);
+    const provider = new ethers.JsonRpcProvider(ALCHEMY_GOERLI_URL);
     // 利用私钥和provider创建wallet对象
-    const privateKey = '0x227dbb8586117d55284e26620bc76534dfbd2394be34cf4a09cb775d593b6f2b'
+    const privateKey = '0x21ac72b6ce19661adf31ef0d2bf8c3fcad003deee3dc1a1a64f5fa3d6b049c06'
     const wallet = new ethers.Wallet(privateKey, provider)
     ```
 
@@ -35,7 +45,7 @@
         "function transfer(address, uint) public returns (bool)",
     ];
     // WETH合约地址（Goerli测试网）
-    const addressWETH = '0xc778417e063141139fce010982780140aa0cd5ab' // WETH Contract
+    const addressWETH = '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6' // WETH Contract
     // 声明WETH合约
     const contractWETH = new ethers.Contract(addressWETH, abiWETH, wallet)
     ```
@@ -46,7 +56,7 @@
     console.log("\n1. 创建HD钱包")
     // 通过助记词生成HD钱包
     const mnemonic = `air organ twist rule prison symptom jazz cheap rather dizzy verb glare jeans orbit weapon universe require tired sing casino business anxiety seminar hunt`
-    const hdNode = utils.HDNode.fromMnemonic(mnemonic)
+    const hdNode = ethers.HDNodeWallet.fromPhrase(mnemonic)
     console.log(hdNode);
     ```
     ![HD钱包](img/16-1.png)
@@ -66,7 +76,7 @@
         console.log(walletNew.address)
     }
     // 定义发送数额
-    const amount = utils.parseEther("0.0001")
+    const amount = ethers.parseEther("0.0001")
     console.log(`发送数额：${amount}`)
     ```
     ![生成20个地址](img/16-2.png)
@@ -76,11 +86,11 @@
     ```js
     console.log("\n3. 读取一个地址的ETH和WETH余额")
     //读取WETH余额
-    const balanceWETH = await contractWETH.balanceOf(wallets[19].address)
-    console.log(`WETH持仓: ${ethers.utils.formatEther(balanceWETH)}`)
+    const balanceWETH = await contractWETH.balanceOf(wallets[19])
+    console.log(`WETH持仓: ${ethersfromPhrase.formatEther(balanceWETH)}`)
     //读取ETH余额
-    const balanceETH = await provider.getBalance(wallets[19].address)
-    console.log(`ETH持仓: ${ethers.utils.formatEther(balanceETH)}\n`)
+    const balanceETH = await provider.getBalance(wallets[19])
+    console.log(`ETH持仓: ${ethersfromPhrase.formatEther(balanceETH)}\n`)
     ```
     ![读取余额](img/16-3.png)
 
@@ -124,11 +134,11 @@
     ```js
     console.log("\n6. 读取一个地址在归集后的ETH和WETH余额")
     // 读取WETH余额
-    const balanceWETHAfter = await contractWETH.balanceOf(wallets[19].address)
-    console.log(`归集后WETH持仓: ${ethers.utils.formatEther(balanceWETHAfter)}`)
+    const balanceWETHAfter = await contractWETH.balanceOf(wallets[19])
+    console.log(`归集后WETH持仓: ${ethersfromPhrase.formatEther(balanceWETHAfter)}`)
     // 读取ETH余额
-    const balanceETHAfter = await provider.getBalance(wallets[19].address)
-    console.log(`归集后ETH持仓: ${ethers.utils.formatEther(balanceETHAfter)}\n`)
+    const balanceETHAfter = await provider.getBalance(wallets[19])
+    console.log(`归集后ETH持仓: ${ethersfromPhrase.formatEther(balanceETHAfter)}\n`)
     ```
     ![归集后余额变动](img/16-6.png)
 

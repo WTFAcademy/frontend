@@ -1,10 +1,17 @@
+---
+title: 07. 图片
+tags:
+  - html
+  - frontend
+  - web
+---
 # WTF HTML 极简教程: 7. 图片
 
 WTF HTML 教程，帮助新人快速入门 HTML。
 
 **推特**：[@WTFAcademy_](https://twitter.com/WTFAcademy_) ｜ [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-**WTF Academy 社群：** [官网 wtf.academy](https://wtf.academy) | [WTF Solidity 教程](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.wtf.academy) | [微信群申请](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
+**WTF Academy 社群：** [官网 wtf.academy](https://wtf.academy) | [WTF Solidity 教程](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [微信群申请](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
 所有代码和教程开源在 github: [github.com/WTFAcademy/WTF-HTML](https://github.com/WTFAcademy/WTF-HTML)
 
@@ -19,12 +26,12 @@ WTF HTML 教程，帮助新人快速入门 HTML。
 例如：
 
 ```html
-<img src="https://wtf.academy/img/wtflogo.png">
+<img src="https://wtf.academy/img/wtflogo.png" />
 ```
 
 浏览器效果：
 
-<img src="https://wtf.academy/img/wtflogo.png">
+<img src="https://wtf.academy/img/wtflogo.png" />
 
 ## 设置图片属性
 
@@ -37,12 +44,12 @@ WTF HTML 教程，帮助新人快速入门 HTML。
 例如：
 
 ```html
-<img src="https://wtf.academy/img/wtflogo.png" width="200" height="100">
+<img src="https://wtf.academy/img/wtflogo.png" width="200" height="100" />
 ```
 
 浏览器效果：
 
-<img src="https://wtf.academy/img/wtflogo.png" width="200" height="100">
+<img src="https://wtf.academy/img/wtflogo.png" width="200" height="100" />
 
 
 这将会设置图片的宽度为 200 像素，高度为 100 像素。
@@ -56,12 +63,12 @@ WTF HTML 教程，帮助新人快速入门 HTML。
 例如：
 
 ```html
-<img src="https://www.example.com/path/to/image.jpg" alt="A description of the image">
+<img src="https://www.example.com/path/to/image.jpg" alt="A description of the image" />
 ```
 
 浏览器效果：
 
-<img src="https://www.example.com/path/to/image.jpg" alt="A description of the image">
+<img src="https://www.example.com/path/to/image.jpg" alt="A description of the image" />
 
 
 如果图片无法加载，那么页面上将显示 "A description of the image"。

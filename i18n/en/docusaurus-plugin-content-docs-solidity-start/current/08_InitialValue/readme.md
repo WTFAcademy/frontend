@@ -102,3 +102,4 @@ You can use `getter` function of `public` variables to confirm initial values:
 ## Summary
 
 In this section, we introduced the initial values of variables in Solidity. When a variable is declared but not assigned, its value defaults to the initial value, which is equivalent as `0` represented in its type. The `delete` operator can reset the value of the variable to the initial value.
+<LessonQuizStart meta={require('./meta.json')} />

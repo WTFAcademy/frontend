@@ -1,5 +1,13 @@
 ---
 title: 24. 识别ERC20合约
+tags:
+  - ethers
+  - javascript
+  - erc20
+  - token
+  - selector
+  - frontend
+  - web
 ---
 
 # Ethers极简入门: 24. 识别ERC20合约
@@ -18,7 +26,7 @@ WTF Academy 社群：[Discord](https://discord.gg/5akcruXrsk)｜[微信群](http
 
 ## `ERC20`
 
-`ERC721` 是以太坊上最常用的代币标准，如果对这个标准不熟悉，可以阅读[WTF Solidity第31讲 ERC20](https://github.com/AmazingAng/WTF-Solidity/blob/main/31_ERC20/readme.md)。`ERC20` 标准包含以下函数和事件:
+`ERC20`是以太坊上最常用的代币标准，如果对这个标准不熟悉，可以阅读[WTF Solidity第31讲 ERC20](https://github.com/AmazingAng/WTF-Solidity/blob/main/31_ERC20/readme.md)。`ERC20`标准包含以下函数和事件:
 ```solidity
 interface IERC20 {
     event Transfer(address indexed from, address indexed to, uint256 value);

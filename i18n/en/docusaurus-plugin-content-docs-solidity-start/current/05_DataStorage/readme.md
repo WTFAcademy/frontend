@@ -17,7 +17,7 @@ Everyone is welcomed to follow my Twitter: [@0xAA_Science](https://twitter.com/0
 
 WTF Academy Discord: [Link](https://discord.gg/5akcruXrsk)
 
-All codebase and tutorial notes are open source and available on GitHub (At 1024 repo stars, course certification is unlocked. At 2048 repo stars, community NFT is unlocked.): [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)\
+All codebase and tutorial notes are open source and available on GitHub (At 1024 repo stars, course certification is unlocked. At 2048 repo stars, community NFT is unlocked.): [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
 
 -----
 
@@ -151,3 +151,4 @@ Below are some commonly used global variables:
 
 ## Summary
 In this chapter, we introduced reference types, data storage locations and variable scopes in `solidity`. There are three types of data storage locations: `storage`, `memory` and `calldata`. Gas costs are different for different storage locations. The variable scope include state variables, local variables and global variables.
+<LessonQuizStart meta={require('./meta.json')} />

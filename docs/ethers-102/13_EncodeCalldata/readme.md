@@ -1,10 +1,21 @@
+---
+title: 13. 编码calldata
+tags:
+  - ethers
+  - javascript
+  - encode
+  - calldata
+  - frontend
+  - web
+---
+
 # Ethers极简入门: 13. 编码calldata
 
 我最近在重新学`ethers.js`，巩固一下细节，也写一个`WTF Ethers极简入门`，供小白们使用。
 
 **推特**：[@0xAA_Science](https://twitter.com/0xAA_Science)
 
-**WTF Academy社群：** [官网 wtf.academy](https://wtf.academy) | [WTF Solidity教程](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.wtf.academy) | [微信群申请](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
+**WTF Academy社群：** [官网 wtf.academy](https://wtf.academy) | [WTF Solidity教程](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [微信群申请](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
 所有代码和教程开源在github: [github.com/WTFAcademy/WTFEthers](https://github.com/WTFAcademy/WTFEthers)
 
@@ -20,7 +31,7 @@
 
 ```js
 // 利用abi生成
-const interface = ethers.utils.Interface(abi)
+const interface = ethers.Interface(abi)
 // 直接从contract中获取
 const interface2 = contract.interface
 ```
@@ -59,7 +70,7 @@ const interface2 = contract.interface
     ```js
     //准备 alchemy API 可以参考https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md 
     const ALCHEMY_GOERLI_URL = 'https://eth-rinkeby.alchemyapi.io/v2/GlaeWuylnNM3uuOo-SAwJxuwTdqHaY5l';
-    const provider = new ethers.providers.JsonRpcProvider(ALCHEMY_GOERLI_URL);
+    const provider = new ethers.JsonRpcProvider(ALCHEMY_GOERLI_URL);
 
     // 利用私钥和provider创建wallet对象
     const privateKey = '0x227dbb8586117d55284e26620bc76534dfbd2394be34cf4a09cb775d593b6f2b'
@@ -98,7 +109,7 @@ const interface2 = contract.interface
     }
     // 发起交易，可读操作（view/pure）可以用 provider.call(tx)
     const balanceWETH = await provider.call(tx1)
-    console.log(`存款前WETH持仓: ${ethers.utils.formatEther(balanceWETH)}\n`)
+    console.log(`存款前WETH持仓: ${ethers.formatEther(balanceWETH)}\n`)
     ```
     ![查看WETH余额](img/13-1.png)
 
@@ -114,7 +125,7 @@ const interface2 = contract.interface
     const tx2 = {
         to: addressWETH,
         data: param2,
-        value: ethers.utils.parseEther("0.001")}
+        value: ethers.parseEther("0.001")}
     // 发起交易，写入操作需要 wallet.sendTransaction(tx)
     const receipt1 = await wallet.sendTransaction(tx2)
     // 等待交易上链
@@ -122,7 +133,7 @@ const interface2 = contract.interface
     console.log(`交易详情：`)
     console.log(receipt1)
     const balanceWETH_deposit = await contractWETH.balanceOf(address)
-    console.log(`存款后WETH持仓: ${ethers.utils.formatEther(balanceWETH_deposit)}\n`)
+    console.log(`存款后WETH持仓: ${ethers.formatEther(balanceWETH_deposit)}\n`)
     ```
     ![调用deposit()函数](img/13-2.png)
 

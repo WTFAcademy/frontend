@@ -6,7 +6,6 @@ import { Button } from "@site/src/components/ui/Button";
 
 import { cn } from "@site/src/utils/class-utils";
 import { useQuery } from "react-query";
-import Spinner from "@site/src/components/ui/Spinner";
 import Translate from "@docusaurus/Translate";
 import { Skeleton } from "@site/src/components/ui/Skeleton";
 
@@ -26,8 +25,8 @@ const EmptyContributor = ({ showCount }: { showCount: number }) => (
                     "w-[95px] h-[120px] bg-card border-b border-t-0 border-l-0 border-border border-r",
                   )}
                 >
-                  <Skeleton className="rounded-full w-[64px] h-[64px]" />
-                  <Skeleton className="h-4 w-[64px] mt-[6px]" />
+                  <Skeleton className="w-[64px] h-[64px] rounded-full" />
+                  <Skeleton className="w-[64px] h-4 mt-[6px]" />
                 </td>
               ))}
           </tr>
@@ -74,7 +73,7 @@ const ContributorList = () => {
   }, [data, showCount]);
 
   return (
-    <div className="overflow-hidden border border-border rounded-md">
+    <div className="border-border border rounded-md overflow-hidden">
       {isLoading && <EmptyContributor showCount={showCount} />}
       {userChunks.length > 0 && (
         <>
@@ -88,7 +87,7 @@ const ContributorList = () => {
                   {chunk
                     .concat(Array(showCount).fill({}))
                     .slice(0, showCount)
-                    .map((user, index) => (
+                    .map(user => (
                       <td
                         key={user?.id}
                         className={cn(
@@ -96,11 +95,11 @@ const ContributorList = () => {
                         )}
                       >
                         <img
-                          className="rounded-full w-[64px] h-[64px]"
+                          className="w-[64px] h-[64px] rounded-full"
                           src={user.avatar_url}
                           alt={user.login}
                         />
-                        <div className="text-sm truncate w-[64px] mt-[6px]">
+                        <div className="w-[64px] mt-[6px] text-sm truncate">
                           {user.login}
                         </div>
                       </td>
