@@ -6,7 +6,7 @@
     "docusaurus": "docusaurus",
     "start": "cross-env REACT_APP_API_URL='http://features-testing-env.eba-mau9qkgr.us-east-1.elasticbeanstalk.com/' docusaurus start",
     "start:en": "cross-env REACT_APP_API_URL='http://features-testing-env.eba-mau9qkgr.us-east-1.elasticbeanstalk.com/' docusaurus start --locale en",
-    "build": "cross-env REACT_APP_API_URL='http://features-testing-env.eba-mau9qkgr.us-east-1.elasticbeanstalk.com/' docusaurus build",
+    "build": "docusaurus build",
     "build:preview": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
