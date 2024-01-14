@@ -1,20 +1,22 @@
 ---
-title: 9. 事件过滤
+title: 9. Event Filter
 ---
 
-# Ethers极简入门: 9. 事件过滤
+# WTF Ethers: 9. Event Filter
 
-我最近在重新学`ethers.js`，巩固一下细节，也写一个`WTF Ethers极简入门`，供小白们使用。
+Recently, I have been revisiting `ethers.js`, consolidating the finer details, and writing `WTF Ethers Introduction` tutorials for newbies. 
 
-**推特**：[@0xAA_Science](https://twitter.com/0xAA_Science)
+Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
 
-**WTF Academy社群：** [官网 wtf.academy](https://wtf.academy) | [WTF Solidity教程](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [微信群申请](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
+Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
 
-所有代码和教程开源在github: [github.com/WTFAcademy/WTFEthers](https://github.com/WTFAcademy/WTFEthers)
+Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
+
+English translations by: [@yzhxxyz](https://twitter.com/yzhxxyz)
 
 -----
 
-在上一讲 [Ethers极简入门: 8. 合约监听](https://github.com/WTFAcademy/WTFEthers/tree/main/08_ContractListener) 的基础上，我们拓展一下，在监听的过程中增加过滤器，监听指定地址的转入转出。
+在上一讲 [WTF Ethers: 8. 合约监听](https://github.com/WTFAcademy/WTFEthers/tree/main/08_ContractListener) 的基础上，我们拓展一下，在监听的过程中增加过滤器，监听指定地址的转入转出。
 
 具体可参考[ethers.js文档](https://docs.ethers.io/v5/concepts/events)。
 
