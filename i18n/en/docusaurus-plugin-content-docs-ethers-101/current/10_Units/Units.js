@@ -1,27 +1,28 @@
 import { ethers } from "ethers";
 
-// 1. BigNumber
-console.group("\n1. BigNumber类");
+// 1. BigNumber class
+console.group('\n1. BigNumber class');
 
-const oneGwei = ethers.getBigInt("1000000000"); // 从十进制字符串生成
-console.log(oneGwei);
-console.log(ethers.getBigInt("0x3b9aca00")); // 从hex字符串生成
-console.log(ethers.getBigInt(1000000000)); // 从数字生成
-// 不能从js最大的安全整数之外的数字生成BigNumber，下面代码会报错
+const oneGwei = ethers.getBigInt("1000000000"); // Generate from decimal string
+console.log(oneGwei)
+console.log(ethers.getBigInt("0x3b9aca00")) // Generate from hex string
+console.log(ethers.getBigInt(1000000000)) // Generate from number
+// Cannot generate BigNumber from a number outside the maximum safe integer in JavaScript, the following code will throw an error
 // ethers.getBigInt(Number.MAX_SAFE_INTEGER);
-console.log("js中最大安全整数：", Number.MAX_SAFE_INTEGER);
+console.log("Maximum safe integer in JavaScript:", Number.MAX_SAFE_INTEGER)
 
-// 运算
-console.log("加法：", oneGwei + 1n);
-console.log("减法：", oneGwei - 1n);
-console.log("乘法：", oneGwei * 2n);
-console.log("除法：", oneGwei / 2n);
-// 比较
-console.log("是否相等：", oneGwei == 1000000000n);
+// Operations
+console.log("Addition:", oneGwei + 1n)
+console.log("Subtraction:", oneGwei - 1n)
+console.log("Multiplication:", oneGwei * 2n)
+console.log("Division:", oneGwei / 2n)
+// Comparison
+console.log("Is equal:", oneGwei == 1000000000n)
 
-// 2. 格式化：小单位转大单位
-// 例如将wei转换为ether：formatUnits(变量, 单位)：单位填位数（数字）或指定的单位（字符串）
-console.group("\n2. 格式化：小单位转大单位，formatUnits");
+
+// 2. Formatting: Converting from small units to large units
+// For example, converting wei to ether: formatUnits(variable, unit) where unit can be a digit (number) or a specified unit (string)
+console.group('\n2. Formatting: Converting from small units to large units, formatUnits');
 console.log(ethers.formatUnits(oneGwei, 0));
 // '1000000000'
 console.log(ethers.formatUnits(oneGwei, "gwei"));
@@ -33,12 +34,13 @@ console.log(ethers.formatUnits(oneGwei, "ether"));
 console.log(ethers.formatUnits(1000000000, "gwei"));
 // '1.0'
 console.log(ethers.formatEther(oneGwei));
-// `0.000000001` 等同于formatUnits(value, "ether")
+// `0.000000001` same as formatUnits(value, "ether")
 console.groupEnd();
 
-// 3. 解析：大单位转小单位
-// 例如将ether转换为wei：parseUnits(变量, 单位),parseUnits默认单位是 ether
-console.group("\n3. 解析：大单位转小单位，parseUnits");
+
+// 3. Parsing: Converting from large units to small units
+// For example, converting ether to wei: parseUnits(variable, unit), parseUnits defaults to ether as the unit
+console.group('\n3. Parsing: Converting from large units to small units, parseUnits');
 console.log(ethers.parseUnits("1.0").toString());
 // { BigNumber: "1000000000000000000" }
 console.log(ethers.parseUnits("1.0", "ether").toString());
@@ -50,5 +52,5 @@ console.log(ethers.parseUnits("1.0", "gwei").toString());
 console.log(ethers.parseUnits("1.0", 9).toString());
 // { BigNumber: "1000000000" }
 console.log(ethers.parseEther("1.0").toString());
-// { BigNumber: "1000000000000000000" } 等同于parseUnits(value, "ether")
+// { BigNumber: "1000000000000000000" } same as parseUnits(value, "ether")
 console.groupEnd();

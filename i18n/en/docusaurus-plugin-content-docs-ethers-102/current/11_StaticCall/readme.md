@@ -10,108 +10,106 @@ tags:
 
 # WTF Ethers: 11. StaticCall
 
-Recently, I have been revisiting `ethers.js`, consolidating the finer details, and writing `WTF Ethers Introduction` tutorials for newbies. 
+I've been revisiting `ethers.js` recently to refresh my understanding of the details and to write a simple tutorial called "WTF Ethers" for beginners.
 
-Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
+**Twitter**: [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
+**Community**: [Website wtf.academy](https://wtf.academy) | [WTF Solidity](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [WeChat Group Application](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
-
-English translations by: [@yzhxxyz](https://twitter.com/yzhxxyz)
+All the code and tutorials are open-sourced on GitHub: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
 -----
 
-这一讲，我们介绍合约类的`staticCall`方法，在发送交易之前检查交易是否会失败，节省大量gas。
+In this lesson, we will introduce the `staticCall` method of contract classes, which allows you to check whether a transaction will fail before sending it, saving a significant amount of gas.
 
-`staticCall`方法是属于```ethers.Contract```类的编写方法分析，同类的还有`populateTransaction`和`estimateGas`方法。
+The `staticCall` method is a method available in the `ethers.Contract` class, and other similar methods include `populateTransaction` and `estimateGas`.
 
-## 可能失败的交易
+## Transactions that Could Fail
 
-在以太坊上发交易需要付昂贵的`gas`，并且有失败的风险，发送失败的交易并不会把`gas`返还给你。因此，在发送交易前知道哪些交易可能会失败非常重要。如果你用过`metamask`小狐狸钱包，那对下图不会陌生。
+Sending transactions on Ethereum requires expensive `gas` fees and carries the risk of failure. Failed transactions do not refund the gas fees. Therefore, it is crucial to know which transactions will fail before sending them. If you have used the MetaMask browser extension, you may be familiar with the following image.
 
-![你的交易可能失败！](img/11-1.png)
+![Your Transaction May Fail!](img/11-1.png)
 
-如果你的交易将失败，小狐狸会告诉你`this transaction may fail`，翻译过来就是“这笔交易可能失败”。当用户看到这个红字提示，就知道要取消这笔交易了，除非他想尝尝失败的滋味。
+If your transaction is likely to fail, MetaMask will inform you by showing the message "This transaction may fail." When users see this red warning message, they will cancel the transaction unless they want to experience the failure themselves.
 
-它是怎么做到的呢？这是因为以太坊节点有一个`eth_call`方法，让用户可以模拟一笔交易，并返回可能的交易结果，但不真正在区块链上执行它（交易不上链）。
+How does MetaMask achieve this? This is because Ethereum nodes have an `eth_call` method that allows users to simulate a transaction and return the possible transaction result without actually executing it on the blockchain (the transaction will not be mined).
 
 ## `staticCall`
 
-在`ethers.js`中你可以利用`contract`对象的`staticCall()`来调用以太坊节点的`eth_call`。如果调用成功，则返回`true`；如果失败，则报错并返回失败原因。方法：
+In `ethers.js`, you can use the `staticCall()` method of the `contract` object to call the `eth_call` method of an Ethereum node. If the call is successful, it returns `true`; if it fails, an error is thrown, and the reason for the failure is returned. The method is used as follows:
 
 ```js
-    const tx = await contract.函数名.staticCall( 参数, {override})
-    console.log(`交易会成功吗？：`, tx)
+const tx = await contract.functionName.staticCall(arguments, {override})
+console.log(`Will the transaction succeed?`, tx)
 ```
 
-- 函数名：为模拟调用的函数名。
-- 参数：调用函数的参数。
-- {override}：选填，可包含一下参数：
-    - `from`：执行时的`msg.sender`，也就是你可以模拟任何一个人的调用，比如V神。
-    - `value`：执行时的`msg.value`。
-    - `blockTag`：执行时的区块高度。
+- `functionName`: the name of the function you want to call.
+- `arguments`: the arguments for the function call.
+- `{override}`: optional, can include the following parameters:
+    - `from`: the `msg.sender` during execution, which allows you to simulate the call from any address, such as Vitalik.
+    - `value`: the `msg.value` during execution.
+    - `blockTag`: the block height during execution.
     - `gasPrice`
     - `gasLimit`
     - `nonce`
 
-## 用`staticCall`模拟`DAI`转账
+## Simulating a `DAI` Transfer with `staticCall`
 
-1. 创建`provider`和`wallet`对象。
+1. Create `provider` and `wallet` objects.
     ```js
     import { ethers } from "ethers";
 
-    //准备 alchemy API 可以参考https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md 
+    // Prepare Alchemy API, can refer to https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md 
     const ALCHEMY_MAINNET_URL = 'https://eth-mainnet.g.alchemy.com/v2/oKmOQKbneVkxgHZfibs-iFhIlIAl6HDN';
     const provider = new ethers.JsonRpcProvider(ALCHEMY_MAINNET_URL);
 
-    // 利用私钥和provider创建wallet对象
+    // Create wallet object using private key and provider
     const privateKey = '0x227dbb8586117d55284e26620bc76534dfbd2394be34cf4a09cb775d593b6f2b'
     const wallet = new ethers.Wallet(privateKey, provider)
     ```
 
-2. 创建`DAI`合约对象，注意，这里生成合约时要用`provider`而不是`wallet`，不然则不能更改`staticCall`方法中的`from`（可能是bug，也可能是feature）。
+2. Create the `DAI` contract object. Note that we use the `provider` instead of the `wallet` to instantiate the contract, otherwise `from` cannot be modified in the `staticCall` method (this may be a bug or a feature).
 
     ```js
-    // DAI的ABI
+    // DAI ABI
     const abiDAI = [
         "function balanceOf(address) public view returns(uint)",
         "function transfer(address, uint) public returns (bool)",
     ];
-    // DAI合约地址（主网）
+    // DAI contract address (mainnet)
     const addressDAI = '0x6B175474E89094C44Da98b954EedeAC495271d0F' // DAI Contract
-    // 创建DAI合约实例
+    // Create DAI contract instance
     const contractDAI = new ethers.Contract(addressDAI, abiDAI, provider)
     ```
 
-3. 查看钱包中`DAI`余额，为0。
+3. Check the `DAI` balance in the wallet, which should be 0.
 
     ```js
     const address = await wallet.getAddress()
-    console.log("\n1. 读取测试钱包的DAI余额")
+    console.log("\n1. Check DAI balance in the test wallet")
     const balanceDAI = await contractDAI.balanceOf(address)
-    console.log(`DAI持仓: ${ethers.formatEther(balanceDAI)}\n`)
+    console.log(`DAI balance: ${ethers.formatEther(balanceDAI)}\n`)
     ```
-    ![钱包DAI余额](img/11-2.png)
+    ![Wallet DAI Balance](img/11-2.png)
 
-4. 用`staticCall`调用`transfer()`函数，将`from`参数填为V神地址，模拟V神转账`10000 DAI`。这笔交易将成功，因为V神钱包有充足的`DAI`。
+4. Use `staticCall` to call the `transfer()` function and set the `from` parameter as the address of Vitalik to simulate a transfer of `10000 DAI` from Vitalik. This transaction will succeed because Vitalik's wallet has sufficient `DAI`.
 
     ```js
-    console.log("\n2.  用staticCall尝试调用transfer转账1 DAI，msg.sender为V神地址")
-    // 发起交易
-    const tx = await contractDAI.transfer.staticCall("vitalik.eth", ethers.parseEther("10000"), {from: "vitalik.eth"})
-    console.log(`交易会成功吗？：`, tx)
+    console.log("\n2. Use staticCall to attempt a transfer of 1 DAI, with msg.sender as the address of Vitalik")
+    // Initiate the transaction
+    const tx = await contractDAI.transfer.staticCall("vitalik.eth", ethers.parseEther("1"), {from:  await provider.resolveName("vitalik.eth")})
+    console.log(`Will the transaction succeed?`, tx)
     ```
-    ![模拟V神转账](img/11-3.png)
+    ![Simulating a Transfer from Vitalik](img/11-3.png)
 
-4. 用`staticCall`调用`transfer()`函数，将`from`参数填为测试钱包地址，模拟转账`10000 DAI`。这笔交易将失败，报错，并返回原因`Dai/insufficient-balance`。
+4. Use `staticCall` to call the `transfer()` function and set the `from` parameter as the address of the test wallet to simulate a transfer of `10000 DAI`. This transaction will fail, throwing an error with the reason `Dai/insufficient-balance`.
 
     ```js
-    console.log("\n3.  用staticCall尝试调用transfer转账1 DAI，msg.sender为测试钱包地址")
+    console.log("\n3. Use staticCall to attempt a transfer of 1 DAI, with msg.sender as the address of the test wallet")
     const tx2 = await contractDAI.transfer.staticCall("vitalik.eth", ethers.parseEther("10000"), {from: address})
-    console.log(`交易会成功吗？：`, tx)
+    console.log(`Will the transaction succeed?`, tx)
     ```
-    ![模拟测试钱包转账](img/11-4.png)
+    ![Simulating a Transfer from the Test Wallet](img/11-4.png)
 
-## 总结
-`ethers.js`将`eth_call`封装在`staticCall`方法中，方便开发者模拟交易的结果，并避免发送可能失败的交易。我们利用`staticCall`模拟了V神和测试钱包的转账。当然，这个方法还有更多用处，比如计算土狗币的交易滑点。开动你的想象力，你会将`staticCall`用在什么地方呢？
+## Summary
+`ethers.js` encapsulates `eth_call` in the `staticCall` method, making it convenient for developers to simulate transaction results and avoid sending transactions that may fail. We have demonstrated the use of `staticCall` to simulate transfers from Vitalik and the test wallet. Of course, this method has many other applications, such as calculating transaction slippage for tokens. Use your imagination - where else can you apply `staticCall`?

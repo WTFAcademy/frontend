@@ -1,5 +1,5 @@
 ---
-title: 22. 读取任意数据
+title: 22. Read Any Data
 tags:
   - ethers
   - javascript
@@ -9,76 +9,74 @@ tags:
   - web
 ---
 
-# WTF Ethers: 22. 读取任意数据
+# WTF Ethers: 22. Read Any Data
 
-Recently, I have been revisiting `ethers.js`, consolidating the finer details, and writing `WTF Ethers Introduction` tutorials for newbies. 
+I've been revisiting `ethers.js` recently to refresh my understanding of the details and to write a simple tutorial called "WTF Ethers" for beginners.
 
-Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
+**Twitter**: [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
+**Community**: [Website wtf.academy](https://wtf.academy) | [WTF Solidity](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [WeChat Group Application](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
+All the code and tutorials are open-sourced on GitHub: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
-English translations by: [@yzhxxyz](https://twitter.com/yzhxxyz)
+-----
 
----
+All data on Ethereum is public, so `private` variables are not actually private. In this lesson, we will discuss how to read arbitrary data from a smart contract.
 
-以太坊所有数据都是公开的，因此 `private` 变量并不私密。这一讲，我们将介绍如何读取智能合约的任意数据。
+## Smart Contract Storage Layout
 
-## 智能合约存储布局
-
-以太坊智能合约的存储是一个 `uint256 -> uint256` 的映射。`uint256` 大小为 `32 bytes`，这个固定大小的存储空间被称为 `slot` （插槽）。智能合约的数据就被存在一个个的 `slot` 中，从 `slot 0` 开始依次存储。每个基本数据类型占一个`slot`，例如`uint`，`address`，等等；而数组和映射这类复杂结构则会更复杂，详见[网址](https://docs.soliditylang.org/en/v0.8.17/internals/layout_in_storage.html?highlight=Layout%20of%20State%20Variables%20in%20Storage)。
+The storage in Ethereum smart contracts is a mapping of `uint256 -> uint256`. The size of `uint256` is `32 bytes`, and this fixed-sized storage space is called a `slot`. The contract's data is stored in individual slots, starting from `slot 0` by default and continuing sequentially. Each primitive data type occupies one slot, such as `uint`, `address`, and so on. However, more complex structures like arrays and mappings are more complicated, as detailed in the [documentation](https://docs.soliditylang.org/en/v0.8.17/internals/layout_in_storage.html?highlight=Layout%20of%20State%20Variables%20in%20Storage).
 
 ![](./img/22-1.png)
 
-因此，即使是没有 `getter` 函数的 `private` 变量，你依然可以通过 `slot` 索引来读取它的值。
+Therefore, even for `private` variables without a `getter` function, you can still read their values by accessing the respective slot.
 
 ## `getStorageAt`
 
-`ethersjs` 提供了 `getStorageAt()` 方便开发者读取特定 `slot` 的值：
+`ethersjs` provides the `getStorageAt()` function for developers to conveniently read the value of a specific slot:
 
 ```js
 const value = await provider.getStorageAt(contractAddress, slot)
 ```
 
-`getStorageAt()` 有两个参数，分别是合约地址 `contractAddress` 和 想读取变量的 `slot` 索引。
+`getStorageAt()` takes two arguments: the contract address `contractAddress`, and the index of the variable's `slot` that you want to read.
 
-## 读取任意数据脚本
+## Reading Arbitrary Data Script
 
-下面，我们写一个脚本，利用 `getStorageAt()` 函数来读取 `Arbitrum` 跨链桥的合约所有者。该跨链桥为可升级代理合约，将 `owner` 存在了特定的 `slot` 避免发生变量碰撞，并且没有读取它的函数。这里，我们就可以利用`getStorageAt()` 来读取它。
+Now, let's write a script that utilizes the `getStorageAt()` function to read the owner of the Arbitrum cross-chain bridge contract. This bridge contract is an upgradable proxy contract, and the `owner` is stored in a specific slot to avoid variable collisions, without a dedicated function for reading it. We can use `getStorageAt()` to read it.
 
 ```solidity
-合约地址: 0x8315177aB297bA92A06054cE80a67Ed4DBd7ed3a
-slot索引: 0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103
+Contract Address: 0x8315177aB297bA92A06054cE80a67Ed4DBd7ed3a
+Slot Index: 0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103
 ```
 
-运行结果：
-
-![](./img/22-2.png)
-
-代码：
+Code:
 
 ```js
 import { ethers } from "ethers";
 
-//准备 alchemy API 可以参考https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md 
+// Prepare Alchemy API (see https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md)
 const ALCHEMY_MAINNET_URL = 'https://eth-mainnet.g.alchemy.com/v2/oKmOQKbneVkxgHZfibs-iFhIlIAl6HDN';
 const provider = new ethers.JsonRpcProvider(ALCHEMY_MAINNET_URL);
 
-// 目标合约地址: Arbitrum ERC20 bridge（主网）
+// Target Contract Address: Arbitrum ERC20 bridge (Mainnet)
 const addressBridge = '0x8315177aB297bA92A06054cE80a67Ed4DBd7ed3a' // DAI Contract
-// 合约所有者 slot
+// Contract Owner Slot
 const slot = `0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103`
 
 const main = async () => {
-    console.log("开始读取特定slot的数据")
+    console.log("Reading data from a specific slot...")
     const privateData = await provider.getStorage(addressBridge, slot)
-    console.log("读出的数据（owner地址）: ", ethers.getAddress(ethers.dataSlice(privateData, 12)))    
+    console.log("Data read (owner address): ", ethers.getAddress(ethers.dataSlice(privateData, 12)))    
 }
 
 main()
 ```
 
-## 总结
+Output:
 
-这一讲，我们介绍了如何读取智能合约中的任意数据，包括私密数据。由于以太坊是公开透明的，大家不要将秘密存在智能合约中！
+![](./img/22-2.png)
+
+## Summary
+
+In this lesson, we have learned how to read arbitrary data from a smart contract, including private data. Due to the transparency of the Ethereum network, it is essential not to store sensitive information in smart contracts!

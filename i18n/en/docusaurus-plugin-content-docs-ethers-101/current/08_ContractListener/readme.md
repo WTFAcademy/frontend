@@ -1,5 +1,5 @@
 ---
-title: 8. Event Listener
+title: 8. Contract Listeners
 tags:
   - ethers
   - javascript
@@ -10,96 +10,94 @@ tags:
   - web
 ---
 
-# WTF Ethers: 8. Event Listener
+# WTF Ethers: 8. Contract Listeners
 
-Recently, I have been revisiting `ethers.js`, consolidating the finer details, and writing `WTF Ethers Introduction` tutorials for newbies. 
+I've been revisiting `ethers.js` recently to refresh my understanding of the details and to write a simple tutorial called "WTF Ethers" for beginners.
 
-Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
+**Twitter**: [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
+**Community**: [Website wtf.academy](https://wtf.academy) | [WTF Solidity](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [WeChat Group Application](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
-
-English translations by: [@yzhxxyz](https://twitter.com/yzhxxyz)
+All the code and tutorials are open-sourced on GitHub: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
 -----
 
-提示：本教程基于ethers.js 6.3.0 ，如果你使用的是v5，可以参考[ethers.js v5文档](https://docs.ethers.io/v5/)。
+Note: This tutorial is based on ethers.js v6. If you are using v5, you can refer to the [WTF Ethers v5](https://github.com/WTFAcademy/WTF-Ethers/tree/wtf-ethers-v5).
 
-这一讲，我们将介绍如何监听合约，并实现监听USDT合约的`Transfer`事件。
+In this lesson, we will learn how to listen to contract events and implement listening to the "Transfer" event of the USDT contract.
 
-具体可参考[ethers.js文档](https://docs.ethers.org/v6/api/contract/#ContractEvent)。
+Refer to the [ethers.js documentation](https://docs.ethers.org/v6/api/contract/#ContractEvent) for more details.
 
-## 监听合约事件
+## Listening to Contract Events
 
 ### `contract.on`
-在`ethersjs`中，合约对象有一个`contract.on`的监听方法，让我们持续监听合约的事件：
+In `ethers.js`, the contract object has a `contract.on` method to continuously listen to contract events:
 
 ```js
 contract.on("eventName", function)
 ```
-`contract.on`有两个参数，一个是要监听的事件名称`"eventName"`，需要包含在合约`abi`中；另一个是我们在事件发生时调用的函数。
+`contract.on` takes two parameters: the event name to listen to, which needs to be included in the contract ABI, and the function to be called when the event occurs.
 
 ### contract.once
 
-合约对象有一个`contract.once`的监听方法，让我们只监听一次合约释放事件，它的参数与`contract.on`一样：
+The contract object also has a `contract.once` method to listen to a contract event just once. It takes the same parameters as `contract.on`:
 
 ```js
 contract.once("eventName", function)
 ```
 
-## 监听`USDT`合约
+## Listening to the `USDT` Contract
 
-1. 声明`provider`：Alchemy是一个免费的ETH节点提供商。需要先申请一个，后续会用到。你可以参考这篇攻略来申请Alchemy API[Solidity极简入门-工具篇4：Alchemy](https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md )
+1. Declare the `provider`: Alchemy is a free ETH node provider. You need to apply for one before proceeding. You can refer to this guide to apply for the Alchemy API [WTF Solidity Tutorial - Tools Part 4: Alchemy](https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md).
 
   ```js
   import { ethers } from "ethers";
-  // 准备 alchemy API  
-  // 可以参考https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md 
+  // Prepare Alchemy API
+  // You can refer to [WTF Solidity Tutorial - Tools Part 4: Alchemy](https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md) for the setup process
   const ALCHEMY_MAINNET_URL = 'https://eth-mainnet.g.alchemy.com/v2/oKmOQKbneVkxgHZfibs-iFhIlIAl6HDN';
-  // 连接主网 provider
+  // Connect to the mainnet provider
   const provider = new ethers.JsonRpcProvider(ALCHEMY_MAINNET_URL);
   ```
 
-2. 声明合约变量：我们只关心`USDT`合约的`Transfer`事件，把它填入到`abi`中就可以。如果你关心其他函数和事件的话，可以在[etherscan](https://etherscan.io/address/0xdac17f958d2ee523a2206206994597c13d831ec7#code)上找到。
+2. Declare the contract variables: We only care about the "Transfer" event of the USDT contract. To listen to this event, we need to include it in the ABI. If you're interested in other functions and events, you can find them on [etherscan](https://etherscan.io/address/0xdac17f958d2ee523a2206206994597c13d831ec7#code).
 
   ```js
-  // USDT的合约地址
-  const contractAddress = '0xdac17f958d2ee523a2206206994597c13d831ec7'
-  // 构建USDT的Transfer的ABI
+  // USDT contract address
+  const contractAddress = '0xdac17f958d2ee523a2206206994597c13d831ec7';
+  // Build the ABI for the Transfer event of USDT
   const abi = [
     "event Transfer(address indexed from, address indexed to, uint value)"
   ];
-  // 生成USDT合约对象
+  // Generate the USDT contract object
   const contractUSDT = new ethers.Contract(contractAddress, abi, provider);
   ```
 
-3. 利用`contract.once()`函数，监听一次`Transfer`事件，并打印结果。
+3. Use the `contract.once()` function to listen to the Transfer event once and print the result.
 
   ```js
-    // 只监听一次
-    console.log("\n1. 利用contract.once()，监听一次Transfer事件");
+    // Listen to the event only once
+    console.log("\n1. Using contract.once(), listen to the Transfer event once");
     contractUSDT.once('Transfer', (from, to, value)=>{
-      // 打印结果
+      // Print the result
       console.log(
         `${from} -> ${to} ${ethers.formatUnits(ethers.getBigInt(value),6)}`
       )
     })
   ```
-  ![只监听一次](img/8-1.png)
+  ![Listen once](img/8-1.png)
 
-4. 利用`contract.on()`函数，持续监听`Transfer`事件，并打印结果。
+4. Use the `contract.on()` function to continuously listen to the Transfer event and print the result.
   ```js
-    // 持续监听USDT合约
-    console.log("\n2. 利用contract.on()，持续监听Transfer事件");
+    // Continuously listen to the USDT contract
+    console.log("\n2. Using contract.on(), continuously listen to the Transfer event");
     contractUSDT.on('Transfer', (from, to, value)=>{
       console.log(
-       // 打印结果
+       // Print the result
        `${from} -> ${to} ${ethers.formatUnits(ethers.getBigInt(value),6)}`
       )
     })
   ```
-  ![持续监听](img/8-2.png)
+  ![Continuous listening](img/8-2.png)
 
-## 总结
-这一讲，我们介绍了`ethers`中最简单的链上监听功能，`contract.on()`和`contract.once()`。通过上述方法，可以你可以监听指定合约的指定事件。
+## Summary
+In this lesson, we introduced the simplest on-chain listening features in `ethers`, `contract.on()` and `contract.once()`. With the methods mentioned above, you can listen to specific events of a specific contract.

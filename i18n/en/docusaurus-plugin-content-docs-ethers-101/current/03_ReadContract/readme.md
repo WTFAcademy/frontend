@@ -1,5 +1,5 @@
 ---
-title: 3. Read Contract
+title: 3. Read Contract Information
 tags:
   - ethers
   - javascript
@@ -9,87 +9,84 @@ tags:
   - web
 ---
 
-# WTF Ethers: 3. Read Contract
+# WTF Ethers: 3. Read Contract Information
 
-Recently, I have been revisiting `ethers.js`, consolidating the finer details, and writing `WTF Ethers Introduction` tutorials for newbies. 
+I've been revisiting `ethers.js` recently to refresh my understanding of the details and to write a simple tutorial called "WTF Ethers" for beginners.
 
-Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
+**Twitter**: [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
+**Community**: [Website wtf.academy](https://wtf.academy) | [WTF Solidity](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [WeChat Group Application](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
-
-English translations by: [@yzhxxyz](https://twitter.com/yzhxxyz)
+All the code and tutorials are open-sourced on GitHub: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
 -----
 
-这一讲，我们将介绍`Contract`合约类，并利用它来读取链上的合约信息。
+In this lesson, we will introduce the `Contract` class and use it to read information from contracts on Ethereum.
 
-## `Contract`类
+## The `Contract` Class
 
-在`ethers`中，`Contract`类是部署在以太坊网络上的合约（`EVM`字节码）的抽象。通过它，开发者可以非常容易的对合约进行读取`call`和交易`transcation`，并可以获得交易的结果和事件。以太坊强大的地方正是合约，所以对于合约的操作要熟练掌握。
+In `ethers`, the `Contract` class is an abstraction of contracts (EVM bytecode) deployed on the Ethereum network. Through it, developers can easily read (`call`) and transact with contracts, as well as obtain transaction results and events. The power of Ethereum lies in its contracts, so it is essential to have a good understanding of contract operations.
 
-## 创建`Contract`变量
+## Creating a `Contract` Variable
 
-### 只读和可读写`Contract`
+### Read-only and Read-write Contracts
 
-`Contract`对象分为两类，只读和可读写。只读`Contract`只能读取链上合约信息，执行`call`操作，即调用合约中`view`和`pure`的函数，而不能执行交易`transaction`。创建这两种`Contract`变量的方法有所不同：
+`Contract` objects can be divided into two types: read-only and read-write. Read-only `Contract` objects can only read contract information on the chain by executing `call` operations, which involve calling the `view` and `pure` functions in the contract. They cannot perform `transaction` operations. The methods of creating these two types of `Contract` variables are different:
 
-- 只读`Contract`：参数分别是合约地址，合约`abi`和`provider`变量（只读）。
+- Read-only `Contract` variable: The parameters are the contract address, contract `abi`, and `provider` variable (read-only).
 
 ```javascript
 const contract = new ethers.Contract(`address`, `abi`, `provider`);
 ```
 
-- 可读写`Contract`：参数分别是合约地址，合约`abi`和`signer`变量。`Signer`签名者是`ethers`中的另一个类，用于签名交易，之后我们会讲到。
+- Read-write `Contract` variable: The parameters are the contract address, contract `abi`, and `signer` variable. The `Signer` is another class in `ethers` that is used for signing transactions, which we will cover later.
 
 ```javascript
 const contract = new ethers.Contract(`address`, `abi`, `signer`);
 ```
 
-**注意** `ethers`中的`call`指的是只读操作，与`solidity`中的`call`不同。
+**Note:** In `ethers`, the `call` operation refers to a read-only operation, which is different from the `call` in `Solidity`.
 
-## 读取合约信息
+## Reading Contract Information
 
-### 1. 创建Provider
+### 1. Creating a Provider
 
-我们使用Infura节点的API Key创建`Provider`（见[第2讲：Provider](../02_Provider/readme.md)）：
+We will use the Alchemy node's API Key to create a `Provider`:
 ```javascript
 import { ethers } from "ethers";
-// 利用Infura的rpc节点连接以太坊网络
-// 准备Infura API Key, 教程：https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL02_Infura/readme.md
-const INFURA_ID = ''
-// 连接以太坊主网
-const provider = new ethers.JsonRpcProvider(`https://mainnet.infura.io/v3/${INFURA_ID}`)
+// Connect to the Ethereum network using the Alchemy RPC node
+// Prepare alchemy API, refer to https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md
+const ALCHEMY_MAINNET_URL = 'https://eth-mainnet.g.alchemy.com/v2/oKmOQKbneVkxgHZfibs-iFhIlIAl6HDN';
+const provider = new ethers.JsonRpcProvider(ALCHEMY_MAINNET_URL);
 ```
 
-### 2. 创建只读Contract实例
+### 2. Creating a Read-only Contract Instance
 
-创建只读Contract实例需要填入`3`个参数，分别是合约地址，合约`abi`和`provider`变量。合约地址可以在网上查到，`provider`变量上一步我们已经创建了，那么`abi`怎么填？
+To create a read-only contract instance, we need to provide three parameters: the contract address, contract `abi`, and `provider` variable. The contract address can be found online, and we have already created the `provider` variable in the previous step. But how do we fill in the `abi`?
 
-`ABI` (Application Binary Interface) 是与以太坊智能合约交互的标准，更多内容见[WTF Solidity教程第27讲: ABI编码](https://github.com/AmazingAng/WTF-Solidity/blob/main/27_ABIEncode/readme.md)。`ethers`支持两种`abi`填法：
+`ABI` (Application Binary Interface) is the standard for interacting with Ethereum smart contracts. For more information, refer to [WTF Solidity Tutorials Lesson 27: ABI Encoding](https://github.com/AmazingAng/WTF-Solidity/blob/main/27_ABIEncode/readme.md). `ethers` supports two ways of providing `abi`:
 
-- **方法1.**  直接输入合约`abi`。你可以从`remix`的编译页面中复制，在本地编译合约时生成的`artifact`文件夹的`json`文件中得到，或者从`etherscan`开源合约的代码页面得到。我们用这个方法创建`WETH`的合约实例：
+- **Method 1:** Directly input the contract `abi`. You can copy it from the compilation page of Remix, generate it locally when compiling contracts (located in the `artifact` folder), or obtain it from the code page of an open-source contract on Etherscan. We will use this method to create an instance of the `WETH` contract:
 
 ```javascript
-// 第1种输入abi的方式: 复制abi全文
-// WETH的abi可以在这里复制：https://etherscan.io/token/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2#code
-const abiWETH = '[{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view",...太长后面省略...';
+// Method 1: Copy the full abi
+// You can copy the WETH abi from here: https://etherscan.io/token/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2#code
+const abiWETH = '[{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view",...omitted for brevity...]';
 const addressWETH = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' // WETH Contract
 const contractWETH = new ethers.Contract(addressWETH, abiWETH, provider)
 
 ```
 
 
-![在Etherscan得到abi](img/3-1.png)
+![Getting the abi on Etherscan](img/3-1.png)
 
 
 
-- **方法2.** 由于`abi`可读性太差，`ethers`创新的引入了`Human-Readable Abi`（人类可读abi）。开发者可以通过`function signature`和`event signature`来写`abi`。我们用这个方法创建稳定币`DAI`的合约实例：
+- **Method 2:** Since the readability of `abi` is poor, `ethers` introduces an innovative approach called `Human-Readable Abi`. Developers can write `abi` using `function signature` and `event signature`. We will use this method to create an instance of the stable coin `DAI`:
 
 ```javascript
-// 第2种输入abi的方式：输入程序需要用到的函数，逗号分隔，ethers会自动帮你转换成相应的abi
-// 人类可读abi，以ERC20合约为例
+// Method 2: Input the functions needed for the program, separated by commas. ethers will automatically convert them into the corresponding abi for you.
+// Human-readable abi, using the example of an ERC20 contract
 const abiERC20 = [
     "function name() view returns (string)",
     "function symbol() view returns (string)",
@@ -100,52 +97,49 @@ const addressDAI = '0x6B175474E89094C44Da98b954EedeAC495271d0F' // DAI Contract
 const contractDAI = new ethers.Contract(addressDAI, abiERC20, provider)
 ```
 
-### 3. 读取`WETH`和`DAI`的链上信息
+### 3. Reading on-chain information of `WETH` and `DAI`
 
-我们可以利用只读`Contract`实例调用合约的`view`和`pure`函数，获取链上信息：
+We can use the read-only `Contract` instance to call the `view` and `pure` functions of the contract to obtain on-chain information:
 
 ```javascript
 const main = async () => {
-    // 1. 读取WETH合约的链上信息（WETH abi）
+    // 1. Reading on-chain information of the WETH contract (WETH abi)
     const nameWETH = await contractWETH.name()
     const symbolWETH = await contractWETH.symbol()
     const totalSupplyWETH = await contractWETH.totalSupply()
-    console.log("\n1. 读取WETH合约信息")
-    console.log(`合约地址: ${addressWETH}`)
-    console.log(`名称: ${nameWETH}`)
-    console.log(`代号: ${symbolWETH}`)
-    console.log(`总供给: ${ethers.formatEther(totalSupplyWETH)}`)
+    console.log("\n1. Reading WETH contract information")
+    console.log(`Contract address: ${addressWETH}`)
+    console.log(`Name: ${nameWETH}`)
+    console.log(`Symbol: ${symbolWETH}`)
+    console.log(`Total supply: ${ethers.formatEther(totalSupplyWETH)}`)
     const balanceWETH = await contractWETH.balanceOf('vitalik.eth')
-    console.log(`Vitalik持仓: ${ethers.formatEther(balanceWETH)}\n`)
+    console.log(`Vitalik's balance: ${ethers.formatEther(balanceWETH)}\n`)
 
-    // 2. 读取DAI合约的链上信息（IERC20接口合约）
+    // 2. Reading on-chain information of the DAI contract (IERC20 interface contract)
     const nameDAI = await contractDAI.name()
     const symbolDAI = await contractDAI.symbol()
     const totalSupplDAI = await contractDAI.totalSupply()
-    console.log("\n2. 读取DAI合约信息")
-    console.log(`合约地址: ${addressDAI}`)
-    console.log(`名称: ${nameDAI}`)
-    console.log(`代号: ${symbolDAI}`)
-    console.log(`总供给: ${ethers.formatEther(totalSupplDAI)}`)
+    console.log("\n2. Retrieve DAI contract information")
+    console.log(`Contract Address: ${addressDAI}`)
+    console.log(`Name: ${nameDAI}`)
+    console.log(`Code: ${symbolDAI}`)
+    console.log(`Total Supply: ${ethers.formatEther(totalSupplDAI)}`)
     const balanceDAI = await contractDAI.balanceOf('vitalik.eth')
-    console.log(`Vitalik持仓: ${ethers.formatEther(balanceDAI)}\n`)
+    console.log(`Vitalik's Balance: ${ethers.formatEther(balanceDAI)}\n`)
 }
 
 main()
 ```
 
-可以看到，用两种方法创建的合约实例都能成功与链上交互。V神的钱包里有`0.05 WETH`及`555508 DAI`，见下图。
-
-![成功读取V神WETH和DAI持仓](img/3-2.png)
-
-**说明**
-我们可以通过[以太坊浏览器](https://etherscan.io/token/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2#readContract) 验证V神钱包里的`WETH`余额, 是否与通过`Contract`读取的一致。 通过[ENS](https://app.ens.domains/name/vitalik.eth/details) 查到V神钱包地址是`0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045`,然后通过合约方法`balanceOf`得到余额正好是`0.05 WETH`, 结论是一致！
-![V神WETH余额](img/3-3.png)
-
-## 总结
-
-这一讲，我们介绍了`ethers`中的`Contract`合约类，并创建了`WETH`和`DAI`的只读`Contract`实例，成功读取了V神这两个币的持仓。
+As you can see, instances of contracts created using both methods can successfully interact with the blockchain. Vitalik's wallet contains `0.05 WETH` and `555508 DAI`, as shown in the figure below.
 
 
+![Successfully read Vitalik's WETH and DAI balances](img/3-2.png)
 
+**Explanation:**
+We can verify the balance of `WETH` in Vitalik's wallet and whether it matches the one read from the `Contract` using the [Ethereum browser](https://etherscan.io/token/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2#readContract). By using [ENS](https://app.ens.domains/name/vitalik.eth/details), we found that Vitalik's wallet address is `0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045`. By using the `balanceOf` contract method, we obtained a balance of exactly `0.05 WETH`. The conclusion is consistent!
+![Vitalik's WETH Balance](img/3-3.png)
 
+## Summary
+
+In this lesson, we introduced the `Contract` class in `ethers` and created read-only `Contract` instances for `WETH` and `DAI`. We successfully read Vitalik's balances for these two tokens.

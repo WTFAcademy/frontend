@@ -1,5 +1,5 @@
 ---
-title: 19. 监听Mempool
+title: 19. Listen to Mempool
 tags:
   - ethers
   - javascript
@@ -10,58 +10,56 @@ tags:
   - web
 ---
 
-# WTF Ethers: 19. 监听Mempool
+# WTF Ethers: 19. Listen to Mempool
 
-Recently, I have been revisiting `ethers.js`, consolidating the finer details, and writing `WTF Ethers Introduction` tutorials for newbies. 
+I've been revisiting `ethers.js` recently to refresh my understanding of the details and to write a simple tutorial called "WTF Ethers" for beginners.
 
-Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
+**Twitter**: [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
+**Community**: [Website wtf.academy](https://wtf.academy) | [WTF Solidity](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [WeChat Group Application](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
-
-English translations by: [@yzhxxyz](https://twitter.com/yzhxxyz)
+All the code and tutorials are open-sourced on GitHub: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
 -----
 
-这一讲，我们将介绍如何读取`mempool`（交易内存池）中的交易。
+In this lesson, we will learn how to read transactions from the `mempool`.
 
 ## MEV
 
-`MEV`（Maximal Extractable Value，最大可提取价值）是个令人着迷的话题。大部分人对它很陌生，因为在支持智能合约的区块链被发明之前它并不存在。它是科学家的盛宴，矿场的友人，散户的噩梦。
+`MEV` (Maximal Extractable Value) is a fascinating topic. Most people are unfamiliar with it as it did not exist before the invention of blockchain that supports smart contracts. It's a feast for searchers, a friend of miners, and a nightmare for retail investors.
 
-在区块链中，矿工可以通过打包、排除或重新排序他们产生的区块中的交易来获得一定的利润，而`MEV`是衡量这种利润的指标。
+In blockchain, miners/validators can profit by packing, excluding, or reordering transactions in the blocks they generate, and `MEV` is a metric that measures this profit.
 
 ## Mempool
 
-在用户的交易被矿工打包进以太坊区块链之前，所有交易会汇集到Mempool（交易内存池）中。矿工也是在这里寻找费用高的交易优先打包，实现利益最大化。通常来说，gas price越高的交易，越容易被打包。
+Before a user's transaction is included in the Ethereum blockchain by miners/validators, all transactions gather in the Mempool. Miners also search for transactions with high fees in the Mempool to prioritize packaging and maximize their profits. Generally, transactions with higher gas prices are more likely to be packaged.
 
-同时，一些`MEV`机器人也会搜索`mempool`中有利可图的交易。比如，一笔滑点设置过高的`swap`交易可能会被三明治攻击：通过调整gas，机器人会在这笔交易之前插一个买单，之后发送一个卖单，等效于把把代币以高价卖给用户（抢跑）。
+At the same time, some `MEV` bots also search for profitable trades in the `mempool`. For example, a `swap` transaction with a high slippage may be subject to sandwich attacks: the bot adjusts the gas price to insert a buy order before the transaction, and then sends a sell order afterward, effectively selling the tokens at a higher price to the user (front-running).
 
 ![Mempool](./img/19-1.png)
 
-## 监听mempool
+## Listening to the Mempool
 
-你可以利用`ethers.js`的`Provider`类提供的方法，监听`mempool`中的`pending`（未决，待打包）交易：
+You can use the `Provider` class provided by `ethers.js` to listen to `pending` transactions in the `mempool`:
 
 ```js
 provider.on("pending", listener)
 ```
 
-## 监听mempool脚本
+## Mempool Listening Script
 
-下面，我们写一个监听`mempool`脚本。
+Below is a script that listens to the `mempool`.
 
-1. 创建`provider`和`wallet`。这次我们用的`provider`是WebSocket Provider，更持久的监听交易。因此，我们需要将`url`换成`wss`的。
+1. Create the `provider` and `wallet`. This time, we will use a WebSocket Provider for more persistent transaction listening. Thus, we need to change the `url` to `wss`.
 
     ```js
-    console.log("\n1. 连接 wss RPC")
-    // 准备 alchemy API 可以参考https://github.com/AmazingAng/WTF-Solidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md 
+    console.log("\n1. Connect to wss RPC")
+    // Prepare alchemy API, for reference visit: https://github.com/AmazingAng/WTF-Solidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md 
     const ALCHEMY_MAINNET_WSSURL = 'wss://eth-mainnet.g.alchemy.com/v2/oKmOQKbneVkxgHZfibs-iFhIlIAl6HDN';
     const provider = new ethers.WebSocketProvider(ALCHEMY_MAINNET_WSSURL);
     ```
 
-2. 因为`mempool`中的未决交易很多，每秒上百个，很容易达到免费`rpc`节点的请求上限，因此我们需要用`throttle`限制请求频率。
+2. Because there are many pending transactions in the `mempool`, sometimes hundreds per second, it is easy to reach the request limit of free RPC nodes. Therefore, we need to throttle the request frequency using `throttle`.
 
     ```js
     function throttle(fn, delay) {
@@ -78,36 +76,36 @@ provider.on("pending", listener)
     }
     ```
 
-3. 监听`mempool`的未决交易，并打印交易哈希。
+3. Listen to the pending transactions in the `mempool` and print the transaction hash.
 
     ```js
     let i = 0
     provider.on("pending", async (txHash) => {
         if (txHash && i < 100) {
-            // 打印txHash
-            console.log(`[${(new Date).toLocaleTimeString()}] 监听Pending交易 ${i}: ${txHash} \r`);
+            // Print txHash
+            console.log(`[${(new Date).toLocaleTimeString()}] Listening to Pending Transaction ${i}: ${txHash} \r`);
             i++
             }
     });
     ```
-    ![获取pending交易哈希](./img/19-2.png)
+    ![Get pending transaction hash](./img/19-2.png)
 
-4. 通过未决交易的哈希，获取交易详情。我们看到交易还未上链，它的`blockHash`，`blockNumber`，和`transactionIndex`都为空。但是我们可以获取到交易的发送者地址`from`，燃料费`gasPrice`，目标地址`to`，发送的以太数额`value`，发送数据`data`等等信息。机器人就是利用这些信息进行`MEV`挖掘的。
+4. Get the transaction details using the hash of the pending transaction. We can see that the transaction has not been included in a block yet, so its `blockHash`, `blockNumber`, and `transactionIndex` are all empty. However, we can retrieve information such as the sender address `from`, gas price `gasPrice`, target address `to`, amount of ether sent `value`, transaction data `data`, etc. Bots utilize this information for `MEV` mining.
 
     ```js
     let j = 0
     provider.on("pending", throttle(async (txHash) => {
         if (txHash && j >= 100) {
-            // 获取tx详情
+            // Get transaction details
             let tx = await provider.getTransaction(txHash);
-            console.log(`\n[${(new Date).toLocaleTimeString()}] 监听Pending交易 ${j}: ${txHash} \r`);
+            console.log(`\n[${(new Date).toLocaleTimeString()}] Listening to Pending Transaction ${j}: ${txHash} \r`);
             console.log(tx);
             j++
             }
     }, 1000));
     ```
-    ![获取交易详情](./img/19-3.png)
+    ![Get transaction details](./img/19-3.png)
 
-## 总结
+## Summary
 
-这一讲，我们简单介绍了`MEV`和`mempool`，并写了个脚本监听`mempool`的未决交易。
+In this lesson, we briefly introduced `MEV` and `mempool`, and wrote a script to listen to pending transactions in the `mempool`.

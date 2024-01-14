@@ -1,21 +1,19 @@
-// 正则表达式，
-// ^0x之后跟前几位要匹配的字符
-// .*为通配符
-// $之前写最后几位要匹配的字符
-// 例子：首位两个0，末尾两个1 
+// Regular expression,
+// Match the characters after ^0x with the characters to be matched in the previous few positions
+// .* is a wildcard
+// Write the characters to be matched in the last few positions before $
+// Example: two 0 at the beginning and two 1 at the end 
 // const regex = /^0x00.*11$/
 
 import { ethers } from "ethers";
-var wallet // 钱包
-const regex = /^0x000.*$/ // 表达式
+var wallet // Wallet
+const regex = /^0x000.*$/ // Expression
 var isValid = false
 while(!isValid){
-    wallet = ethers.Wallet.createRandom() // 随机生成钱包，安全
-    isValid = regex.test(wallet.address) // 检验正则表达式
+    wallet = ethers.Wallet.createRandom() // Generate a random wallet for security
+    isValid = regex.test(wallet.address) // Validate the regular expression
     //console.log(wallet.address)
 }
-// 打印靓号地址与私钥
-console.log(`\n靓号地址：${wallet.address}`)
-console.log(`靓号私钥：${wallet.privateKey}\n`)
-
-
+// Print the fancy address and private key
+console.log(`\nFancy address: ${wallet.address}`)
+console.log(`Fancy private key: ${wallet.privateKey}\n`)

@@ -1,5 +1,5 @@
 ---
-title: 17. MerkleTree脚本
+title: 17. MerkleTree Script
 tags:
   - ethers
   - javascript
@@ -9,53 +9,51 @@ tags:
   - web
 ---
 
-# WTF Ethers: 17. MerkleTree脚本
+# WTF Ethers: 17. MerkleTree Script
 
-Recently, I have been revisiting `ethers.js`, consolidating the finer details, and writing `WTF Ethers Introduction` tutorials for newbies. 
+I've been revisiting `ethers.js` recently to refresh my understanding of the details and to write a simple tutorial called "WTF Ethers" for beginners.
 
-Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
+**Twitter**: [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
+**Community**: [Website wtf.academy](https://wtf.academy) | [WTF Solidity](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [WeChat Group Application](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
-
-English translations by: [@yzhxxyz](https://twitter.com/yzhxxyz)
+All the code and tutorials are open-sourced on GitHub: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
 -----
 
-这一讲我们写一个利用`Merkle Tree`白名单铸造`NFT`的脚本，如果你对`Merkle Tree`合约不熟悉，请看[WTF Solidity极简教程第37讲：Merkle Tree](https://github.com/AmazingAng/WTF-Solidity/blob/main/36_MerkleTree/readme.md)。
+In this lesson, we will write a script that utilizes the Merkle Tree to whitelist addresses for minting NFTs. If you are not familiar with the Merkle Tree contract, please refer to [WTF Solidity 36: Merkle Tree](https://www.wtf.academy/solidity-application/MerkleTree/).
 
 ## Merkle Tree
-`Merkle Tree`，也叫默克尔树或哈希树，是区块链的底层加密技术，被比特币和以太坊区块链广泛采用。`Merkle Tree`是一种自下而上构建的加密树，每个叶子是对应数据的哈希，而每个非叶子为它的`2`个子节点的哈希。
+A Merkle Tree, also known as a hash tree, is a fundamental cryptographic technology used in blockchain systems, including Bitcoin and Ethereum. A Merkle Tree is a bottom-up constructed binary tree, where each leaf node represents the hash of some data, and each non-leaf node represents the hash of its two child nodes.
 
 ![Merkle Tree](./img/17-1.png)
 
-`Merkle Tree`允许对大型数据结构的内容进行有效和安全的验证（`Merkle Proof`）。对于有`N`个叶子结点的`Merkle Tree`，在已知`root`根值的情况下，验证某个数据是否有效（属于`Merkle Tree`叶子结点）只需要`log(N)`个数据（也叫`proof`），非常高效。如果数据有误，或者给的`proof`错误，则无法还原出`root`根植。下面的例子中，叶子`L1`的`Merkle proof`为`Hash 0-1`和`Hash 1`：知道这两个值，就能验证`L1`的值是不是在`Merkle Tree`的叶子中。
+The Merkle Tree allows for efficient and secure verification of large data structures (Merkle Proof). For a Merkle Tree with `N` leaf nodes, given the known root value, verifying whether a specific data is valid (belonging to a leaf node of the Merkle Tree) only requires `log(N)` data (also known as a proof), which is highly efficient. If the data is incorrect or the provided proof is wrong, it is not possible to obtain the root value. In the example below, the Merkle proof for leaf L1 includes `"Hash 0-1"` and `"Hash 1"`: knowing these two values allows us to verify if the value of `L1` is present in the Merkle Tree's leaf nodes.
 
 ![Merkle Proof](./img/17-2.png)
 
-## `Merkle Tree`合约简述
+## Merkle Tree Contract Overview
 
-[WTF Solidity极简教程第36讲：Merkle Tree](https://github.com/AmazingAng/WTF-Solidity/blob/main/36_MerkleTree/readme.md)中的`MerkleTree`合约利用`Merkle Tree`验证白名单铸造`NFT`。我们简单讲下这里用到的两个函数：
+In [WTF Solidity 36: Merkle Tree](https://github.com/AmazingAng/WTF-Solidity/blob/main/36_MerkleTree/readme.md), the `MerkleTree` contract is used to validate whitelisted addresses for minting NFTs. Let's briefly explain the two functions used here:
 
-1. 构造函数：初始化NFT的名称，代号，和`Merkle Tree`的`root`。
+1. Constructor: Initializes the name, code, and root of merkle tree of the NFT contract.
 
-2. `mint()`：利用`Merkle Proof`验证白名单地址并铸造。参数为白名单地址`account`，铸造的`tokenId`，和`proof`。
+2. `mint()`: Uses the Merkle Proof to validate the whitelisted address and mint the NFT. The function parameters are the whitelisted address `account`, the `tokenId` to be minted, and the `proof`.
 
 ## `MerkleTree.js`
 
-`MerkleTree.js`是构建`Merkle Tree`和`Merkle Proof`的Javascript包（[Github连接](https://github.com/miguelmota/merkletreejs)）。你可以用`npm`安装他：
+`MerkleTree.js` is a JavaScript package for building Merkle Trees and generating Merkle Proofs ([Github link](https://github.com/miguelmota/merkletreejs)). You can install it via npm:
 
 ```shell
 npm install merkletreejs
 ```
 
-这里，我们演示如何生成叶子数据包含`4`个白名单地址的`Merkle Tree`。
+Here, we demonstrate how to generate a Merkle Tree with leaf nodes containing 4 whitelisted addresses.
 
-1. 创建白名单地址数组。
+1. Create an array of whitelisted addresses.
     ```js
     import { MerkleTree } from "merkletreejs";
-    // 白名单地址
+    // Whitelisted addresses
     const tokens = [
         "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4", 
         "0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2",
@@ -64,76 +62,76 @@ npm install merkletreejs
     ];
     ```
 
-2. 将数据进行`keccak256`哈希（与solidity使用的哈希函数匹配），创建叶子结点。
+2. Hash the data using `keccak256` (matching the hashing function used in Solidity) to create the leaf nodes.
 
     ```js
     const leaf = tokens.map(x => ethers.keccak256(x))
     ```
 
-3. 创建`Merkle Tree`，哈希函数仍然选择`keccak256`，可选参数`sortPairs: true`（[constructor函数文档](https://github.com/miguelmota/merkletreejs/blob/master/docs/classes/_src_merkletree_.merkletree.md#constructor)），与`Merkle Tree`合约处理方式保持一致。
+3. Create the Merkle Tree, using `keccak256` as the hashing function. The optional parameter `sortPairs: true` keeps the same processing logic as the Merkle Tree contract.
 
     ```js
     const merkletree = new MerkleTree(leaf, ethers.keccak256, { sortPairs: true });
     ```
 
-4. 获得`Merkle Tree`的`root`。
+4. Get the `root` of the Merkle Tree.
     ```js
     const root = merkletree.getHexRoot()
     ```
 
-5. 获得第`0`个叶子节点的`proof`。
+5. Get the `proof` for the leaf node at index `0`.
     ```js
     const proof = merkletree.getHexProof(leaf[0]);
     ```
 
-## `Merkle Tree`白名单铸造`NFT`
+## Whitelist Address Token Minting with Merkle Tree
 
-这里，我们举个例子，利用`MerkleTree.js`和`ethers.js`验证白名单并铸造`NFT`。
+Here, we provide an example of how to validate a whitelist and mint NFTs using `MerkleTree.js` and `ethers.js`.
 
-1. 生成`Merkle Tree`。
+1. Generate the Merkle Tree.
 
     ```js
-    // 1. 生成merkle tree
-    console.log("\n1. 生成merkle tree")
-    // 白名单地址
+    // 1. Generate Merkle Tree
+    console.log("\n1. Generate Merkle Tree")
+    // Whitelisted addresses
     const tokens = [
         "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4", 
         "0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2",
         "0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db",
         "0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB"
     ];
-    // leaf, merkletree, proof
+    // Leaf, Merkle Tree, Proof
     const leaf       = tokens.map(x => ethers.keccak256(x))
     const merkletree = new MerkleTree(leaf, ethers.keccak256, { sortPairs: true });
     const proof      = merkletree.getHexProof(leaf[0]);
-    const root = merkletree.getHexRoot()
+    const root       = merkletree.getHexRoot()
     console.log("Leaf:")
     console.log(leaf)
-    console.log("\nMerkleTree:")
+    console.log("\nMerkle Tree:")
     console.log(merkletree.toString())
     console.log("\nProof:")
     console.log(proof)
     console.log("\nRoot:")
     console.log(root)
     ```
-    ![生成Merkle Tree](./img/17-3.png)
+    ![Generating Merkle Tree](./img/17-3.png)
 
-2. 创建provider和wallet
+2. Create provider and wallet.
 
     ```js
-    // 准备 alchemy API 可以参考https://github.com/AmazingAng/WTF-Solidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md 
+    // Prepare Alchemy API - refer to https://github.com/AmazingAng/WTF-Solidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md 
     const ALCHEMY_GOERLI_URL = 'https://eth-goerli.alchemyapi.io/v2/GlaeWuylnNM3uuOo-SAwJxuwTdqHaY5l';
-    const provider = new ethers.JsonRpcProvider(ALCHEMY_GOERLI_URL);
-    // 利用私钥和provider创建wallet对象
+const provider = new ethers.JsonRpcProvider(ALCHEMY_GOERLI_URL);
+    // Create wallet object using private key and provider
     const privateKey = '0x227dbb8586117d55284e26620bc76534dfbd2394be34cf4a09cb775d593b6f2b'
     const wallet = new ethers.Wallet(privateKey, provider)
     ```
 
-3. 创建合约工厂，为部署合约做准备。
+3. Create contract factory to prepare for deploying the contract.
 
     ```js
-    // 3. 创建合约工厂
-    // NFT的abi
+    // 3. Create contract factory
+    // NFT ABI
     const abiNFT = [
         "constructor(string memory name, string memory symbol, bytes32 merkleroot)",
         "function name() view returns (string)",
@@ -142,50 +140,50 @@ npm install merkletreejs
         "function ownerOf(uint256) view returns (address)",
         "function balanceOf(address) view returns (uint256)",
     ];
-    // 合约字节码，在remix中，你可以在两个地方找到Bytecode
-    // i. 部署面板的Bytecode按钮
-    // ii. 文件面板artifact文件夹下与合约同名的json文件中
-    // 里面"object"字段对应的数据就是Bytecode，挺长的，608060起始
+    // Contract bytecode, in remix, you can find the Bytecode in two places
+    // i. Bytecode button in the deploy panel
+    // ii. In the json file with the same name as the contract in the artifact folder in the file panel
+    // The data corresponding to the "object" field is the Bytecode, quite long, starting with 608060
     // "object": "608060405260646000553480156100...
     const bytecodeNFT = contractJson.default.object;
     const factoryNFT = new ethers.ContractFactory(abiNFT, bytecodeNFT, wallet);
     ```
 
-4. 利用contractFactory部署NFT合约
+4. Deploy the NFT contract using the contract factory
 
     ```js
-    console.log("\n2. 利用contractFactory部署NFT合约")
-    // 部署合约，填入constructor的参数
+    console.log("\n2. Deploy the NFT contract using the contract factory")
+    // Deploy the contract and fill in the constructor parameters
     const contractNFT = await factoryNFT.deploy("WTF Merkle Tree", "WTF", root)
-    console.log(`合约地址: ${contractNFT.target}`);
-    console.log("等待合约部署上链")
+    console.log(`Contract address: ${contractNFT.target}`);
+    console.log("Waiting for the contract to be deployed on chain")
     await contractNFT.waitForDeployment()
-    console.log("合约已上链")
+    console.log("Contract deployed")
     ```
-    ![部署Merkle Tree合约](./img/17-4.png)
+    ![Deploying Merkle Tree contract](./img/17-4.png)
 
-5. 调用`mint()`函数，利用`merkle tree`验证白名单，并给第`0`个地址铸造`NFT`。在`mint`成功后可以看到`NFT`余额变为`1`。
+5. Call the `mint()` function to validate the whitelist using the merkle tree and mint an NFT for the first address. After successful minting, the NFT balance will be 1.
     ```js
-    console.log("\n3. 调用mint()函数，利用merkle tree验证白名单，给第一个地址铸造NFT")
-    console.log(`NFT名称: ${await contractNFT.name()}`)
-    console.log(`NFT代号: ${await contractNFT.symbol()}`)
+    console.log("\n3. Call the mint() function to validate the whitelist using the merkle tree and mint an NFT for the first address")
+    console.log(`NFT name: ${await contractNFT.name()}`)
+    console.log(`NFT symbol: ${await contractNFT.symbol()}`)
     let tx = await contractNFT.mint(tokens[0], "0", proof)
-    console.log("铸造中，等待交易上链")
+    console.log("Minting, waiting for the transaction to be confirmed on chain")
     await tx.wait()
-    console.log(`mint成功，地址${tokens[0]} 的NFT余额: ${await contractNFT.balanceOf(tokens[0])}\n`)
+    console.log(`Mint successful, NFT balance for address ${tokens[0]}: ${await contractNFT.balanceOf(tokens[0])}\n`)
     ```
-    ![白名单铸造](./img/17-5.png)
+    ![Whitelist minting](./img/17-5.png)
 
-## 用于生产环境
+## For Production
 
-在生产环境使用`Merkle Tree`验证白名单发行`NFT`主要有以下步骤：
+To use the Merkle Tree to validate whitelist and issue NFTs in production, follow these steps:
 
-1. 确定白名单列表。
-2. 在后端生成白名单列表的`Merkle Tree`。
-3. 部署`NFT`合约，并将`Merkle Tree`的`root`保存在合约中。
-4. 用户铸造时，向后端请求地址对应的`proof`。
-5. 用户调用`mint()`函数进行铸造`NFT`。
+1. Determine the whitelist.
+2. Generate the Merkle Tree for the whitelist on the backend.
+3. Deploy the NFT contract and save the root of the Merkle Tree in the contract.
+4. When a user wants to mint, request the `proof` corresponding to the address from the backend.
+5. The user can then call the `mint()` function to mint the NFT.
 
-## 总结
+## Summary
 
-这一讲，我们简单介绍了`Merkle Tree`，并利用`MerkleTree.js`和`ethers.js`创建、验证白名单，铸造`NFT`。
+In this lesson, we introduced the Merkle Tree and used `MerkleTree.js` and `ethers.js` to create, validate whitelist, and mint NFTs.
