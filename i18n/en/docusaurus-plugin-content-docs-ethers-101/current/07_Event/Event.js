@@ -1,51 +1,42 @@
-// 检索事件的方法：
-// const transferEvents = await contract.queryFilter("事件名", [起始区块高度，结束区块高度])
-// 其中起始区块高度和结束区块高度为选填参数。
+// Method for retrieving events:
+// const transferEvents = await contract.queryFilter("Event Name", [Start Block Height, End Block Height])
+// Start Block Height and End Block Height are optional parameters.
 
 import { ethers } from "ethers";
-// playcode免费版不能安装ethers，用这条命令，需要从网络上import包（把上面这行注释掉）
+// playcode free version cannot install ethers, use this command and import the package from the web (comment out the line above)
 // import { ethers } from "https://cdn-cors.ethers.io/lib/ethers-5.6.9.esm.min.js";
 
-// 利用Alchemy的rpc节点连接以太坊网络
-// 准备 alchemy API 可以参考https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md
-const ALCHEMY_GOERLI_URL =
-  "https://eth-goerli.alchemyapi.io/v2/GlaeWuylnNM3uuOo-SAwJxuwTdqHaY5l";
+// Connect to the Ethereum network using an Alchemy rpc node
+// Prepare the Alchemy API, refer to https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md
+const ALCHEMY_GOERLI_URL = 'https://eth-goerli.alchemyapi.io/v2/GlaeWuylnNM3uuOo-SAwJxuwTdqHaY5l';
 const provider = new ethers.JsonRpcProvider(ALCHEMY_GOERLI_URL);
 
-// WETH ABI，只包含我们关心的Transfer事件
+// WETH ABI, only includes the Transfer event we care about
 const abiWETH = [
-  "event Transfer(address indexed from, address indexed to, uint amount)",
+    "event Transfer(address indexed from, address indexed to, uint amount)"
 ];
 
-// 测试网WETH地址
-const addressWETH = "0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6";
-// 声明合约实例
-const contract = new ethers.Contract(addressWETH, abiWETH, provider);
+// Testnet WETH address
+const addressWETH = '0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6'
+// Declare contract instance
+const contract = new ethers.Contract(addressWETH, abiWETH, provider)
 
 const main = async () => {
-  // 获取过去10个区块内的Transfer事件
-  console.log("\n1. 获取过去10个区块内的Transfer事件，并打印出1个");
-  // 得到当前block
-  const block = await provider.getBlockNumber();
-  console.log(`当前区块高度: ${block}`);
-  console.log(`打印事件详情:`);
-  const transferEvents = await contract.queryFilter(
-    "Transfer",
-    block - 10,
-    block,
-  );
-  // 打印第1个Transfer事件
-  console.log(transferEvents[0]);
 
-  // 解析Transfer事件的数据（变量在args中）
-  console.log("\n2. 解析事件：");
-  const amount = ethers.formatUnits(
-    ethers.getBigInt(transferEvents[0].args["amount"]),
-    "ether",
-  );
-  console.log(
-    `地址 ${transferEvents[0].args["from"]} 转账${amount} WETH 到地址 ${transferEvents[0].args["to"]}`,
-  );
-};
+    // Get Transfer events within the past 10 blocks
+    console.log("\n1. Get Transfer events within the past 10 blocks and print 1 event");
+    // Get the current block
+    const block = await provider.getBlockNumber()
+    console.log(`Current block height: ${block}`);
+    console.log(`Print event details:`);
+    const transferEvents = await contract.queryFilter('Transfer', block - 10, block)
+    // Print the first Transfer event
+    console.log(transferEvents[0])
 
-main();
+    // Parse the data of the Transfer event (variables are in args)
+    console.log("\n2. Parse the event:");
+    const amount = ethers.formatUnits(ethers.getBigInt(transferEvents[0].args["amount"]), "ether");
+    console.log(`Address ${transferEvents[0].args["from"]} transferred ${amount} WETH to address ${transferEvents[0].args["to"]}`)
+}
+
+main()

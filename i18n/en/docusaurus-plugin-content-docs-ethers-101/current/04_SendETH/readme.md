@@ -12,209 +12,209 @@ tags:
 
 # WTF Ethers: 4. Send ETH
 
-Recently, I have been revisiting `ethers.js`, consolidating the finer details, and writing `WTF Ethers Introduction` tutorials for newbies. 
+I've been revisiting `ethers.js` recently to refresh my understanding of the details and to write a simple tutorial called "WTF Ethers" for beginners.
 
-Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
+**Twitter**: [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
+**Community**: [Website wtf.academy](https://wtf.academy) | [WTF Solidity](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [WeChat Group Application](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
-
-English translations by: [@yzhxxyz](https://twitter.com/yzhxxyz)
+All the code and tutorials are open-sourced on GitHub: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
 -----
 
-这一讲，我们将介绍`Signer`签名者类和它派生的`Wallet`钱包类，并利用它来发送`ETH`。
+In this lesson, we will introduce the `Signer` class and its derived class `Wallet`, and use it to send `ETH`.
 
-## `Signer`签名者类
+## `Signer` Class
 
-`Web3.js`认为用户会在本地部署以太坊节点，私钥和网络连接状态由这个节点管理（实际并不是这样）；而在`ethers.js`中，`Provider`提供器类管理网络连接状态，`Signer`签名者类或`Wallet`钱包类管理密钥，安全且灵活。
+Unlike `Web3.js`, which assumes that users will deploy Ethereum nodes locally and manage private keys and network connection status through this node (which is not actually the case), `ethers.js` manages network connection status with the `Provider` class, and manages keys securely and flexibly with the `Signer` class or `Wallet` class, separately.
 
-在`ethers`中，`Signer`签名者类是以太坊账户的抽象，可用于对消息和交易进行签名，并将签名的交易发送到以太坊网络，并更改区块链状态。`Signer`类是抽象类，不能直接实例化，我们需要使用它的子类：`Wallet`钱包类。
+In `ethers`, the `Signer` class is an abstraction of an Ethereum account that can be used to sign messages and transactions, send signed transactions to the Ethereum network, and modify the blockchain state. The `Signer` class is an abstract class and cannot be instantiated directly, so we need to use its subclass: the `Wallet` class.
 
-## `Wallet`钱包类
+## `Wallet` Class
 
-`Wallet`类继承了`Signer`类，并且开发者可以像包含私钥的外部拥有帐户（`EOA`）一样，用它对交易和消息进行签名。
+The `Wallet` class inherits from the `Signer` class. Developers can use it to sign transactions and messages just like they own an Externally Owned Account (EOA) with a private key.
 
-下面我们介绍创建`Wallet`实例的几种办法：
+Below are several ways to create instances of the `Wallet` class:
 
-### 方法1：创建随机的wallet对象
+### Method 1: Creating a wallet object with a random private key
 
-我们可以利用`ethers.Wallet.createRandom()`函数创建带有随机私钥的`Wallet`对象。该私钥由加密安全的熵源生成，如果当前环境没有安全的熵源，则会引发错误（没法在在线平台`playcode`使用此方法）。
+We can use the `ethers.Wallet.createRandom()` function to create a `Wallet` object with a randomly generated private key. The private key is generated from an encrypted secure entropy source. If there is no secure entropy source in the current environment, an error will be thrown (this method cannot be used on the online platform `playcode`).
 
 ```javascript
-// 创建随机的wallet对象
-const wallet1 = new ethers.Wallet.createRandom()
+// Create a wallet object with a random private key
+const wallet1 = ethers.Wallet.createRandom()
 ```
 
-### 方法2：用私钥创建wallet对象
-我们已知私钥的情况下，可以利用`ethers.Wallet()`函数创建`Wallet`对象。
+### Method 2: Creating a wallet object with a known private key
+
+If we know the private key, we can use the `ethers.Wallet()` function to create a `Wallet` object.
 
 ```javascript
-// 利用私钥和provider创建wallet对象
+// Create a wallet object with a private key and provider
 const privateKey = '0x227dbb8586117d55284e26620bc76534dfbd2394be34cf4a09cb775d593b6f2b'
 const wallet2 = new ethers.Wallet(privateKey, provider)
 ```
 
-### 方法3：从助记词创建wallet对象
+### Method 3: Creating a wallet object from a mnemonic
 
-我们已知助记词的情况下，可以利用`ethers.Wallet.fromMnemonic()`函数创建`Wallet`对象。
-
+If we know the mnemonic, we can use the `ethers.Wallet.fromMnemonic()` function to create a `Wallet` object.
 
 ```javascript
-// 从助记词创建wallet对象
-const wallet3 = new ethers.Wallet.fromMnemonic(mnemonic.phrase)
+// Create a wallet object from a mnemonic
+const wallet3 = ethers.Wallet.fromMnemonic(mnemonic.phrase)
 ```
-### 其他方法：通过JSON文件创建wallet对象
-以上三种方法即可满足大部分需求，当然还可以通过`ethers.Wallet.fromEncryptedJson`解密一个`JSON`钱包文件创建钱包实例，`JSON`文件即`keystore`文件，通常来自`Geth`, `Parity`等钱包，通过`Geth`搭建过以太坊节点的个人对`keystore`文件不会陌生。
 
-## 发送`ETH`
+### Other methods: Creating a wallet object from a JSON file
 
-我们可以利用`Wallet`实例来发送`ETH`。首先，我们要构造一个交易请求，在里面声明接收地址`to`和发送的`ETH`数额`value`。交易请求`TransactionRequest`类型可以包含发送方`from`，nonce值`nounce`，请求数据`data`等信息，之后的教程里会更详细介绍。
+The above three methods can meet most requirements. However, we can also create a wallet instance by decrypting a JSON wallet file using `ethers.Wallet.fromEncryptedJson`. The JSON file is usually the `keystore` file from wallets like Geth and Parity, which would be familiar to anyone who has set up an Ethereum node using Geth.
+
+## Sending ETH
+
+We can use a `Wallet` instance to send ETH. First, we need to construct a transaction request, declaring the recipient address `to` and the amount of ETH to be sent `value`. The transaction request, of type `TransactionRequest`, can include the sender address `from`, nonce value `nounce`, request data `data`, and other information, which will be explained in more detail in later tutorials.
 
 ```javascript
-    // 创建交易请求，参数：to为接收地址，value为ETH数额
+    // Create a transaction request with the recipient address 'to' and the amount of ETH 'value'
     const tx = {
         to: address1,
         value: ethers.parseEther("0.001")
     }
 ```
 
-然后，我们就可以利用`Wallet`类的`sendTransaction`来发送交易，等待交易上链，并获得交易的收据，非常简单。
+Then, we can use the `sendTransaction` method of the `Wallet` class to send the transaction, wait for it to be confirmed on the chain, and get the transaction receipt. It's that simple.
 
 ```javascript
-    //发送交易，获得收据
+    // Send the transaction and get the receipt
     const receipt = await wallet2.sendTransaction(tx)
-    await receipt.wait() // 等待链上确认交易
-    console.log(receipt) // 打印交易详情
+    await receipt.wait() // Wait for the transaction to be confirmed on the chain
+    console.log(receipt) // Print the transaction details
 ```
 
-## 代码示例
+## Code Examples
 
-### 1. 创建`Provider`实例
+### 1. Create a `Provider` instance
 
 ```javascript
-// 利用Wallet类发送ETH
-// 由于playcode不支持ethers.Wallet.createRandom()函数，我们只能用VScode运行这一讲代码
+// Send ETH using the Wallet class
+// Since playcode does not support the ethers.Wallet.createRandom() function, we can only run this code in VScode
 import { ethers } from "ethers";
 
-// 利用Alchemy的rpc节点连接以太坊测试网络
-// 准备 alchemy API 可以参考https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md 
+// Connect to the Ethereum test network using the Alchemy RPC node
+// For how to prepare Alchemy API, please refer to https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md
 const ALCHEMY_GOERLI_URL = 'https://eth-goerli.alchemyapi.io/v2/GlaeWuylnNM3uuOo-SAwJxuwTdqHaY5l';
 const provider = new ethers.JsonRpcProvider(ALCHEMY_GOERLI_URL);
 ```
 
-### 2. 用三种不同方法创建`Wallet`实例
+### 2. Create `Wallet` instances using three different methods
 
-- 创建随机私钥的`Wallet`对象。这种方法创建的钱包是单机的，我们需要用`connect(provider)`函数，连接到以太坊节点。这种方法创建的钱包可以用`mnemonic`获取助记词。
+- Create a `Wallet` object with a random private key. Wallets created using this method are standalone, and we need to use the `connect(provider)` function to connect to the Ethereum node. Wallets created using this method can be used to obtain a mnemonic phrase.
 
 ```javascript
-// 创建随机的wallet对象
+// Create a wallet object with a random private key
 const wallet1 = ethers.Wallet.createRandom()
 const wallet1WithProvider = wallet1.connect(provider)
-const mnemonic = wallet1.mnemonic // 获取助记词
+const mnemonic = wallet1.mnemonic // Get the mnemonic phrase
 ```
 
-- 利用私钥和`Provider`实例创建`Wallet`对象。这种方法创建的钱包不能获取助记词。
+- Create a `Wallet` object with a private key and `Provider` instance. Wallets created using this method cannot obtain a mnemonic phrase.
+
 ```javascript
-// 利用私钥和provider创建wallet对象
+// Create a wallet object with a private key and provider
 const privateKey = '0x227dbb8586117d55284e26620bc76534dfbd2394be34cf4a09cb775d593b6f2b'
 const wallet2 = new ethers.Wallet(privateKey, provider)
 ```
 
-- 利用助记词创建`Wallet`对象。这里我们使用的是`wallet1`的助记词，因此创建出钱包的私钥和公钥都和`wallet1`相同。
+- Create a `Wallet` object with a mnemonic. Here, we use the mnemonic of `wallet1`, so the private key and public key of the created wallet will be the same as `wallet1`.
 
 ```javascript
-// 从助记词创建wallet对象
+// Create a wallet object from a mnemonic
 const wallet3 = ethers.Wallet.fromPhrase(mnemonic.phrase)
 ```
 
-### 3. 获取钱包地址
+### 3. Get the wallet addresses
 
-利用`getAddress()`函数获取钱包地址。
-
+Use the `getAddress()` function to get the wallet addresses.
 
 ```javascript
     const address1 = await wallet1.getAddress()
     const address2 = await wallet2.getAddress() 
-    const address3 = await wallet3.getAddress() // 获取地址
-    console.log(`1. 获取钱包地址`);
-    console.log(`钱包1地址: ${address1}`);
-    console.log(`钱包2地址: ${address2}`);
-    console.log(`钱包3地址: ${address3}`);
-    console.log(`钱包1和钱包3的地址是否相同: ${address1 === address3}`);
+    const address3 = await wallet3.getAddress() // Get the addresses
+    console.log(`1. Get the wallet addresses`);
+    console.log(`Address of Wallet 1: ${address1}`);
+    console.log(`Address of Wallet 2: ${address2}`);
+    console.log(`Address of Wallet 3: ${address3}`);
+    console.log(`Are the addresses of Wallet 1 and Wallet 3 the same? ${address1 === address3}`);
     
 ```
+![Get Wallet Address](img/4-1.png)
 
-![获取钱包地址](img/4-1.png)
 
+### 4. Get Mnemonic
 
-### 4. 获取助记词
-
-利用钱包对象的`mnemonic.phrase`成员获取助记词：
+Get the mnemonic phrase using the `mnemonic.phrase` member of the wallet object:
 
 ```javascript
-console.log(`钱包1助记词: ${wallet1.mnemonic.phrase}`)
+console.log(`Wallet 1 mnemonic: ${wallet1.mnemonic.phrase}`)
 ```
-![获取助记词](img/4-2.png)
+![Get Mnemonic](img/4-2.png)
 
-### 5. 获取私钥
-利用钱包对象的`privateKey`成员获取私钥：
-
-```javascript
-    console.log(`钱包2私钥: ${wallet2.privateKey}`)
-```
-
-
-![获取私钥](img/4-3.png)
-
-### 6. 获取钱包在链上的交互次数
-利用`getTransactionCount()`函数获取钱包在链上的交互次数。
+### 5. Get Private Key
+Get the private key using the `privateKey` member of the wallet object:
 
 ```javascript
-    const txCount1 = await wallet1WithProvider.getTransactionCount()
-    const txCount2 = await wallet2.getTransactionCount()
-    console.log(`钱包1发送交易次数: ${txCount1}`)
-    console.log(`钱包2发送交易次数: ${txCount2}`)
+console.log(`Wallet 2 private key: ${wallet2.privateKey}`)
 ```
 
-![获取钱包在链上的交互次数](img/4-4.png)
+
+![Get Private Key](img/4-3.png)
+
+### 6. Get Number of Interactions on the Chain for the Wallet
+
+Use the `getTransactionCount()` function to get the number of interactions on the chain for the wallet.
+
+```javascript
+    const txCount1 = await provider.getTransactionCount(wallet1WithProvider)
+    const txCount2 = await provider.getTransactionCount(wallet2)
+    console.log(`Number of transactions sent by Wallet 1: ${txCount1}`)
+    console.log(`Number of transactions sent by Wallet 2: ${txCount2}`)
+```
+
+![Get Number of Interactions on the Chain for the Wallet](img/4-4.png)
 
 
-### 7. 发送`ETH`
+### 7. Send `ETH`
 
-我们用`wallet2`给`wallet1`发送`0.001 ETH`，并打印交易前后的钱包余额。由于`wallet1`是新建的随机私钥钱包，因此交易前余额为`0`，而交易后余额为`0.001 ETH`。
+We send `0.001 ETH` from `wallet2` to `wallet1` and print the wallet balances before and after the transaction. Since `wallet1` is a newly created random private key wallet, the balance before the transaction is `0`, and after the transaction, it becomes `0.001 ETH`.
 
 
 ```javascript
-    // 5. 发送ETH
-    // 如果这个钱包没goerli测试网ETH了，去水龙头领一些，钱包地址: 0xe16C1623c1AA7D919cd2241d8b36d9E79C1Be2A2
-    // 1. chainlink水龙头: https://faucets.chain.link/goerli
-    // 2. paradigm水龙头: https://faucet.paradigm.xyz/
-    console.log(`\n5. 发送ETH（测试网）`);
-    // i. 打印交易前余额
-    console.log(`i. 发送前余额`)
-    console.log(`钱包1: ${ethers.formatEther(await provider.getBalance(wallet1WithProvider))} ETH`)
-    console.log(`钱包2: ${ethers.formatEther(await provider.getBalance(wallet2))} ETH`)
-    // ii. 构造交易请求，参数：to为接收地址，value为ETH数额
+    // 5. Send ETH
+    // If this wallet doesn't have any goerli testnet ETH, get some from a faucet, wallet address: 0xe16C1623c1AA7D919cd2241d8b36d9E79C1Be2A2
+    // 1. chainlink faucet: https://faucets.chain.link/goerli
+    // 2. paradigm faucet: https://faucet.paradigm.xyz/
+    console.log(`\n5. Send ETH (testnet)`);
+    // i. Print balance before the transaction
+    console.log(`i. Balance before sending`)
+    console.log(`Wallet 1: ${ethers.formatEther(await provider.getBalance(wallet1WithProvider))} ETH`)
+    console.log(`Wallet 2: ${ethers.formatEther(await provider.getBalance(wallet2))} ETH`)
+    // ii. Create transaction request, parameters: to is the receiving address, value is the amount of ETH
     const tx = {
         to: address1,
         value: ethers.parseEther("0.001")
     }
-    // iii. 发送交易，获得收据
-    console.log(`\nii. 等待交易在区块链确认（需要几分钟）`)
+    // iii. Send transaction and get receipt
+    console.log(`\nii. Waiting for transaction to be confirmed on the blockchain (may take a few minutes)`)
     const receipt = await wallet2.sendTransaction(tx)
-    await receipt.wait() // 等待链上确认交易
-    console.log(receipt) // 打印交易详情
-    // iv. 打印交易后余额
-    console.log(`\niii. 发送后余额`)
-    console.log(`钱包1: ${ethers.formatEther(await provider.getBalance(wallet1WithProvider))} ETH`)
-    console.log(`钱包2: ${ethers.formatEther(await provider.getBalance(wallet2))} ETH`)
+    await receipt.wait() // Wait for the transaction to be confirmed on the chain
+    console.log(receipt) // Print transaction details
+    // iv. Print balance after the transaction
+    console.log(`\niii. Balance after sending`)
+    console.log(`Wallet 1: ${ethers.formatEther(await provider.getBalance(wallet1WithProvider))} ETH`)
+    console.log(`Wallet 2: ${ethers.formatEther(await provider.getBalance(wallet2))} ETH`)
 ```
 
-![发送ETH](img/4-5.png)
+![Send ETH](img/4-5.png)
 
 
-## 总结
+## Summary
 
-这一讲，我们介绍了`Signer`签名者类和`Wallet`钱包类，使用钱包实例获取了地址、助记词、私钥、链上交互次数，并发送`ETH`。
+In this lesson, we introduced the `Signer` and `Wallet` classes, used the wallet instance to get the address, mnemonic phrase, private key, and number of interactions on the chain, and sent `ETH`.

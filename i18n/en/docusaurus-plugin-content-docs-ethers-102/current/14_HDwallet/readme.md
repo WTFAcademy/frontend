@@ -1,5 +1,5 @@
 ---
-title: 14. 批量生成钱包
+title: 14. Batch Wallet Generation
 tags:
   - ethers
   - javascript
@@ -12,111 +12,109 @@ tags:
   - web
 ---
 
-# WTF Ethers: 14. 批量生成钱包
+# WTF Ethers: 14. Batch Wallet Generation
 
-Recently, I have been revisiting `ethers.js`, consolidating the finer details, and writing `WTF Ethers Introduction` tutorials for newbies. 
+I've been revisiting `ethers.js` recently to refresh my understanding of the details and to write a simple tutorial called "WTF Ethers" for beginners.
 
-Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
+**Twitter**: [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
+**Community**: [Website wtf.academy](https://wtf.academy) | [WTF Solidity](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [WeChat Group Application](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
-
-English translations by: [@yzhxxyz](https://twitter.com/yzhxxyz)
+All the code and tutorials are open-sourced on GitHub: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
 -----
 
-这一讲，我们将介绍HD钱包，并写一个批量生成钱包的脚本。
+In this chapter, we will introduce HD Wallets and write a script to generate wallets in batch.
 
-## HD钱包
+## HD Wallets
 
-HD钱包（Hierarchical Deterministic Wallet，多层确定性钱包）是一种数字钱包 ，通常用于存储比特币和以太坊等加密货币持有者的数字密钥。通过它，用户可以从一个随机种子创建一系列密钥对，更加便利、安全、隐私。要理解HD钱包，我们需要简单了解比特币的[BIP32](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki)，[BIP44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)，和[BIP39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki)。
+HD Wallets (Hierarchical Deterministic Wallets) are digital wallets commonly used to store the digital keys of cryptocurrency holders, such as Bitcoin and Ethereum. With HD Wallets, users can create a series of key pairs from a random seed, providing convenience, security, and privacy. To understand HD Wallets, we need a basic understanding of Bitcoin's [BIP32](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki), [BIP44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki), and [BIP39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki).
 
 ### BIP32
 
-在`BIP32`推出之前，用户需要记录一堆的私钥才能管理很多钱包。`BIP32`提出可以用一个随机种子衍生多个私钥，更方便的管理多个钱包。钱包的地址由衍生路径决定，例如`“m/0/0/1”`。
+Before the introduction of BIP32, users had to keep track of a collection of private keys to manage multiple wallets. BIP32 allows the derivation of multiple private keys from a single random seed, making it more convenient to manage multiple wallets. The wallet address is determined by the derivation path, for example, "m/0/0/1".
 
 ![BIP32](img/14-1.png)
 
 ### BIP44
 
-`BIP44`为`BIP32`的衍生路径提供了一套通用规范，适配比特币、以太坊等多链。这一套规范包含六级，每级之间用"/"分割：
+BIP44 provides a set of universal specifications for the derivation path in BIP32, adapting to multiple chains such as Bitcoin and Ethereum. The specification consists of six levels, separated by "/":
 ```
 m / purpose' / coin_type' / account' / change / address_index
 ```
-其中：
-- m: 固定为"m"
-- purpose：固定为"44"
-- coin_type：代币类型，比特币主网为0，比特币测试网为1，以太坊主网为60
-- account：账户索引，从0开始。
-- change：是否为外部链，0为外部链，1为内部链，一般填0.
-- address_index：地址索引，从0开始，想生成新地址就把这里改为1，2，3。
+Where:
+- m: Fixed to "m"
+- purpose: Fixed to "44"
+- coin_type: Token type, 0 for Bitcoin mainnet, 1 for Bitcoin testnet, and 60 for Ethereum mainnet
+- account: Account index, starting from 0
+- change: External or internal chain, 0 for external chain, 1 for internal chain (usually 0)
+- address_index: Address index, starting from 0. Change this field to generate new addresses, such as 1, 2, 3.
 
-举个例子，以太坊的默认衍生路径为`"m/44'/60'/0'/0/0"`。
+For example, the default derivation path for Ethereum is `"m/44'/60'/0'/0/0"`.
 
 ### BIP39
 
-`BIP39`让用户能以一些人类可记忆的助记词的方式保管私钥，而不是一串16进制的数字：
+BIP39 allows users to store private keys in a way that can be memorized with a set of human-readable mnemonic words, rather than a string of hexadecimal numbers:
 
 ```
-//私钥
+//Private Key
 0x813f8f0a4df26f6455814fdd07dd2ab2d0e2d13f4d2f3c66e7fd9e3856060f89
-//助记词
+//Mnemonic Words
 air organ twist rule prison symptom jazz cheap rather dizzy verb glare jeans orbit weapon universe require tired sing casino business anxiety seminar hunt
 ```
 
-## 批量生成钱包
+## Generate Wallets in Batch
 
-`ethers.js`提供了[HDNode类](https://docs.ethers.org/v6-beta/api/wallet/#HDNodeWallet)，方便开发者使用HD钱包。下面我们利用它从一个助记词批量生成20个钱包。
+`ethers.js` provides the [HDNode class](https://docs.ethers.org/v6-beta/api/wallet/#HDNodeWallet) to facilitate the use of HD Wallets by developers. Below, we will use it to generate 20 wallets in batch from a mnemonic phrase.
 
-1. 创建`HDNode`钱包变量，可以看到助记词为`'air organ twist rule prison symptom jazz cheap rather dizzy verb glare jeans orbit weapon universe require tired sing casino business anxiety seminar hunt'`
+1. Create an `HDNode` wallet variable. The mnemonic phrase used here is `'air organ twist rule prison symptom jazz cheap rather dizzy verb glare jeans orbit weapon universe require tired sing casino business anxiety seminar hunt'`.
     ```js
-    // 生成随机助记词
+    // Generate a random mnemonic phrase
     const mnemonic = ethers.Mnemonic.entropyToPhrase(randomBytes(32))
-    // 创建HD钱包
+    // Create an HD wallet
     const hdNode = ethers.HDNodeWallet.fromPhrase(mnemonic)
     console.log(hdNode);
     ```
     ![HDNode](img/14-2.png)
 
-2. 通过HD钱包派生20个钱包。
+2. Derive 20 wallets using the HD wallet.
 
     ```js
     const numWallet = 20
-    // 派生路径：m / purpose' / coin_type' / account' / change / address_index
-    // 我们只需要切换最后一位address_index，就可以从hdNode派生出新钱包
+    // Derivation path: m / purpose' / coin_type' / account' / change / address_index
+    // Switch the last address_index to derive new wallets from hdNode
     let basePath = "m/44'/60'/0'/0";
     let wallets = [];
     for (let i = 0; i < numWallet; i++) {
         let hdNodeNew = hdNode.derivePath(basePath + "/" + i);
         let walletNew = new ethers.Wallet(hdNodeNew.privateKey);
-        console.log(`第${i+1}个钱包地址： ${walletNew.address}`)
+        console.log(`Wallet ${i+1} address: ${walletNew.address}`)
         wallets.push(walletNew);
     }
     ```
-    ![批量生成钱包](img/14-3.png)
+    ![Generate Wallets in Batch](img/14-3.png)
 
-3. 保存钱包为加密json：
+3. Save wallets as encrypted JSON:
 
     ```js
     const wallet = ethers.Wallet.fromPhrase(mnemonic)
-    console.log("通过助记词创建钱包：")
+    console.log("Create wallet from mnemonic phrase:")
     console.log(wallet)
-    // 加密json用的密码，可以更改成别的
+    // Password for the encrypted JSON, can be changed to something else
     const pwd = "password"
     const json = await wallet.encrypt(pwd)
-    console.log("钱包的加密json：")
+    console.log("Encrypted JSON of the wallet:")
     console.log(json)
     ```
-    ![保存钱包](img/14-4.png)
+    ![Save Wallets](img/14-4.png)
 
-4. 从加密json中读取钱包：
+4. Read wallets from encrypted JSON:
     ```js
     const wallet2 = await ethers.Wallet.fromEncryptedJson(json, pwd);
-    console.log("\n4. 从加密json读取钱包：")
+    console.log("\n4. Read wallet from encrypted JSON:")
     console.log(wallet2)
     ```
-    ![读取钱包](img/14-5.png)
+    ![Read Wallet](img/14-5.png)
 
-## 总结
-这一讲我们介绍了HD钱包（BIP32，BIP44，BIP39），并利用它使用`ethers.js`批量生成了20个钱包。
+## Summary
+In this chapter, we introduced HD Wallets (BIP32, BIP44, BIP39) and used `ethers.js` to generate 20 wallets in batch.

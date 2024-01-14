@@ -1,5 +1,5 @@
 ---
-title: 10. BigInt & Unit Conversion
+title: 10. BigInt and Unit Conversion
 tags:
   - ethers
   - javascript
@@ -10,76 +10,75 @@ tags:
   - web
 ---
 
-# WTF Ethers: 10. BigInt & Unit Conversion
+# WTF Ethers: 10. BigInt and Unit Conversion
 
-Recently, I have been revisiting `ethers.js`, consolidating the finer details, and writing `WTF Ethers Introduction` tutorials for newbies. 
+I've been revisiting `ethers.js` recently to refresh my understanding of the details and to write a simple tutorial called "WTF Ethers" for beginners.
 
-Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
+**Twitter**: [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
+**Community**: [Website wtf.academy](https://wtf.academy) | [WTF Solidity](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [WeChat Group Application](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
-
-English translations by: [@yzhxxyz](https://twitter.com/yzhxxyz)
+All the code and tutorials are open-sourced on GitHub: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
 -----
 
-提示：本教程基于ethers.js 6.3.0 ，如果你使用的是v5，可以参考[ethers.js v5文档](https://docs.ethers.io/v5/)。
+Note: This tutorial is based on ethers.js v6. If you are using v5, you can refer to the [WTF Ethers v5](https://github.com/WTFAcademy/WTF-Ethers/tree/wtf-ethers-v5).
 
-这一讲，我们介绍`BigInt`类和单位转换。
+In this lesson, we will introduce the BigInt class and unit conversion.
 
-## `BigInt`
+## BigInt
 
-以太坊中，许多计算都对超出`JavaScript`整数的安全值（js中最大安全整数为`9007199254740991`）。因此，`ethers.js`使用 JavaScript ES2020 版本原生的 `BigInt` 类 安全地对任何数量级的数字进行数学运算。在`ethers.js`中，大多数需要返回值的操作将返回 `BigInt`，而接受值的参数也会接受它们。
+In Ethereum, many calculations require values that exceed the safe range of JavaScript integers (the maximum safe integer in JavaScript is `9007199254740991`). Therefore, ethers.js uses the BigInt class native to JavaScript ES2020 to securely perform mathematical operations on numbers of any magnitude. In ethers.js, most operations that need to return a value will return as `BigInt`, and parameters that accept values will also accept them.
 
-### 创建`BigInt`实例
+### Creating a BigInt Instance
 
-你可以利用`ethers.getBigInt()`函数将`string`，`number`等类型转换为`BigInt`。
+You can use the `ethers.getBigInt()` function to convert types such as strings and numbers to `BigInt`.
 
-**注意**，超过js最大安全整数的数值将不能转换。
+**Note** the values exceeding the maximum safe integer in JavaScript cannot be converted from numbers.
 
 ```js
-const oneGwei = ethers.getBigInt("1000000000"); // 从十进制字符串生成
+const oneGwei = ethers.getBigInt("1000000000"); // Generate from decimal string
 console.log(oneGwei)
-console.log(ethers.getBigInt("0x3b9aca00")) // 从hex字符串生成
-console.log(ethers.getBigInt(1000000000)) // 从数字生成
-// 不能从js最大的安全整数之外的数字生成BigNumber，下面代码会报错
+console.log(ethers.getBigInt("0x3b9aca00")); // Generate from hexadecimal string
+console.log(ethers.getBigInt(1000000000)); // Generate from number
+// Unable to generate a BigNumber from a number beyond the maximum safe integer in JavaScript
 // ethers.getBigInt(Number.MAX_SAFE_INTEGER);
-console.log("js中最大安全整数：", Number.MAX_SAFE_INTEGER)
+console.log("Maximum safe integer in JavaScript:", Number.MAX_SAFE_INTEGER)
 ```
 
-![BigNumber](img/10-1.png)
+![BigInt](img/10-1.png)
 
-### `BigInt`运算
+### BigInt Operations
 
-`BigInt`支持很多运算，例如加减乘除、取模`mod`，幂运算`pow`，绝对值`abs`等运算:
-> 注意：数值带后缀`n`会自动转换成`BigInt`
+`BigInt` supports many operations, such as addition, subtraction, multiplication, division, modulus (mod), exponentiation (pow), absolute value (abs), etc:
+
+> Note: Numeric values with the suffix `n` will automatically be converted to BigInt.
 
 ```js
-// 运算
-console.log("加法：", oneGwei + 1n)
-console.log("减法：", oneGwei - 1n)
-console.log("乘法：", oneGwei * 2n)
-console.log("除法：", oneGwei / 2n)
-// 比较
-console.log("是否相等：", oneGwei == 1000000000n)
+// Operations
+console.log("Addition:", oneGwei + 1n)
+console.log("Subtraction:", oneGwei - 1n)
+console.log("Multiplication:", oneGwei * 2n)
+console.log("Division:", oneGwei / 2n)
+// Comparison
+console.log("Is Equal:", oneGwei == 1000000000n)
 ```
 
-![BigNumber运算](img/10-2.png)
+![BigInt Operations](img/10-2.png)
 
-## 单位转换
+## Unit Conversion
 
-在以太坊中，`1 ether`等于`10^18 wei`。下面列出了一些常用的单位：
+In Ethereum, `1 ether` is equal to `10^18 wei`. Below are some commonly used units:
 
-![常用单位](img/10-3.png)
+![Common Units](img/10-3.png)
 
-在应用中，我们经常将数值在用户可读的字符串（以`ether`为单位）和机器可读的数值（以`wei`为单位）之间转换。例如，钱包可以为用户界面指定余额（以`ether`为单位）和`gas`价格（以`gwei`为单位），但是在发送交易时，两者都必须转换成以`wei`为单位的数值。`ethers.js`提供了一些功能函数，方便这类转换。
+In applications, we often need to convert values between user-readable strings (in ether units) and machine-readable values (in wei units). For example, a wallet may specify the balance (in ether units) and gas price (in gwei units) for the user interface, but both of them must be converted to values in wei units when sending transactions. ethers.js provides some utility functions to facilitate such conversions.
 
-- `formatUnits(变量, 单位)`：格式化，小单位转大单位，比如`wei` -> `ether`，在显示余额时很有用。参数中，单位填位数（数字）或指定的单位（字符串）。
+- `formatUnits(variable, unit)`: Formatting, converting smaller units to larger units, such as wei to ether, which is useful for displaying balances. In the parameter, you can specify the number of decimal places (as a number) or the specific unit (as a string).
 
     ```js
-    //代码参考：https://docs.ethers.org/v6/api/utils/#about-units
-    console.group('\n2. 格式化：小单位转大单位，formatUnits');
+    // Code Reference: https://docs.ethers.io/v6/api/utils/#about-units
+    console.group('\n2. Formatting: Converting smaller units to larger units, formatUnits');
     console.log(ethers.formatUnits(oneGwei, 0));
     // '1000000000'
     console.log(ethers.formatUnits(oneGwei, "gwei"));
@@ -87,23 +86,23 @@ console.log("是否相等：", oneGwei == 1000000000n)
     console.log(ethers.formatUnits(oneGwei, 9));
     // '1.0'
     console.log(ethers.formatUnits(oneGwei, "ether"));
-    // `0.000000001`
+    // '0.000000001'
     console.log(ethers.formatUnits(1000000000, "gwei"));
     // '1.0'
     console.log(ethers.formatEther(oneGwei));
-    // `0.000000001` 等同于formatUnits(value, "ether")
+    // '0.000000001' equivalent to formatUnits(value, "ether")
     console.groupEnd();
     ```
 
     ![formatUnits](img/10-4.png)
 
-- `parseUnits`：解析，大单位转小单位，比如`ether` -> `wei`，在将用户输入的值转为`wei`为单位的数值很有用。参数中，单位填位数（数字）或指定的单位（字符串）。
+- `parseUnits`: Parsing, converting larger units to smaller units, such as ether to wei, which is useful for converting user input values into wei units. In the parameter, you can specify the number of decimal places (as a number) or the specific unit (as a string).
 
     ```js
-    // 3. 解析：大单位转小单位
-    // 例如将ether转换为wei：parseUnits(变量, 单位),parseUnits默认单位是 ether
-    // 代码参考：https://docs.ethers.org/v6/api/utils/#about-units
-    console.group('\n3. 解析：大单位转小单位，parseUnits');
+    // 3. Parsing: Converting larger units to smaller units
+    // For example, converting ether to wei: parseUnits(value, unit), parseUnits defaults to ether unit
+    // Code Reference: https://docs.ethers.io/v6/api/utils/#about-units
+    console.group('\n3. Parsing: Converting larger units to smaller units, parseUnits');
     console.log(ethers.parseUnits("1.0").toString());
     // { BigNumber: "1000000000000000000" }
     console.log(ethers.parseUnits("1.0", "ether").toString());
@@ -115,12 +114,12 @@ console.log("是否相等：", oneGwei == 1000000000n)
     console.log(ethers.parseUnits("1.0", 9).toString());
     // { BigNumber: "1000000000" }
     console.log(ethers.parseEther("1.0").toString());
-    // { BigNumber: "1000000000000000000" } 等同于parseUnits(value, "ether")
+    // { BigNumber: "1000000000000000000" } equivalent to parseUnits(value, "ether")
     console.groupEnd();
     ```
 
     ![parseUnits](img/10-5.png)
 
-## 总结
+## Summary
 
-这一讲，我们介绍了`BigNumber`类，以太坊中的常用单位，以及单位转换。
+In this lesson, we introduced the `BigInt` class, the commonly used units in Ethereum, and unit conversion bewteen them.

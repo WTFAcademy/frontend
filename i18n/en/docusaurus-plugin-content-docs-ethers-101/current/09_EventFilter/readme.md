@@ -1,149 +1,151 @@
 ---
-title: 9. Event Filter
+title: 9. Event Filtering
+tags:
+  - ethers
+  - javascript
+  - event
+  - filter
+  - frontend
+  - web
 ---
 
-# WTF Ethers: 9. Event Filter
+# WTF Ethers: 9. Event Filtering
 
-Recently, I have been revisiting `ethers.js`, consolidating the finer details, and writing `WTF Ethers Introduction` tutorials for newbies. 
+I've been revisiting `ethers.js` recently to refresh my understanding of the details and to write a simple tutorial called "WTF Ethers" for beginners.
 
-Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
+**Twitter**: [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
+**Community**: [Website wtf.academy](https://wtf.academy) | [WTF Solidity](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [WeChat Group Application](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
-
-English translations by: [@yzhxxyz](https://twitter.com/yzhxxyz)
+All the code and tutorials are open-sourced on GitHub: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
 -----
 
-在上一讲 [WTF Ethers: 8. 合约监听](https://github.com/WTFAcademy/WTFEthers/tree/main/08_ContractListener) 的基础上，我们拓展一下，在监听的过程中增加过滤器，监听指定地址的转入转出。
+Building upon the previous lesson, let's expand our knowledge by adding event filters during the listening process to filter out transfers from specific addresses.
 
-具体可参考[ethers.js文档](https://docs.ethers.io/v5/concepts/events)。
+Refer to the [ethers.js documentation](https://docs.ethers.org/v6/api/contract/#ContractEvent) for more details.
 
-## 过滤器
+## Filters
 
-当合约创建日志（释放事件）时，它最多可以包含[4]条数据作为索引（`indexed`）。索引数据经过哈希处理并包含在[布隆过滤器](https://en.wikipedia.org/wiki/Bloom_filter)中，这是一种允许有效过滤的数据结构。因此，一个事件过滤器最多包含`4`个主题集，每个主题集是个条件，用于筛选目标事件。规则：
+When a contract emits a log (fires an event), it can contain up to 4 `indexed` items. These indexed data items are hashed and included in a [Bloom filter](https://en.wikipedia.org/wiki/Bloom_filter), which is a data structure that allows for efficient filtering. Therefore, an event filter can contain up to `4` topic sets, and each topic set serves as a condition to filter target events. The rules are as follows:
 
-- 如果一个主题集为`null`，则该位置的日志主题不会被过滤，任何值都匹配。
-- 如果主题集是单个值，则该位置的日志主题必须与该值匹配。
-- 如果主题集是数组，则该位置的日志主题至少与数组中其中一个匹配。
+- If a topic set is `null`, the log topic at that position will not be filtered, and any value will match.
+- If the topic set is a single value, the log topic at that position must match that value.
+- If the topic set is an array, the log topic at that position must match at least one of the values in the array.
 
-![过滤器规则](img/9-1.png)
+![Filtering Rules](img/9-1.png)
 
-
-
-## 构建过滤器
-`ethers.js`中的合约类提供了`contract.filters`来简化过滤器的创建：
+## Building Filters
+The `contract` class in `ethers.js` provides the `contract.filters` method to simplify filter creation:
 
 ```js
 const filter = contract.filters.EVENT_NAME( ...args ) 
 ```
 
-其中`EVENT_NAME`为要过滤的事件名，`..args`为主题集/条件。前面的规则有一点抽象，下面举几个例子。
+Here, `EVENT_NAME` is the desired event name to filter and `..args` refers to the topic set/condition. Let's look at a few examples based on the previous rules.
 
-1. 过滤来自`myAddress`地址的`Transfer`事件
+1. Filtering `Transfer` events from the address `myAddress`:
   ```js
   contract.filters.Transfer(myAddress)
   ```
 
-2. 过滤所有发给 `myAddress`地址的`Transfer`事件
+2. Filtering all `Transfer` events sent to the address `myAddress`:
   ```js
   contract.filters.Transfer(null, myAddress)
   ```
 
-3. 过滤所有从 `myAddress`发给`otherAddress`的`Transfer`事件
+3. Filtering all `Transfer` events sent from the address `myAddress` to the address `otherAddress`:
   ```js
   contract.filters.Transfer(myAddress, otherAddress)
   ```
 
-4. 过滤所有发给`myAddress`或`otherAddress`的`Transfer`事件
+4. Filtering all `Transfer` events sent to the address `myAddress` or `otherAddress`:
   ```js
   contract.filters.Transfer(null, [ myAddress, otherAddress ])
   ```
 
-## 监听交易所的USDT转账
+## Listening for USDT Transfers from an Exchange
 
+1. Tracking transactions where USDT is transferred out of Binance:
+  
+Before listening to the USDT contract, we need to understand the transaction log `Logs`, including the event `topics` and `data`. Let's find a transaction where USDT was transferred out of Binance and check its details using its hash on etherscan:
 
-1. 从币安交易所转出USDT的交易
+Transaction hash: [0xab1f7b575600c4517a2e479e46e3af98a95ee84dd3f46824e02ff4618523fff5](https://etherscan.io/tx/0xab1f7b575600c4517a2e479e46e3af98a95ee84dd3f46824e02ff4618523fff5)
 
-  监听USDT合约之前，我们需要先看懂交易日志`Logs`，包括事件的`topics`和`data`。我们先找到一笔从币安交易所转出USDT的交易，然后通过hash在etherscan查它的详情：
+![etherscan diagram](img/9-2.png)
 
-  交易哈希：[0xab1f7b575600c4517a2e479e46e3af98a95ee84dd3f46824e02ff4618523fff5](https://etherscan.io/tx/0xab1f7b575600c4517a2e479e46e3af98a95ee84dd3f46824e02ff4618523fff5)
+This transaction performed one action: transferred `2983.98` USDT from `binance14` (Binance hot wallet) to the address `0x354de44bedba213d612e92d3248b899de17b0c58`.
 
-  ![etherscan 示意图](img/9-2.png)
+Checking the event log `Logs` information:
 
-  该交易做了一件事：从 `binance14` （币安热钱包）向地址`0x354de44bedba213d612e92d3248b899de17b0c58` 转账`2983.98`USDT。
+![etherscan logs diagram](img/9-3.png)
 
-  查看该事件日志`Logs`信息：
+- `address`: USDT contract address
+- `topics[0]`: Event hash, `keccak256("Transfer(address,address,uint256)")`
+- `topics[1]`: From address (Binance hot wallet)
+- `topics[2]`: To address
+- `data`: Transfer amount
 
-  ![etherscan logs示意图](img/9-3.png)
-
-  - `address`：USDT合约地址
-  - `topics[0]`：事件哈希，`keccak256("Transfer(address,address,uint256)")`
-  - `topics[1]`：转出地址（币安交易所热钱包）。
-  - `topics[2]` 转入地址。
-  - `data`：转账数量。
-
-2. 创建`provider`，`abi`，和`USDT`合约变量：
+2. Create `provider`, `abi`, and `USDT` contract variables:
 
   ```js
   const provider = new ethers.JsonRpcProvider(ALCHEMY_MAINNET_URL);
-  // 合约地址
+  // Contract address
   const addressUSDT = '0xdac17f958d2ee523a2206206994597c13d831ec7'
-  // 交易所地址
+  // Exchange address
   const accountBinance = '0x28C6c06298d514Db089934071355E5743bf21d60'
-  // 构建ABI
+  // Build ABI
   const abi = [
     "event Transfer(address indexed from, address indexed to, uint value)",
     "function balanceOf(address) public view returns(uint)",
   ];
-  // 构建合约对象
+  // Build contract object
   const contractUSDT = new ethers.Contract(addressUSDT, abi, provider);
   ```
 
-3. 读取币安热钱包USDT余额。可以看到，当前币安热钱包有8亿多枚USDT
+3. Retrieve the balance of USDT in the Binance hot wallet. Currently, the Binance hot wallet has over 800 million USDT.
   ```js
   const balanceUSDT = await contractUSDT.balanceOf(accountBinance)
-  console.log(`USDT余额: ${ethers.formatUnits(balanceUSDT,6)}\n`)
+  console.log(`USDT balance: ${ethers.formatUnits(balanceUSDT,6)}\n`)
   ```
-  ![币安热钱包USDT余额](img/9-4.png)
+  ![Binance hot wallet USDT balance](img/9-4.png)
 
 
-4. 创建过滤器，监听`USDT`转入币安的事件。
+4. Create a filter to listen for USDT transfers to Binance.
 
   ```js
-  // 2. 创建过滤器，监听转移USDT进交易所
-  console.log("\n2. 创建过滤器，监听USDT转进交易所")
+  // 2. Create a filter to listen for USDT transfers to the exchange
+  console.log("\n2. Create a filter to listen for USDT transfers to Binance")
   let filterBinanceIn = contractUSDT.filters.Transfer(null, accountBinance);
-  console.log("过滤器详情：")
+  console.log("Filter details:")
   console.log(filterBinanceIn);
   contractUSDT.on(filterBinanceIn, (res) => {
-    console.log('---------监听USDT进入交易所--------');
+    console.log('---------Listening for USDT transfers to Binance--------');
     console.log(
       `${res.args[0]} -> ${res.args[1]} ${ethers.formatUnits(res.args[2],6)}`
     )
   })
   ```
-  ![监听转入币安的USDT交易](img/9-5.png)
+  ![Listening for USDT transfers to Binance](img/9-5.png)
 
-4. 创建过滤器，监听`USDT`转出币安的交易。
+4. Create a filter to listen for USDT transfers from Binance.
 
   ```js
-    // 3. 创建过滤器，监听交易所转出USDT
+    // 3. Create a filter to listen for USDT transfers from the exchange
     let filterToBinanceOut = contractUSDT.filters.Transfer(accountBinance);
-    console.log("\n3. 创建过滤器，监听USDT转出交易所")
-    console.log("过滤器详情：")
+    console.log("\n3. Create a filter to listen for USDT transfers from Binance")
+    console.log("Filter details:")
     console.log(filterToBinanceOut);
     contractUSDT.on(filterToBinanceOut, (res) => {
-      console.log('---------监听USDT转出交易所--------');
+      console.log('---------Listening for USDT transfers from Binance--------');
       console.log(
         `${res.args[0]} -> ${res.args[1]} ${ethers.formatUnits(res.args[2],6)}`
       )
     }
     );
   ```
-  ![监听转出币安的USDT交易](img/9-6.png) 
+  ![Monitoring USDT transactions sent to Binance](img/9-6.png)
 
-## 总结
+## Summary
 
-这一讲，我们介绍了事件过滤器，并用它监听了与币安交易所热钱包相关的`USDT`交易。你可以用它监听任何你感兴趣的交易，发现`smart money`做了哪些新交易，`NFT`大佬冲了哪些新项目，等等。
+In this lecture, we introduced event filters and used them to monitor `USDT` transactions related to the hot wallet of Binance exchange. You can use them to monitor any transactions you are interested in, such as discover new transactions made by `smart money`, monitor which projects the `NFT` experts are investing in, and so on.

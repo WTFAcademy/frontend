@@ -4,60 +4,62 @@
 pragma solidity ^0.8.4;
 
 /**
- * @dev ERC20 接口合约.
+ * @dev ERC20 Interface Contract.
  */
 interface IERC20 {
     /**
-     * @dev 释放条件：当 `value` 单位的货币从账户 (`from`) 转账到另一账户 (`to`)时.
+     * @dev Event: When `value` units of currency are transferred from account (`from`) to another account (`to`).
      */
     event Transfer(address indexed from, address indexed to, uint256 value);
 
     /**
-     * @dev 释放条件：当 `value` 单位的货币从账户 (`owner`) 授权给另一账户 (`spender`)时.
+     * @dev Event: When `value` units of currency are approved from account (`owner`) to another account (`spender`).
      */
     event Approval(address indexed owner, address indexed spender, uint256 value);
 
     /**
-     * @dev 返回代币总供给.
+     * @dev Returns the total token supply.
      */
     function totalSupply() external view returns (uint256);
 
     /**
-     * @dev 返回账户`account`所持有的代币数.
+     * @dev Returns the account balance of `account`.
      */
     function balanceOf(address account) external view returns (uint256);
 
     /**
-     * @dev 转账 `amount` 单位代币，从调用者账户到另一账户 `to`.
+     * @dev Transfers `amount` units of tokens from the caller's account to another account `to`.
      *
-     * 如果成功，返回 `true`.
+     * Returns `true` if successful.
      *
-     * 释放 {Transfer} 事件.
+     * Emits a {Transfer} event.
      */
     function transfer(address to, uint256 amount) external returns (bool);
 
     /**
-     * @dev 返回`owner`账户授权给`spender`账户的额度，默认为0。
+     * @dev Returns the amount of tokens approved by the `owner` account to the `spender` account.
+     * Default is 0.
      *
-     * 当{approve} 或 {transferFrom} 被调用时，`allowance`会改变.
+     * The allowance can change when {approve} or {transferFrom} is called.
      */
     function allowance(address owner, address spender) external view returns (uint256);
 
     /**
-     * @dev 调用者账户给`spender`账户授权 `amount`数量代币。
+     * @dev Allows the caller's account to approve `amount` tokens to the `spender` account.
      *
-     * 如果成功，返回 `true`.
+     * Returns `true` if successful.
      *
-     * 释放 {Approval} 事件.
+     * Emits an {Approval} event.
      */
     function approve(address spender, uint256 amount) external returns (bool);
 
     /**
-     * @dev 通过授权机制，从`from`账户向`to`账户转账`amount`数量代币。转账的部分会从调用者的`allowance`中扣除。
+     * @dev Transfers `amount` tokens from the `from` account to the `to` account using the allowance mechanism.
+     * The portion of the transfer from the caller's allowance will be deducted.
      *
-     * 如果成功，返回 `true`.
+     * Returns `true` if successful.
      *
-     * 释放 {Transfer} 事件.
+     * Emits a {Transfer} event.
      */
     function transferFrom(
         address from,

@@ -5,30 +5,30 @@ import {
   } from "@flashbots/ethers-provider-bundle";
   
 const GWEI = 10n ** 9n;
-const CHAIN_ID = 5; // goerli测试网，如果用主网，chainid 改为 1
+const CHAIN_ID = 5; // goerli testnet, change to 1 for mainnet
 
-// 1. 普通rpc （非flashbots rpc）
+// 1. Normal RPC (non-flashbots rpc)
 const ALCHEMY_GOERLI_URL = 'https://eth-goerli.alchemyapi.io/v2/GlaeWuylnNM3uuOo-SAwJxuwTdqHaY5l';
 const provider = new ethers.providers.JsonRpcProvider(ALCHEMY_GOERLI_URL);
 
-// 2. flashbots声誉私钥，用于建立“声誉”，详情见: https://docs.flashbots.net/flashbots-auction/searchers/advanced/reputation
-// !!!注意: 这个账户，不要储存资金，也不是flashbots主私钥。
+// 2. Flashbots reputation private key
+// !!!Note: This account should not hold funds and is not the flashbots master private key.
 const authKey = '0x227dbb8586117d55284e26620bc76534dfbd2394be34cf4a09cb775d593b6f2c'
 const authSigner = new ethers.Wallet(authKey, provider)
 
 const main = async () => {
 
-    // 3. flashbots rpc（goerli 测试网），用于发送交易
+    // 3. Flashbots rpc (goerli testnet) for sending transactions
     const flashbotsProvider = await FlashbotsBundleProvider.create(
         provider,
         authSigner,
-        // 使用主网 Flashbots，需要把下面两行删去
+        // Remove the next two lines for mainnet Flashbots
         'https://relay-goerli.flashbots.net/', 
         'goerli'
         );
     
-    // 4. 创建一笔交易
-    // 交易: 发送0.001 ETH测试币到 WTF Academy 地址
+    // 4. Create a transaction
+    // Transaction: Send 0.001 ETH testnet coins to WTF Academy address
     const privateKey = '0x227dbb8586117d55284e26620bc76534dfbd2394be34cf4a09cb775d593b6f2c'
     const wallet = new ethers.Wallet(privateKey, provider)
     // EIP 1559 transaction
@@ -40,57 +40,57 @@ const main = async () => {
     maxFeePerGas: GWEI * 100n
     }
 
-    // 5. 创建交易 Bundle
+    // 5. Create transaction Bundle
     const transactionBundle = [
         {
             signer: wallet, // ethers signer
             transaction: transaction0 // ethers populated transaction object
         }
-        // 也可以加入mempool中签名好的交易（可以是任何人发送的）
+        // Can also include pre-signed transactions from mempool (can be sent by anyone)
         // ,{
         //     signedTransaction: SIGNED_ORACLE_UPDATE_FROM_PENDING_POOL // serialized signed transaction hex
         // }
     ]
 
-    // 6. 模拟交易，交易模拟成功后才能执行
-    // 签名交易
+    // 6. Simulate the transaction, it should simulate successfully before execution
+    // Sign the transactions
     const signedTransactions = await flashbotsProvider.signBundle(transactionBundle)
-    // 设置交易的目标执行区块（在哪个区块执行）
+    // Set the target execution block for the transaction
     const targetBlockNumber = (await provider.getBlockNumber()) + 1
-    // 模拟
+    // Simulate the transaction
     const simulation = await flashbotsProvider.simulate(signedTransactions, targetBlockNumber)
-    // 检查模拟是否成功
+    // Check if the simulation was successful
     if ("error" in simulation) {
-        console.log(`模拟交易出错: ${simulation.error.message}`);
+        console.log(`Simulation error: ${simulation.error.message}`);
     } else {
-        console.log(`模拟交易成功`);
+        console.log(`Simulation successful`);
         console.log(JSON.stringify(simulation, null, 2))
     }
 
-    // 7. 发送交易上链
-    // 因为测试网Flashbots的节点很少，需要尝试很多次才能成功上链，这里我们循环发送 100 个区块。
+    // 7. Send the transaction to the chain
+    // Due to limited Flashbots nodes on the testnet, it may take several attempts for the transaction to be included in a block. Let's loop 100 blocks here.
     for (let i = 1; i <= 100; i++) {
         let targetBlockNumberNew = targetBlockNumber + i - 1;
-        // 发送交易
+        // Send the transaction
         const res = await flashbotsProvider.sendRawBundle(signedTransactions, targetBlockNumberNew);
         if ("error" in res) {
         throw new Error(res.error.message);
         }
-        // 检查交易是否上链
+        // Check if the transaction is included in the block
         const bundleResolution = await res.wait();
-        // 交易有三个状态: 成功上链/没有上链/Nonce过高。
+        // Transaction can have three states: Included in block / Failed to include / Nonce too high.
         if (bundleResolution === FlashbotsBundleResolution.BundleIncluded) {
-        console.log(`恭喜, 交易成功上链，区块: ${targetBlockNumberNew}`);
+        console.log(`Congratulations, transaction included in block: ${targetBlockNumberNew}`);
         console.log(JSON.stringify(res, null, 2));
         process.exit(0);
         } else if (
         bundleResolution === FlashbotsBundleResolution.BlockPassedWithoutInclusion
         ) {
-        console.log(`请重试, 交易没有被纳入区块: ${targetBlockNumberNew}`);
+        console.log(`Please retry, transaction not included in block: ${targetBlockNumberNew}`);
         } else if (
         bundleResolution === FlashbotsBundleResolution.AccountNonceTooHigh
         ) {
-        console.log("Nonce 太高，请重新设置");
+        console.log("Nonce too high, please reset");
         process.exit(1);
         }
     }
