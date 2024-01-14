@@ -25,6 +25,14 @@ const CourseCard = (props: TProps) => {
     }
   };
 
+  const courseRoutePath = (path: string) => {
+    if (path.startsWith("http")) {
+      return path;
+    } else {
+      return `/${path}`;
+    }
+  };
+
   return (
     <Link
       to={courseRoutePath(course.route_path)}
