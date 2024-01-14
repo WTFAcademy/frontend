@@ -1,5 +1,4 @@
 import React from "react";
-import { useHistory } from "@docusaurus/router";
 import { useQuery } from "react-query";
 import Tag from "@site/src/components/ui/Tag";
 import { Skeleton } from "@site/src/components/ui/Skeleton";
@@ -7,6 +6,7 @@ import { getCourses } from "@site/src/api/course";
 import { TCourse } from "../typings/course";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Translate from "@docusaurus/Translate";
+import Link from "@docusaurus/Link";
 
 type TProps = {
   course: TCourse;
@@ -14,42 +14,43 @@ type TProps = {
 
 const CourseCard = (props: TProps) => {
   const { course } = props;
-  const history = useHistory();
 
-  const viewCourse = (path: string) => {
+  const courseRoutePath = (path: string) => {
     if (path.startsWith("http")) {
-      window.location.href = path;
+      return path;
     } else {
-      history.push(path);
+      return `/${path}`;
     }
   };
 
   return (
-    <div
-      onClick={() => viewCourse(course.route_path)}
-      className="w-full overflow-hidden border border-solid md:w-[300px] rounded-md shadow-sm transition-shadow hover:shadow-lg"
+    <Link
+      to={courseRoutePath(course.route_path)}
+      className="hover:no-underline hover:text-gray-900"
     >
-      <div className="w-full bg-background-subtle h-[150px]">
-        <img
-          src={course.cover_img}
-          alt=""
-          className="object-cover w-full h-full"
-        />
-      </div>
-      <div className="flex flex-col p-4">
-        <div className="flex items-center justify-between font-bold text-[22px] leading-[25px] font-ubuntu">
-          <span>{course.title}</span>
+      <div className="w-full overflow-hidden border border-solid md:w-[300px] rounded-md shadow-sm transition-shadow hover:shadow-lg">
+        <div className="w-full bg-background-subtle h-[150px]">
+          <img
+            src={course.cover_img}
+            alt=""
+            className="object-cover w-full h-full"
+          />
         </div>
-        <div className="text-sm leading-[17px] mt-[10px]">
-          {course.description}
-        </div>
-        {Boolean(course.user_cnt) && (
-          <div className="flex gap-2 mt-[14px]">
-            <Tag className="bg-brand-muted">{`${course.user_cnt} learners`}</Tag>
+        <div className="flex flex-col p-4">
+          <div className="flex items-center justify-between font-bold text-[22px] leading-[25px] font-ubuntu">
+            <span>{course.title}</span>
           </div>
-        )}
+          <div className="text-sm leading-[17px] mt-[10px]">
+            {course.description}
+          </div>
+          {Boolean(course.user_cnt) && (
+            <div className="flex gap-2 mt-[14px]">
+              <Tag className="bg-brand-muted">{`${course.user_cnt} learners`}</Tag>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
