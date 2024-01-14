@@ -1,5 +1,5 @@
 ---
-title: 21. 靓号生成器
+title: 21. Vanity Address Generator
 tags:
   - ethers
   - javascript
@@ -9,79 +9,77 @@ tags:
   - web
 ---
 
-# WTF Ethers: 21. 靓号生成器
+# WTF Ethers: 21. Vanity Address Generator
 
-Recently, I have been revisiting `ethers.js`, consolidating the finer details, and writing `WTF Ethers Introduction` tutorials for newbies. 
+I've been revisiting `ethers.js` recently to refresh my understanding of the details and to write a simple tutorial called "WTF Ethers" for beginners.
 
-Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
+**Twitter**: [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
+**Community**: [Website wtf.academy](https://wtf.academy) | [WTF Solidity](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [WeChat Group Application](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
-
-English translations by: [@yzhxxyz](https://twitter.com/yzhxxyz)
+All the code and tutorials are open-sourced on GitHub: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
 -----
 
-这一讲，我们介绍如何利用`ethers.js`生成靓号地址，这是一个价值$1.6亿的教程（并不）。
+In this lesson, we will introduce how to generate vanity addresses using `ethers.js`. This is a tutorial worth $160M (not really).
 
-## 靓号地址
+## Vanity Addresses
 
-现实生活中，有人追求车牌号“888888”，而在区块链中，大家也追求“靓号地址”。靓号地址（Vanity Address）是个性化的地址，易于识别，并且具有与其它地址一样的安全性。比如以`7`个`0`开头的地址：
+In real life, some people pursue license plates like "888888". Similarly, in the blockchain world, people seek "vanity addresses". A vanity address is a personalized address that is easy to recognize and has the same level of security as other addresses. For example, an address starting with seven `0`s:
 
 ```solidity
 0x0000000fe6a514a32abdcdfcc076c85243de899b
 ```
 
-是的，这也是知名做市商`Wintermute`被盗$1.6亿的靓号地址（[报道](https://www.blocktempo.com/head-market-maker-wintermute-hacked-loses-160-million-magnesium/)）。刚才我们说了，靓号和普通地址具有一样的安全性，那么这里为什么被攻击了呢？
+Yes, this is the vanity address involving the theft of $160 million by the prominent market maker, Wintermute ([report](https://www.blocktempo.com/head-market-maker-wintermute-hacked-loses-160-million-magnesium/)). As mentioned earlier, vanity addresses have the same level of security as regular addresses, so why was it attacked?
 
-问题出在生成靓号工具存在漏洞。`Wintermute`使用了一个叫`Profinity`的靓号生成器来生成地址，但这个生成器的随机种子有问题。本来随机种子应该有2的256次方可能性，但是`Profinity`使用的种子只有2的32次方的长度，可以被暴力破解。
+The issue lies in the vulnerability of the vanity address generator. Wintermute used a vanity address generator called "Profinity" to generate addresses, but the random seed used by this generator was flawed. Normally, a random seed should have 2^256 possibilities, but the seed used by Profinity was only 2^32 in length, making it vulnerable to brute force attacks. The hacker computed the private key of this addresses by brute-force and drained $160 million.
 
-## 靓号生成器
+## Vanity Address Generator
 
-利用`ethers.js`，我们可以用`10`行代码就可以写出一个靓号生成器，它可能没有其它的工具快，但安全有保障。
+Using `ethers.js`, we can write a vanity address generator in just 10 lines of code. It may not be as fast as other tools, but it is secure.
 
-### 生成随机钱包
+### Generating a Random Wallet
 
-我们可以利用下面的代码安全并随机的生成钱包：
+We can generate a wallet securely and randomly using the following code:
 
 ```js
-const wallet = ethers.Wallet.createRandom() // 随机生成钱包，安全
+const wallet = ethers.Wallet.createRandom() // Generate a random wallet, secure
 ```
 
-### 正则表达式
+### Regular Expressions
 
-我们需要用正则表达式来筛选出目标靓号地址。这里简单的讲一下正则表达式：
-    - 开头几位字符匹配，我们用`^`符号，例如`^0x000`就会匹配以`0x000`开头的地址。
-    - 最后几位字符匹配，我们用`$`符号，例如`000$`就会匹配以`000`结尾的地址。
-    - 中间几位我们不关心，可以利用`.*`通配符，例如`^0x000.*000$`就会匹配任何以`0x000`开头并以`000`结尾的地址。
+We need to use regular expressions to filter out the target vanity addresses. Here's a brief explanation of regular expressions:
+   - To match the first few characters, we use the `^` symbol. For example, `^0x000` will match addresses starting with `0x000`.
+   - To match the last few characters, we use the `$` symbol. For example, `000$` will match addresses ending with `000`.
+   - We don't care about the middle characters, so we can use the `.*` wildcard. For example, `^0x000.*000$` will match addresses starting with `0x000` and ending with `000`.
 
-在`js`中，我们可以用下面的表达式筛选靓号地址：
+In JavaScript, we can use the following expression to filter vanity addresses:
 ```js
-const regex = /^0x000.*$/ // 表达式，匹配以0x000开头的地址
-isValid = regex.test(wallet.address) // 检验正则表达式
+const regex = /^0x000.*$/ // Expression, matches addresses starting with 0x000
+isValid = regex.test(wallet.address) // Check the regular expression
 ```
 
-### 靓号生成脚本
+### Vanity Address Generation Script
 
-靓号生成器的逻辑非常简单，不断生成随机钱包，直到匹配到我们想要的靓号才结束。作为测试，以`0x000`开头的靓号仅需几秒就可以生成，每多一个`0`，耗时多16倍。
+The logic of the vanity address generator is very simple. It continuously generates random wallets until it matches the desired vanity address. In our test, generating a vanity address starting with `0x000` takes only a few seconds, and each additional `0` increases the time by 16 times.
 
 ```js
 import { ethers } from "ethers";
-var wallet // 钱包
-const regex = /^0x000.*$/ // 表达式
+var wallet // Wallet
+const regex = /^0x000.*$/ // Expression
 var isValid = false
 while(!isValid){
-    wallet = ethers.Wallet.createRandom() // 随机生成钱包，安全
-    isValid = regex.test(wallet.address) // 检验正则表达式
+    wallet = ethers.Wallet.createRandom() // Generate a random wallet, secure
+    isValid = regex.test(wallet.address) // Check the regular expression
 }
-// 打印靓号地址与私钥
-console.log(`靓号地址：${wallet.address}`)
-console.log(`靓号私钥：${wallet.privateKey}`)
+// Print the vanity address and private key
+console.log(`Vanity Address: ${wallet.address}`)
+console.log(`Vanity Private Key: ${wallet.privateKey}`)
 ```
 
-![靓号生成](./img/21-1.png)
+![Vanity Address Generation](./img/21-1.png)
 
-## 总结
+## Summary
 
-这一讲，我们利用`ethers.js`写了一个10行代码不到的靓号生成器，并省了$1.6亿。
+In this lesson, we wrote a vanity address generator in less than 10 lines of code using `ethers.js` and saved $160 million.

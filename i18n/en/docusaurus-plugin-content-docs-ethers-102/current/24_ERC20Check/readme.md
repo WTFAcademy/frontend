@@ -1,5 +1,5 @@
 ---
-title: 24. 识别ERC20合约
+title: 24. Identify ERC20 Contracts
 tags:
   - ethers
   - javascript
@@ -10,25 +10,23 @@ tags:
   - web
 ---
 
-# WTF Ethers: 24. 识别ERC20合约
+# WTF Ethers: 24. Identify ERC20 Contracts
 
-Recently, I have been revisiting `ethers.js`, consolidating the finer details, and writing `WTF Ethers Introduction` tutorials for newbies. 
+I've been revisiting `ethers.js` recently to refresh my understanding of the details and to write a simple tutorial called "WTF Ethers" for beginners.
 
-Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
+**Twitter**: [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
+**Community**: [Website wtf.academy](https://wtf.academy) | [WTF Solidity](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [WeChat Group Application](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
+All the code and tutorials are open-sourced on GitHub: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
-English translations by: [@yzhxxyz](https://twitter.com/yzhxxyz)
+-----
 
----
-
-这一讲，我们介绍如何用`ether.js`识别一个合约是否为`ERC20`标准，你会在链上分析，识别貔貅，抢开盘等场景用到它。
+In this lesson, we will learn how to use `ethers.js` to identify whether a contract follows the `ERC20` standard.
 
 ## `ERC20`
 
-`ERC20`是以太坊上最常用的代币标准，如果对这个标准不熟悉，可以阅读[WTF Solidity第31讲 ERC20](https://github.com/AmazingAng/WTF-Solidity/blob/main/31_ERC20/readme.md)。`ERC20`标准包含以下函数和事件:
+`ERC20` is the most commonly used token standard on Ethereum. If you are unfamiliar with this standard, you can refer to [WTF Solidity 31: ERC20](https://github.com/AmazingAng/WTF-Solidity/blob/main/31_ERC20/readme.md). The `ERC20` standard includes the following functions and events:
 ```solidity
 interface IERC20 {
     event Transfer(address indexed from, address indexed to, uint256 value);
@@ -49,35 +47,35 @@ interface IERC20 {
 }
 ```
 
-## 识别 `ERC20` 合约
-在之前的[教程](https://github.com/WTFAcademy/WTF-Ethers/blob/main/12_ERC721Check/readme.md)中，我们讲了如何基于 `ERC165` 识别 `ERC721` 合约。但是由于 `ERC20` 的发布早于 `ERC165`（20 < 165），因此我们没法用相同的办法识别 `ERC20` 合约，只能另找办法。
+## Identifying `ERC20` Contracts
+In a previous [tutorial](https://github.com/WTFAcademy/WTF-Ethers/blob/main/12_ERC721Check/readme.md), we discussed how to identify `ERC721` contracts based on `ERC165`. However, since the release of `ERC20` predates `ERC165` (20 < 165), we cannot use the same method to identify `ERC20` contracts and need to find an alternative solution.
 
-区块链是公开的，我们能获取任意合约地址上的代码（bytecode）。因此，我们可以先获取合约代码，然后对比其是否包含 `ERC20` 标准中的函数就可以了。
+The blockchain is transparent, so we can obtain the bytecode of any contract address. Therefore, we can first retrieve the bytecode of a contract and compare it to see if it includes the functions specified in the `ERC20` standard.
 
-首先，我们用 `provider` 的 `getCode()` 函数来取得对应地址的 `bytecode`：
+First, we use the `getCode()` function of the `provider` to retrieve the bytecode of the corresponding address:
 ```js
 let code = await provider.getCode(contractAddress)
 ```
 
-接下来我们要检查合约 `bytecode` 是否包含 `ERC20` 标准中的函数。合约 `bytecode` 中存储了相应的[函数选择器]：如果合约包含 `transfer(address, uint256)` 函数，那么 `bytecode` 就会包含 `a9059cbb`；如果合约包含 `totalSupply()`，那么 `bytecode` 就会包含 `18160ddd`。如果你不了解函数选择器，可以阅读 WTF Solidity的[相应章节](https://github.com/AmazingAng/WTF-Solidity/blob/main/29_Selector/readme.md)。如果想更深入的了解 `bytecode`，可以阅读[深入EVM](https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Translation/DiveEVM2017)。
+Next, we need to check if the contract bytecode includes the function selectors specified in the `ERC20` standard. The corresponding selectors are stored in the contract bytecode: if the contract includes the `transfer(address, uint256)` function, the bytecode will include `a9059cbb`; if the contract includes `totalSupply()`, the bytecode will include `18160ddd`. If you're not familiar with function selectors, you can refer to the corresponding section in the [WTF Solidity tutorial](https://github.com/AmazingAng/WTF-Solidity/blob/main/29_Selector/readme.md). If you want to delve deeper into bytecode, you can read the [Dive into EVM](https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Translation/DiveEVM2017).
 
-这里，我们仅需检测  `transfer(address, uint256)` 和 `totalSupply()` 两个函数，而不用检查全部6个，这是因为：
-1. `ERC20`标准中只有 `transfer(address, uint256)` 不包含在 `ERC721`标准、`ERC1155`和`ERC777`标准中。因此如果一个合约包含 `transfer(address, uint256)` 的选择器，就能确定它是 `ERC20` 代币合约，而不是其他。
-2. 额外检测 `totalSupply()` 是为了防止[选择器碰撞](https://github.com/AmazingAng/WTFSolidity/blob/main/S01_ReentrancyAttack/readme.md)：一串随机的字节码可能和 `transfer(address, uint256)` 的选择器（4字节）相同。
+In this case, we only need to check the `transfer(address, uint256)` and `totalSupply()` functions instead of all six functions, because:
+1. The `transfer(address, uint256)` function is the only one in the `ERC20` standard that is not included in the `ERC721`, `ERC1155`, and `ERC777` standards. Therefore, if a contract includes the `transfer(address, uint256)` selector, we can say it is an `ERC20` token contract rather than `ERC721`, `ERC1155`, and `ERC777`.
+2. The additional check for `totalSupply()` is to prevent [selector collisions](https://github.com/AmazingAng/WTFSolidity/blob/main/S01_ReentrancyAttack/readme.md): a random bytecode sequence may accidentally match the selector of `transfer(address, uint256)` (4 bytes).
 
-代码如下
+Here is the code:
 ```js
 async function erc20Checker(addr){
-    // 获取合约bytecode
+    // Retrieve contract bytecode
     let code = await provider.getCode(addr)
-    // 非合约地址的bytecode是0x
+    // Non-contract addresses have a bytecode of "0x"
     if(code != "0x"){
-        // 检查bytecode中是否包含transfer函数和totalSupply函数的selector
+        // Check if bytecode includes the selectors of the transfer and totalSupply functions
         if(code.includes("a9059cbb") && code.includes("18160ddd")){
-            // 如果有，则是ERC20
+            // If so, it is an ERC20 contract
             return true
         }else{
-            // 如果没有，则不是ERC20
+            // If not, it is not an ERC20 contract
             return false
         }
     }else{
@@ -86,9 +84,9 @@ async function erc20Checker(addr){
 }
 ```
 
-## 测试脚本
+## Test Script
 
-下面，我们利用 `DAI`（ERC20）和 `BAYC`（ERC721）合约来测试脚本是否能正确识别 `ERC20` 合约。
+Now, let's use the `DAI` (ERC20) and `BAYC` (ERC721) contracts to test whether the script can correctly identify an `ERC20` contract.
 
 ```js
 // DAI address (mainnet)
@@ -97,24 +95,24 @@ const daiAddr = "0x6b175474e89094c44da98b954eedeac495271d0f"
 const baycAddr = "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d"
 
 const main = async () => {
-    // 检查DAI合约是否为ERC20
+    // Check if the DAI contract is an ERC20 contract
     let isDaiERC20 = await erc20Checker(daiAddr)
-    console.log(`1. Is DAI a ERC20 contract: ${isDaiERC20}`)
+    console.log(`1. Is DAI an ERC20 contract: ${isDaiERC20}`)
 
-    // 检查BAYC合约是否为ERC20
+    // Check if the BAYC contract is an ERC20 contract
     let isBaycERC20 = await erc20Checker(baycAddr)
-    console.log(`2. Is BAYC a ERC20 contract: ${isBaycERC20}`)
+    console.log(`2. Is BAYC an ERC20 contract: ${isBaycERC20}`)
 }
 
 main()
 ```
 
-输出如下：
+The output is as follows:
 
 ![](./img/24-1.png)
 
-脚本成功检测出 `DAI` 合约是 `ERC20` 合约，而 `BAYC` 合约不是 `ERC20` 合约。
+The script successfully detects that the `DAI` contract is an `ERC20` contract, while the `BAYC` contract is not an `ERC20` contract.
 
-## 总结
+## Summary
 
-这一讲，我们介绍了如何通过合约地址获取合约 `bytecode`，并且利用函数选择器来检测合约是否为 `ERC20` 合约。脚本能成功检测出 `DAI` 合约是 `ERC20` 合约，而 `BAYC` 合约不是 `ERC20` 合约。你会将它用在什么场景呢？
+In this lesson, we learned how to retrieve the bytecode of a contract using the contract address and how to use function selectors to check if a contract follows the `ERC20` standard. The script successfully identified the `DAI` contract as an `ERC20` contract and the `BAYC` contract as not an `ERC20` contract. Do you have other ways to identify an ERC20 contract?

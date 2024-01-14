@@ -10,137 +10,135 @@ tags:
 
 # WTF Ethers: 2. Provider
 
-Recently, I have been revisiting `ethers.js`, consolidating the finer details, and writing `WTF Ethers Introduction` tutorials for newbies. 
+I've been revisiting `ethers.js` recently to refresh my understanding of the details and to write a simple tutorial called "WTF Ethers" for beginners.
 
-Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
+**Twitter**: [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
+**Community**: [Website wtf.academy](https://wtf.academy) | [WTF Solidity](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [WeChat Group Application](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
-
-English translations by: [@yzhxxyz](https://twitter.com/yzhxxyz)
+All the code and tutorials are open-sourced on GitHub: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
 -----
 
-这一讲，我们将介绍ethers.js的`Provider`类，然后利用它连接上Infura节点，读取链上的信息。
+In this lesson, we will introduce the `Provider` class in ethers.js and use it to connect to an node to retrieve information from the blockchain.
 
-## `Provider`类
+## `Provider` Class
 
-`Provider`类是对以太坊网络连接的抽象，为标准以太坊节点功能提供简洁、一致的接口。在`ethers`中，`Provider`不接触用户私钥，只能读取链上信息，不能写入，这一点比`web3.js`要安全。
+The `Provider` class provides an abstraction for connecting to the Ethereum network and offers a concise and consistent interface for standard Ethereum node functionality. In `ethers`, the `Provider` class does not handle user private keys and can only read information from the blockchain, making it safer compared to `web3.js`.
 
-除了[之前](https://github.com/WTFAcademy/WTF-Ethers)介绍的默认提供者`defaultProvider`以外，`ethers`中最常用的是`jsonRpcProvider`，可以让用户连接到特定节点服务商的节点。
+In addition to the default provider `defaultProvider` mentioned [previously](https://github.com/WTFAcademy/WTF-Ethers), the most commonly used provider in `ethers` is `jsonRpcProvider`, which allows users to connect to a specific node service provider.
 
 ## `jsonRpcProvider`
 
-### 创建节点服务商的API Key
+### Creating an API Key for the Node Service Provider
 
-首先，你需要去节点服务商的网站注册并创建`API Key`。在`WTF Solidity极简教程`的工具篇，我们介绍了[Infura](https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL02_Infura/readme.md)和[Alchemy](https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md)两家公司`API Key`的创建方法，大家可以参考。
+First, you need to register and create an API Key on the website of the node service provider. In the "Tools" section of the "WTF Solidity" tutorial, we introduced the methods to create API Keys for two projects, Infura and Alchemy. You can refer to the tutorial for more information.
 
 ![Infura API Key](img/2-1.png)
 
-### 连接Infura节点
+### Connecting to Alchemy Node
 
-这里，我们用Infura节点作为例子。在创建好Infura API Key之后，就可以利用`ethers.JsonRpcProvider()`方法来创建`Provider`变量，该方法以节点服务的`url`链接作为参数。
+Here, we will use Alchemy as an example. After creating the Alchemy API Key, you can create a `Provider` variable using the `ethers.JsonRpcProvider()` method, which takes the URL of the node service as a parameter.
 
-在下面这个例子中，我们分别创建连接到`ETH`主网和`Goerli`测试网的`provider`：
+In the following example, we create providers to connect to the `ETH` mainnet and the `Goerli` testnet:
 
 ```javascript
-// 利用Infura的rpc节点连接以太坊网络
-// 填入Infura API Key, 教程：https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL02_Infura/readme.md
-const INFURA_ID = ''
-// 连接以太坊主网
-const providerETH = new ethers.JsonRpcProvider(`https://mainnet.infura.io/v3/${INFURA_ID}`)
-// 连接Goerli测试网
-const providerGoerli = new ethers.JsonRpcProvider(`https://goerli.infura.io/v3/${INFURA_ID}`)
+// Connect to the Ethereum network using Alchemy's RPC node
+// Prepare the alchemy API, please refer to https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md 
+const ALCHEMY_MAINNET_URL = 'https://eth-mainnet.g.alchemy.com/v2/oKmOQKbneVkxgHZfibs-iFhIlIAl6HDN';
+const ALCHEMY_GOERLI_URL = 'https://eth-goerli.alchemyapi.io/v2/GlaeWuylnNM3uuOo-SAwJxuwTdqHaY5l';
+// Connect to the Ethereum mainnet
+const providerETH = new ethers.JsonRpcProvider(ALCHEMY_MAINNET_URL)
+// Connect to the Goerli testing network
+const providerGoerli = new ethers.JsonRpcProvider(ALCHEMY_GOERLI_URL)
 ```
 
-### 利用`Provider`读取链上数据
+### Using the `Provider` to Retrieve Blockchain Data
 
-`Provider`类封装了一些方法，可以便捷的读取链上数据：
+The `Provider` class provides convenient methods to retrieve data from the blockchain:
 
-**1.** 利用`getBalance()`函数读取主网和测试网V神的`ETH`余额：
+**1.** Use the `getBalance()` function to retrieve the `ETH` balance of Vitalik on the mainnet and the Goerli testnet:
 
 ```javascript
-    // 1. 查询vitalik在主网和Goerli测试网的ETH余额
-    console.log("1. 查询vitalik在主网和Goerli测试网的ETH余额");
+    // 1. Retrieve the ETH balance of Vitalik on the mainnet and the Goerli testnet
+    console.log("1. Retrieving the ETH balance of Vitalik on the mainnet and the Goerli testnet");
     const balance = await providerETH.getBalance(`vitalik.eth`);
     const balanceGoerli = await providerGoerli.getBalance(`vitalik.eth`);
-    // 将余额输出在console（主网）
-    console.log(`ETH Balance of vitalik: ${ethers.formatEther(balance)} ETH`);
-    // 输出Goerli测试网ETH余额
-    console.log(`Goerli ETH Balance of vitalik: ${ethers.formatEther(balanceGoerli)} ETH`);
+    // Output the balances on the console (mainnet)
+    console.log(`ETH Balance of Vitalik: ${ethers.formatEther(balance)} ETH`);
+    // Output the Goerli testnet ETH balance
+    console.log(`Goerli ETH Balance of Vitalik: ${ethers.formatEther(balanceGoerli)} ETH`);
 ```
 
-![V神余额](img/2-2.png)
+![Vitalik Balance](img/2-2.png)
 
-**2.** 利用`getNetwork()`查询`provider`连接到了哪条链，`homestead`代表`ETH`主网：
+**2.** Use the `getNetwork()` function to check which chain the provider is connected to. `homestead` represents the `ETH` mainnet:
 
 ```javascript
-    // 2. 查询provider连接到了哪条链
-    console.log("\n2. 查询provider连接到了哪条链")
+    // 2. Check which chain the provider is connected to
+    console.log("\n2. Checking which chain the provider is connected to")
     const network = await providerETH.getNetwork();
     console.log(network.toJSON());
 ```
-> ethers v6版本, 以上代码中`network`不能直接`console.log()`, 具体原因参考: [discussion-3977](https://github.com/ethers-io/ethers.js/discussions/3977)
+> In ethers v6, the above code cannot directly `console.log()` the `network` object. Refer to the [discussion-3977](https://github.com/ethers-io/ethers.js/discussions/3977) for the specific reason.
 
 ![getNetwork](img/2-3.png)
 
-**3.** 利用`getBlockNumber()`查询当前区块高度：
+**3.** Use the `getBlockNumber()` function to retrieve the current block number:
 
 ```javascript
-    // 3. 查询区块高度
-    console.log("\n3. 查询区块高度")
+    // 3. Retrieve the current block number
+    console.log("\n3. Retrieving the current block number")
     const blockNumber = await providerETH.getBlockNumber();
     console.log(blockNumber);
 ```
 
 ![getBlockNumber](img/2-4.png)
 
-**4.** 利用`getTransactionCount()`查询某个钱包的历史交易次数。
+**4.** Use the `getTransactionCount()` function to retrieve the transaction count of a wallet address.
 
 ```javascript
-    // 4. 查询 vitalik 钱包历史交易次数
-    console.log("\n4. 查询 vitalik 钱包历史交易次数")
+    // 4. Retrieve the transaction count of Vitalik's wallet
+    console.log("\n4. Retrieving the transaction count of Vitalik's wallet")
     const txCount = await providerETH.getTransactionCount("vitalik.eth");
     console.log(txCount);
 ```
 
-![getGasPrice](img/2-5.png)
+![](img/2-5.png)
 
-
-**5.** 利用`getFeeData()`查询当前建议的`gas`设置，返回的数据格式为`bigint`。
+**5.** Use the `getFeeData()` function to retrieve the current recommended gas settings, which are returned as `bigint`.
 
 ```javascript
-    // 5. 查询当前建议的gas设置
-    console.log("\n5. 查询当前建议的gas设置")
+    // 5. Retrieve the current recommended gas settings
+    console.log("\n5. Retrieving the current recommended gas settings")
     const feeData = await providerETH.getFeeData();
     console.log(feeData);
 ```
 
 ![getFeeData](img/2-6.png)
 
-**6.** 利用`getBlock()`查询区块信息，参数为要查询的区块高度：
+**6.** Use the `getBlock()` function to retrieve information about a specific block. The parameter is the block number:
 
 ```javascript
-    // 6. 查询区块信息
-    console.log("\n6. 查询区块信息")
+    // 6. Retrieve information about a specific block
+    console.log("\n6. Retrieving information about a specific block")
     const block = await providerETH.getBlock(0);
     console.log(block);
 ```
 
 ![getBlock](img/2-7.png)
 
-**7.** 利用`getCode()`查询某个地址的合约`bytecode`，参数为合约地址，下面例子中用的主网`WETH`的合约地址：
+**7.** Use the `getCode()` function to retrieve the bytecode of a contract at a specific address. In the example below, we use the contract address of `WETH` on the mainnet:
 
 ```javascript
-    // 7. 给定合约地址查询合约bytecode，例子用的WETH地址
-    console.log("\n7. 给定合约地址查询合约bytecode，例子用的WETH地址")
-    const code = await providerETH.getCode("0xc778417e063141139fce010982780140aa0cd5ab");
-    console.log(code);
+// 7. Retrieve the bytecode of a contract at a specific address, using the contract address of WETH on the mainnet as an example
+console.log("\n7. Retrieving the bytecode of a contract at a specific address, using the contract address of WETH on the mainnet as an example")
+const code = await providerETH.getCode("0xc778417e063141139fce010982780140aa0cd5ab");
+console.log(code);
 ```
 
 ![getCode](img/2-8.png)
 
-## 总结
+## Summary
 
-这一讲，我们将介绍ethers.js的`Provider`类，并用Infura的节点API Key创建了`jsonRpcProvider`，读取了`ETH`主网和`Goerli`测试网的链上信息。
+In this lesson, we introduced the `Provider` class of ethers.js and create a `jsonRpcProvider` with Alchemy's node API key to read on-chain information from the `ETH` main network and `Goerli` test network.

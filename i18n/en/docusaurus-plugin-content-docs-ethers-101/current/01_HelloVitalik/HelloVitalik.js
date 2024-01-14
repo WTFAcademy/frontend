@@ -1,18 +1,16 @@
-// 导入ethers包
+// Import the ethers package
 import { ethers } from "ethers";
-// playcode免费版不能安装ethers，用这条命令，需要从网络上import包（把上面这行注释掉）
+// playcode's free version cannot install ethers, use this command to import the package from the internet (comment out the line above)
 // import { ethers } from "https://cdnjs.cloudflare.com/ajax/libs/ethers/6.2.3/ethers.js";
 
-// 利用ethers默认的Provider连接以太坊网络
+// Connect to the Ethereum network using the default ethers provider
 // const provider = new ethers.getDefaultProvider();
-const ALCHEMY_MAINNET_URL =
-  "https://eth-mainnet.g.alchemy.com/v2/oKmOQKbneVkxgHZfibs-iFhIlIAl6HDN";
-const provider = new ethers.JsonRpcProvider(ALCHEMY_MAINNET_URL);
+const ALCHEMY_MAINNET_URL = 'https://eth-mainnet.g.alchemy.com/v2/oKmOQKbneVkxgHZfibs-iFhIlIAl6HDN';
+const provider = new ethers.JsonRpcProvider(ALCHEMY_MAINNET_URL)
 
 const main = async () => {
-  // 查询vitalik的ETH余额
-  const balance = await provider.getBalance(`vitalik.eth`);
-  // 将余额输出在console
-  console.log(`ETH Balance of vitalik: ${ethers.formatEther(balance)} ETH`);
-};
-main();
+    // Query the ETH balance of vitalik
+    const balance = await provider.getBalance(`vitalik.eth`);
+    // Output the balance to the console
+    console.log(`ETH Balance of vitalik: ${ethers.formatEther(balance)} ETH`);}
+main()

@@ -3,16 +3,17 @@
 pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-// 我们尝试frontrun一笔Free mint交易
+// We attempt to frontrun a Free mint transaction
 contract FreeMint is ERC721 {
     uint256 public totalSupply;
 
-    // 构造函数，初始化NFT合集的名称、代号
+    // Constructor, initilizes the name and symbol of the NFT collection
     constructor() ERC721("Free Mint NFT", "FreeMint"){}
 
-    // 铸造函数
+    // Minting function
     function mint() external {
-        _mint(msg.sender, totalSupply); // mint
         totalSupply++;
+        _mint(msg.sender, totalSupply); // mint
     }
+
 }

@@ -1,5 +1,5 @@
 ---
-title: 5. Write Contract
+title: 5. Contract Interaction
 tags:
   - ethers
   - javascript
@@ -10,143 +10,142 @@ tags:
   - web
 ---
 
-# WTF Ethers: 5. Write Contract
+# WTF Ethers: 5. Contract Interaction
 
-Recently, I have been revisiting `ethers.js`, consolidating the finer details, and writing `WTF Ethers Introduction` tutorials for newbies. 
+I've been revisiting `ethers.js` recently to refresh my understanding of the details and to write a simple tutorial called "WTF Ethers" for beginners.
 
-Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
+**Twitter**: [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
+**Community**: [Website wtf.academy](https://wtf.academy) | [WTF Solidity](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [WeChat Group Application](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
-
-English translations by: [@yzhxxyz](https://twitter.com/yzhxxyz)
+All the code and tutorials are open-sourced on GitHub: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
 -----
 
-这一讲，我们将介绍如何声明可写的`Contract`合约变量，并利用它与测试网的`WETH`合约交互。
+In this lesson, we will learn how to declare a writable `Contract` variable and interact with the `WETH` contract on the test network.
 
-## 创建可写`Contract`变量
+## Creating a Writable `Contract` Variable
 
-声明可写的`Contract`变量的规则：
+The rule for declaring a writable `Contract` variable is as follows:
+
 ```js
 const contract = new ethers.Contract(address, abi, signer)
 ```
 
-其中`address`为合约地址，`abi`是合约的`abi`接口，`signer`是`wallet`对象。注意，这里你需要提供`signer`，而在声明可读合约时你只需要提供`provider`。
+Here, `address` is the contract address, `abi` is the contract's ABI interface, and `signer` is the `wallet` object. Note that you need to provide a `signer` here, whereas when declaring a readable contract, you only need to provide a `provider`.
 
-你也可以利用下面的方法，将可读合约转换为可写合约：
-
+You can also convert a readable contract into a writable contract using the following method:
 ```js
 const contract2 = contract.connect(signer)
 ```
 
-## 合约交互
+## Contract Interaction
 
-我们在[第三讲](https://github.com/WTFAcademy/WTFEthers/blob/main/03_ReadContract/readme.md)介绍了读取合约信息。它不需要`gas`。这里我们介绍写入合约信息，你需要构建交易，并且支付`gas`。该交易将由整个网络上的每个节点以及矿工验证，并改变区块链状态。
+In [Lesson 3](https://github.com/WTFAcademy/WTFEthers/tree/main/en/03_ReadContract/readme.md), we learned how to read contract information. It does not require any gas. Here, we will learn how to write to a contract, which involves building a transaction and paying for gas. This transaction will be validated by every node and miner on the network, and the blockchain state will be changed.
 
-你可以用下面的方法进行合约交互：
-
+You can interact with a contract using the following methods:
 ```js
-// 发送交易
+// Send a transaction
 const tx = await contract.METHOD_NAME(args [, overrides])
-// 等待链上确认交易
-await tx.wait() 
+// Wait for the transaction to be confirmed on the chain
+await tx.wait()
 ```
 
-其中`METHOD_NAME`为调用的函数名，`args`为函数参数，`[, overrides]`是可以选择传入的数据，包括：
-- gasPrice：gas价格
-- gasLimit：gas上限
-- value：调用时传入的ether（单位是wei）
-- nonce：nonce
+Here, `METHOD_NAME` is the name of the function to be called, `args` is the function's parameters, and `[, overrides]` is optional data that can be passed, including:
+- gasPrice: Gas price
+- gasLimit: Gas limit
+- value: Ether sent during the call (in wei)
+- nonce: Nonce
 
-**注意：** 此方法不能获取合约运行的返回值，如有需要，要使用`Solidity`事件记录，然后利用交易收据去查询。
+**Note:** This method cannot fetch the return value of the contract. If you need it, you have to use Solidity events to record the value and then query using the transaction receipt.
 
-## 例子：与测试网`WETH`合约交互
+## Example: Interacting with the Test Network's `WETH` Contract
 
-`WETH` (Wrapped ETH)是`ETH`的带包装版本，将以太坊原生代币用智能合约包装成了符合`ERC20`的代币。对`WETH`合约更详细的内容可以参考WTF Solidity极简合约的[第41讲 WETH](https://github.com/AmazingAng/WTFSolidity/blob/main/41_WETH/readme.md)。
+`WETH` (Wrapped ETH) is a wrapped version of `ETH`. It wraps native Ethereum tokens using a smart contract to conform to the `ERC20` standard. For more detailed content about the `WETH` contract, refer to the [WTF Solidity Tutorial on WETH](https://www.wtf.academy/solidity-application/WETH/).
 
-1. 创建`provider`，`wallet`变量。
+1. Create the `provider` and `wallet` variables.
 
     ```js
     import { ethers } from "ethers";
 
-    // 利用Alchemy的rpc节点连接以太坊网络
+    // Connect to the Ethereum network using Alchemy's RPC node
     const ALCHEMY_GOERLI_URL = 'https://eth-goerli.alchemyapi.io/v2/GlaeWuylnNM3uuOo-SAwJxuwTdqHaY5l';
     const provider = new ethers.JsonRpcProvider(ALCHEMY_GOERLI_URL);
 
-    // 利用私钥和provider创建wallet对象
+    // Create a wallet object using the private key and provider
     const privateKey = '0x227dbb8586117d55284e26620bc76534dfbd2394be34cf4a09cb775d593b6f2b'
     const wallet = new ethers.Wallet(privateKey, provider)
     ```
-2. 创建可写`WETH`合约变量，我们在`ABI`中加入了4个我们要调用的函数：
-    - `balanceOf(address)`：查询地址的`WETH`余额。
-    - `deposit()`：将转入合约的`ETH`转为`WETH`。
-    - `transfer(adress, uint256)`：转账。
-    - `withdraw(uint256)`：取款。
+
+2. Create a writable `WETH` contract variable. We include four functions that we will call in the contract's ABI:
+
+    - `balanceOf(address)`: Query the `WETH` balance of an address.
+    - `deposit()`: Convert transferred `ETH` to `WETH` within the contract.
+    - `transfer(address, uint256)`: Transfer `WETH` to an address.
+    - `withdraw(uint256)`: Withdraw funds from the contract.
+
     ```js
-    // WETH的ABI
+    // WETH ABI
     const abiWETH = [
         "function balanceOf(address) public view returns(uint)",
         "function deposit() public payable",
         "function transfer(address, uint) public returns (bool)",
         "function withdraw(uint) public",
     ];
-    // WETH合约地址（Goerli测试网）
+
+    // WETH contract address (Goerli Test Network)
     const addressWETH = '0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6' // WETH Contract
 
-    // 声明可写合约
+    // Declare the writable contract
     const contractWETH = new ethers.Contract(addressWETH, abiWETH, wallet)
-    // 也可以声明一个只读合约，再用connect(wallet)函数转换成可写合约。
+    // Alternatively, you can declare a readable contract and then convert it to a writable contract using the `connect(wallet)` function.
     // const contractWETH = new ethers.Contract(addressWETH, abiWETH, provider)
     // contractWETH.connect(wallet)
     ```
 
-3. 读取账户`WETH`余额，可以看到余额为`1.001997`。
+3. Read the account's `WETH` balance. You can see that the balance is `1.001997`.
 
     ```js
     const address = await wallet.getAddress()
-    // 读取WETH合约的链上信息（WETH abi）
-    console.log("\n1. 读取WETH余额")
+    // Read on-chain information of the WETH contract (WETH ABI)
+    console.log("\n1. Read WETH balance")
     const balanceWETH = await contractWETH.balanceOf(address)
-    console.log(`存款前WETH持仓: ${ethers.formatEther(balanceWETH)}\n`)
+    console.log(`WETH balance before deposit: ${ethers.formatEther(balanceWETH)}\n`)
     ```
 
-    ![读取WETH余额](img/5-1.png)
+    ![Read WETH Balance](img/5-1.png)
 
-
-4. 调用`WETH`合约的`deposit()`函数，将`0.001 ETH`转换为`0.001 WETH`，打印交易详情和余额。`deposit()`函数没有参数，可以看到余额变为`1.002997`。
+4. Call the `deposit()` function of the `WETH` contract to convert `0.001 ETH` into `0.001 WETH`. Print the transaction details and the balance. You can see that the balance becomes `1.002997`.
 
     ```js
-        console.log("\n2. 调用desposit()函数，存入0.001 ETH")
-        // 发起交易
-        const tx = await contractWETH.deposit({value: ethers.parseEther("0.001")})
-        // 等待交易上链
-        await tx.wait()
-        console.log(`交易详情：`)
-        console.log(tx)
-        const balanceWETH_deposit = await contractWETH.balanceOf(address)
-        console.log(`存款后WETH持仓: ${ethers.formatEther(balanceWETH_deposit)}\n`)
+    console.log("\n2. Call the deposit() function to deposit 0.001 ETH")
+    // Send the transaction
+    const tx = await contractWETH.deposit({value: ethers.parseEther("0.001")})
+    // Wait for the transaction to be confirmed
+    await tx.wait()
+    console.log(`Transaction details:`)
+    console.log(tx)
+    const balanceWETH_deposit = await contractWETH.balanceOf(address)
+    console.log(`WETH balance after deposit: ${ethers.formatEther(balanceWETH_deposit)}\n`)
     ```
-    ![调用deposit](img/5-2.png)
 
-5. 调用`WETH`合约的`transfer()`函数，给V神转账`0.001 WETH`，并打印余额。可以看到余额变为`1.001997`。
+    ![Call deposit()](img/5-2.png)
+
+5. Call the `transfer()` function of the `WETH` contract to transfer `0.001 WETH` to Vitalik. Print the balance. You can see that the balance becomes `1.001997`.
 
     ```js
-        console.log("\n3. 调用transfer()函数，给vitalik转账0.001 WETH")
-        // 发起交易
-        const tx2 = await contractWETH.transfer("vitalik.eth", ethers.parseEther("0.001"))
-        // 等待交易上链
-        await tx2.wait()
-        const balanceWETH_transfer = await contractWETH.balanceOf(address)
-        console.log(`转账后WETH持仓: ${ethers.formatEther(balanceWETH_transfer)}\n`)
+    console.log("\n3. Call the transfer() function to transfer 0.001 WETH to Vitalik")
+    // Send the transaction
+    const tx2 = await contractWETH.transfer("vitalik.eth", ethers.parseEther("0.001"))
+    // Wait for the transaction to be confirmed
+    await tx2.wait()
+    const balanceWETH_transfer = await contractWETH.balanceOf(address)
+    console.log(`WETH balance after transfer: ${ethers.formatEther(balanceWETH_transfer)}\n`)
     ```
-    ![给V神转WETH](img/5-3.png)
+![Transfer WETH to Vitalik](img/5-3.png)
 
-**注意**：观察`deposit()`函数和`balanceOf()`函数，为什么他们的返回值不一样？为什么前者返回一堆数据，而后者只返回确定的值？这是因为对于钱包的余额，它是一个只读操作，读到什么就是什么。而对于一次函数的调用，并不知道数据何时上链，所以只会返回这次交易的信息。总结来说，就是对于非`pure`/`view`函数的调用，会返回交易的信息。如果想知道函数执行过程中合约变量的变化，可以在合约中使用`emit`输出事件，并在返回的`transaction`信息中读取事件信息来获取相应的值。
+**Note**: Observe the `deposit()` function and the `balanceOf()` function, why do they return different values? Why does the former return a bunch of data while the latter only returns a specific value? This is because for a wallet balance, it is a read-only operation, it reads what it is. However, for a function call, it does not know when the data will be confirmed on the blockchain, so it only returns information about the transaction. In summary, for non-`pure`/`view` function calls, it will return the transaction information. If you want to know the changes in contract variables during the execution of a function, you can use `emit` to output events in the contract, and read the event information from the returned `transaction` to obtain the corresponding values.
 
-## 总结
+## Summary
 
-这一讲，我们介绍了如何声明可写的`Contract`合约变量，并利用它与测试网的`WETH`合约交互。我们不仅调用`WETH`的`deposit()`函数，将`0.001 ETH`转换为`WETH`，并转账给了V神。
-
-
+In this lesson, we have learned how to declare writable `Contract` variables and interact with the `WETH` contract on the test network. We called the `deposit()` function of `WETH` to convert `0.001 ETH` into `WETH`, and transferred it to Vitalik.

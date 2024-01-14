@@ -1,5 +1,5 @@
 ---
-title: 18. 数字签名脚本
+title: 18. Digital Signature Script
 tags:
   - ethers
   - javascript
@@ -10,152 +10,150 @@ tags:
   - web
 ---
 
-# WTF Ethers: 18. 数字签名脚本
+# WTF Ethers: 18. Digital Signature Script
 
-Recently, I have been revisiting `ethers.js`, consolidating the finer details, and writing `WTF Ethers Introduction` tutorials for newbies. 
+I've been revisiting `ethers.js` recently to refresh my understanding of the details and to write a simple tutorial called "WTF Ethers" for beginners.
 
-Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
+**Twitter**: [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
+**Community**: [Website wtf.academy](https://wtf.academy) | [WTF Solidity](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [WeChat Group Application](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
-
-English translations by: [@yzhxxyz](https://twitter.com/yzhxxyz)
+All the code and tutorials are open-sourced on GitHub: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
 -----
 
-这一讲，我们介绍一个利用链下签名作为白名单发放`NFT`的方法。如果你对`ECDSA`合约不熟悉，请看[WTF Solidity极简教程第37讲：数字签名](https://github.com/AmazingAng/WTF-Solidity/blob/main/37_Signature/readme.md)。
+In this chapter, we will introduce a method of using off-chain signatures as a whitelist for NFTs. If you are not familiar with the `ECDSA` contract, please refer to [WTF Solidity 37: Digital Signature](https://www.wtf.academy/solidity-application/Signature/).
 
-## 数字签名
+## Digital Signature
 
-如果你用过`opensea`交易`NFT`，对签名就不会陌生。下图是小狐狸（`metamask`）钱包进行签名时弹出的窗口，它可以证明你拥有私钥的同时不需要对外公布私钥。
+If you have used `opensea` to trade NFTs, you will be familiar with signatures. The image below shows the window that pops up when signing with the small fox (`Metamask`) wallet. It proves that you own the private key without needing to disclose it publicly.
 
-![metamask签名](./img/18-1.png)
+![Metamask Signature](./img/18-1.png)
 
-以太坊使用的数字签名算法叫双椭圆曲线数字签名算法（`ECDSA`），基于双椭圆曲线“私钥-公钥”对的数字签名算法。它主要起到了[三个作用](https://en.wikipedia.org/wiki/Digital_signature)：
+The digital signature algorithm used by Ethereum is called Elliptic Curve Digital Signature Algorithm (`ECDSA`), based on the digital signature algorithm of elliptic curve "private key - public key" pairs. It serves three main purposes: 
 
-1. **身份认证**：证明签名方是私钥的持有人。
-2. **不可否认**：发送方不能否认发送过这个消息。
-3. **完整性**：消息在传输过程中无法被修改。
+1. **Identity Authentication**: Proves that the signer is the holder of the private key.
+2. **Non-Repudiation**: The sender cannot deny sending the message.
+3. **Integrity**: The message cannot be modified during transmission.
 
-## 数字签名合约简述
+## Digital Signature Contract Overview
 
-[WTF Solidity极简教程第37讲：数字签名](https://github.com/AmazingAng/WTF-Solidity/blob/main/37_Signature/readme.md)中的`SignatureNFT`合约利用`ECDSA`验证白名单铸造`NFT`。我们讲下两个重要的函数：
+The `SignatureNFT` contract in the [WTF Solidity 37: Digital Signature](https://github.com/AmazingAng/WTF-Solidity/blob/main/37_Signature/readme.md) uses `ECDSA` to validate whitelist addresses and mint NFTs. Let's discuss two important functions:
 
-1. 构造函数：初始化NFT的名称，代号，和签名公钥`signer`。
+1. Constructor: Initializes the name, symbol, and signing public key `signer` of the NFT.
 
-2. `mint()`：利用`ECDSA`验证白名单地址并铸造。参数为白名单地址`account`，铸造的`tokenId`，和签名`signature`。
+2. `mint()`: Validates the whitelist address using `ECDSA` and mints the NFT. The parameters are the whitelist address `account`, the `tokenId` to be minted, and the signature.
 
-## 生成数字签名
+## Generating a Digital Signature
 
-1. 打包消息：在以太坊的`ECDSA`标准中，被签名的`消息`是一组数据的`keccak256`哈希，为`bytes32`类型。我们可以利用`ethers.js`提供的`solidityKeccak256()`函数，把任何想要签名的内容打包并计算哈希。等效于`solidity`中的`keccak256(abi.encodePacked())`。
-    
-    在下面的代码中，我们将一个`address`类型变量和一个`uint256`类型变量打包后哈希，得到`消息`：
-    ```js
-    // 创建消息
-    const account = "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4"
-    const tokenId = "0"
-    // 等效于Solidity中的keccak256(abi.encodePacked(account, tokenId))
-    const msgHash = ethers.solidityKeccak256(
-        ['address', 'uint256'],
-        [account, tokenId])
-    console.log(`msgHash：${msgHash}`)
-    // msgHash：0x1bf2c0ce4546651a1a2feb457b39d891a6b83931cc2454434f39961345ac378c
-    ```
+1. Message Packaging: According to the `ECDSA` standard in Ethereum, the `message` to be signed is the `keccak256` hash of a set of data, represented as `bytes32`. We can use the `solidityKeccak256()` function provided by `ethers.js` to pack and compute the hash of any content we want to sign. It is equivalent to `keccak256(abi.encodePacked())` in Solidity.
 
-2. 签名：为了避免用户误签了恶意交易，`EIP191`提倡在`消息`前加上`"\x19Ethereum Signed Message:\n32"`字符，再做一次`keccak256`哈希得到`以太坊签名消息`，然后再签名。`ethers.js`的钱包类提供了`signMessage()`函数进行符合`EIP191`标准的签名。注意，如果`消息`为`string`类型，则需要利用`arrayify()`函数处理下。例子：
-    ```js
-    // 签名
-    const messageHashBytes = ethers.getBytes(msgHash)
-    const signature = await wallet.signMessage(messageHashBytes);
-    console.log(`签名：${signature}`)
-    // 签名：0x390d704d7ab732ce034203599ee93dd5d3cb0d4d1d7c600ac11726659489773d559b12d220f99f41d17651b0c1c6a669d346a397f8541760d6b32a5725378b241c
-    ```
+   In the code below, we pack an `address` variable and a `uint256` variable, and calculate the hash to obtain the `message`:
+   ```js
+   // Create message
+   const account = "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4";
+   const tokenId = "0";
+   // Equivalent to keccak256(abi.encodePacked(account, tokenId)) in Solidity
+   const msgHash = ethers.solidityKeccak256(
+       ['address', 'uint256'],
+       [account, tokenId]);
+   console.log(`msgHash: ${msgHash}`);
+   // msgHash: 0x1bf2c0ce4546651a1a2feb457b39d891a6b83931cc2454434f39961345ac378c
+   ```
 
-## 链下签名白名单铸造`NFT`
+2. Signing: To prevent users from mistakenly signing malicious transactions, `EIP191` advocates adding the `"\x19Ethereum Signed Message:\n32"` character at the beginning of the `message`, hashing it again with `keccak256` to obtain the `Ethereum signed message`, and then signing it. The wallet class in `ethers.js` provides the `signMessage()` function for signing according to the `EIP191` standard. Note that if the `message` is of type `string`, it needs to be processed using the `arrayify()` function. Example:
+   ```js
+   // Signing
+   const messageHashBytes = ethers.getBytes(msgHash);
+   const signature = await wallet.signMessage(messageHashBytes);
+   console.log(`Signature: ${signature}`);
+   // Signature: 0x390d704d7ab732ce034203599ee93dd5d3cb0d4d1d7c600ac11726659489773d559b12d220f99f41d17651b0c1c6a669d346a397f8541760d6b32a5725378b241c
+   ```
 
-1. 创建`provider`和`wallet`，其中`wallet`是用于签名的钱包。
+## Off-Chain Signature Whitelist Minting of NFTs
 
-    ```js
-    // 准备 alchemy API 可以参考https://github.com/AmazingAng/WTF-Solidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md 
-    const ALCHEMY_GOERLI_URL = 'https://eth-goerli.alchemyapi.io/v2/GlaeWuylnNM3uuOo-SAwJxuwTdqHaY5l';
-    const provider = new ethers.JsonRpcProvider(ALCHEMY_GOERLI_URL);
-    // 利用私钥和provider创建wallet对象
-    const privateKey = '0x227dbb8586117d55284e26620bc76534dfbd2394be34cf4a09cb775d593b6f2b'
-    const wallet = new ethers.Wallet(privateKey, provider)
-    ```
+1. Create a `provider` and `wallet`, where `wallet` is the wallet used for signing.
+   ```js
+   // Prepare Alchemy API (Refer to https://github.com/AmazingAng/WTF-Solidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md for details)
+   const ALCHEMY_GOERLI_URL = 'https://eth-goerli.alchemyapi.io/v2/GlaeWuylnNM3uuOo-SAwJxuwTdqHaY5l';
+   const provider = new ethers.JsonRpcProvider(ALCHEMY_GOERLI_URL);
+   // Create wallet object using the private key and provider
+   const privateKey = '0x227dbb8586117d55284e26620bc76534dfbd2394be34cf4a09cb775d593b6f2b';
+   const wallet = new ethers.Wallet(privateKey, provider);
+   ```
 
-2. 根据白名单地址和他们能铸造的`tokenId`生成`消息`并签名。
-    ```js
-    // 创建消息
-    const account = "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4"
-    const tokenId = "0"
-    // 等效于Solidity中的keccak256(abi.encodePacked(account, tokenId))
-    const msgHash = ethers.solidityPackedKeccak256(
-        ['address', 'uint256'],
-        [account, tokenId])
-    console.log(`msgHash：${msgHash}`)
-    // 签名
-    const messageHashBytes = ethers.getBytes(msgHash)
-    const signature = await wallet.signMessage(messageHashBytes);
-    console.log(`签名：${signature}`)
-    ```
-    ![创建签名](./img/18-2.png)
+2. Generate the `message` and sign it based on the whitelist addresses and the `tokenId` they can mint.
+   ```js
+   // Create message
+   const account = "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4";
+   const tokenId = "0";
+   // Equivalent to keccak256(abi.encodePacked(account, tokenId)) in Solidity
+   const msgHash = ethers.solidityPackedKeccak256(
+       ['address', 'uint256'],
+       [account, tokenId]);
+   console.log(`msgHash: ${msgHash}`);
+   // Signing
+   const messageHashBytes = ethers.getBytes(msgHash);
+   const signature = await wallet.signMessage(messageHashBytes);
+   console.log(`Signature: ${signature}`);
+   ```
+   ![Creating Signature](./img/18-2.png)
 
-3. 创建合约工厂，为部署`NFT`合约做准备。
-    ```js
-    // NFT的人类可读abi
-    const abiNFT = [
-        "constructor(string memory _name, string memory _symbol, address _signer)",
-        "function name() view returns (string)",
-        "function symbol() view returns (string)",
+3. Create a contract factory to prepare for deploying the NFT contract.
+   ```js
+   // Human-readable ABI of the NFT
+   const abiNFT = [
+       "constructor(string memory _name, string memory _symbol, address _signer)",
+       "function name() view returns (string)",
+       "function symbol() view returns (string)",
         "function mint(address _account, uint256 _tokenId, bytes memory _signature) external",
         "function ownerOf(uint256) view returns (address)",
         "function balanceOf(address) view returns (uint256)",
     ];
-    // 合约字节码，在remix中，你可以在两个地方找到Bytecode
-    // i. 部署面板的Bytecode按钮
-    // ii. 文件面板artifact文件夹下与合约同名的json文件中
-    // 里面"object"字段对应的数据就是Bytecode，挺长的，608060起始
+    // Contract bytecode, in remix, you can find the bytecode in two places
+    // i. Bytecode button in the deployment panel
+    // ii. In the json file with the same name as the contract in the artifact folder in the File panel
+    // The data corresponding to the "object" field inside is the bytecode, quite long, starts with 608060
     // "object": "608060405260646000553480156100...
     const bytecodeNFT = contractJson.default.object;
     const factoryNFT = new ethers.ContractFactory(abiNFT, bytecodeNFT, wallet);
     ```
-4. 利用合约工厂部署NFT合约。
+
+4. Deploy the NFT contract using the contract factory.
 
     ```js
-    // 部署合约，填入constructor的参数
+    // Deploy the contract, fill in the constructor parameters
     const contractNFT = await factoryNFT.deploy("WTF Signature", "WTF", wallet.address)
-    console.log(`合约地址: ${contractNFT.target}`);
-    console.log("等待合约部署上链")
+    console.log(`Contract address: ${contractNFT.target}`);
+    console.log("Waiting for contract deployment on the blockchain")
     await contractNFT.waitForDeployment()
-    // 也可以用 contractNFT.deployTransaction.wait()
-    console.log("合约已上链")
+    // You can also use contractNFT.deployTransaction.wait()
+    console.log("Contract deployed on the blockchain")
     ```
-    ![部署NFT合约](./img/18-3.png)
+    ![Deploying NFT Contract](./img/18-3.png)
 
-5. 调用`NFT`合约的`mint()`函数，利用链下签名验证白名单，为`account`地址铸造`NFT`。
+5. Call the `mint()` function of the `NFT` contract, use off-chain signature to verify the whitelist, and mint an `NFT` for the `account` address.
 
     ```js
-    console.log(`NFT名称: ${await contractNFT.name()}`)
-    console.log(`NFT代号: ${await contractNFT.symbol()}`)
+    console.log(`NFT Name: ${await contractNFT.name()}`)
+    console.log(`NFT Symbol: ${await contractNFT.symbol()}`)
     let tx = await contractNFT.mint(account, tokenId, signature)
-    console.log("铸造中，等待交易上链")
+    console.log("Minting, waiting for the transaction to be confirmed on the blockchain")
     await tx.wait()
-    console.log(`mint成功，地址${account} 的NFT余额: ${await contractNFT.balanceOf(account)}\n`)
+    console.log(`Mint successful, NFT balance of address ${account}: ${await contractNFT.balanceOf(account)}\n`)
     ```
-    ![验证签名并铸造NFT](./img/18-4.png)
+    ![Signature Verification and Minting NFT](./img/18-4.png)
 
-## 用于生产环境
+## For Production
 
-在生产环境使用数字签名验证白名单发行`NFT`主要有以下步骤：
+To use off-chain signature verification whitelisting to issue `NFT` in a production environment, follow these steps:
 
-1. 确定白名单列表。
-2. 在后端维护一个签名钱包，生成每个白名单对应的`消息`和`签名`。
-3. 部署`NFT`合约，并将签名钱包的公钥`signer`保存在合约中。
-4. 用户铸造时，向后端请求地址对应的`签名`。
-5. 用户调用`mint()`函数进行铸造`NFT`。
+1. Determine the whitelist.
+2. Maintain the private key of the signing wallet in the backend to generate the `message` and `signature` for whitelisted addresses.
+3. Deploy the `NFT` contract and save the public key of the signing wallet (`signer`) in the contract.
+4. When a user wants to mint, request the `signature` corresponding to the address from the backend.
+5. Use the `mint()` function to mint the `NFT`.
 
-## 总结
+## Summary
 
-这一讲，我们介使用`ethers.js`配合智能合约，以链下数字签名的方式验证白名单并发行`NFT`。`Merkle Tree`和链下数字签名是目前最主流也最经济的发放白名单方式。如果合约部署的时候已经确定好白名单列表，那么建议用`Merkle Tree`；如果在合约部署之后要不断添加白名单，例如Galaxy Project的`OAT`，那么建议用链下签名的方式，不然就要不断更新合约中`Merkle Tree`的`root`，耗费更多的gas。
+In this lesson, we introduced how to use `ethers.js` together with smart contracts to verify whitelisting using off-chain digital signatures for NFTs. Merkle Tree and off-chain digital signatures are currently the most popular and cost-effective ways to distribute whitelists. If the whitelist is already determined during contract deployment, we recommend using the Merkle Tree approach. If the whitelist needs to be constantly updated after contract deployment, such as in the case of the Galaxy Project's `OAT`, we recommend using the off-chain signature verification approach, otherwise, the `root` of the Merkle Tree in the contract needs to be constantly updated, which costs alot of gas.

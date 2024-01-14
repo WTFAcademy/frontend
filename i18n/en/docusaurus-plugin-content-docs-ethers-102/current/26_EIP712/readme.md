@@ -1,5 +1,5 @@
 ---
-title: 26. EIP712 签名脚本
+title: 26. EIP712 Signature Script
 tags:
   - ethers
   - javascript
@@ -10,45 +10,45 @@ tags:
   - web
 ---
 
-# WTF Ethers: 26. EIP712 签名脚本
+# WTF Ethers: 26. EIP712 Signature Script
 
-Recently, I have been revisiting `ethers.js`, consolidating the finer details, and writing `WTF Ethers Introduction` tutorials for newbies. 
+I've been revisiting `ethers.js` recently to refresh my understanding of the details and to write a simple tutorial called "WTF Ethers" for beginners.
 
-Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science) | [@WTFAcademy_](https://twitter.com/WTFAcademy_)
+**Twitter**: [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[Website wtf.academy](https://wtf.academy)
+**Community**: [Website wtf.academy](https://wtf.academy) | [WTF Solidity](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [WeChat Group Application](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
+All the code and tutorials are open-sourced on GitHub: [github.com/WTFAcademy/WTF-Ethers](https://github.com/WTFAcademy/WTF-Ethers)
 
-English translations by: [@yzhxxyz](https://twitter.com/yzhxxyz)
+-----
 
----
-
-在本教程中，我们将介绍如何使用 Ethers.js 写 EIP712 签名脚本。请结合 [WTF Solidity 第52讲：EIP712](https://github.com/AmazingAng/WTFSolidity/blob/main/52_EIP712/readme.md) 一起阅读。
+In this tutorial, we will introduce how to use `ethers.js` to write an EIP712 signature script. Please refer to [WTF Solidity 52: EIP712](https://github.com/AmazingAng/WTFSolidity/blob/main/52_EIP712/readme.md) for details on EIP712 contract.
 
 ## EIP712
 
-[EIP712 类型化数据签名](https://eips.ethereum.org/EIPS/eip-712)提供了一种更高级、更安全的签名方法。当支持 EIP712 的 Dapp 请求签名时，钱包会展示签名消息的原始数据，用户可以在验证数据符合预期之后签名。此外，你也可以使用脚本生成 EIP712 签名。
+[EIP712 Typed Data Signatures](https://eips.ethereum.org/EIPS/eip-712) provides a more advanced and secure method for signatures. When a Dapp supporting EIP712 requests a signature, the wallet will display the original data of the signature message, allowing the user to verify the message data before signing.
 
-## EIP712 签名脚本
+## EIP712 Signature Script
 
-1. 创建 `provider` 和 `wallet` 对象。在本例中，我们使用 Remix 测试钱包的私钥。
+In this section, we will write a script to sign ERP712 signature.
+
+1. Create `provider` and `wallet` objects. In this example, we will use the private key of the Remix test wallet.
 
     ```js
-    // 使用 Alchemy 的 RPC 节点连接以太坊网络
-    // 准备 Alchemy API 可以参考 https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md 
+    // Connect to the Ethereum network using Alchemy's RPC node
+    // For instructions on setting up Alchemy API, please refer to https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md 
     const ALCHEMY_GOERLI_URL = 'https://eth-goerli.alchemyapi.io/v2/GlaeWuylnNM3uuOo-SAwJxuwTdqHaY5l';
     const provider = new ethers.JsonRpcProvider(ALCHEMY_GOERLI_URL);
 
-    // 使用私钥和 provider 创建 wallet 对象
+    // Create a wallet object using the private key and provider
     const privateKey = '0x503f38a9c967ed597e47fe25643985f032b072db8075426a92110f82df48dfcb'
     const wallet = new ethers.Wallet(privateKey, provider)
     ```
 
-2. 创建 EIP712 Domain，它包含了合约的 `name`、`version`（通常约定为 “1”）、`chainId` 以及 `verifyingContract`（验证签名的合约地址）。
+2. Create the EIP712 Domain, which includes the contract's `name`, `version` (usually set to "1"), `chainId`, and `verifyingContract` (the address of the contract that verifies the signature).
 
     ```js
-    // 创建 EIP712 Domain
+    // Create the EIP712 Domain
     let contractName = "EIP712Storage"
     let version = "1"
     let chainId = "1"
@@ -62,10 +62,10 @@ English translations by: [@yzhxxyz](https://twitter.com/yzhxxyz)
     };
     ```
 
-3. 创建签名消息的类型化数据，其中 `types` 声明类型，而 `message` 包含数据。
+3. Create the typed data for the signature message, where `types` declares the types, and `message` contains the data.
 
     ```js
-    // 创建类型化数据，Storage
+    // Create typed data, Storage
     let spender = "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4"
     let number = "100"
 
@@ -82,24 +82,24 @@ English translations by: [@yzhxxyz](https://twitter.com/yzhxxyz)
     };
     ```
 
-4. 调用 wallet 对象的 `signTypedData()` 签名方法，参数为之前创建的 `domain`、`types` 和 `message` 变量：
+4. Call the `signTypedData()` signing method of the wallet object with the previously created `domain`, `types`, and `message` variables:
 
     ```js
-    // EIP712 签名
+    // EIP712 signature
     const signature = await wallet.signTypedData(domain, types, message);
     console.log("Signature:", signature);
     // Signature: 0xdca07f0c1dc70a4f9746a7b4be145c3bb8c8503368e94e3523ea2e8da6eba7b61f260887524f015c82dd77ebd3c8938831c60836f905098bf71b3e6a4a09b7311b
     ```
 
-5. 你可以使用 `verifyTypedData()` 方法复原出签名的 `signer` 地址并验证签名的有效性。通常，这一步会在智能合约中执行。
+5. You can use the `verifyTypedData()` method to recover the signer address from the signature and message, and verify the validity of the signature. Typically, this step is executed in a smart contract.
 
     ```js
-    // 验证 EIP712 签名，从签名和消息复原出 signer 地址
+    // Verify the EIP712 signature and recover the signer address from the signature and message
     let eip712Signer = ethers.verifyTypedData(domain, types, message, signature)
     console.log("EIP712 Signer: ", eip712Signer)
-    //EIP712 Signer: 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4
+    // EIP712 Signer: 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4
     ```
 
-## 总结
+## Summary
 
-在本教程中，我们介绍了如何使用 Ethers.js 编写 EIP712 签名脚本。
+In this tutorial, we have introduced how to write an EIP712 signature script using `ethers.js`.
