@@ -15,9 +15,17 @@ type TProps = {
 const CourseCard = (props: TProps) => {
   const { course } = props;
 
+  const courseRoutePath = (path: string) => {
+    if (path.startsWith("http")) {
+      return path;
+    } else {
+      return `/${path}`;
+    }
+  };
+
   return (
     <Link
-      to={`/${course.route_path}`}
+      to={courseRoutePath(course.route_path)}
       className="hover:no-underline hover:text-gray-900"
     >
       <div className="w-full overflow-hidden border border-solid md:w-[300px] rounded-md shadow-sm transition-shadow hover:shadow-lg">
