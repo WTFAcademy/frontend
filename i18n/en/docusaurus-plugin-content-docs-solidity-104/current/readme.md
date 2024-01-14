@@ -4,6 +4,6 @@ sidebar_position: 0
 slug: /
 ---
 
-# Solidity 104 合约安全
+# Solidity 104 Contract Security
 
-**学习Solidity合约安全技术，基于[WTF Solidity极简教程](https://github.com/AmazingAng/WTF-Solidity)合约安全篇。**
+**Learn Solidity contract security techniques based on the [WTF Solidity](https://github.com/AmazingAng/WTF-Solidity) contract security section.**
