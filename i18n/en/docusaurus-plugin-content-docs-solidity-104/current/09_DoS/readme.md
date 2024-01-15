@@ -1,12 +1,12 @@
 ---
-title: S09. 拒绝服务
+title: S09. Denial of Service (DoS)
 tags:
-  - solidity
-  - security
-  - fallback
+    - solidity
+    - security
+    - fallback
 ---
 
-# WTF Solidity 合约安全: S09. 拒绝服务
+# WTF Solidity S09. Denial of Service (DoS)
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

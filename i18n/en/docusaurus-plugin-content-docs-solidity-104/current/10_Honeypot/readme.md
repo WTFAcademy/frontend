@@ -1,5 +1,5 @@
 ---
-title: S10. 貔貅
+title: S10. Honeypot
 tags:
   - solidity
   - security
@@ -7,7 +7,7 @@ tags:
   - swap
 ---
 
-# WTF Solidity 合约安全: S10. 貔貅
+# WTF Solidity S10. Honeypot
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

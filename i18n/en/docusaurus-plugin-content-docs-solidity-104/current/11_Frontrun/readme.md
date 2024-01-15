@@ -1,12 +1,12 @@
 ---
-title: S11. 抢先交易
+title: S11. Front-running
 tags:
-  - solidity
-  - security
-  - erc721
+    - solidity
+    - security
+    - erc721
 ---
 
-# WTF Solidity 合约安全: S11. 抢先交易
+# WTF Solidity S11. Front-running
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

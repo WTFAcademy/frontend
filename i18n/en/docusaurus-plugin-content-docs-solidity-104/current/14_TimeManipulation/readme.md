@@ -1,12 +1,12 @@
 ---
-title: S14. 操纵区块时间
+title: S14. Block Timestamp Manipulation
 tags:
 - solidity
 - security
 - timestamp
 ---
 
-# WTF Solidity 合约安全: S14. 操纵区块时间
+# WTF Solidity S14. Block Timestamp Manipulation
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
@@ -30,7 +30,7 @@ English translations by: [@yzhxxyz](https://twitter.com/yzhxxyz)
 
 ## 漏洞例子
 
-此例子由[WTF Solidity合约安全: S07. 坏随机数](https://github.com/AmazingAng/WTF-Solidity/tree/main/32_Faucet)中的合约改写而成。我们改变了 `mint()` 铸造函数的条件：当区块时间能被 170 整除时才能成功铸造：
+此例子由[WTF Solidity: S07. 坏随机数](https://github.com/AmazingAng/WTF-Solidity/tree/main/32_Faucet)中的合约改写而成。我们改变了 `mint()` 铸造函数的条件：当区块时间能被 170 整除时才能成功铸造：
 
 ```solidity
 contract TimeMnipulation is ERC721 {
@@ -39,7 +39,7 @@ contract TimeMnipulation is ERC721 {
     // 构造函数，初始化NFT合集的名称、代号
     constructor() ERC721("", ""){}
 
-    // 铸造函数：当区块时间能被7整除时才能mint成功
+    // 铸造函数：当区块时间能被170整除时才能mint成功
     function luckyMint() external returns(bool success){
         if(block.timestamp % 170 == 0){
             _mint(msg.sender, totalSupply); // mint

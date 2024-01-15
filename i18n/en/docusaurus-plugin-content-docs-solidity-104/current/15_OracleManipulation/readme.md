@@ -1,5 +1,5 @@
 ---
-title: S15. 操纵预言机
+title: S15. Oracle Manipulation
 tags:
 - solidity
 - security
@@ -7,7 +7,7 @@ tags:
 
 ---
 
-# WTF Solidity 合约安全: S15. 操纵预言机
+# WTF Solidity S15. Oracle Manipulation
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

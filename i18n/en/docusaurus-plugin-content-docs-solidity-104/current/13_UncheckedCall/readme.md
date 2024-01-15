@@ -1,12 +1,12 @@
 ---
-title: S13. 未检查的低级调用
+title: S13. Unchecked Low-Level Calls
 tags:
-  - solidity
-  - security
-  - transfer/send/call
+    - solidity
+    - security
+    - transfer/send/call
 ---
 
-# WTF Solidity 合约安全: S13. 未检查的低级调用
+# WTF Solidity S13. Unchecked Low-Level Calls
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

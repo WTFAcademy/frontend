@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MIT
+// english translation by yzhX
 pragma solidity ^0.8.4;
 
 import "openzeppelin-contracts/token/ERC20/IERC20.sol";
 import "openzeppelin-contracts/token/ERC20/ERC20.sol";
 
 contract oUSD is ERC20{
-    // 主网合约
+    // Mainnet contracts
     address public constant FACTORY_V2 =
         0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f;
     address public constant WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
@@ -18,20 +19,20 @@ contract oUSD is ERC20{
 
     constructor() ERC20("Oracle USD","oUSD"){}
 
-    // 获取ETH price
+    // Get ETH price
     function getPrice() public view returns (uint256 price) {
-        // pair 交易对中储备
+        // Reserves in the pair
         (uint112 reserve0, uint112 reserve1, ) = pair.getReserves();
-        // ETH 瞬时价格
+        // Instantaneous price of ETH
         price = reserve0/reserve1;
     }
 
     function swap() external payable returns (uint256 amount){
-        // 获取价格
+        // Get price
         uint price = getPrice();
-        // 计算兑换数量
+        // Calculate exchange amount
         amount = price * msg.value;
-        // 铸造代币
+        // Mint tokens
         _mint(msg.sender, amount);
     }
 }
@@ -74,7 +75,7 @@ interface IUniswapV2Pair {
 }
 
 interface IUniswapV2Router {
-    //  swap相关
+    // Swap related
     function swapExactTokensForTokens(
         uint amountIn,
         uint amountOutMin,
@@ -91,7 +92,7 @@ interface IUniswapV2Router {
         uint deadline
     ) external returns (uint[] memory amounts);
 
-    //  流动性相关
+    // Liquidity related
     function addLiquidity(
         address tokenA,
         address tokenB,

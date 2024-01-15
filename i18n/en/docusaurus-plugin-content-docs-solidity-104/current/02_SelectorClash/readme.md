@@ -1,13 +1,13 @@
 ---
-title: S02. 选择器碰撞
+title: S02. Selector Clash
 tags:
-  - solidity
-  - security
-  - selector
-  - abi encode
+    - solidity
+    - security
+    - selector
+    - abi encode
 ---
 
-# WTF Solidity 合约安全: S02. 选择器碰撞
+# WTF Solidity S02. Selector Clash
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

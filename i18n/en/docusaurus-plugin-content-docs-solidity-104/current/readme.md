@@ -4,6 +4,6 @@ sidebar_position: 0
 slug: /
 ---
 
-# Solidity 104 Contract Security
+# Solidity 104 Security
 
-**Learn Solidity contract security techniques based on the [WTF Solidity](https://github.com/AmazingAng/WTF-Solidity) contract security section.**
+**Learn Solidity smart contract security techniques based on the [WTF Solidity](https://github.com/AmazingAng/WTF-Solidity) smart contract security section.**
