@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// english translation by yzhX
+// english translation by 22X
 pragma solidity ^0.8.4;
 
 // Game with DoS vulnerability, players deposit money and call refund to withdraw it after the game ends.
