@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 // By 0xAA
-// english translation by yzhX
+// english translation by 22X
 pragma solidity ^0.8.4;
 import "../34_ERC721/ERC721.sol";
 
