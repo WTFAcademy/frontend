@@ -1,12 +1,12 @@
 ---
-title: S08. 绕过合约检查
+title: S08. Contract Check Bypassing
 tags:
-  - solidity
-  - security
-  - constructor
+    - solidity
+    - security
+    - constructor
 ---
 
-# WTF Solidity 合约安全: S08. 绕过合约长度检查
+# WTF Solidity S08. Contract Length Check Bypassing
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

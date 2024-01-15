@@ -1,12 +1,12 @@
 ---
-title: S06. 签名重放
+title: S06. Signature Replay
 tags:
   - solidity
   - security
   - signature
 ---
 
-# WTF Solidity 合约安全: S06. 签名重放
+# WTF Solidity S06. Signature Replay
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

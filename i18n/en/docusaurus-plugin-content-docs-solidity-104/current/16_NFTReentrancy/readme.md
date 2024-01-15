@@ -1,15 +1,15 @@
 ---
-title: S16. NFT重入攻击
+title: S16. NFT Reentrancy Attack
 tags:
-  - solidity
-  - security
-  - fallback
-  - nft
-  - erc721
-  - erc1155
+    - solidity
+    - security
+    - fallback
+    - nft
+    - erc721
+    - erc1155
 ---
 
-# WTF Solidity 合约安全: S16. NFT重入攻击
+# WTF Solidity S16. NFT Reentrancy Attack
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

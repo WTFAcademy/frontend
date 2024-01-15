@@ -1,12 +1,12 @@
 ---
-title: S07. 坏随机数
+title: S07. Bad Randomness
 tags:
   - solidity
   - security
   - random
 ---
 
-# WTF Solidity 合约安全: S07. 坏随机数
+# WTF Solidity S07. Bad Randomness
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

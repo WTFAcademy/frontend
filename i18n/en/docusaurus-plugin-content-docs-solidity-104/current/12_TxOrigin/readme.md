@@ -1,12 +1,12 @@
 ---
-title: S12. tx.origin钓鱼攻击
+title: S12. tx.origin Phishing Attack
 tags:
-  - solidity
-  - security
-  - tx.origin
+    - solidity
+    - security
+    - tx.origin
 ---
 
-# WTF Solidity 合约安全: S12. tx.origin钓鱼攻击
+# WTF Solidity S12. tx.origin Phishing Attack
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
