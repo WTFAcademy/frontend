@@ -1,11 +1,11 @@
 ---
-title: S05. 整型溢出
+title: S05. Integer Overflow
 tags:
   - solidity
   - security
 ---
 
-# WTF Solidity 合约安全: S05. 整型溢出
+# WTF Solidity S05. Integer Overflow
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 

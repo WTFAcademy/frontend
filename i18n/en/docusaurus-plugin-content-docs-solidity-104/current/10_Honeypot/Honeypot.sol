@@ -1,18 +1,19 @@
 // SPDX-License-Identifier: MIT
+// english translation by yzhX
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-// 极简貔貅ERC20代币，只能买，不能卖
+// Simple Honeypot ERC20 token, can only be bought, not sold
 contract HoneyPot is ERC20, Ownable {
     address public pair;
-    // 构造函数：初始化代币名称和代号
+    // Constructor: Initialize token name and symbol
     constructor() ERC20("HoneyPot", "Pi Xiu") {
         address factory = 0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f; // goerli uniswap v2 factory
-        address tokenA = address(this); // 貔貅代币地址
-        address tokenB = 0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6; //  goerli WETH
-        (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA); //将tokenA和tokenB按大小排序
+        address tokenA = address(this); // Honeypot token address
+        address tokenB = 0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6; // goerli WETH
+        (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA); // Sort tokenA and tokenB in ascending order
         bytes32 salt = keccak256(abi.encodePacked(token0, token1));
         // calculate pair address
         pair = address(uint160(uint(keccak256(abi.encodePacked(
@@ -24,7 +25,7 @@ contract HoneyPot is ERC20, Ownable {
     }
     
     /**
-     * 铸造函数，只有合约所有者可以调用
+     * Mint function, can only be called by the contract owner
      */
     function mint(address to, uint amount) public onlyOwner {
         _mint(to, amount);
@@ -32,7 +33,7 @@ contract HoneyPot is ERC20, Ownable {
 
     /**
      * @dev See {ERC20-_beforeTokenTransfer}.
-     * 貔貅函数：只有合约拥有者可以卖出
+     * Honeypot function: Only the contract owner can sell
      */
     function _beforeTokenTransfer(
         address from,
@@ -40,7 +41,7 @@ contract HoneyPot is ERC20, Ownable {
         uint256 amount
     ) internal virtual override {
         super._beforeTokenTransfer(from, to, amount);
-        // 当转账的目标地址为 LP 合约时，会revert
+        // Revert if the transfer target address is the LP contract
         if(to == pair){
             require(from == owner(), "Can not Transfer");
         }
