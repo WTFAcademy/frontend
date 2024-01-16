@@ -20,51 +20,51 @@ English translations by: [@to_22X](https://twitter.com/to_22X)
 
 -----
 
-这一讲，我们将介绍绕过合约长度检查，并介绍预防的方法。
+In this lesson, we will discuss contract length checks bypassing and introduce how to prevent it.
 
-## 绕过合约检查
+## Bypassing Contract Check
 
-很多 freemint 的项目为了限制科学家（程序员）会用到 `isContract()` 方法，希望将调用者 `msg.sender` 限制为外部账户（EOA），而非合约。这个函数利用 `extcodesize` 获取该地址所存储的 `bytecode` 长度（runtime），若大于0，则判断为合约，否则就是EOA（用户）。
+Many free-mint projects use the `isContract()` method to restrict programmers/hackers and limit the caller `msg.sender` to external accounts (EOA) rather than contracts. This function uses `extcodesize` to retrieve the bytecode length (runtime) stored at the address. If the length is greater than 0, it is considered a contract; otherwise, it is an EOA (user).
 
 ```solidity
-    // 利用 extcodesize 检查是否为合约
+    // Use extcodesize to check if it's a contract
     function isContract(address account) public view returns (bool) {
-        // extcodesize > 0 的地址一定是合约地址
-        // 但是合约在构造函数时候 extcodesize 为0
+        // Addresses with extcodesize > 0 are definitely contract addresses
+        // However, during contract construction, extcodesize is 0
         uint size;
         assembly {
-            size := extcodesize(account)
+          size := extcodesize(account)
         }
         return size > 0;
     }
 ```
 
-这里有一个漏洞，就是在合约在被创建的时候，`runtime bytecode` 还没有被存储到地址上，因此 `bytecode` 长度为0。也就是说，如果我们将逻辑写在合约的构造函数 `constructor` 中的话，就可以绕过 `isContract()` 检查。
+Here is a vulnerability where the `runtime bytecode` is not yet stored at the address when the contract is being created, so the `bytecode` length is 0. This means that if we write the logic in the constructor of the contract, we can bypass the `isContract()` check.
 
 ![](./img/S08-1.png)
 
-## 漏洞例子
+## Vulnerability Example
 
-下面我们来看一个例子：`ContractCheck`合约是一个 freemint ERC20 合约，铸造函数 `mint()` 中使用了 `isContract()` 函数来阻止合约地址的调用，防止科学家批量铸造。每次调用 `mint()` 可以铸造 100 枚代币。
+Let's take a look at an example: The `ContractCheck` contract is a free-mint ERC20 contract, and the `mint()` function uses the `isContract()` function to prevent calls from contract addresses, preventing hackers from minting tokens in batch. Each call to `mint()` can mint 100 tokens.
 
 ```solidity
-// 用extcodesize检查是否为合约地址
+// Check if an address is a contract using extcodesize
 contract ContractCheck is ERC20 {
-    // 构造函数：初始化代币名称和代号
+    // Constructor: Initialize token name and symbol
     constructor() ERC20("", "") {}
     
-    // 利用 extcodesize 检查是否为合约
+    // Use extcodesize to check if it's a contract
     function isContract(address account) public view returns (bool) {
-        // extcodesize > 0 的地址一定是合约地址
-        // 但是合约在构造函数时候 extcodesize 为0
+        // Addresses with extcodesize > 0 are definitely contract addresses
+        // However, during contract construction, extcodesize is 0
         uint size;
         assembly {
-            size := extcodesize(account)
+          size := extcodesize(account)
         }
         return size > 0;
     }
 
-    // mint函数，只有非合约地址能调用（有漏洞）
+    // mint function, only callable by non-contract addresses (vulnerable)
     function mint() public {
         require(!isContract(msg.sender), "Contract not allowed!");
         _mint(msg.sender, 100);
@@ -72,15 +72,15 @@ contract ContractCheck is ERC20 {
 }
 ```
 
-我们写一个攻击合约，在 `constructor` 中多次调用 `ContractCheck` 合约中的 `mint()` 函数，批量铸造 `1000` 枚代币：
+We will write an attack contract that calls the `mint()` function multiple times in the `constructor` to mint `1000` tokens in batch:
 
 ```solidity
-// 利用构造函数的特点攻击
+// Attack using constructor's behavior
 contract NotContract {
     bool public isContract;
     address public contractCheck;
 
-    // 当合约正在被创建时，extcodesize (代码长度) 为 0，因此不会被 isContract() 检测出。
+    // When the contract is being created, extcodesize (code length) is 0, so it won't be detected by isContract().
     constructor(address addr) {
         contractCheck = addr;
         isContract = ContractCheck(addr).isContract(address(this));
@@ -90,28 +90,28 @@ contract NotContract {
         }
     }
 
-    // 合约创建好以后，extcodesize > 0，isContract() 可以检测
+    // After the contract is created, extcodesize > 0, isContract() can detect it
     function mint() external {
         ContractCheck(contractCheck).mint();
     }
 }
 ```
 
-如果我们之前讲的是正确的话，在构造函数调用 `mint()` 可以绕过 `isContract()` 的检查成功铸造代币，那么函数将成功部署，并且状态变量 `isContract` 会在构造函数赋值 `false`。而在合约部署之后，`runtime bytecode` 已经被存储在合约地址上了，`extcodesize > 0`， `isContract()` 能够成功阻止铸造，调用 `mint()` 函数将失败。
+If what we mentioned earlier is correct, calling `mint()` in the constructor can bypass the `isContract()` check and successfully mint tokens. In this case, the function will be deployed successfully and the state variable `isContract` will be assigned `false` in the constructor. However, after the contract is deployed, the runtime bytecode is stored at the contract address, `extcodesize > 0`, and `isContract()` can successfully prevent minting, causing the `mint()` function to fail.
 
-## `Remix` 复现
+## `Remix` Reproduce
 
-1. 部署 `ContractCheck` 合约。
+1. Deploy the `ContractCheck` contract.
 
-2. 部署 `NotContract` 合约，参数为 `ContractCheck` 合约地址。
+2. Deploy the `NotContract` contract with the `ContractCheck` contract address as the parameter.
 
-3. 调用 `ContractCheck` 合约的 `balanceOf` 查看 `NotContract` 合约的代币余额为 `1000`，攻击成功。
+3. Call the `balanceOf` function of the `ContractCheck` contract to check that the token balance of the `NotContract` contract is `1000`, indicating a successful attack.
 
-4. 调用`NotContract` 合约的 `mint()` 函数，由于此时合约已经部署完成，调用 `mint()` 函数将失败。
+4. Call the `mint()` function of the `NotContract` contract. Since the contract has already been deployed, calling the `mint()` function will fail.
 
-## 预防办法
+## How to Prevent
 
-你可以使用 `(tx.origin == msg.sender)` 来检测调用者是否为合约。如果调用者为 EOA，那么`tx.origin`和`msg.sender`相等；如果它们俩不相等，调用者为合约。
+You can use `(tx.origin == msg.sender)` to check if the caller is a contract. If the caller is an EOA, `tx.origin` and `msg.sender` will be equal; if they are not equal, the caller is a contract.
 
 ```
 function realContract(address account) public view returns (bool) {
@@ -119,6 +119,6 @@ function realContract(address account) public view returns (bool) {
 }
 ```
 
-## 总结
+## Summary
 
-这一讲，我们介绍了合约长度检查可以被绕过的漏洞，并介绍预防的方法。如果一个地址的 `extcodesize > 0`，则该地址一定为合约；但如果 `extcodesize = 0`，该地址既可能为 `EOA`，也可能为正在创建状态的合约。
+In this lecture, we introduced a vulnerability where the contract length check can be bypassed, and we discussed methods to prevent it. If the `extcodesize` of an address is greater than 0, then the address is definitely a contract. However, if `extcodesize` is 0, the address could be either an externally owned account (`EOA`) or a contract in the process of being created.
