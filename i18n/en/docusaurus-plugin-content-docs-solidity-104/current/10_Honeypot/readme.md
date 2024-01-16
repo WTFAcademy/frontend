@@ -17,7 +17,7 @@ Community: [Discord](https://discord.gg/5akcruXrsk)｜[Wechat](https://docs.goog
 
 Codes and tutorials are open source on GitHub: [github.com/AmazingAng/WTF-Solidity](https://github.com/AmazingAng/WTF-Solidity)
 
-English translations by: [@22X_____](https://twitter.com/22X_____)
+English translations by: [@to_22X](https://twitter.com/to_22X)
 
 ---
 
