@@ -20,31 +20,31 @@ English translations by: [@to_22X](https://twitter.com/to_22X)
 
 -----
 
-这一讲，我们将介绍智能合约中的中心化和伪去中心化所带来的风险。`Ronin`桥和`Harmony`桥因该漏洞被黑客攻击，分别被盗取了 6.24 亿美元和 1 亿美元。
+In this lesson, we will discuss the risks of centralization and pseudo-decentralization in smart contracts. The `Ronin` bridge and `Harmony` bridge were hacked due to these vulnerabilities, resulting in the theft of $624 million and $100 million, respectively.
 
-## 中心化风险
+## Centralization Risks
 
-我们经常以Web3的去中心化为骄傲，认为在Web3.0世界里，所有权和控制权都是去中心化。但实际上，中心化是Web3项目最常见的风险之一。知名区块链审计公司Certik在[2021年DeFi安全报告](https://f.hubspotusercontent40.net/hubfs/4972390/Marketing/defi%20security%20report%202021-v6.pdf)中指出：
+We often take pride in the decentralization of Web3, believing that in the world of Web3.0, ownership and control are decentralized. However, centralization is actually one of the most common risks in Web3 projects. In their [2021 DeFi Security Report](https://f.hubspotusercontent40.net/hubfs/4972390/Marketing/defi%20security%20report%202021-v6.pdf), renowned blockchain auditing firm Certik pointed out:
 
-> 中心化风险是 DeFi 中最常见的漏洞，2021年中有 44 次 DeFi 黑客攻击与它相关，造成用户资金损失超过 13 亿美元。这强调了权力下放的重要性，许多项目仍需努力实现这一目标。
+> Centralization risk is the most common vulnerability in DeFi, with 44 DeFi hacks in 2021 related to it, resulting in over $1.3 billion in user funds lost. This emphasizes the importance of decentralization, and many projects still need to work towards this goal.
 
-中心化风险指智能合约的所有权是中心化的，例如合约的`owner`由一个地址控制，它可以随意修改合约参数，甚至提取用户资金。中心化的项目存在单点风险，可以被恶意开发者（内鬼）或黑客利用，只需要获取具有控制权限地址的私钥之后，就可以通过`rug-pull`，无限铸币，或其他类型方法盗取资金。
+Centralization risk refers to the centralization of ownership in smart contracts, where the `owner` of the contract is controlled by a single address. This owner can freely modify contract parameters and even withdraw user funds. Centralized projects have a single point of failure and can be exploited by malicious developers (insiders) or hackers who gain control over the address with control permissions. They can perform actions such as `rug-pull`ing, unlimited minting, or other methods to steal funds.
 
-链游项目`Vulcan Forged`在2021年12月因私钥泄露被盗 1.4 亿美元，DeFi项目`EasyFi`在2021年4月因私钥泄露被盗 5900 万美元，DeFi项目`bZx`在钓鱼攻击中私钥泄露被盗 5500 万美元。
+Gaming project `Vulcan Forged` was hacked for $140 million in December 2021 due to a leaked private key. DeFi project `EasyFi` was hacked for $59 million in April 2021 due to a leaked private key. DeFi project `bZx` lost $55 million in a phishing attack due to a leaked private key.
 
-## 伪去中心化风险
+## Pseudo-Decentralization Risks
 
-伪去中心化的项目通常对外鼓吹自己是去中心化的，但实际上和中心化项目一样存在单点风险。比如使用多签钱包来管理智能合约，但几个多签人是一致行动人，背后由一个人控制。这类项目由于包装的很去中心化，容易得到投资者信任，所以当黑客事件发生时，被盗金额也往往更大。
+Pseudo-decentralized projects often claim to be decentralized but still have a single point of failure, similar to centralized projects. For example, they may use a multi-signature wallet to manage smart contracts, but a few signers act in consensus and are controlled by a single person. These projects, packaged as decentralized, easily gain the trust of investors. Therefore, when a hack occurs, the amount stolen is often larger.
 
-近两年爆火的链游项目 Axie 的 Ronin 链跨链桥项目在2022年3月被盗 6.24 亿美元，是历史上被盗金额最大的事件。Ronin 跨链桥由 9 个验证者维护，必须有 5 个人达成共识才能批准存款和提款交易。这看起来像多签一样，非常去中心化。但实际上其中 4 个验证者由 Axie 的开发公司 Sky Mavis 控制，而另 1 个由 Axie DAO 控制的验证者也批准了 Sky Mavis 验证节点代表他们签署交易。因此，在攻击者获取了 Sky Mavis 的私钥后（具体方法未披露），就可以控制 5 个验证节点，授权盗走了 173,600 ETH 和 2550 万USDC。
+The Ronin bridge of the popular gaming project Axie was hacked for $624 million in March 2022, making it the largest theft in history. The Ronin bridge is maintained by 9 validators, and 5 of them must reach consensus to approve deposit and withdrawal transactions. This appears to be similar to a multi-signature setup and highly decentralized. However, 4 of the validators are controlled by Axie's development company, Sky Mavis, and the other validator controlled by Axie DAO also approved transactions on behalf of Sky Mavis. Therefore, once the attacker gains access to Sky Mavis' private key (specific method undisclosed), they can control the 5 validators and authorize the theft of 173,600 ETH and $25.5 million USDC.
 
-`Harmony`公链的跨链桥在2022年6月被盗 1 亿美元。`Harmony`桥由5 个多签人控制，很离谱的是只需其中 2 个人签名就可以批准一笔交易。在黑客设法盗取两个多签人的私钥后，将用户质押的资产盗空。
+The Harmony cross-chain bridge was hacked for $100 million in June 2022. The Harmony bridge is controlled by 5 multi-signature signers, and shockingly, only 2 signatures are required to approve a transaction. After the hacker managed to steal the private keys of two signers, they emptied the assets pledged by users.
 
 ![](./img/S03-1.png)
 
-## 漏洞合约例子
+## Examples of Vulnerable Contracts
 
-有中心化风险的合约多种多样，这里只举一个最常见的例子：`owner`地址可以任意铸造代币的`ERC20`合约。当项目内鬼或黑客取得`owner`的私钥后，可以无限铸币，造成投资人大量损失。
+There are various types of contracts with centralization risks, but here is the most common example: an `ERC20` contract where the `owner` address can mint tokens arbitrarily. When an insider or hacker obtains the private key of the `owner`, they can mint an unlimited amount of tokens, causing significant losses for investors.
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -65,14 +65,14 @@ contract Centralization is ERC20, Ownable {
 }
 ```
 
-## 如何减少中心化/伪去中心化风险？
+## How to Reduce Centralization/Pseudo-Decentralization Risks?
 
-1. 使用多签钱包管理国库和控制合约参数。为了兼顾效率和去中心化，可以选择 4/7 或 6/9 多签。如果你不了解多签钱包，可以阅读[WTF Solidity第50讲：多签钱包](https://github.com/AmazingAng/WTFSolidity/blob/main/50_MultisigWallet/readme.md)。
+1. Use a multi-signature wallet to manage the treasury and control contract parameters. To balance efficiency and decentralization, you can choose a 4/7 or 6/9 multi-signature setup. If you are not familiar with multi-signature wallets, you can read [WTF Solidity 50: Multi-Signature Wallet](https://github.com/AmazingAng/WTFSolidity/blob/main/50_MultisigWallet/readme.md).
 
-2. 多签的持有人要多样化，分散在创始团队、投资人、社区领袖之间，并且不要相互授权签名。
+2. Diversify the holders of the multi-signature wallet, spreading them among the founding team, investors, and community leaders, and do not authorize each other's signatures.
 
-3. 使用时间锁控制合约，在黑客或项目内鬼修改合约参数/盗取资产时，项目方和社区有一些时间来应对，将损失最小化。如果你不了解时间锁合约，可以阅读[WTF Solidity第45讲：时间锁](https://github.com/AmazingAng/WTFSolidity/blob/main/45_TokenLocker/readme.md)。
+3. Use time locks to control the contract, giving the project team and community some time to respond and minimize losses in case of hacking or insider manipulation of contract parameters/asset theft. If you are not familiar with time lock contracts, you can read [WTF Solidity 45: Time Lock](https://github.com/AmazingAng/WTFSolidity/blob/main/45_Timelock/readme.md).
 
-## 总结
+## Summary
 
-中心化/伪去中心化是区块链项目最大的风险，近两年造成用户资金损失超过 20 亿美元。中心化风险通过分析合约代码就可以发现，而伪去中心化风险藏的更深，需要对项目进行细致的尽职调查才能发现。
+Centralization/pseudo-decentralization is the biggest risk for blockchain projects, causing over $2 billion in user fund losses in the past two years. Centralization risks can be identified by analyzing the contract code, while pseudo-decentralization risks are more hidden and require thorough due diligence of the project to uncover.
