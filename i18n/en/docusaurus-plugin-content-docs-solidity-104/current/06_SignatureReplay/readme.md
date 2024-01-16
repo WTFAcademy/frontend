@@ -20,48 +20,49 @@ English translations by: [@to_22X](https://twitter.com/to_22X)
 
 -----
 
-这一讲，我们将介绍智能合约的签名重放（Signature Replay）攻击和预防方法，它曾间接导致了著名做市商 Wintermute 被盗2000万枚 $OP。
+In this lesson, we will introduce the Signature Replay attack and how to prevent in smart contracts, which indirectly led to the theft of 20 million $OP tokens from the famous market maker Wintermute.
 
-## 签名重放
+## Signature Replay
 
-上学的时候，老师经常会让家长签字，有时候家长很忙，我就会很“贴心”照着以前的签字抄一遍。某种意义上来说，这就是签名重放。
+When I was in school, teachers often asked parents to sign documents. Sometimes, when parents were busy, I would "helpfully" copy their previous signatures. In a sense, this is similar to signature replay.
 
-在区块链中，数字签名可以用于识别数据签名者和验证数据完整性。发送交易时，用户使用私钥签名交易，使得其他人可以验证交易是由相应账户发出的。智能合约也能利用 `ECDSA` 算法验证用户将在链下创建的签名，然后执行铸造或转账等逻辑。更多关于数字签名的介绍请见[WTF Solidity第37讲：数字签名](https://github.com/AmazingAng/WTFSolidity/blob/main/37_Signature/readme.md)。
+In blockchain, digital signatures can be used to identify the signer of data and verify data integrity. When sending transactions, users sign the transactions with their private keys, allowing others to verify that the transaction was sent by the corresponding account. Smart contracts can also use the `ECDSA` algorithm to verify signatures created off-chain by users and then execute logic such as minting or transferring tokens. For more information about digital signatures, please refer to [WTF Solidity 37: Digital Signatures](https://github.com/AmazingAng/WTFSolidity/blob/main/37_Signature/readme.md).
 
-数字签名一般有两种常见的重放攻击：
+There are generally two common types of replay attacks on digital signatures:
 
-1. 普通重放：将本该使用一次的签名多次使用。NBA官方发布的《The Association》系列 NFT 因为这类攻击被免费铸造了上万枚。
-2. 跨链重放：将本该在一条链上使用的签名，在另一条链上重复使用。做市商 Wintermute 因为跨链重放攻击被盗2000万枚 $OP。
+1. Regular replay: Reusing a signature that should have been used only once. The NBA's "The Association" series of NFTs were freely minted thousands of times due to this type of attack.
+2. Cross-chain replay: Reusing a signature intended for use on one chain on another chain. Wintermute, the market maker, lost 20 million $OP tokens due to a cross-chain replay attack.
 
 ![](./img/S06-1.png)
 
-## 漏洞合约例子
+## Vulnerable Contract Example
 
-下面的`SigReplay`合约是一个`ERC20`代币合约，它的铸造函数有签名重放漏洞。它使用链下签名让白名单地址 `to` 铸造相应数量 `amount` 的代币。合约中保存了 `signer` 地址，来验证签名是否有效。
+The `SigReplay` contract below is an `ERC20` token contract that has a signature replay vulnerability in its minting function. It uses off-chain signatures to allow whitelisted address `to` to mint a corresponding amount `amount` of tokens. The contract stores the `signer` address to verify the validity of the signature.
 
 ```solidity
 // SPDX-License-Identifier: MIT
+// english translation by 22X
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
-// 权限管理错误例子
+// Access control bad example
 contract SigReplay is ERC20 {
 
     address public signer;
 
-    // 构造函数：初始化代币名称和代号
+    // Constructor: initialize token name and symbol
     constructor() ERC20("SigReplay", "Replay") {
         signer = msg.sender;
     }
     
     /**
-     * 有签名重放漏洞的铸造函数
+     * Mint function with signature replay vulnerability
      * to: 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4
      * amount: 1000
-     * 签名： 0x5a4f1ad4d8bd6b5582e658087633230d9810a0b7b8afa791e3f94cc38947f6cb1069519caf5bba7b975df29cbfdb4ada355027589a989435bf88e825841452f61b
+     * Signature: 0x5a4f1ad4d8bd6b5582e658087633230d9810a0b7b8afa791e3f94cc38947f6cb1069519caf5bba7b975df29cbfdb4ada355027589a989435bf88e825841452f61b
      */
     function badMint(address to, uint amount, bytes memory signature) public {
         bytes32 _msgHash = toEthSignedMessageHash(getMessageHash(to, amount));
@@ -70,21 +71,21 @@ contract SigReplay is ERC20 {
     }
 
     /**
-     * 将to地址（address类型）和amount（uint256类型）拼成消息msgHash
+     * Concatenate the 'to' address (address type) and 'amount' (uint256 type) to form the message 'msgHash'
      * to: 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4
      * amount: 1000
-     * 对应的消息msgHash: 0xb4a4ba10fbd6886a312ec31c54137f5714ddc0e93274da8746a36d2fa96768be
+     * Corresponding message 'msgHash': 0xb4a4ba10fbd6886a312ec31c54137f5714ddc0e93274da8746a36d2fa96768be
      */
     function getMessageHash(address to, uint256 amount) public pure returns(bytes32){
         return keccak256(abi.encodePacked(to, amount));
     }
 
     /**
-     * @dev 获得以太坊签名消息
-     * `hash`：消息哈希 
-     * 遵从以太坊签名标准：https://eth.wiki/json-rpc/API#eth_sign[`eth_sign`]
-     * 以及`EIP191`:https://eips.ethereum.org/EIPS/eip-191`
-     * 添加"\x19Ethereum Signed Message:\n32"字段，防止签名的是可执行交易。
+     * @dev Get the Ethereum signed message hash
+     * `hash`: Message hash 
+     * Follows the Ethereum signature standard: https://eth.wiki/json-rpc/API#eth_sign[`eth_sign`]
+     * and `EIP191`: https://eips.ethereum.org/EIPS/eip-191`
+     * Adds the "\x19Ethereum Signed Message:\n32" field to prevent signing of executable transactions.
      */
     function toEthSignedMessageHash(bytes32 hash) public pure returns (bytes32) {
         // 32 is the length in bytes of hash,
@@ -92,13 +93,13 @@ contract SigReplay is ERC20 {
         return keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", hash));
     }
 
-    // ECDSA验证
+    // ECDSA verification
     function verify(bytes32 _msgHash, bytes memory _signature) public view returns (bool){
         return ECDSA.recover(_msgHash, _signature) == signer;
     }
 ```
 
-**注意** 铸造函数 `badMint()` 没有对 `signature` 查重，导致同样的签名可以多次使用，无限铸造代币。
+**Note:** The `badMint()` function does not check for duplicate `signature`, allowing the same signature to be used multiple times, resulting in unlimited token minting.
 
 ```solidity
     function badMint(address to, uint amount, bytes memory signature) public {
@@ -108,45 +109,45 @@ contract SigReplay is ERC20 {
     }
 ```
 
-## `Remix` 复现
+## `Remix` Reproduce
 
-**1.** 部署 `SigReplay` 合约，签名者地址 `signer` 被初始化为部署钱包地址。
+**1.** Deploy the `SigReplay` contract, where the signer address `signer` is initialized with the deploying wallet address.
 
 ![](./img/S06-2.png)
 
-**2.** 利用`getMessageHash`函数获取消息。
+**2.** Use the `getMessageHash` function to obtain the message.
 
 ![](./img/S06-3.png)
 
-**3.** 点击 `Remix` 部署面板的签名按钮，使用私钥给消息签名。
+**3.** Click the signature button in the Remix deployment panel to sign the message using the private key.
 
 ![](./img/S06-4.png)
 
-**4.** 反复调用 `badMint` 进行签名重放攻击，铸造大量代币。
+**4.** Repeatedly call `badMint` to perform signature replay attacks and mint a large amount of tokens.
 
 ![](./img/S06-5.png)
 
-## 预防办法
+## How to Prevent
 
-签名重放攻击主要有两种预防办法：
+There are two main methods to prevent signature replay attacks:
 
-1. 将使用过的签名记录下来，比如记录下已经铸造代币的地址 `mintedAddress`，防止签名反复使用：
+1. Keep a record of used signatures, such as recording the addresses that have already minted tokens in the `mintedAddress` mapping, to prevent the reuse of signatures:
 
     ```solidity
-    mapping(address => bool) public mintedAddress;   // 记录已经mint的地址
+    mapping(address => bool) public mintedAddress;   // Records addresses that have already minted
     
     function goodMint(address to, uint amount, bytes memory signature) public {
         bytes32 _msgHash = toEthSignedMessageHash(getMessageHash(to, amount));
         require(verify(_msgHash, signature), "Invalid Signer!");
-        // 检查该地址是否mint过
+        // Check if the address has already minted
         require(!mintedAddress[to], "Already minted");
-        // 记录mint过的地址
+        // Record the address minted
         mintedAddress[to] = true;
         _mint(to, amount);
     }
-    ```solidity
+    ```
 
-2. 将 `nonce` （数值随每次交易递增）和 `chainid` （链ID）包含在签名消息中，这样可以防止普通重放和跨链重放攻击：
+2. Include `nonce` (incremented for each transaction) and `chainid` (chain ID) in the signed message to prevent both regular replay and cross-chain replay attacks:
 
     ```solidity
     uint nonce;
@@ -159,10 +160,10 @@ contract SigReplay is ERC20 {
     }
     ```
 
-## 总结
+## Summary
 
-这一讲，我们介绍了智能合约中的签名重放漏洞，并介绍了两个预防方法：
+In this lesson, we discussed the signature replay vulnerability in smart contracts and introduced two methods to prevent:
 
-1. 将使用过的签名记录下来，防止二次使用。
+1. Keep a record of used signatures to prevent their reuse.
 
-2. 将 `nonce` 和 `chainid` 包含到签名消息中。
+2. Include `nonce` and `chainid` in the signed message.
