@@ -19,29 +19,29 @@ English translations by: [@to_22X](https://twitter.com/to_22X)
 
 -----
 
-这一讲，我们将介绍整型溢出漏洞（Arithmetic Over/Under Flows）。这是一个比较经典的漏洞，Solidity 0.8版本后内置了Safemath库，因此很少发生。
+In this lesson, we will introduce the integer overflow vulnerability (Arithmetic Over/Under Flows). This is a relatively common vulnerability, but it has become less prevalent since Solidity version 0.8, which includes the Safemath library.
 
-## 整型溢出
+## Integer Overflow
 
-以太坊虚拟机（EVM）为整型设置了固定大小，因此它只能表示特定范围的数字。例如 `uint8`，只能表示 [0,255] 范围内的数字。如果给 `uint8` 类型变量的赋值 `257`，则会上溢（overflow）变为 `1`；如果给它赋值`-1`，则会下溢（underflow）变为`255`。
+The Ethereum Virtual Machine (EVM) has fixed-size integers, which means it can only represent a specific range of numbers. For example, a `uint8` can only represent numbers in the range of [0, 255]. If a `uint8` variable is assigned the value `257`, it will overflow and become `1`; if it is assigned `-1`, it will underflow and become `255`.
 
-攻击者可以利用这个漏洞进行攻击：想象一下，黑客余额为`0`，他凭空花 `$1` 之后，余额突然变成了 `$2^256-1`。2018年的土狗项目 `PoWHC` 因为这个漏洞被盗了 `866 ETH`。
+Attackers can exploit this vulnerability: imagine a hacker with a balance of `0` who magically increases their balance by `$1`, and suddenly their balance becomes `$2^256-1`. In 2018, the "PoWHC" project lost `866 ETH` due to this vulnerability.
 
 ![](./img/S05-1.png)
 
-## 漏洞合约例子
+## Vulnerable Contract Example
 
-下面这个例子是一个简单的代币合约，参考了 `Ethernaut` 中的合约。它有 `2` 个状态变量：`balances` 记录了每个地址的余额，`totalSupply` 记录了代币总供给。
+The following example is a simple token contract inspired by the "Ethernaut" contract. It has `2` state variables: `balances`, which records the balance of each address, and `totalSupply`, which records the total token supply.
 
-它有 `3` 个函数：
+It has `3` functions:
 
-- 构造函数：初始化代币总供给。
-- `transfer()`：转账函数。
-- `balanceOf()`：查询余额函数。
+- Constructor: Initializes the total token supply.
+- `transfer()`: Transfer function.
+- `balanceOf()`: Balance query function.
 
-由于solidity `0.8.0` 版本之后会自动检查整型溢出错误，溢出时会报错。如果我们要重现这种漏洞，需要使用 `unchecked` 关键字，在代码块中临时关掉溢出检查，就像我们在 `transfer()` 函数中做的那样。
+Since Solidity version `0.8.0`, integer overflow errors are automatically checked, and an error is thrown if an overflow occurs. To reproduce this vulnerability, we need to use the `unchecked` keyword to temporarily disable the overflow check within a code block, as we did in the `transfer()` function.
 
-这个例子中的漏洞就出现在`transfer()` 函数中，`require(balances[msg.sender] - _value >= 0);` 这个检查由于整型溢出，永远都会通过。因此用户可以无限转账。
+The vulnerability in this example lies in the `transfer()` function, specifically the line `require(balances[msg.sender] - _value >= 0);`. Due to integer overflow, this check will always pass. Therefore, users can transfer an unlimited amount of tokens.
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -69,18 +69,18 @@ contract Token {
 }
 ```
 
-## `Remix` 复现
+## `Remix` Reproduce
 
-1. 部署 `Token` 合约，将总供给设为 `100`。
-2. 向另一个账户转账 `1000` 个代币，可以转账成功。
-3. 查询自己账户的余额，发现是一个非常大的数字，约为`2^256`。
+1. Deploy the `Token` contract and set the total supply to `100`.
+2. Transfer `1000` tokens to another account, which can be done successfully.
+3. Check the balance of your own account and find a very large number, approximately `2^256`.
 
-## 预防办法
+## How to Prevent
 
-1. Solidity `0.8.0` 之前的版本，在合约中引用 [Safemath 库](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/math/SafeMath.sol)，在整型溢出时报错。
+1. For versions of Solidity before `0.8.0`, include the [Safemath library](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/math/SafeMath.sol) in the contract to throw an error in case of integer overflow.
 
-2. Solidity `0.8.0` 之后的版本内置了 `Safemath`，因此几乎不存在这类问题。开发者有时会为了节省gas使用 `unchecked` 关键字在代码块中临时关闭整型溢出检测，这时要确保不存在整型溢出漏洞。
+2. For versions of Solidity after `0.8.0`, `Safemath` is built-in, so this type of issue is almost non-existent. However, developers may temporarily disable integer overflow checks within a code block using the `unchecked` keyword to save gas. In such cases, it is important to ensure that no integer overflow vulnerabilities exist.
 
-## 总结
+## Summary
 
-这一讲，我们介绍了经典的整型溢出漏洞，由于solidity 0.8.0 版本后内置 `Safemath` 的整型溢出检查，这类漏洞已经很少见了。
+In this lesson, we introduced the classic integer overflow vulnerability. Due to the built-in `Safemath` integer overflow check in Solidity version `0.8.0` and later, this type of vulnerability has become rare.
