@@ -69,7 +69,7 @@ contract Token {
 }
 ```
 
-## `Remix` Reproduce
+## Reproduce on `Remix`
 
 1. Deploy the `Token` contract and set the total supply to `100`.
 2. Transfer `1000` tokens to another account, which can be done successfully.

