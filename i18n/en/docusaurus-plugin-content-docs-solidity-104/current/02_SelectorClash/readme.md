@@ -86,7 +86,7 @@ Our goal is to use the `executeCrossChainTx()` function to call the `putCurEpoch
 
 In the Poly Network hack, the hacker collided the `_method` as `f1121318093`, which means the first `4` bytes of the hash of `f1121318093(bytes,bytes,uint64)` is also `0x41973cd9`, successfully calling the function. Next, we need to convert `f1121318093` to the `bytes` type: `0x6631313231333138303933`, and pass it as a parameter to `executeCrossChainTx()`. The other `3` parameters of `executeCrossChainTx()` are not important, so we can fill them with `0x`, `0x`, and `0`.
 
-## `Remix` Demonstration
+## Reproduce on `Remix`
 
 1. Deploy the `SelectorClash` contract.
 2. Call `executeCrossChainTx()` with the parameters `0x6631313231333138303933`, `0x`, `0x`, `0`, to initiate the attack.
