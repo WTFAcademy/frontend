@@ -115,7 +115,7 @@ These 4 steps can be completed in a single transaction.
 
 ### Reproduce on Foundry
 
-We will use Foundry to reproduce the manipulation attack on the oracle because it is fast and allows us to create a local fork of the mainnet for testing. If you are not familiar with Foundry, you can read [WTF Solidity Tools T07: Foundry](https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL07_Foundry/readme.md).
+We will use Foundry to reproduce the manipulation attack on the oracle because it is fast and allows us to create a local fork of the mainnet for testing. If you are not familiar with Foundry, you can read [WTF Solidity Tools T07: Foundry](https://github.com/AmazingAng/WTF-Solidity/blob/main/Topics/Tools/TOOL07_Foundry/readme.md).
 
 1. After installing Foundry, start a new project and install the OpenZeppelin library by running the following command in the command line:
   ```shell

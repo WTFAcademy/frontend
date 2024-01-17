@@ -26,7 +26,7 @@ In this lesson, we will introduce the Signature Replay attack and how to prevent
 
 When I was in school, teachers often asked parents to sign documents. Sometimes, when parents were busy, I would "helpfully" copy their previous signatures. In a sense, this is similar to signature replay.
 
-In blockchain, digital signatures can be used to identify the signer of data and verify data integrity. When sending transactions, users sign the transactions with their private keys, allowing others to verify that the transaction was sent by the corresponding account. Smart contracts can also use the `ECDSA` algorithm to verify signatures created off-chain by users and then execute logic such as minting or transferring tokens. For more information about digital signatures, please refer to [WTF Solidity 37: Digital Signatures](https://github.com/AmazingAng/WTFSolidity/blob/main/37_Signature/readme.md).
+In blockchain, digital signatures can be used to identify the signer of data and verify data integrity. When sending transactions, users sign the transactions with their private keys, allowing others to verify that the transaction was sent by the corresponding account. Smart contracts can also use the `ECDSA` algorithm to verify signatures created off-chain by users and then execute logic such as minting or transferring tokens. For more information about digital signatures, please refer to [WTF Solidity 37: Digital Signatures](https://github.com/AmazingAng/WTF-Solidity/blob/main/Languages/en/37_Signature_en/readme.md).
 
 There are generally two common types of replay attacks on digital signatures:
 
