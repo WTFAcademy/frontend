@@ -25,7 +25,7 @@ In this lesson, we will introduce the selector clash attack, which is one of the
 
 ## Selector Clash
 
-In Ethereum smart contracts, the function selector is the first 4 bytes (8 hexadecimal digits) of the hash value of the function signature `"<function name>(<function input types>)"`. When a user calls a function in a contract, the first 4 bytes of the `calldata` represent the selector of the target function, determining which function to call. If you are not familiar with it, you can read the [WTF Solidity Tutorial #29: Function Selectors](https://github.com/AmazingAng/WTFSolidity/blob/main/29_Selector/readme.md).
+In Ethereum smart contracts, the function selector is the first 4 bytes (8 hexadecimal digits) of the hash value of the function signature `"<function name>(<function input types>)"`. When a user calls a function in a contract, the first 4 bytes of the `calldata` represent the selector of the target function, determining which function to call. If you are not familiar with it, you can read the [WTF Solidity 29: Function Selectors](https://github.com/AmazingAng/WTF-Solidity/blob/main/Languages/en/29_Selector_en/readme.md).
 
 Due to the limited length of the function selector (4 bytes), it is very easy to collide: that is, we can easily find two different functions that have the same function selector. For example, `transferFrom(address,address,uint256)` and `gasprice_bit_ether(int128)` have the same selector: `0x23b872dd`. Of course, you can also write a script to brute force it.
 
