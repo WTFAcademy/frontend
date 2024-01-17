@@ -99,7 +99,7 @@ contract Bank {
 
 ### Attack Contract
 
-One vulnerability point of reentrancy attack is the transfer of `ETH` in the contract: if the target address of the transfer is a contract, it will trigger the fallback function of the contract, potentially causing a loop. If you are not familiar with fallback functions, you can read [WTF Solidity: 19: Receive ETH](https://github.com/AmazingAng/WTFSolidity/blob/main/19_Fallback/readme.md). The `Bank` contract has an `ETH` transfer in the `withdraw()` function:
+One vulnerability point of reentrancy attack is the transfer of `ETH` in the contract: if the target address of the transfer is a contract, it will trigger the fallback function of the contract, potentially causing a loop. If you are not familiar with fallback functions, you can read [WTF Solidity: 19: Receive ETH](https://github.com/AmazingAng/WTF-Solidity/blob/main/Languages/en/19_Fallback_en/readme.md). The `Bank` contract has an `ETH` transfer in the `withdraw()` function:
 
 ```
 (bool success, ) = msg.sender.call{value: balance}("");
@@ -180,7 +180,7 @@ function withdraw() external {
 
 ### Reentrant Lock
 
-The reentrant lock is a modifier that prevents reentrancy attacks. It includes a state variable `_status` that is initially set to `0`. Functions decorated with the `nonReentrant` modifier will check if `_status` is `0` on the first call, then set `_status` to `1`. After the function call completes, `_status` is set back to `0`. This prevents reentrancy attacks by causing an error if the attacking contract attempts a second call before the first call completes. If you are not familiar with modifiers, you can read [WTF Solidity: 11. Modifier](https://github.com/AmazingAng/WTFSolidity/blob/main/13_Modifier/readme.md).
+The reentrant lock is a modifier that prevents reentrancy attacks. It includes a state variable `_status` that is initially set to `0`. Functions decorated with the `nonReentrant` modifier will check if `_status` is `0` on the first call, then set `_status` to `1`. After the function call completes, `_status` is set back to `0`. This prevents reentrancy attacks by causing an error if the attacking contract attempts a second call before the first call completes. If you are not familiar with modifiers, you can read [WTF Solidity: 11. Modifier](https://github.com/AmazingAng/WTF-Solidity/blob/main/Languages/en/11_Modifier_en/readme.md).
 
 ```solidity
 uint256 private _status; // Reentrant lock
