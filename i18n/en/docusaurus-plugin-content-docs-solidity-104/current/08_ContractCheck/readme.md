@@ -99,7 +99,7 @@ contract NotContract {
 
 If what we mentioned earlier is correct, calling `mint()` in the constructor can bypass the `isContract()` check and successfully mint tokens. In this case, the function will be deployed successfully and the state variable `isContract` will be assigned `false` in the constructor. However, after the contract is deployed, the runtime bytecode is stored at the contract address, `extcodesize > 0`, and `isContract()` can successfully prevent minting, causing the `mint()` function to fail.
 
-## `Remix` Reproduce
+## Reproduce on `Remix`
 
 1. Deploy the `ContractCheck` contract.
 

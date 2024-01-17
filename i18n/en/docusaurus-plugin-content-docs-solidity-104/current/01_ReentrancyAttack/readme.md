@@ -150,7 +150,7 @@ contract Attack {
 }
 ```
 
-## `Remix` Demonstration
+## Reproduce on `Remix`
 
 1. Deploy the `Bank` contract and call the `deposit()` function to transfer `20 ETH`.
 2. Switch to the attacker's wallet and deploy the `Attack` contract.

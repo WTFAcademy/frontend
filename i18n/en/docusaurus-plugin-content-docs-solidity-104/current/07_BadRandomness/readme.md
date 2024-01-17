@@ -71,7 +71,7 @@ contract Attack {
 
 The parameter in the attack function `attackMint()` is the address of the `BadRandomness` contract. In it, we calculate the random number `luckyNumber` and pass it as a parameter to the `luckyMint()` function to complete the attack. Since `attackMint()` and `luckyMint()` are called in the same block, the `blockhash` and `block.timestamp` are the same, resulting in the same random number generated using them.
 
-## `Remix` Reproduce
+## Reproduce on `Remix`
 
 Since the Remix VM does not support the `blockhash` function, you need to deploy the contract to an Ethereum testnet for reproduction.
 

