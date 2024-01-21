@@ -18,10 +18,13 @@ import { useHistory } from "@docusaurus/router";
 import { toast } from "react-hot-toast";
 import Spinner from "@site/src/components/ui/Spinner";
 import { TError } from "@site/src/components/editor/utils/error";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import Translate from "@docusaurus/Translate";
 
 const QuizCreate = () => {
   const query = useRouterQuery();
   const history = useHistory();
+  const { i18n } = useDocusaurusContext();
 
   const lessonId = query.get("lessonId");
   const courseId = query.get("courseId");
@@ -44,19 +47,19 @@ const QuizCreate = () => {
 
   const handlePublish = async () => {
     if (error?.length > 0) {
-      toast.error("请检查题目是否有错误");
+      toast.error(<Translate id="quiz.check.question.error.tips">请检查题目是否有错误</Translate>);
       return;
     }
 
     if (!quiz) {
-      toast.error("请勿提交空题库");
+      toast.error(<Translate id="quiz.empty.error.tips">请勿提交空题库</Translate>);
       return;
     }
 
     const data = toSubmitData(quiz);
     const res = await publishQuiz(data);
     if (res) {
-      toast.success("发布成功");
+      toast.success(<Translate id="quiz.poste.success.tips">发布成功</Translate>);
       if (history.length > 1) {
         history.goBack();
       } else {
@@ -67,19 +70,19 @@ const QuizCreate = () => {
 
   const handleSubmit = async () => {
     if (error?.length > 0) {
-      toast.error("请检查题目是否有错误");
+      toast.error(<Translate id="quiz.check.question.error.tips">请检查题目是否有错误</Translate>);
       return;
     }
 
     if (!quiz) {
-      toast.error("请勿提交空题库");
+      toast.error(<Translate id="quiz.empty.error.tips">请勿提交空题库</Translate>);
       return;
     }
 
     const data = toSubmitData(quiz);
     const res = await submitQuiz(data);
     if (res) {
-      toast.success("提交成功");
+      toast.success(<Translate id="quiz.save.success.tips">提交成功</Translate>);
       if (history.length > 1) {
         history.goBack();
       } else {
@@ -99,7 +102,7 @@ const QuizCreate = () => {
   useEffect(() => {
     if ((!roleLoading && role === ECourseRole.USER) || !lessonId || !courseId) {
       history.replace("/");
-      toast.error("您没有权限访问该页面");
+      toast.error(<Translate id="quiz.noaccess.error.tips">您没有权限访问该页面</Translate>);
     }
   }, [role, roleLoading]);
 
@@ -155,21 +158,21 @@ const QuizCreate = () => {
           onClick={handleBack}
           disabled={publishLoading || submitLoading}
         >
-          返回
+          <Translate id="quiz.return.button">返回</Translate>
         </Button>
         <Button
           className="m-5"
           onClick={handleSubmit}
           disabled={publishLoading || submitLoading || loading}
         >
-          {ECourseRole.REVIEWER === role ? "保存" : "提交"}
+          {ECourseRole.REVIEWER === role ? <Translate id="quiz.save.button">保存</Translate> : <Translate id="quiz.submit.button">提交</Translate>}
         </Button>
         {role === ECourseRole.REVIEWER && (
           <Button
             onClick={handlePublish}
             disabled={publishLoading || submitLoading || loading}
           >
-            发布
+            <Translate id="quiz.publish.button">发布</Translate>
           </Button>
         )}
       </div>

@@ -120,11 +120,13 @@ function PersonalList() {
             courses.map(
               (item, index) =>
                 item.finish_status == 1 && (
+                  
                   <div
                     className="relative mt-8 overflow-hidden w-[300px] h-[180px] rounded-xl"
                     key={index}
                   >
                     <div className="absolute w-full h-full">
+                    
                       <img
                         src={item.course.cover_img}
                         className="object-cover w-full h-full"
