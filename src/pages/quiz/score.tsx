@@ -8,6 +8,7 @@ import { useHistory } from "@docusaurus/router";
 import useCourse from "@site/src/hooks/useCourse";
 import { get } from "lodash-es";
 import Spinner from "@site/src/components/ui/Spinner";
+import Translate from "@docusaurus/Translate";
 
 function QuizScore() {
   const { params } = useSearch();
@@ -41,20 +42,22 @@ function QuizScore() {
               <Spinner loading={isCourseLoading} />
               {courseTitle}
             </span>{" "}
-            / <span className="opacity-50 text-content">结果</span>
+            / <span className="opacity-50 text-content">
+                <Translate id="quiz.score.result.title">结果</Translate>
+            </span>
           </div>
           {score == 100 ? (
             <div>
               <div className="text-center mb-[42px]">
                 <p className="text-[64px]">🎉</p>
                 <p className="mt-4 text-sm font-normal text-content">
-                  Congratulations on passing this quiz.
+                  <Translate id="quiz.score.pageContent.title">恭喜您完成本次测验。</Translate>
                 </p>
               </div>
 
               <div className="mb-4">
                 <p className="text-lg font-medium text-center text-content">
-                  The score is
+                  <Translate id="quiz.score.scoreContent.title">本次得分</Translate>
                 </p>
               </div>
 
@@ -66,7 +69,9 @@ function QuizScore() {
 
               <div className="flex justify-center w-full mb-12 mt-14">
                 <Link to={routePath}>
-                  <Button className="ml-3">结束答题</Button>
+                  <Button className="ml-3">
+                    <Translate id="quiz.score.endanswer.button">结束答题</Translate>
+                  </Button>
                 </Link>
               </div>
             </div>
@@ -75,15 +80,15 @@ function QuizScore() {
               <div className="text-center mb-[42px]">
                 <p className="text-[64px]">🚧</p>
                 <p className="mt-4 text-sm font-normal text-content">
-                  There are{" "}
-                  <span className="text-lg font-bold">{errorCount}</span> wrong
-                  answers.
+                  <Translate id="quiz.score.errorContent.intro01">本次有</Translate>{" "}
+                  <span className="text-lg font-bold">{errorCount}</span>
+                  <Translate id="quiz.score.errorContent.intro01">道错误答案</Translate>
                 </p>
               </div>
 
               <div className="mb-4">
                 <p className="text-lg font-medium text-center text-content">
-                  The score is
+                  <Translate id="quiz.score.scoreContent.title">本次得分</Translate>
                 </p>
               </div>
 
@@ -96,11 +101,13 @@ function QuizScore() {
               <div className="flex justify-center w-full mb-12 mt-14">
                 {/* <Link to="/quiz/score"> */}
                 <Button variant="outline" onClick={handleTryAgain}>
-                  再做一轮
+                  <Translate id="quiz.score.againanswer.button">再做一轮</Translate>
                 </Button>
                 {/* </Link> */}
                 <Link to={routePath}>
-                  <Button className="ml-3">结束答题</Button>
+                  <Button className="ml-3">
+                    <Translate id="quiz.score.endanswer.button">结束答题</Translate>
+                  </Button>
                 </Link>
               </div>
             </div>

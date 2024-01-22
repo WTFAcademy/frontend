@@ -541,5 +541,69 @@
   "login.StepBindWallet.intro": {
     "message": "Sign Message + Bind Wallet",
     "description": "Login StepBindWallet intro"
+  },
+  "quiz.score.result.title": {
+    "message": "Result",
+    "description": "Quiz Score Result title"
+  },
+  "quiz.score.pageContent.title": {
+    "message": "Congratulations on passing this quiz.",
+    "description": "Quiz Score pageContent title"
+  },
+  "quiz.score.scoreContent.title": {
+    "message": "The score is",
+    "description": "Quiz Score scoreContent title"
+  },
+  "quiz.score.errorContent.intro01": {
+    "message": "There are",
+    "description": "Quiz Score errorContent intro01"
+  },
+  "quiz.score.errorContent.intro02": {
+    "message": "wrong answers.",
+    "description": "Quiz Score errorContent intro02"
+  },
+  "quiz.score.endanswer.button": {
+    "message": "End answer",
+    "description": "Quiz Score End answer button"
+  },
+  "quiz.score.againanswer.button": {
+    "message": "Do it again",
+    "description": "Quiz Score Again answer button"
+  },
+  "quiz.return.button": {
+    "message": "Return",
+    "description": "Quiz Return button"
+  },
+  "quiz.save.button": {
+    "message": "Save",
+    "description": "Quiz Save button"
+  },
+  "quiz.submit.button": {
+    "message": "Submit",
+    "description": "Quiz Submit button"
+  },
+  "quiz.publish.button": {
+    "message": "Publish",
+    "description": "Quiz Publish button"
+  },
+  "quiz.save.success.tips": {
+    "message": "Submitted successfully",
+    "description": "Quiz Submitted successfully tips"
+  },
+  "quiz.empty.error.tips": {
+    "message": "Please do not submit an empty question bank",
+    "description": "Quiz Submitted successfully tips"
+  },
+  "quiz.poste.success.tips": {
+    "message": "Posted successfully",
+    "description": "Quiz Posted successfully tips"
+  },
+  "quiz.check.question.error.tips": {
+    "message": "Please check if there are any errors in the question",
+    "description": "Quiz Please check if there are any errors in the question tips"
+  },
+  "quiz.noaccess.error.tips": {
+    "message": "You do not have permission to access this page",
+    "description": "Quiz No access tips"
   }
 }
