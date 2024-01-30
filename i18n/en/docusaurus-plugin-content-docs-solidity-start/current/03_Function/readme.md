@@ -1,5 +1,5 @@
 ---
-title: 3. Funtion
+title: 3. Function
 tags:
   - solidity
   - basic
