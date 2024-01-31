@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "cross-env REACT_APP_API_URL='http://features-testing-env.eba-mau9qkgr.us-east-1.elasticbeanstalk.com/' docusaurus start",
-    "start:en": "cross-env REACT_APP_API_URL='http://features-testing-env.eba-mau9qkgr.us-east-1.elasticbeanstalk.com/' docusaurus start --locale en",
+    "start": "docusaurus start",
+    "start:en": "docusaurus start --locale en",
     "build": "docusaurus build",
     "build:preview": "docusaurus build",
     "swizzle": "docusaurus swizzle",
