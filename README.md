@@ -2,6 +2,7 @@
 
 ## Getting Started
 ```shell
+cp .env.sample .env
 pnpm install
 pnpm start
 ```
