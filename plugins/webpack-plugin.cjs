@@ -30,6 +30,7 @@ function webpackPlugin(context, options) {
                         path: require.resolve('path-browserify'),
                         buffer: require.resolve('buffer/'),
                         url: require.resolve('url'),
+                        "pino-pretty": require.resolve('pino-pretty'),
                         crypto: false,
                         net: false,
                         tls: false

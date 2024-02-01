@@ -30,8 +30,6 @@ export default function LocaleDropdownNavbarItem({
   const alternatePageUtils = useAlternatePageUtils();
   const { search, hash } = useLocation();
 
-  console.log("queryString: ", queryString);
-
   const localeItems = locales.map((locale): LinkLikeNavbarItemProps => {
     const baseTo = `pathname://${alternatePageUtils.createUrl({
       locale,

@@ -9,6 +9,7 @@ import useCourse from "@site/src/hooks/useCourse";
 import { get } from "lodash-es";
 import Spinner from "@site/src/components/ui/Spinner";
 import Translate from "@docusaurus/Translate";
+import usePath from "@site/src/hooks/usePath";
 
 function QuizScore() {
   const { params } = useSearch();
@@ -17,6 +18,7 @@ function QuizScore() {
   const errorCount = Number(params.get("error_count")) || 0;
   const courseId = params.get("course_id") || "";
   const { courseDetail, isCourseLoading } = useCourse(courseId);
+  const { generateDocPath } = usePath();
 
   const handleTryAgain = () => {
     history.goBack();
@@ -28,7 +30,7 @@ function QuizScore() {
   );
 
   const routePath = useMemo(
-    () => "/" + get(courseDetail, "course.route_path", ""),
+    () => generateDocPath(get(courseDetail, "course.route_path", "")),
     [courseDetail],
   );
 
@@ -42,8 +44,9 @@ function QuizScore() {
               <Spinner loading={isCourseLoading} />
               {courseTitle}
             </span>{" "}
-            / <span className="opacity-50 text-content">
-                <Translate id="quiz.score.result.title">结果</Translate>
+            /{" "}
+            <span className="opacity-50 text-content">
+              <Translate id="quiz.score.result.title">结果</Translate>
             </span>
           </div>
           {score == 100 ? (
@@ -51,13 +54,17 @@ function QuizScore() {
               <div className="text-center mb-[42px]">
                 <p className="text-[64px]">🎉</p>
                 <p className="mt-4 text-sm font-normal text-content">
-                  <Translate id="quiz.score.pageContent.title">恭喜您完成本次测验。</Translate>
+                  <Translate id="quiz.score.pageContent.title">
+                    恭喜您完成本次测验。
+                  </Translate>
                 </p>
               </div>
 
               <div className="mb-4">
                 <p className="text-lg font-medium text-center text-content">
-                  <Translate id="quiz.score.scoreContent.title">本次得分</Translate>
+                  <Translate id="quiz.score.scoreContent.title">
+                    本次得分
+                  </Translate>
                 </p>
               </div>
 
@@ -70,7 +77,9 @@ function QuizScore() {
               <div className="flex justify-center w-full mb-12 mt-14">
                 <Link to={routePath}>
                   <Button className="ml-3">
-                    <Translate id="quiz.score.endanswer.button">结束答题</Translate>
+                    <Translate id="quiz.score.endanswer.button">
+                      结束答题
+                    </Translate>
                   </Button>
                 </Link>
               </div>
@@ -80,15 +89,21 @@ function QuizScore() {
               <div className="text-center mb-[42px]">
                 <p className="text-[64px]">🚧</p>
                 <p className="mt-4 text-sm font-normal text-content">
-                  <Translate id="quiz.score.errorContent.intro01">本次有</Translate>{" "}
+                  <Translate id="quiz.score.errorContent.intro01">
+                    本次有
+                  </Translate>{" "}
                   <span className="text-lg font-bold">{errorCount}</span>
-                  <Translate id="quiz.score.errorContent.intro01">道错误答案</Translate>
+                  <Translate id="quiz.score.errorContent.intro01">
+                    道错误答案
+                  </Translate>
                 </p>
               </div>
 
               <div className="mb-4">
                 <p className="text-lg font-medium text-center text-content">
-                  <Translate id="quiz.score.scoreContent.title">本次得分</Translate>
+                  <Translate id="quiz.score.scoreContent.title">
+                    本次得分
+                  </Translate>
                 </p>
               </div>
 
@@ -101,12 +116,16 @@ function QuizScore() {
               <div className="flex justify-center w-full mb-12 mt-14">
                 {/* <Link to="/quiz/score"> */}
                 <Button variant="outline" onClick={handleTryAgain}>
-                  <Translate id="quiz.score.againanswer.button">再做一轮</Translate>
+                  <Translate id="quiz.score.againanswer.button">
+                    再做一轮
+                  </Translate>
                 </Button>
                 {/* </Link> */}
                 <Link to={routePath}>
                   <Button className="ml-3">
-                    <Translate id="quiz.score.endanswer.button">结束答题</Translate>
+                    <Translate id="quiz.score.endanswer.button">
+                      结束答题
+                    </Translate>
                   </Button>
                 </Link>
               </div>

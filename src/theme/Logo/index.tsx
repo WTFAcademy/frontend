@@ -65,8 +65,6 @@ export default function Logo(props: Props): JSX.Element {
   // and provide a sensible fallback otherwise.
   const alt = logo?.alt ?? fallbackAlt;
 
-  console.log(logoLink);
-
   return (
     <Link
       to={logoLink}
