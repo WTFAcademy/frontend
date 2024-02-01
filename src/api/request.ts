@@ -18,7 +18,7 @@ declare module "axios" {
 export const BASE_URL = siteConfig.customFields.APP_URL;
 
 const request = axios.create({
-  baseURL: BASE_URL,
+  baseURL: BASE_URL as string,
   timeout: 30000,
   turnOnValve: false,
   ignore: false,

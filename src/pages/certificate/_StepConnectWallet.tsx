@@ -36,7 +36,7 @@ const Main = (props: TProps) => {
     courseInfo,
   } = props;
 
-  const { active, index, disabled, completed } = useContext(StepContext);
+  const { active, disabled, completed } = useContext(StepContext);
   const { data: user } = useAuth();
   const { address } = useAccount();
   const { data: signer } = useSigner();
@@ -71,7 +71,7 @@ const Main = (props: TProps) => {
       signData,
       wallet: address,
     });
-    if (res.code !== 0) {
+    if (res?.code !== 0) {
       setBindError(true);
       return;
     }
