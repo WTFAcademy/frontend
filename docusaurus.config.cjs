@@ -4,6 +4,9 @@
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const path = require('path');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 /**
  * Defines a section with overridable defaults
@@ -60,10 +63,9 @@ const config = {
     tagline: 'Web3 Open University for Developers',
     url: 'https://wtf.academy',
     baseUrl: '/',
-    onBrokenLinks: 'throw',
+    onBrokenLinks: 'warn',
     onBrokenMarkdownLinks: 'warn',
     favicon: 'img/favicon.ico',
-    trailingSlash: false,
 
     // GitHub pages deployment config.
     // If you aren't using GitHub pages, you don't need these.
@@ -117,13 +119,9 @@ const config = {
                     alt: 'WTF Logo',
                     src: 'img/logo.png',
                     height: '24px',
+
                 },
                 items: [
-                    // {
-                    //     href: '/learning-center',
-                    //     label: 'Center',
-                    //     position: 'left',
-                    // },
                     {
                         href: '/solidity-start',
                         position: 'left',
@@ -163,14 +161,6 @@ const config = {
                     {
                         title: 'Products',
                         items: [
-                            // {
-                            //     label: 'Learning Center',
-                            //     to: '/learning-center',
-                            // },
-                            // {
-                            //     label: 'Courses',
-                            //     to: '/learning-center',
-                            // },
                             {
                                 label: 'Forum',
                                 href: 'https://github.com/AmazingAng/WTFSolidity/discussions',

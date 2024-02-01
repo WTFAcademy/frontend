@@ -37,7 +37,7 @@ const StepMint = props => {
   const startMint = async () => {
     try {
       const mintInfoRes = await getMintInfoByCourse(info.courseId);
-      if (mintInfoRes.code !== 0) {
+      if (mintInfoRes?.code !== 0) {
         setError(true);
         setErrorMessage("获取mint签名失败");
         return;

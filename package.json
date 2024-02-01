@@ -51,6 +51,7 @@
     "class-variance-authority": "^0.6.0",
     "clsx": "^1.2.1",
     "dayjs": "^1.11.8",
+    "dotenv": "^16.4.1",
     "ethers": "^5.7.2",
     "graphql": "^16.7.1",
     "graphql-request": "^6.1.0",
