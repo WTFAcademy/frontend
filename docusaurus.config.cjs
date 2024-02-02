@@ -8,55 +8,6 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-/**
- * Defines a section with overridable defaults
- * @param {string} section
- * @param {import('@docusaurus/plugin-content-docs').Options} options
- */
-function defineSection(section, version = {}, options = {}) {
-    return [
-        '@docusaurus/plugin-content-docs',
-        /** @type {import('@docusaurus/plugin-content-docs').Options} */
-        ({
-            id: section,
-            path: `docs/${section}`,
-            routeBasePath: section,
-            include: ['**/*.md', '**/*.mdx'],
-            breadcrumbs: false,
-            sidebarPath: require.resolve('./sidebars.cjs'),
-            editUrl: 'https://github.com/WTFAcademy/frontend/tree/dev',
-            versions: version && {
-                current: {
-                    label: version.label,
-                },
-            },
-            ...options,
-        }),
-    ];
-}
-
-const SECTIONS = [
-    defineSection('solidity-start'),
-    defineSection('solidity-advanced'),
-    defineSection('solidity-application'),
-    defineSection('solidity-104'),
-    defineSection('solidity-105'),
-    defineSection('ethers-101'),
-    defineSection('ethers-102'),
-    defineSection('evm-opcodes-101'),
-    defineSection('evm-opcodes-102'),
-    defineSection('langchain-101'),
-    defineSection('cairo-101'),
-    defineSection('cairo-102'),
-    defineSection('html-101'),
-    defineSection('css-101'),
-    defineSection('javascript-101'),
-    defineSection('javascript-102'),
-    defineSection('analysis-101'),
-    defineSection('huff-101'),
-    defineSection('starknet-basecamp-2023'),
-];
-
 /** @type {import('@docusaurus/types').Config} */
 const config = {
     title: 'WTF Academy',

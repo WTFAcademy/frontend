@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import "../styles/Confettiful.css";
+import "../styles/confettiful.css";
 
 interface ConfettifulProps {
   confettiFrequency: number;
@@ -7,8 +7,7 @@ interface ConfettifulProps {
   confettiAnimations: string[];
 }
 
-const ConfettifulComponent: React.FC<ConfettifulProps> = ({
-  confettiFrequency = 3,
+const ConfettiComponent: React.FC<ConfettifulProps> = ({
   confettiColors = ["#EF2964", "#00C09D", "#2D87B0", "#48485E", "#EFFF1D"],
   confettiAnimations = ["slow", "medium", "fast"],
 }) => {
@@ -64,7 +63,7 @@ const ConfettifulComponent: React.FC<ConfettifulProps> = ({
 };
 
 const Confettiful: React.FC = () => {
-  return <ConfettifulComponent />;
+  return <ConfettiComponent />;
 };
 
 export default Confettiful;
