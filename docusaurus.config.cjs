@@ -17,7 +17,7 @@ const config = {
     onBrokenLinks: 'warn',
     onBrokenMarkdownLinks: 'warn',
     favicon: 'img/favicon.ico',
-    trailingSlash: false,
+    // trailingSlash: false,
 
     organizationName: 'WTFAcademy',
     projectName: 'frontend',
