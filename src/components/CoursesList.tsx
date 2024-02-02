@@ -7,6 +7,7 @@ import { TCourse } from "../typings/course";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Translate from "@docusaurus/Translate";
 import Link from "@docusaurus/Link";
+import { generateDocPath } from "@site/src/utils/docs";
 
 type TProps = {
   course: TCourse;
@@ -14,12 +15,13 @@ type TProps = {
 
 const CourseCard = (props: TProps) => {
   const { course } = props;
+  const { i18n } = useDocusaurusContext();
 
   const courseRoutePath = (path: string) => {
     if (path.startsWith("http")) {
       return path;
     } else {
-      return `/${path}`;
+      return generateDocPath(path, i18n);
     }
   };
 

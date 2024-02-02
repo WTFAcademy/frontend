@@ -1,7 +1,5 @@
 ---
 title: 看板
-sidebar_position: 0
-slug: /
 ---
 
 # Solidity 104 合约安全

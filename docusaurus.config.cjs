@@ -8,55 +8,6 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-/**
- * Defines a section with overridable defaults
- * @param {string} section
- * @param {import('@docusaurus/plugin-content-docs').Options} options
- */
-function defineSection(section, version = {}, options = {}) {
-    return [
-        '@docusaurus/plugin-content-docs',
-        /** @type {import('@docusaurus/plugin-content-docs').Options} */
-        ({
-            id: section,
-            path: `docs/${section}`,
-            routeBasePath: section,
-            include: ['**/*.md', '**/*.mdx'],
-            breadcrumbs: false,
-            sidebarPath: require.resolve('./sidebars.cjs'),
-            editUrl: 'https://github.com/WTFAcademy/frontend/tree/dev',
-            versions: version && {
-                current: {
-                    label: version.label,
-                },
-            },
-            ...options,
-        }),
-    ];
-}
-
-const SECTIONS = [
-    defineSection('solidity-start'),
-    defineSection('solidity-advanced'),
-    defineSection('solidity-application'),
-    defineSection('solidity-104'),
-    defineSection('solidity-105'),
-    defineSection('ethers-101'),
-    defineSection('ethers-102'),
-    defineSection('evm-opcodes-101'),
-    defineSection('evm-opcodes-102'),
-    defineSection('langchain-101'),
-    defineSection('cairo-101'),
-    defineSection('cairo-102'),
-    defineSection('html-101'),
-    defineSection('css-101'),
-    defineSection('javascript-101'),
-    defineSection('javascript-102'),
-    defineSection('analysis-101'),
-    defineSection('huff-101'),
-    defineSection('starknet-basecamp-2023'),
-];
-
 /** @type {import('@docusaurus/types').Config} */
 const config = {
     title: 'WTF Academy',
@@ -66,33 +17,27 @@ const config = {
     onBrokenLinks: 'warn',
     onBrokenMarkdownLinks: 'warn',
     favicon: 'img/favicon.ico',
+    // trailingSlash: false,
 
-    // GitHub pages deployment config.
-    // If you aren't using GitHub pages, you don't need these.
-    organizationName: 'WTFAcademy', // Usually your GitHub org/user name.
-    projectName: 'frontend', // Usually your repo name.
+    organizationName: 'WTFAcademy',
+    projectName: 'frontend',
     themes: ['solive-docusaurus-theme-code'],
-    // Even if you don't use internalization, you can use this field to set useful
-    // metadata like html lang. For example, if your site is Chinese, you may want
-    // to replace "en" with "zh-Hans".
     i18n: {
         defaultLocale: 'zh',
-        locales: ['en', 'zh'],
-        localeConfigs: {
-            en: {
-                label: 'English',
-            },
-            zh: {
-                label: '简体中文',
-            },
-        },
+        locales: ['en', 'zh']
     },
     presets: [
         [
             '@docusaurus/preset-classic',
             /** @type {import('@docusaurus/preset-classic').Options} */
             ({
-                docs: false,
+                docs: {
+                    path: 'docs',
+                    sidebarPath: path.resolve(__dirname, './sidebars.json'),
+                    editUrl: 'https://github.com/WTFAcademy/frontend/tree/dev',
+                    breadcrumbs: false,
+                    showLastUpdateTime: true,
+                },
                 blog: false,
                 theme: {
                     customCss: [
@@ -106,7 +51,6 @@ const config = {
         ],
     ],
     plugins: [
-        ...SECTIONS,
         path.resolve(__dirname, './plugins/webpack-plugin.cjs'),
         path.resolve(__dirname, './plugins/tailwind-loader.cjs'),
     ],
@@ -119,28 +63,31 @@ const config = {
                     alt: 'WTF Logo',
                     src: 'img/logo.png',
                     height: '24px',
-
                 },
                 items: [
                     {
-                        href: '/solidity-start',
-                        position: 'left',
                         label: 'Solidity 101',
+                        type: 'doc',
+                        docId: 'solidity-101/readme',
+                        position: 'left',
                     },
                     {
-                        href: '/solidity-advanced',
-                        position: 'left',
                         label: 'Solidity 102',
+                        type: 'doc',
+                        docId: 'solidity-102/readme',
+                        position: 'left',
                     },
                     {
-                        href: '/solidity-application',
-                        position: 'left',
                         label: 'Solidity 103',
+                        type: 'doc',
+                        docId: 'solidity-103/readme',
+                        position: 'left',
                     },
                     {
-                        href: '/starknet-basecamp-2023',
+                        label: 'Starknet Basecamp 2023',
+                        type: 'doc',
+                        docId: 'starknet-basecamp-2023/cairo/readme',
                         position: 'left',
-                        label: 'Starknet Basecamp',
                     },
                     {
                         type: 'localeDropdown',

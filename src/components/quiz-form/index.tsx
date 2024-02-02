@@ -10,6 +10,7 @@ import { isEmpty } from "lodash-es";
 import { TCourseResponse, TLesson } from "@site/src/typings/course";
 import { get } from "lodash-es";
 import Link from "@docusaurus/Link";
+import usePath from "@site/src/hooks/usePath";
 
 interface IProps {
   quizzes: IExercise[];
@@ -24,6 +25,7 @@ const QuizForm = ({
   quizzes = [],
   onSubmit,
 }: IProps) => {
+  const { generateDocPath } = usePath();
   const [quizIndex, setQuizIndex] = useState(0);
   const [loading, setLoading] = useState(false);
   const methods = useForm<FieldValues>({
@@ -88,11 +90,17 @@ const QuizForm = ({
   return (
     <>
       <div className="mb-8">
-        <Link className="text-content hover:text-blue-600" to={courseRoutePath}>
+        <Link
+          className="text-content hover:text-blue-600"
+          to={generateDocPath(courseRoutePath)}
+        >
           {courseTitle}
         </Link>{" "}
         /{" "}
-        <Link className="text-content hover:text-blue-600" to={lessonRoutePath}>
+        <Link
+          className="text-content hover:text-blue-600"
+          to={generateDocPath(lessonRoutePath)}
+        >
           {lessonTitle}
         </Link>{" "}
         /{" "}
