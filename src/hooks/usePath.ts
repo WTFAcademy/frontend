@@ -1,5 +1,6 @@
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 
+// TODO(daxiongya): consider the back-end processing of docs prefix
 const usePath = () => {
   const { i18n } = useDocusaurusContext();
 
