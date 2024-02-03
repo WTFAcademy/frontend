@@ -15,6 +15,8 @@ import Link from "@docusaurus/Link";
 import { useHistory } from "@docusaurus/router";
 import { ECourseRole } from "@site/src/constants/quiz";
 import useCourseRole from "@site/src/hooks/useCourseRole";
+import { generateDocPath } from "@site/src/utils/docs";
+import usePath from "@site/src/hooks/usePath";
 
 type TProps = {
   meta: TCourseMeta;
@@ -49,6 +51,7 @@ const LessonItem = ({
   const { isLogin } = useAuth();
   const { i18n } = useDocusaurusContext();
   const history = useHistory();
+  const { generateDocPath } = usePath();
 
   const goEditorQuiz = (
     event: React.MouseEvent,
@@ -62,7 +65,7 @@ const LessonItem = ({
   const isReviewed = Number(lesson.quiz_id) > 0;
 
   return (
-    <Link to={lesson.route_path}>
+    <Link to={generateDocPath(lesson.route_path)}>
       <div className="relative border-[0.5px] shadow rounded-md h-[57px] overflow-hidden">
         <div
           className="bg-brand-faint h-full"
