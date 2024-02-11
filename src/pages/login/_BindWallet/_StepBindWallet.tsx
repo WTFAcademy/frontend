@@ -17,7 +17,7 @@ const formatChainError = (message: string) => {
 };
 
 const StepBindWallet = () => {
-  const { data: user } = useAuth();
+  const { data: user, isGithubLogin } = useAuth();
   const { address } = useAccount();
   const { data: signer } = useSigner();
   const githubName = get(user, "user_metadata.user_name"); // TODO(chong) 待使用统一格式USER数据
@@ -51,11 +51,13 @@ const StepBindWallet = () => {
   }, [error]);
 
   return (
-    <StepCard error={isError} errorMessage={errorMessage}>
-      <div
-        className="flex justify-between w-full cursor-pointer"
-        onClick={() => bindWalletMutate()}
-      >
+    <StepCard
+      error={isError}
+      errorMessage={errorMessage}
+      onClick={() => isGithubLogin && bindWalletMutate()}
+      className={isGithubLogin && "cursor-pointer"}
+    >
+      <div className="flex justify-between w-full">
         <div className="flex flex-col">
           <span>
             <Translate id="login.StepBindWallet.intro">
@@ -69,7 +71,7 @@ const StepBindWallet = () => {
           )}
         </div>
         {!isLoading ? (
-          <ArrowRightCircleIcon className="w-6 h-6 text-white cursor-pointer" />
+          <ArrowRightCircleIcon className="w-6 h-6 text-white" />
         ) : (
           <Spinner loading className="w-6 h-6" />
         )}

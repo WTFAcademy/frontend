@@ -33,14 +33,16 @@ const StepLoginGithub = (props: TProps) => {
   }, [isGithubLogin]);
 
   return (
-    <StepCard>
-      <div
-        className="flex justify-between w-full cursor-pointer"
-        onClick={() => signInWithGithub({ useLocationHref: true })}
-      >
+    <StepCard
+      onClick={() =>
+        !isGithubLogin && signInWithGithub({ useLocationHref: true })
+      }
+      className={!isGithubLogin && "cursor-pointer"}
+    >
+      <div className="flex justify-between w-full">
         <span>{isGithubLogin ? LoggedTips : loginTips}</span>
         {!isGithubLogin && (
-          <ArrowRightCircleIcon className="w-6 h-6 text-white cursor-pointer" />
+          <ArrowRightCircleIcon className="w-6 h-6 text-white" />
         )}
       </div>
     </StepCard>
