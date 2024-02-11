@@ -3,8 +3,16 @@ import { publicProvider } from "wagmi/providers/public";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
-import { metaMaskWallet } from "@rainbow-me/rainbowkit/wallets";
-import { connectorsForWallets } from "@rainbow-me/rainbowkit";
+import {
+  okxWallet,
+  trustWallet,
+  tahoWallet,
+  zerionWallet,
+} from "@rainbow-me/rainbowkit/wallets";
+import {
+  connectorsForWallets,
+  getDefaultWallets,
+} from "@rainbow-me/rainbowkit";
 import { optimism } from "wagmi/chains";
 
 export const { chains, provider, webSocketProvider } = configureChains(
@@ -12,11 +20,23 @@ export const { chains, provider, webSocketProvider } = configureChains(
   [publicProvider()],
 );
 
+const projectId = "3dbe86e60cf2b488d1b703495224e0c8";
+
+const { wallets } = getDefaultWallets({
+  appName: "WTF Academy",
+  projectId,
+  chains,
+});
+
 const connectors = connectorsForWallets([
+  ...wallets,
   {
-    groupName: "Suggested",
+    groupName: "More Wallets",
     wallets: [
-      metaMaskWallet({ chains, projectId: "3dbe86e60cf2b488d1b703495224e0c8" }),
+      okxWallet({ projectId, chains }),
+      trustWallet({ projectId, chains }),
+      zerionWallet({ projectId, chains }),
+      tahoWallet({ chains }),
     ],
   },
 ]);
