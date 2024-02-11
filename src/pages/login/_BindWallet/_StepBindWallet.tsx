@@ -10,18 +10,13 @@ import { useHistory } from "@docusaurus/router";
 import Spinner from "@site/src/components/ui/Spinner";
 import Translate from "@docusaurus/Translate";
 
-type TProps = {
-  next?: (value: number) => void;
-  nonce?: string;
-};
-
 const formatChainError = (message: string) => {
   if (message.includes("user rejected signing")) {
     return "User rejected signing";
   }
 };
 
-const StepBindWallet = (props: TProps) => {
+const StepBindWallet = () => {
   const { data: user } = useAuth();
   const { address } = useAccount();
   const { data: signer } = useSigner();
@@ -29,7 +24,6 @@ const StepBindWallet = (props: TProps) => {
   const history = useHistory();
 
   const {
-    data: bindWalletResponse,
     isSuccess,
     isError,
     isLoading,
@@ -58,7 +52,10 @@ const StepBindWallet = (props: TProps) => {
 
   return (
     <StepCard error={isError} errorMessage={errorMessage}>
-      <div className="flex justify-between w-full">
+      <div
+        className="flex justify-between w-full cursor-pointer"
+        onClick={() => bindWalletMutate()}
+      >
         <div className="flex flex-col">
           <span>
             <Translate id="login.StepBindWallet.intro">
@@ -72,10 +69,7 @@ const StepBindWallet = (props: TProps) => {
           )}
         </div>
         {!isLoading ? (
-          <ArrowRightCircleIcon
-            className="w-6 h-6 text-white cursor-pointer"
-            onClick={() => bindWalletMutate()}
-          />
+          <ArrowRightCircleIcon className="w-6 h-6 text-white cursor-pointer" />
         ) : (
           <Spinner loading className="w-6 h-6" />
         )}
