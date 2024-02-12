@@ -15,7 +15,7 @@ import Translate, { translate } from "@docusaurus/Translate";
 
 const ConnectWallet = () => {
   const { address } = useAccount();
-  const { chain, chains } = useNetwork();
+  const { chain } = useNetwork();
   const { disconnect } = useDisconnect();
   const { data: user, isGithubLogin, signInWithWallet } = useAuth();
 
@@ -138,7 +138,7 @@ const ConnectWallet = () => {
     <>
       {renderContent()}
       <a
-        href=""
+        href="#"
         onClick={() => disconnect()}
         className="flex items-center justify-center mt-4 text-xs text-content-muted"
       >
