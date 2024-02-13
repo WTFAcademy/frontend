@@ -31,11 +31,12 @@ type TProps = {
   errorMessage?: string;
   children: React.ReactNode;
   className?: string;
+  onClick?: () => void;
 };
 
 const StepCard = (props: TProps) => {
-  const { error, errorMessage, children, className } = props;
-  const { active, completed, disabled, index } = useContext(StepContext);
+  const { error, children, className, onClick } = props;
+  const { active, completed, disabled } = useContext(StepContext);
 
   return (
     <div
@@ -43,6 +44,7 @@ const StepCard = (props: TProps) => {
         StepCardVariant({ active, error, completed, disabled }),
         className,
       )}
+      onClick={onClick}
     >
       {children}
     </div>

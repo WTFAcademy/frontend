@@ -1,9 +1,8 @@
 import StepCard from "@site/src/components/StepCard";
-import React, { useContext, useEffect, useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import useAuth from "@site/src/hooks/useAuth";
 import { ArrowRightCircleIcon } from "lucide-react";
-import { StepContext } from "@site/src/components/ui/Stepper/Step";
-import Translate, { translate } from "@docusaurus/Translate";
+import { translate } from "@docusaurus/Translate";
 
 type TProps = {
   next: (value: number) => void;
@@ -34,14 +33,16 @@ const StepLoginGithub = (props: TProps) => {
   }, [isGithubLogin]);
 
   return (
-    <StepCard>
+    <StepCard
+      onClick={() =>
+        !isGithubLogin && signInWithGithub({ useLocationHref: true })
+      }
+      className={!isGithubLogin && "cursor-pointer"}
+    >
       <div className="flex justify-between w-full">
         <span>{isGithubLogin ? LoggedTips : loginTips}</span>
         {!isGithubLogin && (
-          <ArrowRightCircleIcon
-            className="w-6 h-6 text-white cursor-pointer"
-            onClick={() => signInWithGithub({ useLocationHref: true })}
-          />
+          <ArrowRightCircleIcon className="w-6 h-6 text-white" />
         )}
       </div>
     </StepCard>
