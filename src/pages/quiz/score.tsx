@@ -35,10 +35,10 @@ function QuizScore() {
   );
 
   return (
-    <Layout>
+    <Layout noFooter>
       <div className="relative">
         {score == 100 && <Confettiful />}
-        <div className="relative mx-auto mt-8 max-sm:w-full max-sm:min-h-[auto] max-sm:px-4 w-[960px] min-h-[1080px]">
+        <div className="relative mx-auto mt-8 max-sm:w-full max-sm:min-h-[auto] max-sm:px-4 w-[960px]">
           <div className="mb-8">
             <span className="text-content inline-flex items-center">
               <Spinner loading={isCourseLoading} />

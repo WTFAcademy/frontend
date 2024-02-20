@@ -28,13 +28,20 @@ function Quiz() {
   const { courseDetail, isCourseLoading, isLessonsLoading } =
     useCourse(courseId);
 
-  const { mutateAsync } = useMutation(["getQuizByLessonId"], submitQuizGrade);
+  const { mutateAsync, isLoading: isSubmitLoading } = useMutation(
+    ["getQuizByLessonId"],
+    submitQuizGrade,
+  );
 
   const quizId = useMemo(() => {
     return data?.quiz_id || "1";
   }, [data]);
 
   const onSubmit = async (values: Record<string, string | Array<string>>) => {
+    if (isSubmitLoading) {
+      return;
+    }
+
     const answers = Object.keys(values).reduce((prev: IAnswer[], next) => {
       const [id] = next.split("@@");
       const answers =
@@ -60,9 +67,9 @@ function Quiz() {
   const isLoading = isQuizLoading || isCourseLoading || isLessonsLoading;
 
   return (
-    <Layout>
+    <Layout noFooter>
       <div className="relative">
-        <div className="relative mx-auto mt-8 max-sm:w-full max-sm:min-h-[auto] max-sm:px-4 w-[960px] min-h-[1080px]">
+        <div className="relative mx-auto mt-8 max-sm:w-full max-sm:min-h-[auto] max-sm:px-4 w-[960px]">
           {isLoading ? (
             <div className="flex items-center justify-center min-h-[200px]">
               <Spinner loading />
