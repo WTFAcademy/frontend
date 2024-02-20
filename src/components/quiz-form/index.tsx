@@ -17,6 +17,7 @@ interface IProps {
   lessonId: string;
   courseDetail?: TCourseResponse["course_info"] & { lessons: TLesson[] };
   onSubmit?: (values: FieldValues) => Promise<void>;
+  isSubmitLoading?: boolean;
 }
 
 const QuizForm = ({
@@ -24,10 +25,10 @@ const QuizForm = ({
   lessonId,
   quizzes = [],
   onSubmit,
+  isSubmitLoading,
 }: IProps) => {
   const { generateDocPath } = usePath();
   const [quizIndex, setQuizIndex] = useState(0);
-  const [loading, setLoading] = useState(false);
   const methods = useForm<FieldValues>({
     mode: "onChange",
   });
@@ -38,15 +39,10 @@ const QuizForm = ({
 
   const next = async () => {
     const nextIndex = quizIndex + 1;
-    if (nextIndex > quizzes.length - 1 && !loading) {
-      setLoading(true);
-      Promise.resolve(onSubmit)
-        .then(submit => {
-          submit?.(getValues());
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+    if (nextIndex > quizzes.length - 1) {
+      Promise.resolve(onSubmit).then(submit => {
+        submit?.(getValues());
+      });
     } else {
       setQuizIndex(nextIndex);
     }
@@ -142,7 +138,11 @@ const QuizForm = ({
             )}
             onClick={() => !disabled && next()}
           >
-            {loading ? <LoaderIcon className="animate-spin" /> : continueText}
+            {isSubmitLoading ? (
+              <LoaderIcon className="animate-spin w-4 h-4" />
+            ) : (
+              continueText
+            )}
           </div>
         </div>
       </FormProvider>
