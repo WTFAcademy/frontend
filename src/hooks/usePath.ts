@@ -11,6 +11,12 @@ const usePath = () => {
       }
       return `/docs/${docId}`;
     },
+    generateLocalePath: (path: string): string => {
+      if (i18n.currentLocale !== i18n.defaultLocale) {
+        return `/${i18n.currentLocale}${path}`;
+      }
+      return path;
+    },
   };
 };
 

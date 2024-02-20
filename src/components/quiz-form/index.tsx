@@ -38,7 +38,7 @@ const QuizForm = ({
 
   const next = async () => {
     const nextIndex = quizIndex + 1;
-    if (nextIndex > quizzes.length - 1) {
+    if (nextIndex > quizzes.length - 1 && !loading) {
       setLoading(true);
       Promise.resolve(onSubmit)
         .then(submit => {

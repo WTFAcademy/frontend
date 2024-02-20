@@ -8,10 +8,12 @@ import useSearch from "@site/src/hooks/useSearch";
 import { IAnswer } from "@site/src/typings/quiz";
 import useCourse from "@site/src/hooks/useCourse";
 import Spinner from "@site/src/components/ui/Spinner";
+import usePath from "@site/src/hooks/usePath";
 
 function Quiz() {
   const history = useHistory();
   const { params } = useSearch();
+  const { generateLocalePath } = usePath();
 
   const lessonId =
     params.get("lesson_id") || "8225d76c-f5cb-4398-a7bc-fda7cd8252cb";
@@ -26,13 +28,20 @@ function Quiz() {
   const { courseDetail, isCourseLoading, isLessonsLoading } =
     useCourse(courseId);
 
-  const { mutateAsync } = useMutation(["getQuizByLessonId"], submitQuizGrade);
+  const { mutateAsync, isLoading: isSubmitLoading } = useMutation(
+    ["getQuizByLessonId"],
+    submitQuizGrade,
+  );
 
   const quizId = useMemo(() => {
     return data?.quiz_id || "1";
   }, [data]);
 
   const onSubmit = async (values: Record<string, string | Array<string>>) => {
+    if (isSubmitLoading) {
+      return;
+    }
+
     const answers = Object.keys(values).reduce((prev: IAnswer[], next) => {
       const [id] = next.split("@@");
       const answers =
@@ -48,7 +57,9 @@ function Quiz() {
       quiz_id: quizId,
     }).then((res: any) => {
       history.push(
-        `/quiz/score?score=${res?.score}&error_count=${res?.error_cnt}&course_id=${courseId}`,
+        generateLocalePath(
+          `/quiz/score?score=${res?.score}&error_count=${res?.error_cnt}&course_id=${courseId}`,
+        ),
       );
     });
   };
@@ -56,9 +67,9 @@ function Quiz() {
   const isLoading = isQuizLoading || isCourseLoading || isLessonsLoading;
 
   return (
-    <Layout>
+    <Layout noFooter>
       <div className="relative">
-        <div className="relative mx-auto mt-8 max-sm:w-full max-sm:min-h-[auto] max-sm:px-4 w-[960px] min-h-[1080px]">
+        <div className="relative mx-auto mt-8 max-sm:w-full max-sm:min-h-[auto] max-sm:px-4 w-[960px]">
           {isLoading ? (
             <div className="flex items-center justify-center min-h-[200px]">
               <Spinner loading />
