@@ -35,12 +35,11 @@ request.interceptors.response.use(
     const { data, config, status } = response;
     const ignoreCodes = config.ignore;
 
-    let promptError = false;
-    if (ignoreCodes instanceof Array) {
-      promptError = ignoreCodes.every(code => ERROR_CODES[code] === undefined);
-    } else {
-      promptError = ignoreCodes ? false : true;
-    }
+    const promptError =
+      ignoreCodes instanceof Array
+        ? ignoreCodes.every(code => ERROR_CODES[code] === undefined)
+        : !ignoreCodes;
+
     data.code !== 0 && promptError && toast.error(data.msg);
 
     // TODO(daxiongya):
@@ -56,6 +55,19 @@ request.interceptors.response.use(
   },
   err => {
     console.log("error", err);
+    const { response, config } = err;
+    const ignoreCodes = config.ignore;
+    const promptError =
+      ignoreCodes instanceof Array
+        ? ignoreCodes.every(code => ERROR_CODES[code] === undefined)
+        : !ignoreCodes;
+
+    if (response) {
+      const { data } = response;
+      if (data) {
+        promptError && toast.error(data.msg);
+      }
+    }
   },
 );
 

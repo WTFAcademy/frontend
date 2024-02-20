@@ -80,6 +80,7 @@ function Quiz() {
               courseDetail={courseDetail}
               quizzes={data?.exercise_list || []}
               onSubmit={onSubmit}
+              isSubmitLoading={isSubmitLoading}
             />
           )}
         </div>
