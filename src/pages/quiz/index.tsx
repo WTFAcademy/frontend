@@ -8,10 +8,12 @@ import useSearch from "@site/src/hooks/useSearch";
 import { IAnswer } from "@site/src/typings/quiz";
 import useCourse from "@site/src/hooks/useCourse";
 import Spinner from "@site/src/components/ui/Spinner";
+import usePath from "@site/src/hooks/usePath";
 
 function Quiz() {
   const history = useHistory();
   const { params } = useSearch();
+  const { generateLocalePath } = usePath();
 
   const lessonId =
     params.get("lesson_id") || "8225d76c-f5cb-4398-a7bc-fda7cd8252cb";
@@ -48,7 +50,9 @@ function Quiz() {
       quiz_id: quizId,
     }).then((res: any) => {
       history.push(
-        `/quiz/score?score=${res?.score}&error_count=${res?.error_cnt}&course_id=${courseId}`,
+        generateLocalePath(
+          `/quiz/score?score=${res?.score}&error_count=${res?.error_cnt}&course_id=${courseId}`,
+        ),
       );
     });
   };
