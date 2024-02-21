@@ -86,7 +86,7 @@ const config = {
                     {
                         label: 'Starknet Basecamp 2023',
                         type: 'doc',
-                        docId: 'starknet-basecamp-2023/cairo/readme',
+                        docId: 'starknet-basecamp-2023/readme',
                         position: 'left',
                     },
                     {
