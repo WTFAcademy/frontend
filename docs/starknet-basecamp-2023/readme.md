@@ -22,7 +22,7 @@ title: 看板
 
 | 课程                 | 主讲人      |
 | ------------------ | -------- |
-| 1.  Starknet基础     | [Zelig](https://github.com/JangoCCC)    |
+| [1.  Starknet基础]("./01_fundamentals")     | [Zelig](https://github.com/JangoCCC)    |
 | 2.  Cairo          | 0xNezha  |
 | 3.  Starknet密码学基础   | Eli Ben-Sasson  |
 | 4.  Starknet智能合约   | WongSSH  |
