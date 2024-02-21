@@ -22,12 +22,12 @@ title: 看板
 
 | 课程                 | 主讲人      |
 | ------------------ | -------- |
-| [1.  Starknet基础]("./01_fundamentals")     | [Zelig](https://github.com/JangoCCC)    |
-| 2.  Cairo          | 0xNezha  |
-| 3.  Starknet密码学基础   | Eli Ben-Sasson  |
-| 4.  Starknet智能合约   | WongSSH  |
-| 5.  合约测试           | 0xKrisss |
-| 6.  Starknet去中心化应用 | Daxiong  |
-| 7.  Starknet架构     | Asten    |
-| 8.  生态先驱           | Leo      |
+| [1.  Starknet基础](/01_fundamentals)     | [Zelig](https://github.com/JangoCCC)    |
+| [2.  Cairo](/02_cairo)          | 0xNezha  |
+| [3.  Starknet密码学基础](/03_Stark)   | Eli Ben-Sasson  |
+| [4.  Starknet智能合约](04_SmartContracts)   | WongSSH  |
+| [5.  合约测试](/05_Testing)           | 0xKrisss |
+| [6.  Starknet去中心化应用](/06_Dapp) | Daxiong  |
+| [7.  Starknet架构](/07_Architecture)     | Asten    |
+| [8.  生态先驱](/08_Ecosystem)           | Leo      |
 
