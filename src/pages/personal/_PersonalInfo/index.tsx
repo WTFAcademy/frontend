@@ -27,7 +27,7 @@ function PersonalInfo() {
   const { data, refetch } = useAuth();
   const { i18n } = useDocusaurusContext();
 
-  const [bio, setBio] = useState(false);
+  const [bio, setBio] = useState(null);
   const [github, setGithub] = useState(null);
   const [wallet, setWallet] = useState("");
   const [copy, setCopy] = useState(false);
@@ -43,26 +43,25 @@ function PersonalInfo() {
   };
 
   useEffect(() => {
-    refetch();
+    (async () => {
+      await refetch(); // 注意：这看起来像是应该是异步的。此处应做适当处理。
+    })();
+  }, []); // 需要确保这里是正确的触发时机
+  
+  useEffect(() => {
     if (data) {
-      if (data?.bio) {
-        setBio(data.bio);
-      } else {
-        setBio(
-          i18n.currentLocale === "zh"
-            ? "这个人很懒，什么都没有留下。"
-            : "The man was lazy and left nothing behind.",
-        );
-      }
+      setBio(data.bio || (i18n.currentLocale === "zh"
+        ? "这个人很懒，什么都没有留下。"
+        : "The man was lazy and left nothing behind."));
+      setGithub(data.github);
+      setWallet(data.wallet);
     }
-    setGithub(data?.github);
-    setWallet(data?.wallet);
-  }, [data]);
+  }, [data, i18n.currentLocale]);
 
   return (
     <div className="flex flex-col flex-shrink-0 w-full p-8 mr-12 overflow-hidden border box-border border-border-input rounded-md lg:w-[280px]">
       <p className="mb-6 text-sm leading-5 text-content-muted">
-        {bio ? (
+        {bio !== null ? (
           bio
         ) : (
           <Skeleton className="bg-gray-200 w-[210px] h-[20px] rounded-md"></Skeleton>
