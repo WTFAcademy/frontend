@@ -62,7 +62,7 @@ let x = {
   },
 };
 
-let y = JSON.parse(JSON.stringify(a));
+let y = JSON.parse(JSON.stringify(x));
 
 y.obj.a = 2;
 
