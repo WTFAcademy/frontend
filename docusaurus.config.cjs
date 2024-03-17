@@ -66,28 +66,131 @@ const config = {
                 },
                 items: [
                     {
-                        label: 'Solidity 101',
-                        type: 'doc',
-                        docId: 'solidity-101/readme',
+                        label: 'Solidity',
                         position: 'left',
+                        items: [
+                            {
+                                label: 'Solidity 101',
+                                type: 'doc',
+                                docId: 'solidity-101/readme',
+                            },
+                            {
+                                label: 'Solidity 102',
+                                type: 'doc',
+                                docId: 'solidity-102/readme',
+                            },
+                            {
+                                label: 'Solidity 103',
+                                type: 'doc',
+                                docId: 'solidity-103/readme',
+                            },
+                        ],
                     },
                     {
-                        label: 'Solidity 102',
-                        type: 'doc',
-                        docId: 'solidity-102/readme',
+                        label: 'Ethers',
                         position: 'left',
+                        items: [
+                            {
+                                label: 'Ethers 101',
+                                type: 'doc',
+                                docId: 'ethers-101/readme',
+                            },
+                            {
+                                label: 'Ethers 102',
+                                type: 'doc',
+                                docId: 'ethers-102/readme',
+                            },
+                        ],
                     },
                     {
-                        label: 'Solidity 103',
-                        type: 'doc',
-                        docId: 'solidity-103/readme',
+                        label: 'EVM',
                         position: 'left',
+                        items: [
+                            {
+                                label: 'EVM opcodes 101',
+                                type: 'doc',
+                                docId: 'evm-opcodes-101/readme',
+                            },
+                            {
+                                label: 'EVM opcodes 102',
+                                type: 'doc',
+                                docId: 'evm-opcodes-102/readme',
+                            },
+                            {
+                                label: 'Huff 101',
+                                type: 'doc',
+                                docId: 'huff-101/readme',
+                            },
+                            {
+                                label: 'Onchain Analysis 101',
+                                type: 'doc',
+                                docId: 'analysis-101/readme',
+                            },
+                        ],
                     },
                     {
-                        label: 'Starknet Basecamp 2023',
-                        type: 'doc',
-                        docId: 'starknet-basecamp-2023/readme',
+                        label: 'Layer 2',
                         position: 'left',
+                        items: [
+                            {
+                                label: 'Cairo 101',
+                                type: 'doc',
+                                docId: 'cairo-101/readme',
+                            },
+                            {
+                                label: 'Cairo 102',
+                                type: 'doc',
+                                docId: 'cairo-102/readme',
+                            },
+                        ],
+                    },
+                    {
+                        label: 'Frontend',
+                        position: 'left',
+                        items: [
+                            {
+                                label: 'HTML 101',
+                                type: 'doc',
+                                docId: 'html-101/readme',
+                            },
+                            {
+                                label: 'CSS 101',
+                                type: 'doc',
+                                docId: 'css-101/readme',
+                            },
+                            {
+                                label: 'JavaScript 101',
+                                type: 'doc',
+                                docId: 'javascript-101/readme',
+                            },
+                            {
+                                label: 'JavaScript 102',
+                                type: 'doc',
+                                docId: 'javascript-102/readme',
+                            },
+                        ],
+                    },
+                    {
+                        label: 'AI',
+                        position: 'left',
+                        items: [
+                            {
+                                label: 'Langchain 101',
+                                type: 'doc',
+                                docId: 'langchain-101/readme',
+                            },
+                        ],
+                    },
+                    {
+                        label: 'Basecamp',
+                        position: 'left',
+                        items: [
+                            {
+                                label: 'Starknet Basecamp',
+                                type: 'doc',
+                                docId: 'starknet-basecamp-2023/readme',
+                            },
+                        ],
                     },
                     {
                         type: 'localeDropdown',
