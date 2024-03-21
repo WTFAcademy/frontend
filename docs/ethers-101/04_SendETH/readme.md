@@ -169,8 +169,8 @@ console.log(`钱包1助记词: ${wallet1.mnemonic.phrase}`)
 利用`getTransactionCount()`函数获取钱包在链上的交互次数。
 
 ```javascript
-    const txCount1 = await wallet1WithProvider.getTransactionCount()
-    const txCount2 = await wallet2.getTransactionCount()
+    const txCount1 = await wallet1WithProvider.getNonce()
+    const txCount2 = await wallet2.getNonce()
     console.log(`钱包1发送交易次数: ${txCount1}`)
     console.log(`钱包2发送交易次数: ${txCount2}`)
 ```
