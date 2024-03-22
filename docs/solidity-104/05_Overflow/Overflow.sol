@@ -8,12 +8,12 @@ contract Token {
   constructor(uint _initialSupply) {
     balances[msg.sender] = totalSupply = _initialSupply;
   }
-  
+
   function transfer(address _to, uint _value) public returns (bool) {
-    unchecked{
-        require(balances[msg.sender] - _value >= 0);
-        balances[msg.sender] -= _value;
-        balances[_to] += _value;
+    unchecked {
+      require(balances[msg.sender] - _value >= 0);
+      balances[msg.sender] -= _value;
+      balances[_to] += _value;
     }
     return true;
   }
