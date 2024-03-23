@@ -68,7 +68,7 @@ tags:
    
 3. `immutable`变量初始化之后，尝试改变它的值，会编译不通过并抛出`TypeError: Immutable state variable already initialized.`的错误。
 
-   ![9-3.png](./img/9-3.png)
+   ![9-3.png](./img/9-4.png)
 
 ## 总结
 这一讲，我们介绍`solidity`中两个关键字，`constant`（常量）和`immutable`（不变量），让不应该变的变量保持不变。这样的做法能在节省`gas`的同时提升合约的安全性。
