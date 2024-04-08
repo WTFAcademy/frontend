@@ -17,15 +17,10 @@ function Events() {
             The purpose of learning is to create together
           </div>
 
-          <div className="flex flex-wrap justify-center w-full md:justify-around gap-6">
+          <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {eventJson.map((event, index) => (
               <EventCard key={index} event={event} />
             ))}
-            {Array(4 - (eventJson.length % 4) || 0)
-              .fill("")
-              .map((_, index: number) => (
-                <div key={index} className="w-full h-0 md:w-[288px]"></div>
-              ))}
           </div>
         </div>
       </div>
