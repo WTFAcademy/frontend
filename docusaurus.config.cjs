@@ -133,6 +133,11 @@ const config = {
                         position: 'left',
                         items: [
                             {
+                                label: 'zkSync 101',
+                                type: 'doc',
+                                docId: 'zksync-101/readme',
+                            },
+                            {
                                 label: 'Cairo 101',
                                 type: 'doc',
                                 docId: 'cairo-101/readme',
