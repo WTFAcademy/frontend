@@ -8,7 +8,7 @@ tags:
   - zksync
 ---
 
-# WTF zkSync极简入门: 1. Layer 2 基础
+# WTF zkSync 极简入门: 1. Layer 2 基础
 
 这个系列教程帮助开发者入门 zkSync 开发。
 推特：[@0xAA_Science](https://twitter.com/0xAA_Science)｜[@WTFAcademy_](https://twitter.com/WTFAcademy_) 
@@ -23,7 +23,7 @@ tags:
 
 ## 1. 什么是 L2?
 
-L2（Layer2，二层网络）是一种以太坊的扩容方案，它是一条独立的区块链，它扩展了以太坊并继承了以太坊的安全保证。
+L2（Layer2，二层网络）是一种以太坊的扩容方案，它是一条独立的区块链，扩展了以太坊并继承了以太坊的安全保证。
 
 ### 1.1 什么是 L1?
 
@@ -50,7 +50,7 @@ L1 网络的主要特点和功能包括：
 
 目前很多区块链会在三者中有所权衡，比如以太坊和比特币比较关心的就是去中心化和安全性。而有一些新公链更注重的是可扩展性和安全性。
 
-从比特币创世开始，一直到以太坊网络中 Crypto Kitties 游戏的出现。主流公链项目最被人诟病的地方就是低下的 TPS，以太坊当下的 TPS 完全无法给大多数应用提供实时稳定的支持，这与当前互联网行业动辄上万 TPS 的业务形成了鲜明的对比。
+从比特币创世开始到以太坊网络中 Crypto Kitties 游戏的出现，主流公链项目最被人诟病的地方就是低下的 TPS。以太坊当下的 TPS 完全无法给大多数应用提供实时稳定的支持，这与当前互联网行业动辄上万 TPS 的业务形成了鲜明的对比。
 
 ### 1.3 扩容方案
 
@@ -62,7 +62,7 @@ L1 网络的主要特点和功能包括：
   - 分片（Sharding）技术：Sharding 一词本来源于数据库的术语，表示将大型数据库分割为很多更小的、更易管理的部分，从而能够实现更加高效的交互。区块链分片是指对区块链网络进行分片，从而增加其扩展性。根据最新的以太坊 2.0 规范，以太坊区块链会被分为 1024 个分片链，这也意味着以太坊的 TPS 将提高 1000 倍以上。但目前 Sharding 方案仍然在跨分片通信、欺诈识别、随机分配与选举安全性等方面存在不足。
 - 链下扩容：
   - 状态通道（State Channel）：指用于执行交易和其他状态更新的“链下”技术。但是，一个状态通道内发生的事务仍保持了很高的安全性和不可更改性。如果出现任何问题，我们仍然可以回溯到链上交易中确定的稳定版本。
-  - 侧链（Sidechain）技术：侧链是平行于主链的一条链，由侧链上的验证者把一条链的最新状态提交给主链上的智能合约，这样持续推进的一类系统。侧链通常使用 PoA(Proof-of-Authority)、PoS(Proof of Stake)等高效的共识算法。它的优势在于代码和数据与主链独立，不会增加主链的负担，缺陷在于它的安全性弱、不够中心化，无法提供审查抗性、终局性和资金所有权保证。
+  - 侧链（Sidechain）技术：侧链是平行于主链的一条链，由侧链上的验证者把一条链的最新状态提交给主链上的智能合约，这样持续推进的一类系统。侧链通常使用 PoA(Proof-of-Authority)、PoS(Proof of Stake) 等高效的共识算法。它的优势在于代码和数据与主链独立，不会增加主链的负担，缺陷在于它的安全性弱、不够去中心化，无法提供审查抗性、终局性和资金所有权保证。
 
 ### 1.4 L2
 
@@ -88,7 +88,7 @@ ZK-Rollup 是基于零知识证明的 Layer2 扩容方案，采用有效性验�
 
 ## 3. 零知识证明
 
-**零知识证明(zero-knowledge proof)，简写为 ZKP**，最初由 S.Goldwasser、S.Micali 及 C.Rackoff 在 1985 年的论文 [《交互证明系统的知识复杂性》](https://people.csail.mit.edu/silvio/Selected%20Scientific%20Papers/Proof%20Systems/The_Knowledge_Complexity_Of_Interactive_Proof_Systems.pdf) 提出，**指的是证明者能够在不向验证者提供任何有用信息的情况下，使验证者相信某个论断是正确的。**
+**零知识证明（zero-knowledge proof），简写为 ZKP**，最初由 S.Goldwasser、S.Micali 及 C.Rackoff 在 1985 年的论文 [《交互证明系统的知识复杂性》](https://people.csail.mit.edu/silvio/Selected%20Scientific%20Papers/Proof%20Systems/The_Knowledge_Complexity_Of_Interactive_Proof_Systems.pdf) 提出，**指的是证明者能够在不向验证者提供任何有用信息的情况下，使验证者相信某个论断是正确的。**
 
 **性质**
 
@@ -111,7 +111,7 @@ ZK-Rollup 是基于零知识证明的 Layer2 扩容方案，采用有效性验�
 
 ## 4. zk Rollup 的 EVM 兼容性
 
-ZK-Rollup 早期为人诟病的地方是不能兼容 EVM，不能支持智能合约功能，例如早期 Gitcoin 捐赠主要支付途径的 zkSync 1.0 （Lite）仅能支持转账等基本功能。同时，由于不同 ZK 应用有各种专用电路，无法相互调用，可组合性差。因此市场急需能够支持以太坊智能合约的 ZK-Rollup，而其中关键门槛就是能够支持零知识证明的虚拟机。随着引入 EVM 兼容的 zkVM，zk-rollups 才开始支持以太坊 dApps。
+ZK-Rollup 早期为人诟病的地方是不能兼容 EVM，不能支持智能合约功能，例如早期 Gitcoin 捐赠主要支付途径的 zkSync 1.0 （Lite）仅能支持转账等基本功能。同时，由于不同 ZK 应用有各种专用电路，无法相互调用，可组合性差。因此市场急需能够支持以太坊智能合约的 ZK-Rollup，而其中关键门槛就是能够支持零知识证明的虚拟机。随着引入 EVM 兼容的 zkEVM，zk-rollups 才开始支持以太坊 dApps。
 
 ![](./img/1-2.png)
 
@@ -138,4 +138,4 @@ ZK-Rollup 早期为人诟病的地方是不能兼容 EVM，不能支持智能合
 
 ## 5. 总结
 
-这一讲，我们介绍了 Layer 2 (L2)基础知识及其在以太坊扩容中的作用，深入讨论了主流的 rollup 技术和 zkEVM。下一讲，我们将详细介绍 zkSync Era 二层网络。
+这一讲，我们介绍了 Layer 2 (L2) 基础知识及其在以太坊扩容中的作用，深入讨论了主流的 rollup 技术和 zkEVM。下一讲，我们将详细介绍 zkSync Era 二层网络。

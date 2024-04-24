@@ -6,7 +6,7 @@ tags:
   - zksync-cli
 ---
 
-# WTF zkSync极简入门: 4. 开发工具
+# WTF zkSync 极简入门: 4. 开发工具
 
 这个系列教程帮助开发者入门 zkSync 开发。
 推特：[@0xAA_Science](https://twitter.com/0xAA_Science)｜[@WTFAcademy_](https://twitter.com/WTFAcademy_) 
@@ -35,11 +35,11 @@ tags:
 用于管理本地开发环境
 
 - 所需环境
-  
-  - [nodejs@18 及以上]( https://nodejs.org/en )
-  
-  - [Git]( https://git-scm.com/downloads )
-  
+
+  - [nodejs@18 及以上](https://nodejs.org/en)
+
+  - [Git](https://git-scm.com/downloads)
+
   - [Docker](https://www.docker.com/get-started/)
 
 - 使用
@@ -51,17 +51,17 @@ npx zksync-cli dev start
 首次运行时需要选择 **节点类型** 和 **附加的模块**（后续可通过 `npx zksync-cli dev config` 修改）。
 
 - 节点选择
-  
+
   - In memory node：使用内存建立本地测试环境，只有 L2 节点，[测试账户地址和私钥](https://docs.zksync.io/build/test-and-debug/era-test-node.html#use-pre-configured-rich-wallets)。
-  
+
   - Dockerized node：使用 Docker 建立本地测试环境，包含 L1 和 L2 节点。
 
 ![节点选择](./img/cli01.png)
 
 - 附加模块选择
-  
+
   - Portal：添加钱包和跨链桥相关功能。
-  
+
   - Block Explorer：添加 zkSync 区块链浏览器 UI 和 API 相关功能。
 
 ![附加模块](./img/cli02.png)
@@ -80,12 +80,12 @@ npx zksync-cli config chains
 
 ```
 ? Select a chain (选择添加/编辑已添加的自定义链)
-? Chain id (自定义链id)
+? Chain id (自定义链 id )
 ? Chain name (自定义链名名称)
-? Chain key (自定义链key, 默认为自定义链)
-? Chain RPC URL (自定义链的RPC URL)
+? Chain key (自定义链 key, 默认为自定义链)
+? Chain RPC URL (自定义链的 RPC URL)
 ? Chain explorer URL [可选](自定义链浏览器地址)
-? Is this chain connected to L1 (自定义链是否连接L1)
+? Is this chain connected to L1 (自定义链是否连接 L1 )
 ```
 
 ### 2.3 contract
@@ -157,7 +157,7 @@ options：
 
 - --raw：显示原始 JSON 响应
 
-接下来，我们使用 `zksync-cli` 查询  `zkSync Sepolia Testnet` 上交易哈希为 `0xb427c3abd0397caeaea64a18dbf2ad7b699c5da49fa54dd31d3267f63341d8ea` 的详细交易信息
+接下来，我们使用 `zksync-cli` 查询 `zkSync Sepolia Testnet` 上交易哈希为 `0xb427c3abd0397caeaea64a18dbf2ad7b699c5da49fa54dd31d3267f63341d8ea` 的详细交易信息
 
 ```
 npx zksync-cli transaction info --full
@@ -206,6 +206,10 @@ Ethereum execute hash: in progress
 
 用于快速创建项目（前端、智能合约和脚本）。
 
+```
+npx zksync-cli create
+```
+
 ![create](./img/cli03.png)
 
 ### 2.6 wallet
@@ -231,9 +235,9 @@ options：
 下面我们根据之前的例子，查询 `0xa1cf087DB965Ab02Fb3CFaCe1f5c63935815f044` 在测试网上的代币余额
 
 ```
-npx zksync-cli wallet balance 
---address 0xa1cf087DB965Ab02Fb3CFaCe1f5c63935815f044 
---token 0x45E6dC995113fd3d1A3b1964493105B9AA9a9A42 
+npx zksync-cli wallet balance
+--address 0xa1cf087DB965Ab02Fb3CFaCe1f5c63935815f044
+--token 0x45E6dC995113fd3d1A3b1964493105B9AA9a9A42
 --chain zksync-sepolia
 ```
 
