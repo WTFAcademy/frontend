@@ -45,6 +45,7 @@ const QuizForm = ({
       });
     } else {
       setQuizIndex(nextIndex);
+      window.scrollTo(0, 0);
     }
   };
 
