@@ -177,6 +177,17 @@ const config = {
                         ],
                     },
                     {
+                        label: 'zk',
+                        position: 'left',
+                        items: [
+                            {
+                                label: 'zk101',
+                                type: 'doc',
+                                docId: 'zk-101/readme',
+                            },
+                        ],
+                    },
+                    {
                         label: 'AI',
                         position: 'left',
                         items: [
