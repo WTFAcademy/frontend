@@ -4,6 +4,9 @@
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const path = require('path');
+const math = require('remark-math');
+const katex = require('rehype-katex');
+
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -37,6 +40,8 @@ const config = {
                     editUrl: 'https://github.com/WTFAcademy/frontend/tree/dev',
                     breadcrumbs: false,
                     showLastUpdateTime: true,
+                    remarkPlugins: [math],
+                    rehypePlugins: [katex],
                 },
                 blog: false,
                 theme: {
@@ -49,6 +54,15 @@ const config = {
                 },
             }),
         ],
+    ],
+    stylesheets: [
+        {
+            href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+            type: 'text/css',
+            integrity:
+                'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
+            crossorigin: 'anonymous',
+        },
     ],
     plugins: [
         path.resolve(__dirname, './plugins/webpack-plugin.cjs'),

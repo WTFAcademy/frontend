@@ -113,6 +113,9 @@ dependencies:
   graphql-request:
     specifier: ^6.1.0
     version: 6.1.0(graphql@16.8.1)
+  hast-util-is-element:
+    specifier: 1.1.0
+    version: 1.1.0
   js-yaml:
     specifier: ^4.1.0
     version: 4.1.0
@@ -167,6 +170,9 @@ dependencies:
   react-wrap-balancer:
     specifier: ^1.0.0
     version: 1.1.0(react@17.0.2)
+  rehype-katex:
+    specifier: ^5.0.0
+    version: 5.0.0
   rehype-raw:
     specifier: ^7.0.0
     version: 7.0.0
@@ -174,8 +180,8 @@ dependencies:
     specifier: ^3.0.1
     version: r2.cnpmjs.org/remark-gfm@3.0.1
   remark-math:
-    specifier: ^6.0.0
-    version: 6.0.0
+    specifier: ^3.0.1
+    version: 3.0.1
   siwe:
     specifier: ^2
     version: 2.1.4(ethers@5.7.2)
@@ -2325,8 +2331,8 @@ packages:
       remark-emoji: r2.cnpmjs.org/remark-emoji@2.2.0
       stringify-object: r2.cnpmjs.org/stringify-object@3.3.0
       tslib: 2.6.2
-      unified: r2.cnpmjs.org/unified@9.2.2
-      unist-util-visit: r2.cnpmjs.org/unist-util-visit@2.0.3
+      unified: 9.2.2
+      unist-util-visit: 2.0.3
       url-loader: r2.cnpmjs.org/url-loader@4.1.1(file-loader@6.2.0)(webpack@5.89.0)
       webpack: 5.89.0
     transitivePeerDependencies:
@@ -2419,7 +2425,7 @@ packages:
       react-dom: 17.0.2(react@17.0.2)
       reading-time: r2.cnpmjs.org/reading-time@1.5.0
       tslib: 2.6.2
-      unist-util-visit: r2.cnpmjs.org/unist-util-visit@2.0.3
+      unist-util-visit: 2.0.3
       utility-types: r2.cnpmjs.org/utility-types@3.10.0
       webpack: 5.89.0
     transitivePeerDependencies:
@@ -5632,7 +5638,7 @@ packages:
   /@types/hast@3.0.1:
     resolution: {integrity: sha512-hs/iBJx2aydugBQx5ETV3ZgeSS0oIreQrFJ4bjBl0XvM4wAmDjFEALY7p0rTSLt2eL+ibjRAAs9dTPiCLtmbqQ==}
     dependencies:
-      '@types/unist': 2.0.8
+      '@types/unist': 3.0.0
     dev: false
 
   /@types/history@4.7.11:
@@ -5679,8 +5685,8 @@ packages:
   /@types/json-schema@7.0.13:
     resolution: {integrity: sha512-RbSSoHliUbnXj3ny0CNFOoxrIDV6SUGyStHsvDqosw6CkdPV8TtWGlfecuK4ToyMEAql6pzNxgCFKanovUzlgQ==}
 
-  /@types/katex@0.16.7:
-    resolution: {integrity: sha512-HMwFiRujE5PjrgwHQ25+bsLJgowjGjm5Z8FVSf0N6PwgJrwxH0QxzHYDcKsTfV3wva0vzrpqMTJS2jXPr5BMEQ==}
+  /@types/katex@0.11.1:
+    resolution: {integrity: sha512-DUlIj2nk0YnJdlWgsFuVKcX27MLW0KbKmGVoUHmFr+74FYYNUDAaj9ZqTADvsbE8rfxuVmSFc7KczYn5Y09ozg==}
     dev: false
 
   /@types/keyv@3.1.4:
@@ -5726,6 +5732,10 @@ packages:
 
   /@types/parse-json@4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
+    dev: false
+
+  /@types/parse5@5.0.3:
+    resolution: {integrity: sha512-kUNnecmtkunAoQ3CnjmMkzNU/gtxG8guhi+Fk2U/kOpIKjIMKnXGp4IJCgQJrXSgMsWYimYG4TGjz/UzbGEBTw==}
     dev: false
 
   /@types/pbkdf2@3.1.0:
@@ -6660,7 +6670,7 @@ packages:
     dependencies:
       buffer: 6.0.3
       catering: 2.1.1
-      is-buffer: r2.cnpmjs.org/is-buffer@2.0.5
+      is-buffer: 2.0.5
       level-supports: 4.0.1
       level-transcoder: 1.0.1
       module-error: 1.0.2
@@ -7222,6 +7232,10 @@ packages:
       '@babel/helper-define-polyfill-provider': 0.4.2(@babel/core@7.23.0)
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /bail@1.0.5:
+    resolution: {integrity: sha512-xFbRxM1tahm08yHBP16MMjVUAvDaBMD38zsM9EMAUN61omwLmKlOpB/Zku5QkjZ8TZ4vn53pj+t518cH0S03RQ==}
     dev: false
 
   /bail@2.0.2:
@@ -7979,6 +7993,10 @@ packages:
 
   /commander@2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
+
+  /commander@3.0.2:
+    resolution: {integrity: sha512-Gar0ASD4BDyKC4hl4DwHqDrmvjoxWKZigVnAbn5H1owvm4CxCPdb0HQDehwNYMJpla5+M2tPmPARzhtYuwpHow==}
+    dev: false
 
   /commander@4.1.1:
     resolution: {integrity: sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==}
@@ -10573,6 +10591,17 @@ packages:
       inherits: 2.0.4
       minimalistic-assert: 1.0.1
 
+  /hast-util-from-parse5@6.0.1:
+    resolution: {integrity: sha512-jeJUWiN5pSxW12Rh01smtVkZgZr33wBokLzKLwinYOUfSzm1Nl/c3GUGebDyOKjdsRgMvoVbV0VpAcpjF4NrJA==}
+    dependencies:
+      '@types/parse5': 5.0.3
+      hastscript: 6.0.0
+      property-information: 5.6.0
+      vfile: 4.2.1
+      vfile-location: 3.2.0
+      web-namespaces: 1.1.4
+    dev: false
+
   /hast-util-from-parse5@8.0.1:
     resolution: {integrity: sha512-Er/Iixbc7IEa7r/XLtuG52zoqn/b3Xng/w6aZQ0xGVxzhw5xUFxcRqdPzP6yFi/4HBYRaifaI5fQ1RH8n0ZeOQ==}
     dependencies:
@@ -10584,6 +10613,10 @@ packages:
       vfile: 6.0.1
       vfile-location: 5.0.2
       web-namespaces: 2.0.1
+    dev: false
+
+  /hast-util-is-element@1.1.0:
+    resolution: {integrity: sha512-oUmNua0bFbdrD/ELDSSEadRVtWZOf3iF6Lbv81naqsIV99RnSCieTbWuWCY8BAeEfKJTKl0gRdokv+dELutHGQ==}
     dev: false
 
   /hast-util-parse-selector@2.2.5:
@@ -10624,6 +10657,14 @@ packages:
       space-separated-tokens: 2.0.2
       web-namespaces: 2.0.1
       zwitch: 2.0.4
+    dev: false
+
+  /hast-util-to-text@2.0.1:
+    resolution: {integrity: sha512-8nsgCARfs6VkwH2jJU9b8LNTuR4700na+0h3PqCaEk4MAnMDeu5P0tP8mjk9LLNGxIeQRLbiDbZVw6rku+pYsQ==}
+    dependencies:
+      hast-util-is-element: 1.1.0
+      repeat-string: 1.6.1
+      unist-util-find-after: 3.0.0
     dev: false
 
   /hast-util-whitespace@2.0.1:
@@ -11300,6 +11341,11 @@ packages:
     resolution: {integrity: sha512-Fd4gABb+ycGAmKou8eMftCupSir5lRxqf4aD/vd0cD2qc4HL07OjCeuHMr8Ro4CoMaeCKDB0/ECBOVWjTwUvPQ==}
     engines: {node: '>=8'}
 
+  /is-plain-obj@2.1.0:
+    resolution: {integrity: sha512-YWnfyRwxL/+SsrWYfOpUtz5b3YD+nyfkHvjbcanzk8zgyO4ASD67uVMRt8k5bM4lLMDnXfriRhOpemw+NfT1eA==}
+    engines: {node: '>=8'}
+    dev: false
+
   /is-plain-obj@3.0.0:
     resolution: {integrity: sha512-gwsOE28k+23GP1B6vFl1oVh/WOzmawBrKwo5Ev6wMKzPkaXaCDIQKzLnvsA42DRlbVTWorkgTKIviAKCWkfUwA==}
     engines: {node: '>=10'}
@@ -11483,7 +11529,7 @@ packages:
       '@types/node': 12.20.55
       '@types/ws': 7.4.7
       JSONStream: 1.3.5
-      commander: r2.cnpmjs.org/commander@2.20.3
+      commander: 2.20.3
       delay: 5.0.0
       es6-promisify: 5.0.0
       eyes: 0.1.8
@@ -11687,11 +11733,11 @@ packages:
       object.values: 1.1.7
     dev: true
 
-  /katex@0.16.9:
-    resolution: {integrity: sha512-fsSYjWS0EEOwvy81j3vRA8TEAhQhKiqO+FQaKWp0m39qwOzHVBgAUBIXWj1pB+O2W3fIpNa6Y9KSKCVbfPhyAQ==}
+  /katex@0.13.24:
+    resolution: {integrity: sha512-jZxYuKCma3VS5UuxOx/rFV1QyGSl3Uy/i0kTJF3HgQ5xMinCQVF8Zd4bMY/9aI9b9A2pjIBOsjSSm68ykTAr8w==}
     hasBin: true
     dependencies:
-      commander: r2.cnpmjs.org/commander@8.3.0
+      commander: 8.3.0
     dev: false
 
   /keccak@3.0.4:
@@ -12115,25 +12161,6 @@ packages:
       - supports-color
     dev: false
 
-  /mdast-util-from-markdown@2.0.0:
-    resolution: {integrity: sha512-n7MTOr/z+8NAX/wmhhDji8O3bRvPTV/U0oTCaZJkjhPSKTPhS3xufVhKGF8s1pJ7Ox4QgoIU7KHseh09S+9rTA==}
-    dependencies:
-      '@types/mdast': 4.0.0
-      '@types/unist': 3.0.0
-      decode-named-character-reference: 1.0.2
-      devlop: 1.1.0
-      mdast-util-to-string: 4.0.0
-      micromark: 4.0.0
-      micromark-util-decode-numeric-character-reference: 2.0.1
-      micromark-util-decode-string: 2.0.0
-      micromark-util-normalize-identifier: 2.0.0
-      micromark-util-symbol: 2.0.0
-      micromark-util-types: 2.0.0
-      unist-util-stringify-position: 4.0.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /mdast-util-gfm-autolink-literal@1.0.3:
     resolution: {integrity: sha512-My8KJ57FYEy2W2LyNom4n3E7hKTuQk/0SES0u16tjA9Z3oFkF4RrC/hPAPgjlSpezsOvI8ObcXcElo92wn5IGA==}
     dependencies:
@@ -12190,32 +12217,11 @@ packages:
       - supports-color
     dev: false
 
-  /mdast-util-math@3.0.0:
-    resolution: {integrity: sha512-Tl9GBNeG/AhJnQM221bJR2HPvLOSnLE/T9cJI9tlc6zwQk2nPk/4f0cHkOdEixQPC/j8UtKDdITswvLAy1OZ1w==}
-    dependencies:
-      '@types/hast': 3.0.1
-      '@types/mdast': 4.0.0
-      devlop: 1.1.0
-      longest-streak: 3.1.0
-      mdast-util-from-markdown: 2.0.0
-      mdast-util-to-markdown: 2.1.0
-      unist-util-remove-position: 5.0.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /mdast-util-phrasing@3.0.1:
     resolution: {integrity: sha512-WmI1gTXUBJo4/ZmSk79Wcb2HcjPJBzM1nlI/OUWA8yk2X9ik3ffNbBGsU+09BFmXaL1IBb9fiuvq6/KMiNycSg==}
     dependencies:
       '@types/mdast': 3.0.12
       unist-util-is: 5.2.1
-    dev: false
-
-  /mdast-util-phrasing@4.0.0:
-    resolution: {integrity: sha512-xadSsJayQIucJ9n053dfQwVu1kuXg7jCTdYsMK8rqzKZh52nLfSH/k0sAxE0u+pj/zKZX+o5wB+ML5mRayOxFA==}
-    dependencies:
-      '@types/mdast': 4.0.0
-      unist-util-is: 6.0.0
     dev: false
 
   /mdast-util-to-hast@12.3.0:
@@ -12257,29 +12263,10 @@ packages:
       zwitch: 2.0.4
     dev: false
 
-  /mdast-util-to-markdown@2.1.0:
-    resolution: {integrity: sha512-SR2VnIEdVNCJbP6y7kVTJgPLifdr8WEU440fQec7qHoHOUz/oJ2jmNRqdDQ3rbiStOXb2mCDGTuwsK5OPUgYlQ==}
-    dependencies:
-      '@types/mdast': 4.0.0
-      '@types/unist': 3.0.0
-      longest-streak: 3.1.0
-      mdast-util-phrasing: 4.0.0
-      mdast-util-to-string: 4.0.0
-      micromark-util-decode-string: 2.0.0
-      unist-util-visit: 5.0.0
-      zwitch: 2.0.4
-    dev: false
-
   /mdast-util-to-string@3.2.0:
     resolution: {integrity: sha512-V4Zn/ncyN1QNSqSBxTrMOLpjr+IKdHl2v3KVLoWmDPscP4r9GcCi71gjgvUV1SFSKh92AjAG4peFuBl2/YgCJg==}
     dependencies:
       '@types/mdast': 3.0.12
-    dev: false
-
-  /mdast-util-to-string@4.0.0:
-    resolution: {integrity: sha512-0H44vDimn51F0YwvxSJSm0eCDOJTRlmN0R1yBh4HLj9wiV1Dn0QoXGbvFAWj2hSItVTlCmBF1hqKlIyUBVFLPg==}
-    dependencies:
-      '@types/mdast': 4.0.0
     dev: false
 
   /mdn-data@2.0.14:
@@ -12363,27 +12350,6 @@ packages:
       uvu: 0.5.6
     dev: false
 
-  /micromark-core-commonmark@2.0.0:
-    resolution: {integrity: sha512-jThOz/pVmAYUtkroV3D5c1osFXAMv9e0ypGDOIZuCeAe91/sD6BoE2Sjzt30yuXtwOYUmySOhMas/PVyh02itA==}
-    dependencies:
-      decode-named-character-reference: 1.0.2
-      devlop: 1.1.0
-      micromark-factory-destination: 2.0.0
-      micromark-factory-label: 2.0.0
-      micromark-factory-space: 2.0.0
-      micromark-factory-title: 2.0.0
-      micromark-factory-whitespace: 2.0.0
-      micromark-util-character: 2.0.1
-      micromark-util-chunked: 2.0.0
-      micromark-util-classify-character: 2.0.0
-      micromark-util-html-tag-name: 2.0.0
-      micromark-util-normalize-identifier: 2.0.0
-      micromark-util-resolve-all: 2.0.0
-      micromark-util-subtokenize: 2.0.0
-      micromark-util-symbol: 2.0.0
-      micromark-util-types: 2.0.0
-    dev: false
-
   /micromark-extension-gfm-autolink-literal@1.0.5:
     resolution: {integrity: sha512-z3wJSLrDf8kRDOh2qBtoTRD53vJ+CWIyo7uyZuxf/JAbNJjiHsOpG1y5wxk8drtv3ETAHutCu6N3thkOOgueWg==}
     dependencies:
@@ -12456,32 +12422,12 @@ packages:
       micromark-util-types: 1.1.0
     dev: false
 
-  /micromark-extension-math@3.0.0:
-    resolution: {integrity: sha512-iJ2Q28vBoEovLN5o3GO12CpqorQRYDPT+p4zW50tGwTfJB+iv/VnB6Ini+gqa24K97DwptMBBIvVX6Bjk49oyQ==}
-    dependencies:
-      '@types/katex': 0.16.7
-      devlop: 1.1.0
-      katex: 0.16.9
-      micromark-factory-space: 2.0.0
-      micromark-util-character: 2.0.1
-      micromark-util-symbol: 2.0.0
-      micromark-util-types: 2.0.0
-    dev: false
-
   /micromark-factory-destination@1.1.0:
     resolution: {integrity: sha512-XaNDROBgx9SgSChd69pjiGKbV+nfHGDPVYFs5dOoDd7ZnMAE+Cuu91BCpsY8RT2NP9vo/B8pds2VQNCLiu0zhg==}
     dependencies:
       micromark-util-character: 1.2.0
       micromark-util-symbol: 1.1.0
       micromark-util-types: 1.1.0
-    dev: false
-
-  /micromark-factory-destination@2.0.0:
-    resolution: {integrity: sha512-j9DGrQLm/Uhl2tCzcbLhy5kXsgkHUrjJHg4fFAeoMRwJmJerT9aw4FEhIbZStWN8A3qMwOp1uzHr4UL8AInxtA==}
-    dependencies:
-      micromark-util-character: 2.0.1
-      micromark-util-symbol: 2.0.0
-      micromark-util-types: 2.0.0
     dev: false
 
   /micromark-factory-label@1.1.0:
@@ -12493,27 +12439,11 @@ packages:
       uvu: 0.5.6
     dev: false
 
-  /micromark-factory-label@2.0.0:
-    resolution: {integrity: sha512-RR3i96ohZGde//4WSe/dJsxOX6vxIg9TimLAS3i4EhBAFx8Sm5SmqVfR8E87DPSR31nEAjZfbt91OMZWcNgdZw==}
-    dependencies:
-      devlop: 1.1.0
-      micromark-util-character: 2.0.1
-      micromark-util-symbol: 2.0.0
-      micromark-util-types: 2.0.0
-    dev: false
-
   /micromark-factory-space@1.1.0:
     resolution: {integrity: sha512-cRzEj7c0OL4Mw2v6nwzttyOZe8XY/Z8G0rzmWQZTBi/jjwyw/U4uqKtUORXQrR5bAZZnbTI/feRV/R7hc4jQYQ==}
     dependencies:
       micromark-util-character: 1.2.0
       micromark-util-types: 1.1.0
-    dev: false
-
-  /micromark-factory-space@2.0.0:
-    resolution: {integrity: sha512-TKr+LIDX2pkBJXFLzpyPyljzYK3MtmllMUMODTQJIUfDGncESaqB90db9IAUcz4AZAJFdd8U9zOp9ty1458rxg==}
-    dependencies:
-      micromark-util-character: 2.0.1
-      micromark-util-types: 2.0.0
     dev: false
 
   /micromark-factory-title@1.1.0:
@@ -12525,15 +12455,6 @@ packages:
       micromark-util-types: 1.1.0
     dev: false
 
-  /micromark-factory-title@2.0.0:
-    resolution: {integrity: sha512-jY8CSxmpWLOxS+t8W+FG3Xigc0RDQA9bKMY/EwILvsesiRniiVMejYTE4wumNc2f4UbAa4WsHqe3J1QS1sli+A==}
-    dependencies:
-      micromark-factory-space: 2.0.0
-      micromark-util-character: 2.0.1
-      micromark-util-symbol: 2.0.0
-      micromark-util-types: 2.0.0
-    dev: false
-
   /micromark-factory-whitespace@1.1.0:
     resolution: {integrity: sha512-v2WlmiymVSp5oMg+1Q0N1Lxmt6pMhIHD457whWM7/GUlEks1hI9xj5w3zbc4uuMKXGisksZk8DzP2UyGbGqNsQ==}
     dependencies:
@@ -12541,15 +12462,6 @@ packages:
       micromark-util-character: 1.2.0
       micromark-util-symbol: 1.1.0
       micromark-util-types: 1.1.0
-    dev: false
-
-  /micromark-factory-whitespace@2.0.0:
-    resolution: {integrity: sha512-28kbwaBjc5yAI1XadbdPYHX/eDnqaUFVikLwrO7FDnKG7lpgxnvk/XGRhX/PN0mOZ+dBSZ+LgunHS+6tYQAzhA==}
-    dependencies:
-      micromark-factory-space: 2.0.0
-      micromark-util-character: 2.0.1
-      micromark-util-symbol: 2.0.0
-      micromark-util-types: 2.0.0
     dev: false
 
   /micromark-util-character@1.2.0:
@@ -12572,26 +12484,12 @@ packages:
       micromark-util-symbol: 1.1.0
     dev: false
 
-  /micromark-util-chunked@2.0.0:
-    resolution: {integrity: sha512-anK8SWmNphkXdaKgz5hJvGa7l00qmcaUQoMYsBwDlSKFKjc6gjGXPDw3FNL3Nbwq5L8gE+RCbGqTw49FK5Qyvg==}
-    dependencies:
-      micromark-util-symbol: 2.0.0
-    dev: false
-
   /micromark-util-classify-character@1.1.0:
     resolution: {integrity: sha512-SL0wLxtKSnklKSUplok1WQFoGhUdWYKggKUiqhX+Swala+BtptGCu5iPRc+xvzJ4PXE/hwM3FNXsfEVgoZsWbw==}
     dependencies:
       micromark-util-character: 1.2.0
       micromark-util-symbol: 1.1.0
       micromark-util-types: 1.1.0
-    dev: false
-
-  /micromark-util-classify-character@2.0.0:
-    resolution: {integrity: sha512-S0ze2R9GH+fu41FA7pbSqNWObo/kzwf8rN/+IGlW/4tC6oACOs8B++bh+i9bVyNnwCcuksbFwsBme5OCKXCwIw==}
-    dependencies:
-      micromark-util-character: 2.0.1
-      micromark-util-symbol: 2.0.0
-      micromark-util-types: 2.0.0
     dev: false
 
   /micromark-util-combine-extensions@1.1.0:
@@ -12601,23 +12499,10 @@ packages:
       micromark-util-types: 1.1.0
     dev: false
 
-  /micromark-util-combine-extensions@2.0.0:
-    resolution: {integrity: sha512-vZZio48k7ON0fVS3CUgFatWHoKbbLTK/rT7pzpJ4Bjp5JjkZeasRfrS9wsBdDJK2cJLHMckXZdzPSSr1B8a4oQ==}
-    dependencies:
-      micromark-util-chunked: 2.0.0
-      micromark-util-types: 2.0.0
-    dev: false
-
   /micromark-util-decode-numeric-character-reference@1.1.0:
     resolution: {integrity: sha512-m9V0ExGv0jB1OT21mrWcuf4QhP46pH1KkfWy9ZEezqHKAxkj4mPCy3nIH1rkbdMlChLHX531eOrymlwyZIf2iw==}
     dependencies:
       micromark-util-symbol: 1.1.0
-    dev: false
-
-  /micromark-util-decode-numeric-character-reference@2.0.1:
-    resolution: {integrity: sha512-bmkNc7z8Wn6kgjZmVHOX3SowGmVdhYS7yBpMnuMnPzDq/6xwVA604DuOXMZTO1lvq01g+Adfa0pE2UKGlxL1XQ==}
-    dependencies:
-      micromark-util-symbol: 2.0.0
     dev: false
 
   /micromark-util-decode-string@1.1.0:
@@ -12627,15 +12512,6 @@ packages:
       micromark-util-character: 1.2.0
       micromark-util-decode-numeric-character-reference: 1.1.0
       micromark-util-symbol: 1.1.0
-    dev: false
-
-  /micromark-util-decode-string@2.0.0:
-    resolution: {integrity: sha512-r4Sc6leeUTn3P6gk20aFMj2ntPwn6qpDZqWvYmAG6NgvFTIlj4WtrAudLi65qYoaGdXYViXYw2pkmn7QnIFasA==}
-    dependencies:
-      decode-named-character-reference: 1.0.2
-      micromark-util-character: 2.0.1
-      micromark-util-decode-numeric-character-reference: 2.0.1
-      micromark-util-symbol: 2.0.0
     dev: false
 
   /micromark-util-encode@1.1.0:
@@ -12650,32 +12526,16 @@ packages:
     resolution: {integrity: sha512-VTQzcuQgFUD7yYztuQFKXT49KghjtETQ+Wv/zUjGSGBioZnkA4P1XXZPT1FHeJA6RwRXSF47yvJ1tsJdoxwO+Q==}
     dev: false
 
-  /micromark-util-html-tag-name@2.0.0:
-    resolution: {integrity: sha512-xNn4Pqkj2puRhKdKTm8t1YHC/BAjx6CEwRFXntTaRf/x16aqka6ouVoutm+QdkISTlT7e2zU7U4ZdlDLJd2Mcw==}
-    dev: false
-
   /micromark-util-normalize-identifier@1.1.0:
     resolution: {integrity: sha512-N+w5vhqrBihhjdpM8+5Xsxy71QWqGn7HYNUvch71iV2PM7+E3uWGox1Qp90loa1ephtCxG2ftRV/Conitc6P2Q==}
     dependencies:
       micromark-util-symbol: 1.1.0
     dev: false
 
-  /micromark-util-normalize-identifier@2.0.0:
-    resolution: {integrity: sha512-2xhYT0sfo85FMrUPtHcPo2rrp1lwbDEEzpx7jiH2xXJLqBuy4H0GgXk5ToU8IEwoROtXuL8ND0ttVa4rNqYK3w==}
-    dependencies:
-      micromark-util-symbol: 2.0.0
-    dev: false
-
   /micromark-util-resolve-all@1.1.0:
     resolution: {integrity: sha512-b/G6BTMSg+bX+xVCshPTPyAu2tmA0E4X98NSR7eIbeC6ycCqCeE7wjfDIgzEbkzdEVJXRtOG4FbEm/uGbCRouA==}
     dependencies:
       micromark-util-types: 1.1.0
-    dev: false
-
-  /micromark-util-resolve-all@2.0.0:
-    resolution: {integrity: sha512-6KU6qO7DZ7GJkaCgwBNtplXCvGkJToU86ybBAUdavvgsCiG8lSSvYxr9MhwmQ+udpzywHsl4RpGJsYWG1pDOcA==}
-    dependencies:
-      micromark-util-types: 2.0.0
     dev: false
 
   /micromark-util-sanitize-uri@1.2.0:
@@ -12701,15 +12561,6 @@ packages:
       micromark-util-symbol: 1.1.0
       micromark-util-types: 1.1.0
       uvu: 0.5.6
-    dev: false
-
-  /micromark-util-subtokenize@2.0.0:
-    resolution: {integrity: sha512-vc93L1t+gpR3p8jxeVdaYlbV2jTYteDje19rNSS/H5dlhxUYll5Fy6vJ2cDwP8RnsXi818yGty1ayP55y3W6fg==}
-    dependencies:
-      devlop: 1.1.0
-      micromark-util-chunked: 2.0.0
-      micromark-util-symbol: 2.0.0
-      micromark-util-types: 2.0.0
     dev: false
 
   /micromark-util-symbol@1.1.0:
@@ -12748,30 +12599,6 @@ packages:
       micromark-util-symbol: 1.1.0
       micromark-util-types: 1.1.0
       uvu: 0.5.6
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /micromark@4.0.0:
-    resolution: {integrity: sha512-o/sd0nMof8kYff+TqcDx3VSrgBTcZpSvYcAHIfHhv5VAuNmisCxjhx6YmxS8PFEpb9z5WKWKPdzf0jM23ro3RQ==}
-    dependencies:
-      '@types/debug': 4.1.9
-      debug: 4.3.4
-      decode-named-character-reference: 1.0.2
-      devlop: 1.1.0
-      micromark-core-commonmark: 2.0.0
-      micromark-factory-space: 2.0.0
-      micromark-util-character: 2.0.1
-      micromark-util-chunked: 2.0.0
-      micromark-util-combine-extensions: 2.0.0
-      micromark-util-decode-numeric-character-reference: 2.0.1
-      micromark-util-encode: 2.0.0
-      micromark-util-normalize-identifier: 2.0.0
-      micromark-util-resolve-all: 2.0.0
-      micromark-util-sanitize-uri: 2.0.0
-      micromark-util-subtokenize: 2.0.0
-      micromark-util-symbol: 2.0.0
-      micromark-util-types: 2.0.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -13587,6 +13414,10 @@ packages:
     dependencies:
       domhandler: 5.0.3
       parse5: 7.1.2
+    dev: false
+
+  /parse5@6.0.1:
+    resolution: {integrity: sha512-Ofn/CTFzRGTTxwpNEs9PP93gXShHcTq255nzRYSKe8AkVpZY7e1fpmTfOyoIvjP5HG7Z2ZM7VS9PPhQGW2pOpw==}
     dev: false
 
   /parse5@7.1.2:
@@ -15579,6 +15410,24 @@ packages:
       jsesc: 0.5.0
     dev: false
 
+  /rehype-katex@5.0.0:
+    resolution: {integrity: sha512-ksSuEKCql/IiIadOHiKRMjypva9BLhuwQNascMqaoGLDVd0k2NlE2wMvgZ3rpItzRKCd6vs8s7MFbb8pcR0AEg==}
+    dependencies:
+      '@types/katex': 0.11.1
+      hast-util-to-text: 2.0.1
+      katex: 0.13.24
+      rehype-parse: 7.0.1
+      unified: 9.2.2
+      unist-util-visit: 2.0.3
+    dev: false
+
+  /rehype-parse@7.0.1:
+    resolution: {integrity: sha512-fOiR9a9xH+Le19i4fGzIEowAbwG7idy2Jzs4mOrFWBSJ0sNUgy0ev871dwWnbOo371SjgjG4pwzrbgSVrKxecw==}
+    dependencies:
+      hast-util-from-parse5: 6.0.1
+      parse5: 6.0.1
+    dev: false
+
   /rehype-raw@7.0.0:
     resolution: {integrity: sha512-/aE8hCfKlQeA8LmyeyQvQF3eBiLRGNlfBJEvWH7ivp9sBqs7TNqBL5X3v157rM4IFETqDnIOO+z5M/biZbo9Ww==}
     dependencies:
@@ -15592,15 +15441,8 @@ packages:
     engines: {node: '>= 0.10'}
     dev: false
 
-  /remark-math@6.0.0:
-    resolution: {integrity: sha512-MMqgnP74Igy+S3WwnhQ7kqGlEerTETXMvJhrUzDikVZ2/uogJCb+WHUg97hK9/jcfc0dkD73s3LN8zU49cTEtA==}
-    dependencies:
-      '@types/mdast': 4.0.0
-      mdast-util-math: 3.0.0
-      micromark-extension-math: 3.0.0
-      unified: 11.0.4
-    transitivePeerDependencies:
-      - supports-color
+  /remark-math@3.0.1:
+    resolution: {integrity: sha512-epT77R/HK0x7NqrWHdSV75uNLwn8g9qTyMqCRCDujL0vj/6T6+yhdrR7mjELWtkse+Fw02kijAaBuVcHBor1+Q==}
     dev: false
 
   /remark-parse@10.0.2:
@@ -15636,6 +15478,11 @@ packages:
       strip-ansi: 6.0.1
     dev: false
 
+  /repeat-string@1.6.1:
+    resolution: {integrity: sha512-PV0dzCYDNfRi1jCDbJzpW7jNNDRuCOG/jI5ctQcGKt/clZD+YcPS3yIlWuTJMmESC8aevCFmWJy5wjAFgNqN6w==}
+    engines: {node: '>=0.10'}
+    dev: false
+
   /request@2.88.2:
     resolution: {integrity: sha512-MsvtOrfG9ZcrOwAW+Qi+F6HbD0CWXEh9ou77uOb7FM2WPhwT7smM833PzanhJLsgXjN89Ir6V2PczXNnMpwKhw==}
     engines: {node: '>= 6'}
@@ -15645,7 +15492,7 @@ packages:
       aws4: 1.12.0
       caseless: 0.12.0
       combined-stream: 1.0.8
-      extend: r2.cnpmjs.org/extend@3.0.2
+      extend: 3.0.2
       forever-agent: 0.6.1
       form-data: 2.3.3
       har-validator: 5.1.5
@@ -16278,7 +16125,7 @@ packages:
     hasBin: true
     dependencies:
       command-exists: 1.2.9
-      commander: r2.cnpmjs.org/commander@3.0.2
+      commander: 3.0.2
       follow-redirects: 1.15.3
       fs-extra: 0.30.0
       js-sha3: 0.8.0
@@ -16296,7 +16143,7 @@ packages:
     hasBin: true
     dependencies:
       command-exists: 1.2.9
-      commander: r2.cnpmjs.org/commander@8.3.0
+      commander: 8.3.0
       follow-redirects: 1.15.3
       js-sha3: 0.8.0
       memorystream: 0.3.1
@@ -16804,7 +16651,7 @@ packages:
     hasBin: true
     dependencies:
       '@trysound/sax': 0.2.0
-      commander: r2.cnpmjs.org/commander@7.2.0
+      commander: 7.2.0
       css-select: 4.3.0
       css-tree: 1.1.3
       csso: 4.2.0
@@ -17066,6 +16913,10 @@ packages:
     resolution: {integrity: sha512-kRj8B+YHZCc9kQYdWfJB2/oUl9rA99qbowYYBtr4ui4mZyAQ2JpvVBd/6U2YloATfqBhBTSMhTpgBHtU0Mf3Rg==}
     dev: false
 
+  /trough@1.0.5:
+    resolution: {integrity: sha512-rvuRbTarPXmMb79SmzEp8aqXNKcK+y0XaB298IXueQ8I2PsrATcPBCSPyK/dDNa2iWOhKlfNnOjdAOTBU/nkFA==}
+    dev: false
+
   /trough@2.1.0:
     resolution: {integrity: sha512-AqTiAOLcj85xS7vQ8QkAV41hPDIJ71XJB4RCUrzo/1GM2CQwhkJGaf9Hgr7BOugMRpgGUrqRg/DrBDl4H40+8g==}
     dev: false
@@ -17256,16 +17107,28 @@ packages:
       vfile: 5.3.7
     dev: false
 
-  /unified@11.0.4:
-    resolution: {integrity: sha512-apMPnyLjAX+ty4OrNap7yumyVAMlKx5IWU2wlzzUdYJO9A8f1p9m/gywF/GM2ZDFcjQPrx59Mc90KwmxsoklxQ==}
+  /unified@9.2.0:
+    resolution: {integrity: sha512-vx2Z0vY+a3YoTj8+pttM3tiJHCwY5UFbYdiWrwBEbHmK8pvsPj2rtAX2BFfgXen8T39CJWblWRDT4L5WGXtDdg==}
     dependencies:
-      '@types/unist': 3.0.0
-      bail: r2.cnpmjs.org/bail@2.0.2
-      devlop: 1.1.0
-      extend: r2.cnpmjs.org/extend@3.0.2
-      is-plain-obj: 4.1.0
-      trough: 2.1.0
-      vfile: 6.0.1
+      '@types/unist': 2.0.8
+      bail: 1.0.5
+      extend: 3.0.2
+      is-buffer: 2.0.5
+      is-plain-obj: 2.1.0
+      trough: 1.0.5
+      vfile: 4.2.1
+    dev: false
+
+  /unified@9.2.2:
+    resolution: {integrity: sha512-Sg7j110mtefBD+qunSLO1lqOEKdrwBFBrR6Qd8f4uwkhWNlbkaqwHse6e7QvD3AP/MNoJdEDLaf8OxYyoWgorQ==}
+    dependencies:
+      '@types/unist': 2.0.8
+      bail: 1.0.5
+      extend: 3.0.2
+      is-buffer: 2.0.5
+      is-plain-obj: 2.1.0
+      trough: 1.0.5
+      vfile: 4.2.1
     dev: false
 
   /unique-string@2.0.0:
@@ -17275,8 +17138,18 @@ packages:
       crypto-random-string: 2.0.0
     dev: false
 
+  /unist-util-find-after@3.0.0:
+    resolution: {integrity: sha512-ojlBqfsBftYXExNu3+hHLfJQ/X1jYY/9vdm4yZWjIbf0VuWF6CRufci1ZyoD/wV2TYMKxXUoNuoqwy+CkgzAiQ==}
+    dependencies:
+      unist-util-is: 4.1.0
+    dev: false
+
   /unist-util-generated@2.0.1:
     resolution: {integrity: sha512-qF72kLmPxAw0oN2fwpWIqbXAVyEqUzDHMsbtPvOudIlUzXYFIeQIuxXQCRCFh22B7cixvU0MG7m3MW8FTq/S+A==}
+    dev: false
+
+  /unist-util-is@4.1.0:
+    resolution: {integrity: sha512-ZOQSsnce92GrxSqlnEEseX0gi7GH9zTJZ0p9dtu87WRb/37mMPO2Ilx1s/t9vBHrFhbgweUwb+t7cIn5dxPhZg==}
     dev: false
 
   /unist-util-is@5.2.1:
@@ -17303,11 +17176,16 @@ packages:
       '@types/unist': 3.0.0
     dev: false
 
-  /unist-util-remove-position@5.0.0:
-    resolution: {integrity: sha512-Hp5Kh3wLxv0PHj9m2yZhhLt58KzPtEYKQQ4yxfYFEO7EvHwzyDYnduhHnY1mDxoqr7VUwVuHXk9RXKIiYS1N8Q==}
+  /unist-util-remove-position@2.0.1:
+    resolution: {integrity: sha512-fDZsLYIe2uT+oGFnuZmy73K6ZxOPG/Qcm+w7jbEjaFcJgbQ6cqjs/eSPzXhsmGpAsWPkqZM9pYjww5QTn3LHMA==}
     dependencies:
-      '@types/unist': 3.0.0
-      unist-util-visit: 5.0.0
+      unist-util-visit: 2.0.3
+    dev: false
+
+  /unist-util-stringify-position@2.0.3:
+    resolution: {integrity: sha512-3faScn5I+hy9VleOq/qNbAd6pAx7iH5jYBMS9I1HgQVijz/4mv5Bvw5iw1sC/90CODiKo81G/ps8AJrISn687g==}
+    dependencies:
+      '@types/unist': 2.0.8
     dev: false
 
   /unist-util-stringify-position@3.0.3:
@@ -17322,6 +17200,13 @@ packages:
       '@types/unist': 3.0.0
     dev: false
 
+  /unist-util-visit-parents@3.1.1:
+    resolution: {integrity: sha512-1KROIZWo6bcMrZEwiH2UrXDyalAa0uqzWCxCJj6lPOvTve2WkfgCytoDTPaMnodXh1WrXOq0haVYHj99ynJlsg==}
+    dependencies:
+      '@types/unist': 2.0.8
+      unist-util-is: 4.1.0
+    dev: false
+
   /unist-util-visit-parents@5.1.3:
     resolution: {integrity: sha512-x6+y8g7wWMyQhL1iZfhIPhDAs7Xwbn9nRosDXl7qoPTSCy0yNxnKc+hWokFifWQIDGi154rdUqKvbCa4+1kLhg==}
     dependencies:
@@ -17334,6 +17219,14 @@ packages:
     dependencies:
       '@types/unist': 3.0.0
       unist-util-is: 6.0.0
+    dev: false
+
+  /unist-util-visit@2.0.3:
+    resolution: {integrity: sha512-iJ4/RczbJMkD0712mGktuGpm/U4By4FfDonL7N/9tATGIF4imikjOuagyMY53tnZq3NP6BcmlrHhEKAfGWjh7Q==}
+    dependencies:
+      '@types/unist': 2.0.8
+      unist-util-is: 4.1.0
+      unist-util-visit-parents: 3.1.1
     dev: false
 
   /unist-util-visit@4.1.2:
@@ -17647,11 +17540,22 @@ packages:
       extsprintf: 1.3.0
     dev: false
 
+  /vfile-location@3.2.0:
+    resolution: {integrity: sha512-aLEIZKv/oxuCDZ8lkJGhuhztf/BW4M+iHdCwglA/eWc+vtuRFJj8EtgceYFX4LRjOhCAAiNHsKGssC6onJ+jbA==}
+    dev: false
+
   /vfile-location@5.0.2:
     resolution: {integrity: sha512-NXPYyxyBSH7zB5U6+3uDdd6Nybz6o6/od9rk8bp9H8GR3L+cm/fC0uUTbqBmUTnMCUDslAGBOIKNfvvb+gGlDg==}
     dependencies:
       '@types/unist': 3.0.0
       vfile: 6.0.1
+    dev: false
+
+  /vfile-message@2.0.4:
+    resolution: {integrity: sha512-DjssxRGkMvifUOJre00juHoP9DPWuzjxKuMDrhNbk2TdaYYBNMStsNhEOt3idrtI12VQYM/1+iM0KOzXi4pxwQ==}
+    dependencies:
+      '@types/unist': 2.0.8
+      unist-util-stringify-position: 2.0.3
     dev: false
 
   /vfile-message@3.1.4:
@@ -17666,6 +17570,15 @@ packages:
     dependencies:
       '@types/unist': 3.0.0
       unist-util-stringify-position: 4.0.0
+    dev: false
+
+  /vfile@4.2.1:
+    resolution: {integrity: sha512-O6AE4OskCG5S1emQ/4gl8zK586RqA3srz3nfK/Viy0UPToBc5Trp9BVFb1u0CjsKrAWwnpr4ifM/KBXPWwJbCA==}
+    dependencies:
+      '@types/unist': 2.0.8
+      is-buffer: 2.0.5
+      unist-util-stringify-position: 2.0.3
+      vfile-message: 2.0.4
     dev: false
 
   /vfile@5.3.7:
@@ -17762,6 +17675,10 @@ packages:
     resolution: {integrity: sha512-O84QOnr0icsbFGLS0O3bI5FswxzRr8/gHwWkDlQFskhSPryQXvrTMxjxGP4+iWYoauLoBvfDpkrOauZ+0iZpDA==}
     dependencies:
       minimalistic-assert: 1.0.1
+    dev: false
+
+  /web-namespaces@1.1.4:
+    resolution: {integrity: sha512-wYxSGajtmoP4WxfejAPIr4l0fVh+jeMXZb08wNc0tMg6xsfZXj3cECqIK0G7ZAqUq0PP8WlMDtaOGVBTAWztNw==}
     dev: false
 
   /web-namespaces@2.0.1:
@@ -18483,7 +18400,7 @@ packages:
       global: 4.4.0
       is-function: 1.0.2
       parse-headers: 2.0.5
-      xtend: r2.cnpmjs.org/xtend@4.0.2
+      xtend: 4.0.2
     dev: false
 
   /xtend@4.0.2:
@@ -18676,9 +18593,9 @@ packages:
       remark-parse: r2.cnpmjs.org/remark-parse@8.0.3
       remark-squeeze-paragraphs: r2.cnpmjs.org/remark-squeeze-paragraphs@4.0.0
       style-to-object: r2.cnpmjs.org/style-to-object@0.3.0
-      unified: r2.cnpmjs.org/unified@9.2.0
+      unified: 9.2.0
       unist-builder: r2.cnpmjs.org/unist-builder@2.0.3
-      unist-util-visit: r2.cnpmjs.org/unist-util-visit@2.0.3
+      unist-util-visit: 2.0.3
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -18704,12 +18621,6 @@ packages:
     resolution: {integrity: sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/@sideway/pinpoint/-/pinpoint-2.0.0.tgz}
     name: '@sideway/pinpoint'
     version: 2.0.0
-
-  r2.cnpmjs.org/@types/parse5@5.0.3:
-    resolution: {integrity: sha512-kUNnecmtkunAoQ3CnjmMkzNU/gtxG8guhi+Fk2U/kOpIKjIMKnXGp4IJCgQJrXSgMsWYimYG4TGjz/UzbGEBTw==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/@types/parse5/-/parse5-5.0.3.tgz}
-    name: '@types/parse5'
-    version: 5.0.3
-    dev: false
 
   r2.cnpmjs.org/@xtuc/ieee754@1.2.0:
     resolution: {integrity: sha512-DX8nKgqcGwsc0eJSqYt5lwP4DH5FlHnmuWWBRy7X0NcaGR0ZtuyeESgMwTYVEtxmsNGY+qit4QYT/MIYTOTPeA==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/@xtuc/ieee754/-/ieee754-1.2.0.tgz}
@@ -18746,18 +18657,6 @@ packages:
     version: 1.6.22
     dependencies:
       '@babel/helper-plugin-utils': r2.cnpmjs.org/@babel/helper-plugin-utils@7.10.4
-    dev: false
-
-  r2.cnpmjs.org/bail@1.0.5:
-    resolution: {integrity: sha512-xFbRxM1tahm08yHBP16MMjVUAvDaBMD38zsM9EMAUN61omwLmKlOpB/Zku5QkjZ8TZ4vn53pj+t518cH0S03RQ==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/bail/-/bail-1.0.5.tgz}
-    name: bail
-    version: 1.0.5
-    dev: false
-
-  r2.cnpmjs.org/bail@2.0.2:
-    resolution: {integrity: sha512-0xO6mYd7JB2YesxDKplafRpsiOzPt9V02ddPCLbY1xYGPOX24NTyN50qnUxgCPcSoYMhKpAuBTjQoRZCAkUDRw==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/bail/-/bail-2.0.2.tgz}
-    name: bail
-    version: 2.0.2
     dev: false
 
   r2.cnpmjs.org/boolbase@1.0.0:
@@ -18822,43 +18721,11 @@ packages:
     version: 1.0.6
     dev: false
 
-  r2.cnpmjs.org/comma-separated-tokens@1.0.8:
-    resolution: {integrity: sha512-GHuDRO12Sypu2cV70d1dkA2EUmXHgntrzbpvOB+Qy+49ypNfGgFQIC2fhhXbnyrJRynDCAARsT7Ou0M6hirpfw==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/comma-separated-tokens/-/comma-separated-tokens-1.0.8.tgz}
-    name: comma-separated-tokens
-    version: 1.0.8
-    dev: false
-
-  r2.cnpmjs.org/commander@2.20.3:
-    resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/commander/-/commander-2.20.3.tgz}
-    name: commander
-    version: 2.20.3
-    dev: false
-
-  r2.cnpmjs.org/commander@3.0.2:
-    resolution: {integrity: sha512-Gar0ASD4BDyKC4hl4DwHqDrmvjoxWKZigVnAbn5H1owvm4CxCPdb0HQDehwNYMJpla5+M2tPmPARzhtYuwpHow==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/commander/-/commander-3.0.2.tgz}
-    name: commander
-    version: 3.0.2
-    dev: false
-
   r2.cnpmjs.org/commander@5.1.0:
     resolution: {integrity: sha512-P0CysNDQ7rtVw4QIQtm+MRxV66vKFSvlsQvGYXZWR3qFU0jlMKHZZZgw8e+8DSah4UDKMqnknRDQz+xuQXQ/Zg==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/commander/-/commander-5.1.0.tgz}
     name: commander
     version: 5.1.0
     engines: {node: '>= 6'}
-
-  r2.cnpmjs.org/commander@7.2.0:
-    resolution: {integrity: sha512-QrWXB+ZQSVPmIWIhtEO9H+gwHaMGYiF5ChvoJ+K9ZGHG/sVsa6yiesAD1GC/x46sET00Xlwo1u49RVVVzvcSkw==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/commander/-/commander-7.2.0.tgz}
-    name: commander
-    version: 7.2.0
-    engines: {node: '>= 10'}
-    dev: false
-
-  r2.cnpmjs.org/commander@8.3.0:
-    resolution: {integrity: sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/commander/-/commander-8.3.0.tgz}
-    name: commander
-    version: 8.3.0
-    engines: {node: '>= 12'}
-    dev: false
 
   r2.cnpmjs.org/cross-env@7.0.3:
     resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/cross-env/-/cross-env-7.0.3.tgz}
@@ -18884,7 +18751,7 @@ packages:
     name: detab
     version: 2.0.4
     dependencies:
-      repeat-string: r2.cnpmjs.org/repeat-string@1.6.1
+      repeat-string: 1.6.1
     dev: false
 
   r2.cnpmjs.org/emoticon@3.2.0:
@@ -18941,12 +18808,6 @@ packages:
     version: 3.3.0
     engines: {node: '>=0.8.x'}
 
-  r2.cnpmjs.org/extend@3.0.2:
-    resolution: {integrity: sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/extend/-/extend-3.0.2.tgz}
-    name: extend
-    version: 3.0.2
-    dev: false
-
   r2.cnpmjs.org/feed@4.2.2:
     resolution: {integrity: sha512-u5/sxGfiMfZNtJ3OvQpXcvotFpYkL0n9u9mM2vkui2nGo8b4wvDkJ8gAkYqbA8QpGyFCv3RK0Z+Iv+9veCS9bQ==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/feed/-/feed-4.2.2.tgz}
     name: feed
@@ -18994,31 +18855,12 @@ packages:
     version: 9.0.1
     dependencies:
       '@types/unist': 2.0.8
-      comma-separated-tokens: r2.cnpmjs.org/comma-separated-tokens@1.0.8
-      property-information: r2.cnpmjs.org/property-information@5.6.0
-      space-separated-tokens: r2.cnpmjs.org/space-separated-tokens@1.1.5
+      comma-separated-tokens: 1.0.8
+      property-information: 5.6.0
+      space-separated-tokens: 1.1.5
       style-to-object: r2.cnpmjs.org/style-to-object@0.3.0
-      unist-util-is: r2.cnpmjs.org/unist-util-is@4.1.0
-      web-namespaces: r2.cnpmjs.org/web-namespaces@1.1.4
-    dev: false
-
-  r2.cnpmjs.org/hast-util-from-parse5@6.0.1:
-    resolution: {integrity: sha512-jeJUWiN5pSxW12Rh01smtVkZgZr33wBokLzKLwinYOUfSzm1Nl/c3GUGebDyOKjdsRgMvoVbV0VpAcpjF4NrJA==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/hast-util-from-parse5/-/hast-util-from-parse5-6.0.1.tgz}
-    name: hast-util-from-parse5
-    version: 6.0.1
-    dependencies:
-      '@types/parse5': r2.cnpmjs.org/@types/parse5@5.0.3
-      hastscript: r2.cnpmjs.org/hastscript@6.0.0
-      property-information: r2.cnpmjs.org/property-information@5.6.0
-      vfile: r2.cnpmjs.org/vfile@4.2.1
-      vfile-location: r2.cnpmjs.org/vfile-location@3.2.0
-      web-namespaces: r2.cnpmjs.org/web-namespaces@1.1.4
-    dev: false
-
-  r2.cnpmjs.org/hast-util-parse-selector@2.2.5:
-    resolution: {integrity: sha512-7j6mrk/qqkSehsM92wQjdIgWM2/BW61u/53G6xmC8i1OmEdKLHbk419QKQUjz6LglWsfqoiHmyMRkP1BGjecNQ==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/hast-util-parse-selector/-/hast-util-parse-selector-2.2.5.tgz}
-    name: hast-util-parse-selector
-    version: 2.2.5
+      unist-util-is: 4.1.0
+      web-namespaces: 1.1.4
     dev: false
 
   r2.cnpmjs.org/hast-util-raw@6.0.1:
@@ -19027,14 +18869,14 @@ packages:
     version: 6.0.1
     dependencies:
       '@types/hast': 2.3.6
-      hast-util-from-parse5: r2.cnpmjs.org/hast-util-from-parse5@6.0.1
+      hast-util-from-parse5: 6.0.1
       hast-util-to-parse5: r2.cnpmjs.org/hast-util-to-parse5@6.0.0
       html-void-elements: r2.cnpmjs.org/html-void-elements@1.0.5
-      parse5: r2.cnpmjs.org/parse5@6.0.1
+      parse5: 6.0.1
       unist-util-position: r2.cnpmjs.org/unist-util-position@3.1.0
-      vfile: r2.cnpmjs.org/vfile@4.2.1
-      web-namespaces: r2.cnpmjs.org/web-namespaces@1.1.4
-      xtend: r2.cnpmjs.org/xtend@4.0.2
+      vfile: 4.2.1
+      web-namespaces: 1.1.4
+      xtend: 4.0.2
       zwitch: r2.cnpmjs.org/zwitch@1.0.5
     dev: false
 
@@ -19044,22 +18886,10 @@ packages:
     version: 6.0.0
     dependencies:
       hast-to-hyperscript: r2.cnpmjs.org/hast-to-hyperscript@9.0.1
-      property-information: r2.cnpmjs.org/property-information@5.6.0
-      web-namespaces: r2.cnpmjs.org/web-namespaces@1.1.4
-      xtend: r2.cnpmjs.org/xtend@4.0.2
+      property-information: 5.6.0
+      web-namespaces: 1.1.4
+      xtend: 4.0.2
       zwitch: r2.cnpmjs.org/zwitch@1.0.5
-    dev: false
-
-  r2.cnpmjs.org/hastscript@6.0.0:
-    resolution: {integrity: sha512-nDM6bvd7lIqDUiYEiu5Sl/+6ReP0BMk/2f4U/Rooccxkj0P5nm+acM5PrGJ/t5I8qPGiqZSE6hVAwZEdZIvP4w==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/hastscript/-/hastscript-6.0.0.tgz}
-    name: hastscript
-    version: 6.0.0
-    dependencies:
-      '@types/hast': 2.3.6
-      comma-separated-tokens: r2.cnpmjs.org/comma-separated-tokens@1.0.8
-      hast-util-parse-selector: r2.cnpmjs.org/hast-util-parse-selector@2.2.5
-      property-information: r2.cnpmjs.org/property-information@5.6.0
-      space-separated-tokens: r2.cnpmjs.org/space-separated-tokens@1.1.5
     dev: false
 
   r2.cnpmjs.org/html-void-elements@1.0.5:
@@ -19105,13 +18935,6 @@ packages:
       is-decimal: r2.cnpmjs.org/is-decimal@1.0.4
     dev: false
 
-  r2.cnpmjs.org/is-buffer@2.0.5:
-    resolution: {integrity: sha512-i2R6zNFDwgEHJyQUtJEk0XFi1i0dPFn/oqjK3/vPCcDeJvW5NQ83V8QbicfF1SupOaB0h8ntgBC2YiE7dfyctQ==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/is-buffer/-/is-buffer-2.0.5.tgz}
-    name: is-buffer
-    version: 2.0.5
-    engines: {node: '>=4'}
-    dev: false
-
   r2.cnpmjs.org/is-decimal@1.0.4:
     resolution: {integrity: sha512-RGdriMmQQvZ2aqaQq3awNA6dCGtKpiDFcOzrTWrDAT2MiWrKQVPmxLGHl7Y2nNu6led0kEyoX0enY0qXYsv9zw==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/is-decimal/-/is-decimal-1.0.4.tgz}
     name: is-decimal
@@ -19129,13 +18952,6 @@ packages:
     name: is-obj
     version: 1.0.1
     engines: {node: '>=0.10.0'}
-    dev: false
-
-  r2.cnpmjs.org/is-plain-obj@2.1.0:
-    resolution: {integrity: sha512-YWnfyRwxL/+SsrWYfOpUtz5b3YD+nyfkHvjbcanzk8zgyO4ASD67uVMRt8k5bM4lLMDnXfriRhOpemw+NfT1eA==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/is-plain-obj/-/is-plain-obj-2.1.0.tgz}
-    name: is-plain-obj
-    version: 2.1.0
-    engines: {node: '>=8'}
     dev: false
 
   r2.cnpmjs.org/is-regexp@1.0.0:
@@ -19207,7 +19023,7 @@ packages:
     name: mdast-util-definitions
     version: 4.0.0
     dependencies:
-      unist-util-visit: r2.cnpmjs.org/unist-util-visit@2.0.3
+      unist-util-visit: 2.0.3
     dev: false
 
   r2.cnpmjs.org/mdast-util-to-hast@10.0.1:
@@ -19222,7 +19038,7 @@ packages:
       unist-builder: r2.cnpmjs.org/unist-builder@2.0.3
       unist-util-generated: r2.cnpmjs.org/unist-util-generated@1.1.6
       unist-util-position: r2.cnpmjs.org/unist-util-position@3.1.0
-      unist-util-visit: r2.cnpmjs.org/unist-util-visit@2.0.3
+      unist-util-visit: 2.0.3
     dev: false
 
   r2.cnpmjs.org/mdast-util-to-string@2.0.0:
@@ -19293,25 +19109,11 @@ packages:
     version: 1.3.0
     dev: false
 
-  r2.cnpmjs.org/parse5@6.0.1:
-    resolution: {integrity: sha512-Ofn/CTFzRGTTxwpNEs9PP93gXShHcTq255nzRYSKe8AkVpZY7e1fpmTfOyoIvjP5HG7Z2ZM7VS9PPhQGW2pOpw==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/parse5/-/parse5-6.0.1.tgz}
-    name: parse5
-    version: 6.0.1
-    dev: false
-
   r2.cnpmjs.org/path-key@3.1.1:
     resolution: {integrity: sha512-ojmeN0qd+y0jszEtoY48r0Peq5dwMEkIlCOu6Q5f41lfkswXuKtYrhgoTpLnyIcHm24Uhqx+5Tqm2InSwLhE6Q==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/path-key/-/path-key-3.1.1.tgz}
     name: path-key
     version: 3.1.1
     engines: {node: '>=8'}
-
-  r2.cnpmjs.org/property-information@5.6.0:
-    resolution: {integrity: sha512-YUHSPk+A30YPv+0Qf8i9Mbfe/C0hdPXk1s1jPVToV8pk8BQtpw10ct89Eo7OWkutrwqvT0eicAxlOg3dOAu8JA==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/property-information/-/property-information-5.6.0.tgz}
-    name: property-information
-    version: 5.6.0
-    dependencies:
-      xtend: r2.cnpmjs.org/xtend@4.0.2
-    dev: false
 
   r2.cnpmjs.org/queue@6.0.2:
     resolution: {integrity: sha512-iHZWu+q3IdFZFX36ro/lKBkSvfkztY5Y7HMiPlOUjhupPcG2JMfst2KKEpu5XndviX/3UhFbRngUPNKtgvtZiA==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/queue/-/queue-6.0.2.tgz}
@@ -19334,7 +19136,7 @@ packages:
     dependencies:
       emoticon: r2.cnpmjs.org/emoticon@3.2.0
       node-emoji: r2.cnpmjs.org/node-emoji@1.11.0
-      unist-util-visit: r2.cnpmjs.org/unist-util-visit@2.0.3
+      unist-util-visit: 2.0.3
     dev: false
 
   r2.cnpmjs.org/remark-footnotes@2.0.0:
@@ -19368,7 +19170,7 @@ packages:
       '@mdx-js/util': r2.cnpmjs.org/@mdx-js/util@1.6.22
       is-alphabetical: r2.cnpmjs.org/is-alphabetical@1.0.4
       remark-parse: r2.cnpmjs.org/remark-parse@8.0.3
-      unified: r2.cnpmjs.org/unified@9.2.0
+      unified: 9.2.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -19386,14 +19188,14 @@ packages:
       is-word-character: r2.cnpmjs.org/is-word-character@1.0.4
       markdown-escapes: r2.cnpmjs.org/markdown-escapes@1.0.4
       parse-entities: r2.cnpmjs.org/parse-entities@2.0.0
-      repeat-string: r2.cnpmjs.org/repeat-string@1.6.1
+      repeat-string: 1.6.1
       state-toggle: r2.cnpmjs.org/state-toggle@1.0.3
       trim: r2.cnpmjs.org/trim@0.0.1
       trim-trailing-lines: r2.cnpmjs.org/trim-trailing-lines@1.1.4
       unherit: r2.cnpmjs.org/unherit@1.1.3
-      unist-util-remove-position: r2.cnpmjs.org/unist-util-remove-position@2.0.1
-      vfile-location: r2.cnpmjs.org/vfile-location@3.2.0
-      xtend: r2.cnpmjs.org/xtend@4.0.2
+      unist-util-remove-position: 2.0.1
+      vfile-location: 3.2.0
+      xtend: 4.0.2
     dev: false
 
   r2.cnpmjs.org/remark-squeeze-paragraphs@4.0.0:
@@ -19402,13 +19204,6 @@ packages:
     version: 4.0.0
     dependencies:
       mdast-squeeze-paragraphs: r2.cnpmjs.org/mdast-squeeze-paragraphs@4.0.0
-    dev: false
-
-  r2.cnpmjs.org/repeat-string@1.6.1:
-    resolution: {integrity: sha512-PV0dzCYDNfRi1jCDbJzpW7jNNDRuCOG/jI5ctQcGKt/clZD+YcPS3yIlWuTJMmESC8aevCFmWJy5wjAFgNqN6w==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/repeat-string/-/repeat-string-1.6.1.tgz}
-    name: repeat-string
-    version: 1.6.1
-    engines: {node: '>=0.10'}
     dev: false
 
   r2.cnpmjs.org/resolve-from@4.0.0:
@@ -19443,12 +19238,6 @@ packages:
     name: source-map
     version: 0.5.7
     engines: {node: '>=0.10.0'}
-    dev: false
-
-  r2.cnpmjs.org/space-separated-tokens@1.1.5:
-    resolution: {integrity: sha512-q/JSVd1Lptzhf5bkYm4ob4iWPjx0KiRe3sRFBNrVqbJkFaBm5vbbowy1mymoPNLRa52+oadOhJ+K49wsSeSjTA==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/space-separated-tokens/-/space-separated-tokens-1.1.5.tgz}
-    name: space-separated-tokens
-    version: 1.1.5
     dev: false
 
   r2.cnpmjs.org/state-toggle@1.0.3:
@@ -19502,47 +19291,13 @@ packages:
     deprecated: Use String.prototype.trim() instead
     dev: false
 
-  r2.cnpmjs.org/trough@1.0.5:
-    resolution: {integrity: sha512-rvuRbTarPXmMb79SmzEp8aqXNKcK+y0XaB298IXueQ8I2PsrATcPBCSPyK/dDNa2iWOhKlfNnOjdAOTBU/nkFA==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/trough/-/trough-1.0.5.tgz}
-    name: trough
-    version: 1.0.5
-    dev: false
-
   r2.cnpmjs.org/unherit@1.1.3:
     resolution: {integrity: sha512-Ft16BJcnapDKp0+J/rqFC3Rrk6Y/Ng4nzsC028k2jdDII/rdZ7Wd3pPT/6+vIIxRagwRc9K0IUX0Ra4fKvw+WQ==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/unherit/-/unherit-1.1.3.tgz}
     name: unherit
     version: 1.1.3
     dependencies:
       inherits: r2.cnpmjs.org/inherits@2.0.4
-      xtend: r2.cnpmjs.org/xtend@4.0.2
-    dev: false
-
-  r2.cnpmjs.org/unified@9.2.0:
-    resolution: {integrity: sha512-vx2Z0vY+a3YoTj8+pttM3tiJHCwY5UFbYdiWrwBEbHmK8pvsPj2rtAX2BFfgXen8T39CJWblWRDT4L5WGXtDdg==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/unified/-/unified-9.2.0.tgz}
-    name: unified
-    version: 9.2.0
-    dependencies:
-      '@types/unist': 2.0.8
-      bail: r2.cnpmjs.org/bail@1.0.5
-      extend: r2.cnpmjs.org/extend@3.0.2
-      is-buffer: r2.cnpmjs.org/is-buffer@2.0.5
-      is-plain-obj: r2.cnpmjs.org/is-plain-obj@2.1.0
-      trough: r2.cnpmjs.org/trough@1.0.5
-      vfile: r2.cnpmjs.org/vfile@4.2.1
-    dev: false
-
-  r2.cnpmjs.org/unified@9.2.2:
-    resolution: {integrity: sha512-Sg7j110mtefBD+qunSLO1lqOEKdrwBFBrR6Qd8f4uwkhWNlbkaqwHse6e7QvD3AP/MNoJdEDLaf8OxYyoWgorQ==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/unified/-/unified-9.2.2.tgz}
-    name: unified
-    version: 9.2.2
-    dependencies:
-      '@types/unist': 2.0.8
-      bail: r2.cnpmjs.org/bail@1.0.5
-      extend: r2.cnpmjs.org/extend@3.0.2
-      is-buffer: r2.cnpmjs.org/is-buffer@2.0.5
-      is-plain-obj: r2.cnpmjs.org/is-plain-obj@2.1.0
-      trough: r2.cnpmjs.org/trough@1.0.5
-      vfile: r2.cnpmjs.org/vfile@4.2.1
+      xtend: 4.0.2
     dev: false
 
   r2.cnpmjs.org/unist-builder@2.0.3:
@@ -19557,24 +19312,10 @@ packages:
     version: 1.1.6
     dev: false
 
-  r2.cnpmjs.org/unist-util-is@4.1.0:
-    resolution: {integrity: sha512-ZOQSsnce92GrxSqlnEEseX0gi7GH9zTJZ0p9dtu87WRb/37mMPO2Ilx1s/t9vBHrFhbgweUwb+t7cIn5dxPhZg==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/unist-util-is/-/unist-util-is-4.1.0.tgz}
-    name: unist-util-is
-    version: 4.1.0
-    dev: false
-
   r2.cnpmjs.org/unist-util-position@3.1.0:
     resolution: {integrity: sha512-w+PkwCbYSFw8vpgWD0v7zRCl1FpY3fjDSQ3/N/wNd9Ffa4gPi8+4keqt99N3XW6F99t/mUzp2xAhNmfKWp95QA==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/unist-util-position/-/unist-util-position-3.1.0.tgz}
     name: unist-util-position
     version: 3.1.0
-    dev: false
-
-  r2.cnpmjs.org/unist-util-remove-position@2.0.1:
-    resolution: {integrity: sha512-fDZsLYIe2uT+oGFnuZmy73K6ZxOPG/Qcm+w7jbEjaFcJgbQ6cqjs/eSPzXhsmGpAsWPkqZM9pYjww5QTn3LHMA==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/unist-util-remove-position/-/unist-util-remove-position-2.0.1.tgz}
-    name: unist-util-remove-position
-    version: 2.0.1
-    dependencies:
-      unist-util-visit: r2.cnpmjs.org/unist-util-visit@2.0.3
     dev: false
 
   r2.cnpmjs.org/unist-util-remove@2.1.0:
@@ -19582,34 +19323,7 @@ packages:
     name: unist-util-remove
     version: 2.1.0
     dependencies:
-      unist-util-is: r2.cnpmjs.org/unist-util-is@4.1.0
-    dev: false
-
-  r2.cnpmjs.org/unist-util-stringify-position@2.0.3:
-    resolution: {integrity: sha512-3faScn5I+hy9VleOq/qNbAd6pAx7iH5jYBMS9I1HgQVijz/4mv5Bvw5iw1sC/90CODiKo81G/ps8AJrISn687g==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/unist-util-stringify-position/-/unist-util-stringify-position-2.0.3.tgz}
-    name: unist-util-stringify-position
-    version: 2.0.3
-    dependencies:
-      '@types/unist': 2.0.8
-    dev: false
-
-  r2.cnpmjs.org/unist-util-visit-parents@3.1.1:
-    resolution: {integrity: sha512-1KROIZWo6bcMrZEwiH2UrXDyalAa0uqzWCxCJj6lPOvTve2WkfgCytoDTPaMnodXh1WrXOq0haVYHj99ynJlsg==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/unist-util-visit-parents/-/unist-util-visit-parents-3.1.1.tgz}
-    name: unist-util-visit-parents
-    version: 3.1.1
-    dependencies:
-      '@types/unist': 2.0.8
-      unist-util-is: r2.cnpmjs.org/unist-util-is@4.1.0
-    dev: false
-
-  r2.cnpmjs.org/unist-util-visit@2.0.3:
-    resolution: {integrity: sha512-iJ4/RczbJMkD0712mGktuGpm/U4By4FfDonL7N/9tATGIF4imikjOuagyMY53tnZq3NP6BcmlrHhEKAfGWjh7Q==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/unist-util-visit/-/unist-util-visit-2.0.3.tgz}
-    name: unist-util-visit
-    version: 2.0.3
-    dependencies:
-      '@types/unist': 2.0.8
-      unist-util-is: r2.cnpmjs.org/unist-util-is@4.1.0
-      unist-util-visit-parents: r2.cnpmjs.org/unist-util-visit-parents@3.1.1
+      unist-util-is: 4.1.0
     dev: false
 
   r2.cnpmjs.org/url-loader@4.1.1(file-loader@6.2.0)(webpack@5.89.0):
@@ -19638,38 +19352,6 @@ packages:
     version: 3.10.0
     engines: {node: '>= 4'}
 
-  r2.cnpmjs.org/vfile-location@3.2.0:
-    resolution: {integrity: sha512-aLEIZKv/oxuCDZ8lkJGhuhztf/BW4M+iHdCwglA/eWc+vtuRFJj8EtgceYFX4LRjOhCAAiNHsKGssC6onJ+jbA==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/vfile-location/-/vfile-location-3.2.0.tgz}
-    name: vfile-location
-    version: 3.2.0
-    dev: false
-
-  r2.cnpmjs.org/vfile-message@2.0.4:
-    resolution: {integrity: sha512-DjssxRGkMvifUOJre00juHoP9DPWuzjxKuMDrhNbk2TdaYYBNMStsNhEOt3idrtI12VQYM/1+iM0KOzXi4pxwQ==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/vfile-message/-/vfile-message-2.0.4.tgz}
-    name: vfile-message
-    version: 2.0.4
-    dependencies:
-      '@types/unist': 2.0.8
-      unist-util-stringify-position: r2.cnpmjs.org/unist-util-stringify-position@2.0.3
-    dev: false
-
-  r2.cnpmjs.org/vfile@4.2.1:
-    resolution: {integrity: sha512-O6AE4OskCG5S1emQ/4gl8zK586RqA3srz3nfK/Viy0UPToBc5Trp9BVFb1u0CjsKrAWwnpr4ifM/KBXPWwJbCA==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/vfile/-/vfile-4.2.1.tgz}
-    name: vfile
-    version: 4.2.1
-    dependencies:
-      '@types/unist': 2.0.8
-      is-buffer: r2.cnpmjs.org/is-buffer@2.0.5
-      unist-util-stringify-position: r2.cnpmjs.org/unist-util-stringify-position@2.0.3
-      vfile-message: r2.cnpmjs.org/vfile-message@2.0.4
-    dev: false
-
-  r2.cnpmjs.org/web-namespaces@1.1.4:
-    resolution: {integrity: sha512-wYxSGajtmoP4WxfejAPIr4l0fVh+jeMXZb08wNc0tMg6xsfZXj3cECqIK0G7ZAqUq0PP8WlMDtaOGVBTAWztNw==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/web-namespaces/-/web-namespaces-1.1.4.tgz}
-    name: web-namespaces
-    version: 1.1.4
-    dev: false
-
   r2.cnpmjs.org/which@2.0.2:
     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/which/-/which-2.0.2.tgz}
     name: which
@@ -19686,13 +19368,6 @@ packages:
     hasBin: true
     dependencies:
       sax: r2.cnpmjs.org/sax@1.2.4
-    dev: false
-
-  r2.cnpmjs.org/xtend@4.0.2:
-    resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/xtend/-/xtend-4.0.2.tgz}
-    name: xtend
-    version: 4.0.2
-    engines: {node: '>=0.4'}
     dev: false
 
   r2.cnpmjs.org/zwitch@1.0.5:

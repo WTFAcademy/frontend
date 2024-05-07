@@ -297,5 +297,29 @@
         "starknet-basecamp-2023/Dapp/readme",
         "starknet-basecamp-2023/Architecture/readme",
         "starknet-basecamp-2023/Ecosystem/readme"
+    ],
+    "zk-101": [
+        "zk-101/readme",
+        "zk-101/Set/readme",
+        "zk-101/Integer/readme",
+        "zk-101/Prime/readme",
+        "zk-101/Euclidean/readme",
+        "zk-101/EEA/readme",
+        "zk-101/Modular/readme",
+        "zk-101/Division/readme",
+        "zk-101/Exp/readme",
+        "zk-101/Remainder/readme",
+        "zk-101/Unit/readme",
+        "zk-101/Euler/readme"
+    ],
+    "zksync-101": [
+        "zksync-101/readme",
+        "zksync-101/L2/readme",
+        "zksync-101/zkSync/readme",
+        "zksync-101/AA/readme",
+        "zksync-101/Toolings/readme",
+        "zksync-101/Developing/readme",
+        "zksync-101/Testing/readme",
+        "zksync-101/DAPP/readme"
     ]
 }
