@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "@theme/Layout";
 import EthBeijingLogoIcon from "@site/src/icons/EthBeijingLogo";
 import Balancer from "react-wrap-balancer";
@@ -16,19 +16,21 @@ import ETHBeiJingDeposit from "@site/src/constants/abi/ETHBeiJingDeposit";
 const EthBeijing = () => {
   const { isWalletLogin, data: user } = useAuth();
   const { address } = useAccount();
+  const [depositTxHash, setDepositTxHash] = useState<string>();
   const history = useHistory();
 
-  const { data: hasDeposited, isFetching: isLoadingDeposited } =
-    useContractRead({
-      abi: ETHBeiJingDeposit,
-      address: "0x74c11298268aE7eeAD1daF8d318F969876461007",
-      functionName: "hasDeposited",
-      args: [address],
-      enabled: isWalletLogin,
-      chainId: 11155111,
-    });
-
-  console.log("hasDeposited", hasDeposited, isLoadingDeposited);
+  const {
+    data: hasDeposited,
+    isLoading: isLoadingDeposited,
+    refetch,
+  } = useContractRead({
+    abi: ETHBeiJingDeposit,
+    address: "0x74c11298268aE7eeAD1daF8d318F969876461007",
+    functionName: "hasDeposited",
+    args: [address],
+    enabled: isWalletLogin,
+    chainId: 11155111,
+  });
 
   const { data, isLoading } = useQuery(
     "ethBeijingCheck",
@@ -39,10 +41,13 @@ const EthBeijing = () => {
       enabled: !!(isWalletLogin && user?.github),
     },
   );
-  console.log(data);
   const loading = isLoadingDeposited || isLoading;
   const canParticipate = data;
-  console.log("canParticipate", canParticipate);
+
+  const refetchDepositState = (tx?: string) => {
+    setDepositTxHash(tx);
+    refetch().then();
+  };
 
   useEffect(() => {
     if (!isWalletLogin) {
@@ -76,8 +81,12 @@ const EthBeijing = () => {
         {!loading && (
           <div className="w-full border border-solid borde-border-input rounded-lg mt-[30px] py-[60px]">
             {!canParticipate && <NotQualified />}
-            {canParticipate && !hasDeposited && <Deposit />}
-            {canParticipate && hasDeposited && <DepositCompleted />}
+            {canParticipate && !hasDeposited && (
+              <Deposit refetchDepositState={refetchDepositState} />
+            )}
+            {canParticipate && hasDeposited && (
+              <DepositCompleted txHash={depositTxHash} />
+            )}
           </div>
         )}
       </div>
