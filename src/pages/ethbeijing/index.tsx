@@ -9,28 +9,40 @@ import NotQualified from "@site/src/pages/ethbeijing/_NotQualified";
 import DepositCompleted from "@site/src/pages/ethbeijing/_DepositCompleted";
 import { useQuery } from "react-query";
 import Spinner from "@site/src/components/ui/Spinner";
+import { checkEthBeijingQualification } from "@site/src/api/hackathon";
+import { useAccount, useContractRead } from "wagmi";
+import ETHBeiJingDeposit from "@site/src/constants/abi/ETHBeiJingDeposit";
 
 const EthBeijing = () => {
-  const { isWalletLogin } = useAuth();
+  const { isWalletLogin, data: user } = useAuth();
+  const { address } = useAccount();
   const history = useHistory();
+
+  const { data: hasDeposited, isFetching: isLoadingDeposited } =
+    useContractRead({
+      abi: ETHBeiJingDeposit,
+      address: "0x74c11298268aE7eeAD1daF8d318F969876461007",
+      functionName: "hasDeposited",
+      args: [address],
+      enabled: isWalletLogin,
+      chainId: 11155111,
+    });
+
+  console.log("hasDeposited", hasDeposited, isLoadingDeposited);
 
   const { data, isLoading } = useQuery(
     "ethBeijingCheck",
-    () => {
-      // TODO：
-      // 1. 判断github用户是否有资格领取
-      // 2. 若有资格，判断用户是否已完成质押
-      return {
-        canParticipate: true,
-        isDepositCompleted: false,
-      };
+    async () => {
+      return await checkEthBeijingQualification(user?.github);
     },
     {
-      enabled: isWalletLogin,
+      enabled: !!(isWalletLogin && user?.github),
     },
   );
-
-  const { canParticipate, isDepositCompleted } = data || {};
+  console.log(data);
+  const loading = isLoadingDeposited || isLoading;
+  const canParticipate = data;
+  console.log("canParticipate", canParticipate);
 
   useEffect(() => {
     if (!isWalletLogin) {
@@ -60,12 +72,12 @@ const EthBeijing = () => {
             with the event rules.
           </Balancer>
         </p>
-        {isLoading && <Spinner loading className="mt-[40px]" />}
-        {!isLoading && (
+        {loading && <Spinner loading className="mt-[40px]" />}
+        {!loading && (
           <div className="w-full border border-solid borde-border-input rounded-lg mt-[30px] py-[60px]">
             {!canParticipate && <NotQualified />}
-            {canParticipate && !isDepositCompleted && <Deposit />}
-            {canParticipate && isDepositCompleted && <DepositCompleted />}
+            {canParticipate && !hasDeposited && <Deposit />}
+            {canParticipate && hasDeposited && <DepositCompleted />}
           </div>
         )}
       </div>

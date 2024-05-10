@@ -10,7 +10,7 @@ import { EyeIcon, TwitterIcon } from "lucide-react";
 import { buttonVariants } from "@site/src/components/ui/Button";
 import { cn } from "@site/src/utils/class-utils";
 
-const StepEnd = props => {
+const StepEnd = (props: { txInfo: any }) => {
   const { txInfo } = props;
   const { info } = useContext(CertificateContext);
 

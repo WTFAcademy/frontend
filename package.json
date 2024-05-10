@@ -88,6 +88,7 @@
     "@docusaurus/module-type-aliases": "2.4.0",
     "@docusaurus/types": "2.4.0",
     "@tsconfig/docusaurus": "1.0.5",
+    "@types/lodash-es": "^4.17.12",
     "@types/react": "^17.0.38",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "assert": "^2.0.0",
