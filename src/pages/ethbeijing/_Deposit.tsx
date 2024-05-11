@@ -9,8 +9,10 @@ import { ethers } from "ethers";
 import { useMutation } from "react-query";
 import { toast } from "react-hot-toast";
 import Spinner from "@site/src/components/ui/Spinner";
-
-const SupportChainId = 10;
+import {
+  DEPOSIT_ADDRESS,
+  SUPPORT_CHAIN_ID,
+} from "@site/src/pages/ethbeijing/_config";
 
 const Deposit = ({
   refetchDepositState,
@@ -23,7 +25,7 @@ const Deposit = ({
 
   const contract = useContract({
     abi: ETHBeiJingDeposit,
-    address: "0x74c11298268aE7eeAD1daF8d318F969876461007",
+    address: DEPOSIT_ADDRESS,
     signerOrProvider: signer,
   });
   const { mutate: deposit, isLoading } = useMutation({
@@ -51,7 +53,7 @@ const Deposit = ({
     },
   });
 
-  const isOptimism = chain.id === SupportChainId;
+  const isOptimism = chain.id === SUPPORT_CHAIN_ID;
 
   return (
     <div className="flex flex-col items-center space-y-[30px]">
@@ -76,7 +78,7 @@ const Deposit = ({
         </Button>
       ) : (
         <Button
-          onClick={() => switchNetwork(SupportChainId)}
+          onClick={() => switchNetwork(SUPPORT_CHAIN_ID)}
           variant="destructive"
           className="w-[240px] text-base"
         >

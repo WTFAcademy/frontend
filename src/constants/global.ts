@@ -1,5 +1,5 @@
 export const isProduction = process.env.NODE_ENV === "production";
-
+console.log("isProduction: ", isProduction);
 export const SUPABASE_ID = "vjcxgodediuyprqxqpzo";
 
 export const CLIENT_URL = `https://${SUPABASE_ID}.supabase.co`;

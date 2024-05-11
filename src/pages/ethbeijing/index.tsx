@@ -12,6 +12,10 @@ import Spinner from "@site/src/components/ui/Spinner";
 import { checkEthBeijingQualification } from "@site/src/api/hackathon";
 import { useAccount, useContractRead } from "wagmi";
 import ETHBeiJingDeposit from "@site/src/constants/abi/ETHBeiJingDeposit";
+import {
+  DEPOSIT_ADDRESS,
+  SUPPORT_CHAIN_ID,
+} from "@site/src/pages/ethbeijing/_config";
 
 const EthBeijing = () => {
   const { isWalletLogin, data: user } = useAuth();
@@ -25,11 +29,11 @@ const EthBeijing = () => {
     refetch,
   } = useContractRead({
     abi: ETHBeiJingDeposit,
-    address: "0x74c11298268aE7eeAD1daF8d318F969876461007",
+    address: DEPOSIT_ADDRESS,
     functionName: "hasDeposited",
     args: [address],
     enabled: isWalletLogin,
-    chainId: 11155111,
+    chainId: SUPPORT_CHAIN_ID,
   });
 
   const { data, isLoading } = useQuery(

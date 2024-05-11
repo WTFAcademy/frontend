@@ -288,7 +288,24 @@
         "solidity-105/analysis_bridge/readme"
     ],
     "starknet-basecamp-2023": [
+        "starknet-basecamp-2023/readme",
         "starknet-basecamp-2023/fundamentals/readme",
-        "starknet-basecamp-2023/cairo/readme"
+        "starknet-basecamp-2023/cairo/readme",
+        "starknet-basecamp-2023/Stark/readme",
+        "starknet-basecamp-2023/SmartContracts/readme",
+        "starknet-basecamp-2023/Testing/readme",
+        "starknet-basecamp-2023/Dapp/readme",
+        "starknet-basecamp-2023/Architecture/readme",
+        "starknet-basecamp-2023/Ecosystem/readme"
+    ],
+    "zksync-101": [
+        "zksync-101/readme",
+        "zksync-101/L2/readme",
+        "zksync-101/zkSync/readme",
+        "zksync-101/AA/readme",
+        "zksync-101/Toolings/readme",
+        "zksync-101/Developing/readme",
+        "zksync-101/Testing/readme",
+        "zksync-101/DAPP/readme"
     ]
 }
