@@ -10,7 +10,7 @@ const DepositCompleted = ({ txHash }: { txHash?: string }) => {
         <h1 className="text-[50px]">🎉</h1>
         <p className="relative font-bold text-[24px] mt-6 mb-[60px] leading-[1.3] text-content">
           <Translate id="hackathon.deposit.payment.successful.intro01">
-            支付成功
+            质押成功
           </Translate>
           <br />
           <Translate id="hackathon.deposit.payment.successful.intro02">

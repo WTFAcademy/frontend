@@ -78,7 +78,7 @@ const Deposit = ({
       {isOptimism ? (
         <Button className="w-[240px] text-base" onClick={() => deposit()}>
           {isLoading && <Spinner loading className="mx-auto" />}
-          {!isLoading && <Translate id="hackathon.deposit.button">立即存款</Translate>}
+          {!isLoading && <Translate id="hackathon.deposit.button">立即质押</Translate>}
         </Button>
       ) : (
         <Button
