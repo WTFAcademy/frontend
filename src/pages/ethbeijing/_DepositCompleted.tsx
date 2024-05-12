@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "@docusaurus/Link";
+import Translate from "@docusaurus/Translate";
 
 const DepositCompleted = ({ txHash }: { txHash?: string }) => {
   console.log("txHash: ", txHash);
@@ -8,9 +9,13 @@ const DepositCompleted = ({ txHash }: { txHash?: string }) => {
       <div className="text-center">
         <h1 className="text-[50px]">🎉</h1>
         <p className="relative font-bold text-[24px] mt-6 mb-[60px] leading-[1.3] text-content">
-          Payment Successful
+          <Translate id="hackathon.deposit.payment.successful.intro01">
+            支付成功
+          </Translate>
           <br />
-          Looking Forward To Seeing You At The Event!
+          <Translate id="hackathon.deposit.payment.successful.intro02">
+            期待在活动中见到您！
+          </Translate>
         </p>
         {txHash && (
           <>

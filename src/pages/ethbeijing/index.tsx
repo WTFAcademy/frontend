@@ -4,6 +4,7 @@ import EthBeijingLogoIcon from "@site/src/icons/EthBeijingLogo";
 import Balancer from "react-wrap-balancer";
 import useAuth from "@site/src/hooks/useAuth";
 import { useHistory } from "@docusaurus/router";
+import Translate from "@docusaurus/Translate";
 import Deposit from "@site/src/pages/ethbeijing/_Deposit";
 import NotQualified from "@site/src/pages/ethbeijing/_NotQualified";
 import DepositCompleted from "@site/src/pages/ethbeijing/_DepositCompleted";
@@ -68,17 +69,17 @@ const EthBeijing = () => {
       <div className="container-md flex flex-col justify-center items-center py-[80px]">
         <EthBeijingLogoIcon />
         <h1 className="text-3xl md:text-4xl font-bold mt-[80px] text-center">
-          Registration Deposit
+          <Translate id="hackathon.deposit.title">
+            参赛押金
+          </Translate>
         </h1>
         <p className="text-center whitespace-pre-wrap mt-[30px]">
           <Balancer>
-            In order to ensure the smooth running of our events and to protect
-            the rights and interests of our participants, we have set up a
-            deposit system. When you sign up for one of our events, you will be
-            required to pay a deposit of a certain amount as a guarantee of
-            participation. This deposit will be fully or partially refunded at
-            the end of the event, depending on your participation and compliance
-            with the event rules.
+            <Translate id="hackathon.deposit.intro">
+              为了保证赛事的顺利进行，保护参赛者的权益，我们设立了押金制度。
+              当您报名参加我们的一项活动时，您将需要支付一定金额的押金作为参与的保证。
+              该押金将在活动结束时全额或部分退还，具体取决于您的参与情况以及对活动规则的遵守情况。
+            </Translate>
           </Balancer>
         </p>
         {loading && <Spinner loading className="mt-[40px]" />}

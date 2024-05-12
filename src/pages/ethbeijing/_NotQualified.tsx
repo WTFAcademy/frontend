@@ -1,4 +1,5 @@
 import React from "react";
+import Translate from "@docusaurus/Translate";
 
 const NotQualified = () => {
   return (
@@ -8,7 +9,13 @@ const NotQualified = () => {
           <img className="w-full h-full" src="/img/ethbeijing-hourglass.png" alt="ETH Beijing"/>
         </div>
         <p className="relative font-bold text-[24px] mt-6 leading-[1.3] text-content">
-          You Have Not Been Selected Yet <br/>Please Wait
+          <Translate id="hackathon.deposit.notqualified.intro02">
+            您还没有被选中
+          </Translate>
+          <br/>
+          <Translate id="hackathon.deposit.notqualified.intro02">
+            请稍等
+          </Translate>
         </p>
       </div>
     </div>

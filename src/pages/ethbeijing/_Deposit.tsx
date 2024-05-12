@@ -59,7 +59,11 @@ const Deposit = ({
     <div className="flex flex-col items-center space-y-[30px]">
       <div className="flex items-center gap-1">
         <AmountIcon />
-        <span className="text-lg font-bold">Amount</span>
+        <span className="text-lg font-bold">
+          <Translate id="hackathon.deposit.amount.title">
+            金额
+          </Translate>
+        </span>
       </div>
       <div className="flex gap-6 items-center p-4 border border-solid border-border-input rounded-lg">
         <div className="flex items-center gap-2">
@@ -74,7 +78,7 @@ const Deposit = ({
       {isOptimism ? (
         <Button className="w-[240px] text-base" onClick={() => deposit()}>
           {isLoading && <Spinner loading className="mx-auto" />}
-          {!isLoading && "Deposit"}
+          {!isLoading && <Translate id="hackathon.deposit.button">立即存款</Translate>}
         </Button>
       ) : (
         <Button
