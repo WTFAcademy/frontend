@@ -17,6 +17,7 @@ import {
   DEPOSIT_ADDRESS,
   SUPPORT_CHAIN_ID,
 } from "@site/src/pages/ethbeijing/_config";
+import { isNil } from "lodash-es";
 
 const EthBeijing = () => {
   const { isWalletLogin, data: user } = useAuth();
@@ -69,9 +70,7 @@ const EthBeijing = () => {
       <div className="container-md flex flex-col justify-center items-center py-[80px]">
         <EthBeijingLogoIcon />
         <h1 className="text-3xl md:text-4xl font-bold mt-[80px] text-center">
-          <Translate id="hackathon.deposit.title">
-            参赛押金
-          </Translate>
+          <Translate id="hackathon.deposit.title">参赛押金</Translate>
         </h1>
         <p className="text-center whitespace-pre-wrap mt-[30px]">
           <Balancer>
@@ -82,8 +81,9 @@ const EthBeijing = () => {
             </Translate>
           </Balancer>
         </p>
-        {loading && <Spinner loading className="mt-[40px]" />}
-        {!loading && (
+        {loading || isNil(data) ? (
+          <Spinner loading className="mt-[40px]" />
+        ) : (
           <div className="w-full border border-solid borde-border-input rounded-lg mt-[30px] py-[60px]">
             {!canParticipate && <NotQualified />}
             {canParticipate && !hasDeposited && (

@@ -610,6 +610,10 @@
     "message": "Registration Deposit",
     "description": "Hackathon deposit title"
   },
+  "hackathon.deposit.toast.connect.error": {
+    "message": "Please connect your wallet first",
+    "description": "Hackathon deposit toast connectError"
+  },
   "hackathon.deposit.intro": {
     "message": "In order to ensure the smooth running of our events and to protect the rights and interests of our participants, we have set up a deposit system. When you sign up for one of our events, you will be required to pay a deposit of a certain amount as a guarantee of participation. This deposit will be fully or partially refunded at the end of the event, depending on your participation and compliance with the event rules.",
     "description": "Hackathon deposit title"

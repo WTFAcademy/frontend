@@ -64,7 +64,7 @@ const ConnectWallet = () => {
 
   const renderContent = () => {
     // 1. 网络错误处理
-    if (chain.unsupported) {
+    if (chain?.unsupported) {
       return (
         <ConnectButton.Custom>
           {({ openChainModal }) => (
