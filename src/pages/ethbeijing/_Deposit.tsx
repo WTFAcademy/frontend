@@ -13,6 +13,7 @@ import {
   DEPOSIT_ADDRESS,
   SUPPORT_CHAIN_ID,
 } from "@site/src/pages/ethbeijing/_config";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const Deposit = ({
   refetchDepositState,
@@ -28,30 +29,44 @@ const Deposit = ({
     address: DEPOSIT_ADDRESS,
     signerOrProvider: signer,
   });
-  const { mutate: deposit, isLoading } = useMutation({
-    mutationKey: "deposit",
-    mutationFn: async () => {
-      const gasLimit = await contract.estimateGas.deposit({
-        value: ethers.utils.parseEther("0.02"),
-      });
 
-      const tx = await contract.deposit({
-        value: ethers.utils.parseEther("0.02"),
-        gasLimit: gasLimit.mul(2),
-      });
-      await tx.wait();
-      return tx;
+  const { mutate: deposit, isLoading } = useMutation(
+    async () => {
+      try {
+        const gasLimit = await contract.estimateGas.deposit({
+          value: ethers.utils.parseEther("0.02"),
+        });
+
+        const tx = await contract.deposit({
+          value: ethers.utils.parseEther("0.02"),
+          gasLimit: gasLimit.mul(2),
+        });
+        await tx.wait();
+        return tx;
+      } catch (e) {
+        return {
+          error: e,
+        };
+      }
     },
-    onSuccess: () => {
-      console.log("success");
-      refetchDepositState();
-      toast.success("Deposit success");
+    {
+      onSuccess: res => {
+        if (res.error) {
+          toast.error(
+            "Deposit failed: " + res.error?.reason ||
+              res.error?.message ||
+              "Unknown error",
+          );
+          return;
+        }
+        refetchDepositState();
+        toast.success("Deposit success");
+      },
+      onError: (e: any) => {
+        toast.error("Deposit failed: " + e.message || "Unknown error");
+      },
     },
-    onError: (e: any) => {
-      console.log("error: ", e.data.message);
-      toast.error("Deposit failed: " + e?.message || "Unknown error");
-    },
-  });
+  );
 
   const isOptimism = chain.id === SUPPORT_CHAIN_ID;
 
@@ -60,9 +75,7 @@ const Deposit = ({
       <div className="flex items-center gap-1">
         <AmountIcon />
         <span className="text-lg font-bold">
-          <Translate id="hackathon.deposit.amount.title">
-            金额
-          </Translate>
+          <Translate id="hackathon.deposit.amount.title">金额</Translate>
         </span>
       </div>
       <div className="flex gap-6 items-center p-4 border border-solid border-border-input rounded-lg">
@@ -78,18 +91,30 @@ const Deposit = ({
       {isOptimism ? (
         <Button className="w-[240px] text-base" onClick={() => deposit()}>
           {isLoading && <Spinner loading className="mx-auto" />}
-          {!isLoading && <Translate id="hackathon.deposit.button">立即质押</Translate>}
+          {!isLoading && (
+            <Translate id="hackathon.deposit.button">立即质押</Translate>
+          )}
         </Button>
       ) : (
-        <Button
-          onClick={() => switchNetwork(SUPPORT_CHAIN_ID)}
-          variant="destructive"
-          className="w-[240px] text-base"
-        >
-          <Translate id="login.ConnectWallet.switch.network.button">
-            切换网络
-          </Translate>
-        </Button>
+        <ConnectButton.Custom>
+          {({ openConnectModal }) => (
+            <Button
+              onClick={() => {
+                if (switchNetwork) {
+                  switchNetwork(SUPPORT_CHAIN_ID);
+                } else {
+                  openConnectModal();
+                }
+              }}
+              variant="destructive"
+              className="w-[240px] text-base"
+            >
+              <Translate id="login.ConnectWallet.switch.network.button">
+                切换网络
+              </Translate>
+            </Button>
+          )}
+        </ConnectButton.Custom>
       )}
     </div>
   );
