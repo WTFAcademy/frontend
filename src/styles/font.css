@@ -32,3 +32,10 @@
     font-weight: 400;
     font-style: normal;
 }
+
+@font-face {
+    font-family: 'Rubik';
+    src: url("/static/fonts/Rubik.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}

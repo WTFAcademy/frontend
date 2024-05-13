@@ -326,3 +326,23 @@
 hr {
     border: inherit;
 }
+
+.ethbeijing-tx {
+    display: inline-block;
+    padding-bottom: 5px;
+    overflow: hidden;
+}
+.ethbeijing-tx:before {
+    content: '';
+    position: absolute;
+    transition: transform .5s ease;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    transform: translateX(-100%);
+}
+.ethbeijing-tx:hover:before {
+    transform: translateX(0);
+    background-color: #2563EB;
+}

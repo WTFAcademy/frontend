@@ -1,9 +1,7 @@
 import React from "react";
 import Layout from "@theme/Layout";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-
 import EventCard from "@site/src/components/EventCard";
-
 import eventJson from "@site/static/json/events.json";
 
 function Events() {

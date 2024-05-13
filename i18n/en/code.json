@@ -605,5 +605,41 @@
   "quiz.noaccess.error.tips": {
     "message": "You do not have permission to access this page",
     "description": "Quiz No access tips"
+  },
+  "hackathon.deposit.title": {
+    "message": "Registration Deposit",
+    "description": "Hackathon deposit title"
+  },
+  "hackathon.deposit.toast.connect.error": {
+    "message": "Please connect your wallet first",
+    "description": "Hackathon deposit toast connectError"
+  },
+  "hackathon.deposit.intro": {
+    "message": "In order to ensure the smooth running of our events and to protect the rights and interests of our participants, we have set up a deposit system. When you sign up for one of our events, you will be required to pay a deposit of a certain amount as a guarantee of participation. This deposit will be fully or partially refunded at the end of the event, depending on your participation and compliance with the event rules.",
+    "description": "Hackathon deposit title"
+  },
+  "hackathon.deposit.amount.title": {
+    "message": "Amount",
+    "description": "Hackathon deposit amount title"
+  },
+  "hackathon.deposit.button": {
+    "message": "Deposit",
+    "description": "Hackathon deposit button"
+  },
+  "hackathon.deposit.payment.successful.intro01": {
+    "message": "Payment Successful",
+    "description": "Hackathon deposit payment successful intro01"
+  },
+  "hackathon.deposit.payment.successful.intro02": {
+    "message": "Looking Forward To Seeing You At The Event!",
+    "description": "Hackathon deposit payment successful intro02"
+  },
+  "hackathon.deposit.notqualified.intro01": {
+    "message": "You Have Not Been Selected Yet",
+    "description": "Hackathon deposit notqualified intro01"
+  },
+  "hackathon.deposit.notqualified.intro02": {
+    "message": "Please Wait",
+    "description": "Hackathon deposit notqualified intro02"
   }
 }

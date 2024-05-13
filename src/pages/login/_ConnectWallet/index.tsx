@@ -12,12 +12,15 @@ import truncation from "@site/src/utils/truncation";
 import { Button } from "@site/src/components/ui/Button";
 import Spinner from "@site/src/components/ui/Spinner";
 import Translate, { translate } from "@docusaurus/Translate";
+import useRouterQuery from "@site/src/hooks/useRouterQuery";
 
 const ConnectWallet = () => {
   const { address } = useAccount();
   const { chain } = useNetwork();
   const { disconnect } = useDisconnect();
   const { data: user, isGithubLogin, signInWithWallet } = useAuth();
+  const query = useRouterQuery();
+  const redirect = query.get("redirect");
 
   const networkTips = useMemo(() => {
     return translate({
@@ -61,7 +64,7 @@ const ConnectWallet = () => {
 
   const renderContent = () => {
     // 1. 网络错误处理
-    if (chain.unsupported) {
+    if (chain?.unsupported) {
       return (
         <ConnectButton.Custom>
           {({ openChainModal }) => (
@@ -123,7 +126,10 @@ const ConnectWallet = () => {
           nonce={data?.nonce}
           refetchNonce={refetchNonce}
           onSuccess={data => {
-            signInWithWallet(data);
+            signInWithWallet(
+              data,
+              redirect ? { useLocationHref: true, customPath: redirect } : {},
+            );
             toast.success("登录成功");
           }}
         />

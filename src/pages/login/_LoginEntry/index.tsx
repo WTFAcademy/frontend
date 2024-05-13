@@ -12,6 +12,7 @@ function LoginEntry() {
   const { signInWithGithub } = useAuth();
   const query = useRouterQuery();
   const isBindWallet = query.get("bind_wallet") === "true";
+  const redirect = query.get("redirect");
 
   const tips = useMemo(() => {
     return translate({
@@ -20,11 +21,18 @@ function LoginEntry() {
     });
   }, []);
 
+  const handleSignInWithGithub = () => {
+    const url = window.location.origin + redirect;
+    signInWithGithub(
+      redirect ? { useLocationHref: true, customPath: url } : {},
+    );
+  };
+
   return (
     <>
       {!isBindWallet && (
         <>
-          <Button className="w-full" onClick={() => signInWithGithub({})}>
+          <Button className="w-full" onClick={() => handleSignInWithGithub()}>
             <GitHubIconWhite />
             <span className="ml-3 text-base">
               <Translate id="login.LoginEntry.Github.button">

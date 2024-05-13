@@ -168,7 +168,7 @@ dependencies:
     specifier: ^15.5.0
     version: 15.5.0(react@17.0.2)
   react-wrap-balancer:
-    specifier: ^1.0.0
+    specifier: ^1.1.0
     version: 1.1.0(react@17.0.2)
   rehype-katex:
     specifier: ^5.0.0
@@ -211,6 +211,9 @@ devDependencies:
   '@tsconfig/docusaurus':
     specifier: 1.0.5
     version: 1.0.5
+  '@types/lodash-es':
+    specifier: ^4.17.12
+    version: 4.17.12
   '@types/react':
     specifier: ^17.0.38
     version: 17.0.70
@@ -5694,6 +5697,16 @@ packages:
     dependencies:
       '@types/node': 20.6.5
     dev: false
+
+  /@types/lodash-es@4.17.12:
+    resolution: {integrity: sha512-0NgftHUcV4v34VhXm8QBSftKVXtbkBG3ViCjs6+eJ5a6y6Mi/jiFGPc1sC7QK+9BFhWrURE3EOggmWaSxL9OzQ==}
+    dependencies:
+      '@types/lodash': 4.17.1
+    dev: true
+
+  /@types/lodash@4.17.1:
+    resolution: {integrity: sha512-X+2qazGS3jxLAIz5JDXDzglAF3KpijdhFxlf/V1+hEsOUc+HnWi81L/uv/EvGuV90WY+7mPGFCUDGfQC3Gj95Q==}
+    dev: true
 
   /@types/mdast@3.0.12:
     resolution: {integrity: sha512-DT+iNIRNX884cx0/Q1ja7NyUPpZuv0KPyL5rGNxm1WC1OtHstl7n4Jb7nk+xacNShQMbczJjt8uFzznpp6kYBg==}

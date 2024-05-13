@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useDisconnect } from "wagmi";
 import { useHistory } from "@docusaurus/router";
 import { useQuery } from "react-query";
@@ -20,6 +20,7 @@ type TProps = {
 
 type TAuthContext = {
   data: TAuthUser;
+  refetch: () => void;
   isGithubLogin: boolean;
   isWalletLogin: boolean;
   isLogin: boolean;
