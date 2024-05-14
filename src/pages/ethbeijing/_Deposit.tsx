@@ -2,7 +2,13 @@ import React from "react";
 import AmountIcon from "@site/src/icons/Amount";
 import OpEthIcon from "@site/src/icons/OpEth";
 import { Button } from "@site/src/components/ui/Button";
-import { useContract, useNetwork, useSigner, useSwitchNetwork } from "wagmi";
+import {
+  useAccount,
+  useContract,
+  useNetwork,
+  useSigner,
+  useSwitchNetwork,
+} from "wagmi";
 import Translate from "@docusaurus/Translate";
 import ETHBeiJingDeposit from "@site/src/constants/abi/ETHBeiJingDeposit";
 import { ethers } from "ethers";
@@ -14,6 +20,8 @@ import {
   SUPPORT_CHAIN_ID,
 } from "@site/src/pages/ethbeijing/_config";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import useAuth from "@site/src/hooks/useAuth";
+import truncation from "@site/src/utils/truncation";
 
 const Deposit = ({
   refetchDepositState,
@@ -23,6 +31,8 @@ const Deposit = ({
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
   const { data: signer } = useSigner();
+  const { data: user } = useAuth();
+  const { address } = useAccount();
 
   const contract = useContract({
     abi: ETHBeiJingDeposit,
@@ -70,7 +80,8 @@ const Deposit = ({
     },
   );
 
-  const isOptimism = chain.id === SUPPORT_CHAIN_ID;
+  const isOptimism = chain?.id === SUPPORT_CHAIN_ID;
+  const isConnectErrorWallet = user?.wallet && user?.wallet !== address;
 
   return (
     <div className="flex flex-col items-center space-y-[30px]">
@@ -91,12 +102,23 @@ const Deposit = ({
         OPTIMISM
       </div>
       {isOptimism ? (
-        <Button className="w-[240px] text-base" onClick={() => deposit()}>
-          {isLoading && <Spinner loading className="mx-auto" />}
-          {!isLoading && (
-            <Translate id="hackathon.deposit.button">立即质押</Translate>
+        <>
+          {isConnectErrorWallet ? (
+            <Button variant="destructive" className="w-[240px]">
+              <Translate id="hackathon.deposit.error.bindaddress">
+                请手动切换绑定钱包
+              </Translate>
+              {truncation(user?.wallet)}
+            </Button>
+          ) : (
+            <Button className="w-[240px] text-base" onClick={() => deposit()}>
+              {isLoading && <Spinner loading className="mx-auto" />}
+              {!isLoading && (
+                <Translate id="hackathon.deposit.button">立即质押</Translate>
+              )}
+            </Button>
           )}
-        </Button>
+        </>
       ) : (
         <ConnectButton.Custom>
           {({ openConnectModal }) => (

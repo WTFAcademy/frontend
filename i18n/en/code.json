@@ -622,6 +622,10 @@
     "message": "Amount",
     "description": "Hackathon deposit amount title"
   },
+  "hackathon.deposit.error.bindaddress": {
+    "message": "Please switch the binding wallet manually",
+    "description": "Hackathon deposit error bindaddress"
+  },
   "hackathon.deposit.button": {
     "message": "Deposit",
     "description": "Hackathon deposit button"
