@@ -53,9 +53,11 @@ const Deposit = ({
       onSuccess: res => {
         if (res.error) {
           toast.error(
-            "Deposit failed: " + res.error?.reason ||
-              res.error?.message ||
-              "Unknown error",
+            "Deposit failed: " +
+              (res.error?.reason ||
+                res.error?.data?.message ||
+                res.error?.message ||
+                "Unknown error"),
           );
           return;
         }
@@ -63,7 +65,7 @@ const Deposit = ({
         toast.success("Deposit success");
       },
       onError: (e: any) => {
-        toast.error("Deposit failed: " + e.message || "Unknown error");
+        toast.error("Deposit failed: " + (e.message || "Unknown error"));
       },
     },
   );
@@ -101,6 +103,7 @@ const Deposit = ({
             <Button
               onClick={() => {
                 if (switchNetwork) {
+                  console.log("switchNetwork", switchNetwork);
                   switchNetwork(SUPPORT_CHAIN_ID);
                 } else {
                   openConnectModal();
