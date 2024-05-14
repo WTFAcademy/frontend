@@ -90,8 +90,16 @@ const AuthProvider = ({ children }: TProps) => {
     } = {},
   ) => {
     const { useLocationHref, customPath } = options;
+    const url = new URL(window.location.href);
+
     const signGithubFn = useLocationHref
-      ? () => signInWithGithub(customPath || window.location.href)
+      ? () =>
+          signInWithGithub(
+            customPath ||
+              url.origin +
+                url.pathname +
+                (url.search === "" ? "" : "?" + url.searchParams.toString()),
+          )
       : () => signInWithGithub();
 
     const { data, error } = await signGithubFn();
