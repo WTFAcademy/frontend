@@ -248,7 +248,7 @@ const config = {
                         items: [
                             {
                                 label: 'Gitcoin',
-                                href: 'https://gitcoin.co/grants/6090/wtf-solidity',
+                                href: 'https://explorer-v1.gitcoin.co/#/round/42161/25/166',
                             },
                             {
                                 label: 'Mirror',
