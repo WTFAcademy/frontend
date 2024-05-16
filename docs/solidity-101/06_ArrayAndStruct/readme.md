@@ -121,12 +121,17 @@ contract C {
         student = Student(3, 90);
     }
 ```
+**Example:**
+![6-4.png](./img/6-4.png)
 ```solidity
   // 方法4:key value
   function initStudent4() external {
       student = Student({id: 4, score: 60});
   }
 ```
+**Example:**
+![6-5.png](./img/6-5.png)
+
 ## 总结
 这一讲，我们介绍了solidity中数组（`array`）和结构体（`struct`）的基本用法。下一讲我们将介绍solidity中的哈希表——映射（`mapping`）。
 <LessonQuizStart meta={require('./meta.json')} />
