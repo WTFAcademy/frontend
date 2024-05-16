@@ -44,7 +44,9 @@ tags:
 - `ERC20Released`：提币事件，当受益人提取释放代币时释放。
 
 ```solidity
-
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 contract TokenVesting {
     // 事件
     event ERC20Released(address indexed token, uint256 amount); // 提币事件
