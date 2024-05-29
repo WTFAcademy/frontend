@@ -12,9 +12,12 @@ jobs:
     - name: Checkout Frontend Repo
       uses: actions/checkout@v2
       with:
-        repository: 'WTFAcademy/frontend'
         path: 'frontend'
         fetch-depth: 0  # 确保能获取所有分支和标签
+
+    - name: Configure Git
+      run: git config --get remote.origin.url
+      working-directory: ./frontend
   
     - name: Sync WTF Ethers Tutorials
       run: |
@@ -22,15 +25,15 @@ jobs:
         cp -r WTF-Ethers/0{1..9}_* frontend/docs/ethers-101/
         cp -r WTF-Ethers/10_* frontend/docs/ethers-101/
         rm -rf WTF-Ethers
+      working-directory: ./frontend
 
     - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v5
+      uses: peter-evans/create-pull-request@v6
       with:
-          token: ${{ secrets.GH_TOKEN }}
-          commit-message: Update tutorials
-          title: "Update Tutorials"
-          body: "This is an automated PR to update tutorials"
-          branch: "update-tutorials-${{ github.run_id }}"
-          base: "main"
-          labels: "automated pr"
-  
+        token: ${{ secrets.GH_TOKEN }}  # 确保使用正确的访问令牌
+        commit-message: Update tutorials
+        title: "Update Tutorials"
+        body: "This is an automated PR to update tutorials"
+        branch: "update-tutorials-${{ github.run_id }}"
+        base: "main"
+        labels: "automated pr"
