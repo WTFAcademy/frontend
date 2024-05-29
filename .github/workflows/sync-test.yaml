@@ -1,4 +1,4 @@
-name: Sync Tutorials
+name: Sync Tutorials Test
 
 on:
   workflow_dispatch:
@@ -18,6 +18,10 @@ jobs:
     - name: Configure safe directory
       run: git config --global --add safe.directory ${{ github.workspace }}/frontend
       working-directory: ./frontend  # 确保在正确的目录执行
+
+    - name: List directory contents
+      run: ls -la
+      working-directory: ./frontend
 
     - name: Sync WTF Ethers Tutorials
       run: |
