@@ -19,18 +19,18 @@ jobs:
     - name: Sync WTF Ethers Tutorials
       run: |
         git clone https://github.com/WTFAcademy/WTF-Ethers.git
-        # copy first 9 chapters (with prefix 0)
-        cp -r WTF-Ethers/0{1..9}_* frontend/docs/ethers-101/
-        # copy 10 chapter
-        cp -r WTF-Ethers/10_* frontend/docs/ethers-101/
-        # delete WTF-Ethers
+        cp -r WTF-Ethers/lectures/0{1..9}_* frontend/docs/ethers-101/
+        cp -r WTF-Ethers/lectures/10_* frontend/docs/ethers-101/
         rm -rf WTF-Ethers
 
-    - name: Commit and Push Changes
-      run: |
-        cd frontend
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add .
-        git commit -m "Update tutorials" || echo "No changes to commit"
-        git push
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3
+      with:
+          token: ${{ secrets.GH_TOKEN }}
+          commit-message: Update tutorials
+          title: "Update Tutorials"
+          body: "This is an automated PR to update tutorials"
+          branch: "update-tutorials-${{ github.run_id }}"
+          base: "main"
+          labels: "automated pr"
+  
