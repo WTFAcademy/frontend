@@ -14,7 +14,7 @@ jobs:
       with:
         repository: 'WTFAcademy/frontend'
         path: 'frontend'
-
+        fetch-depth: 0  # 确保能获取所有分支和标签
 
     - name: Sync WTF Ethers Tutorials
       run: |
