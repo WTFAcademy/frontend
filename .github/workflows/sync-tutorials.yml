@@ -16,12 +16,17 @@ jobs:
         path: 'frontend'
         fetch-depth: 0  # 确保能获取所有分支和标签
 
+    - name: Configure Git
+      run: git config --get remote.origin.url
+      working-directory: ./frontend
+  
     - name: Sync WTF Ethers Tutorials
       run: |
         git clone https://github.com/WTFAcademy/WTF-Ethers.git
         cp -r WTF-Ethers/0{1..9}_* frontend/docs/ethers-101/
         cp -r WTF-Ethers/10_* frontend/docs/ethers-101/
         rm -rf WTF-Ethers
+      working-directory: ./frontend
 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3
