@@ -13,7 +13,8 @@ jobs:
       uses: actions/checkout@v4
       with:
         repository: 'WTFAcademy/frontend'
-  
+        path: 'frontend'
+        
     - name: Sync WTF Ethers Tutorials
       run: |
         git clone https://github.com/WTFAcademy/WTF-Ethers.git
