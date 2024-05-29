@@ -14,7 +14,8 @@ jobs:
       with:
         repository: 'WTFAcademy/frontend'
         path: 'frontend'
-        
+        fetch-depth: 0
+            
     - name: Sync WTF Ethers Tutorials
       run: |
         git clone https://github.com/WTFAcademy/WTF-Ethers.git
