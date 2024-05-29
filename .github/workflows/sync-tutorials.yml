@@ -10,15 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Frontend Repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
-        path: 'frontend'
-        fetch-depth: 0  # 确保能获取所有分支和标签
+        repository: 'WTFAcademy/frontend'
   
-    - name: Configure safe directory
-      run: git config --global --add safe.directory ${{ github.workspace }}/frontend
-      
-      
     - name: Sync WTF Ethers Tutorials
       run: |
         git clone https://github.com/WTFAcademy/WTF-Ethers.git
