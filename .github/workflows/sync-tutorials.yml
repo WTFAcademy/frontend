@@ -15,12 +15,18 @@ jobs:
         path: 'frontend'
         fetch-depth: 0  # 确保能获取所有分支和标签
   
+    - name: Configure safe directory
+      run: git config --global --add safe.directory ${{ github.workspace }}/frontend
+      working-directory: ./frontend
+      
+      
     - name: Sync WTF Ethers Tutorials
       run: |
         git clone https://github.com/WTFAcademy/WTF-Ethers.git
         cp -r WTF-Ethers/0{1..9}_* frontend/docs/ethers-101/
         cp -r WTF-Ethers/10_* frontend/docs/ethers-101/
         rm -rf WTF-Ethers
+        working-directory: ./frontend
 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v6
@@ -32,3 +38,4 @@ jobs:
         branch: "update-tutorials-${{ github.run_id }}"
         base: "main"
         labels: "automated pr"
+        working-directory: ./frontend
