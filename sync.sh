@@ -3,7 +3,7 @@
 # 读取 sync.json 并解析其内容
 CONFIG_FILE="sync.json"
 LOG_START="--------------------------------\nSync started at $(date)\n\n"
-CHANGES=""
+ALL_CHANGES=""
 
 echo -e $LOG_START >> changes.txt
 
@@ -41,6 +41,7 @@ jq -c '.[]' $CONFIG_FILE | while read -r repo; do
 
   # 输出更改的内容到文件
   if [ -n "$CHANGES" ]; then
+    ALL_CHANGES="${ALL_CHANGES}\n\n${CHANGES}"
     echo -e $CHANGES >> changes.txt  # 追加到文件中
   fi
 done
