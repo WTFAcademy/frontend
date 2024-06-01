@@ -14,6 +14,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Debug Current Directory
+        run: ls -al
+
       - name: Setup Environment
         run: |
           sudo apt-get update
