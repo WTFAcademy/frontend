@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# 读取 sync-docs.json 并解析其内容
-CONFIG_FILE="sync-docs.json"
+# 读取 sync.json 并解析其内容
+CONFIG_FILE="sync.json"
 CHANGES=""
 
 jq -c '.[]' $CONFIG_FILE | while read -r repo; do

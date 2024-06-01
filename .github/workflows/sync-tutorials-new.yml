@@ -1,4 +1,4 @@
-name: Sync Tutorials New
+name: Sync Tutorials
 
 on:
   workflow_dispatch:
@@ -19,10 +19,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y jq
 
-      - name: Sync Documentation
+      - name: Run Sync Script
+        working-directory: frontend/scripts/sync
         run: |
-          chmod +x sync-docs.sh
-          ./sync-docs.sh
+          chmod +x sync.sh
+          ./sync.sh
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
@@ -32,9 +33,7 @@ jobs:
           title: "Update Tutorials"
           body: |
             This is an automated PR to update tutorials.
-            ${{
-              steps.sync-tutorials.outputs.changes
-            }}
+            $(cat frontend/scripts/sync/changes.txt)
           branch: "update-tutorials-${{ github.run_id }}"
           base: "main"
           labels: "automated pr"
