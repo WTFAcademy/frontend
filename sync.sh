@@ -24,14 +24,14 @@ jq -c '.[]' $CONFIG_FILE | while read -r repo; do
   # 删除克隆的仓库
   rm -rf $REPO_NAME
 
-  # 返回上级目录
-  cd - > /dev/null
-
   # 记录更改的文件
   CHANGED_FILES=$(git status --porcelain | awk '{print $2}')
   if [ -n "$CHANGED_FILES" ]; then
-    CHANGES="${CHANGES}\n\nChanges in ${TARGET_PATH}:\n${CHANGED_FILES}"
+    CHANGES="--------------------------------\nDate: $(date)\n\nChanges in ${TARGET_PATH}:\n${CHANGED_FILES}\n"
   fi
+
+  # 返回上级目录
+  cd - > /dev/null
 done
 
 # 添加更改到 git
@@ -41,4 +41,8 @@ git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 git commit -m "Update tutorials" || echo "No changes to commit"
 
 # 输出更改的内容到文件
-echo -e $CHANGES > changes.txt
+if [ -n "$CHANGES" ]; then
+  echo -e $CHANGES >> changes.txt  # 追加到文件中
+else
+  echo "No changes detected." > changes.txt  # 若没有更改，则写入相应信息
+fi
