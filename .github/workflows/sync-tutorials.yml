@@ -27,7 +27,9 @@ jobs:
         run: |
           chmod +x sync.sh
           ./sync.sh
-          echo "::set-output name=changes::\"$(cat temp.txt)\""
+          temp=$(cat temp.txt)
+          echo $temp
+          echo "::set-output name=changes::$temp"
           rm temp.txt
 
       - name: Create Pull Request
