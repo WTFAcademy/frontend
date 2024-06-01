@@ -16,35 +16,30 @@ jobs:
           path: 'frontend'
           fetch-depth: 0
 
+      - name: Checkout Current Repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Sync WTF Ethers Tutorials
         run: |
           git clone https://github.com/WTFAcademy/WTF-Ethers.git
           cp -r WTF-Ethers/0{1..9}_* frontend/docs/ethers-101/
           cp -r WTF-Ethers/10_* frontend/docs/ethers-101/
           rm -rf WTF-Ethers
-        working-directory: frontend
-
-      - name: Set up Git
-        run: |
+          cd frontend
+          git add docs/ethers-101/
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        working-directory: frontend
-
-      - name: Commit and Push Changes
-        run: |
-          git add .
           git commit -m "Update tutorials"
-          git push origin HEAD:main
-        working-directory: frontend
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.GH_TOKEN }}  # 确保使用正确的访问令牌
           commit-message: Update tutorials
           title: "Update Tutorials"
           body: "This is an automated PR to update tutorials"
           branch: "update-tutorials-${{ github.run_id }}"
           base: "main"
           labels: "automated pr"
-        working-directory: frontend
