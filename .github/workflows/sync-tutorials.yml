@@ -12,9 +12,8 @@ jobs:
     - name: Checkout Frontend Repo
       uses: actions/checkout@v4
       with:
-        repository: 'WTFAcademy/frontend'
         path: 'frontend'
-        fetch-depth: 0
+        fetch-depth: 1  # 确保能获取所有分支和标签
             
     - name: Sync WTF Ethers Tutorials
       run: |
