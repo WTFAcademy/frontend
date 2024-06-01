@@ -54,5 +54,5 @@ git commit -m "Update tutorials" || echo "No changes to commit"
 # 输出更改的内容到文件
 if [ -n "$ALL_CHANGES" ]; then
   echo -e $ALL_CHANGES >> changes.txt  # 追加到文件中
-  echo -e $ALL_CHANGES > temp.txt
+  echo $ALL_CHANGES > temp.txt
 fi
