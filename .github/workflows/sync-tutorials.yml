@@ -23,10 +23,11 @@ jobs:
           sudo apt-get install -y jq
 
       - name: Run Sync Script
+        id: sync
         run: |
           chmod +x sync.sh
           ./sync.sh
-          echo "{name}={changes}" >> $(cat temp.txt)
+          echo "::set-output name=changes::$(cat temp.txt)"
           rm temp.txt
 
       - name: Create Pull Request
