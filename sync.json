@@ -3,8 +3,8 @@
     "sync": "https://github.com/WTFAcademy/WTF-Ethers.git",
     "path": "docs/ethers-101",
     "scripts": [
-      "cp -r WTF-Ethers/0{1..9}_* docs/ethers-101/",
-      "cp -r WTF-Ethers/10_* docs/ethers-101/"
+      "cp -r WTF-Ethers/0{1..9}_* .",
+      "cp -r WTF-Ethers/10_* ."
     ]
   }
 ]
