@@ -38,9 +38,7 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}  # 确保使用正确的访问令牌
           commit-message: Update tutorials
           title: "Update Tutorials"
-          body: |
-            This is an automated PR to update tutorials.
-            ${{ steps.sync.outputs.changes }}
+          body: ${{ steps.sync.outputs.changes }}
           branch: "update-tutorials-${{ github.run_id }}"
           base: "main"
           labels: "automated pr"
