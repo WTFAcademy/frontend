@@ -37,8 +37,6 @@ jq -c '.[]' $CONFIG_FILE | while read -r repo; do
     CHANGES="Changes in ${TARGET_PATH}:\n${CHANGED_FILES}\n"
   fi
 
-  echo -e $CHANGES
-
   # 输出更改的内容到文件
   if [ -n "$CHANGES" ]; then
     ALL_CHANGES="${ALL_CHANGES}\n\n${CHANGES}"
@@ -51,10 +49,14 @@ git config --global user.name 'github-actions[bot]'
 git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 git commit -m "Update tutorials" || echo "No changes to commit"
 
+echo $ALL_CHANGES
+
 # 输出更改的内容到文件
 if [ -n "$ALL_CHANGES" ]; then
   echo -e $ALL_CHANGES >> changes.txt  # 追加到文件中
   echo $ALL_CHANGES > temp.txt
 fi
+
+cat temp.txt
 
 ls -al
