@@ -59,7 +59,6 @@ const main = async () => {
     console.log(contractERC20.deploymentTransaction());
     console.log("\n等待合约部署上链");
     await contractERC20.waitForDeployment();
-    // 也可以用 contractERC20.deployTransaction.wait()
     console.log("合约已上链");
 
     // 2. 打印合约的name()和symbol()，然后调用mint()函数，给自己地址mint 10,000代币
@@ -74,13 +73,15 @@ const main = async () => {
     );
     console.log(`代币总供给: ${await contractERC20.totalSupply()}`);
 
-    // 3. 调用transfer()函数，给V神转账1000代币
-    console.log("\n3. 调用transfer()函数，给V神转账1,000代币");
+    // 3. 调用transfer()函数，给Vitalik转账1000代币
+    console.log("\n3. 调用transfer()函数，给Vitalik转账1,000代币");
     tx = await contractERC20.transfer("vitalik.eth", "1000");
     console.log("等待交易上链");
     await tx.wait();
     console.log(
-      `V神钱包中的代币余额: ${await contractERC20.balanceOf("vitalik.eth")}`,
+      `Vitalik钱包中的代币余额: ${await contractERC20.balanceOf(
+        "vitalik.eth",
+      )}`,
     );
   } else {
     // 如果ETH不足

@@ -45,8 +45,8 @@ const main = async () => {
 
   // 如果钱包ETH足够
   if (ethers.formatEther(balanceETH) > 0.0015) {
-    // 2. 调用desposit()函数，将0.001 ETH转为WETH
-    console.log("\n2. 调用desposit()函数，存入0.001 ETH");
+    // 2. 调用deposit()函数，将0.001 ETH转为WETH
+    console.log("\n2. 调用deposit()函数，存入0.001 ETH");
     // 发起交易
     const tx = await contractWETH.deposit({
       value: ethers.parseEther("0.001"),

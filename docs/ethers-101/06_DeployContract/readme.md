@@ -49,8 +49,8 @@ const contract = await contractFactory.deploy(args)
 
 你可以利用下面两种命令，等待合约部署在链上确认，然后再进行交互。
 ```js
-await contract.deployed()
-//或者 await contract.deployTransaction.wait()
+await contractERC20.waitForDeployment();
+
 ```
 
 ## 例子：部署ERC20代币合约
@@ -104,9 +104,9 @@ await contract.deployed()
     ```
 
 4. 调用工厂合约的`deploy()`函数并填入构造函数的参数（代币名称和代号），部署`ERC20`代币合约并获得合约实例。你可以利用：
-    - `contract.address`获取合约地址，
+    - `contract.target`获取合约地址，
     - `contract.deployTransaction`获取部署详情，
-    - `contractERC20.deployed()`等待合约部署在链上确认。
+    - `contractERC20.waitForDeployment()`等待合约部署在链上确认。
 
     ```js
     // 1. 利用contractFactory部署ERC20代币合约
@@ -139,19 +139,19 @@ await contract.deployed()
     ```
     ![铸造代币](img/6-3.png)
 
-6. 调用`transfer()`函数，给V神转账`1,000`枚代币。
+6. 调用`transfer()`函数，给Vitalik转账`1,000`枚代币。
 
     ```js
-    // 3. 调用transfer()函数，给V神转账1000代币
-    console.log("\n3. 调用transfer()函数，给V神转账1,000代币")
+    // 3. 调用transfer()函数，给Vitalik转账1000代币
+    console.log("\n3. 调用transfer()函数，给Vitalik转账1,000代币")
     tx = await contractERC20.transfer("vitalik.eth", "1000")
     console.log("等待交易上链")
     await tx.wait()
-    console.log(`V神钱包中的代币余额: ${await contractERC20.balanceOf("vitalik.eth")}`)
+    console.log(`Vitalik钱包中的代币余额: ${await contractERC20.balanceOf("vitalik.eth")}`)
     ```
 
     ![转账](img/6-4.png)
 
 ## 总结
 
-这一讲我们介绍了ether.js中的合约工厂`ContractFactory`类型，利用它部署了一个`ERC20`代币合约，并给V神转账了`1,000`枚代币。
+这一讲我们介绍了ethers.js中的合约工厂`ContractFactory`类型，利用它部署了一个`ERC20`代币合约，并给Vitalik转账了`1,000`枚代币。
