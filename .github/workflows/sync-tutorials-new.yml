@@ -33,7 +33,7 @@ jobs:
           title: "Update Tutorials"
           body: |
             This is an automated PR to update tutorials.
-            $(cat frontend/scripts/sync/changes.txt)
+            $(cat changes.txt)
           branch: "update-tutorials-${{ github.run_id }}"
           base: "main"
           labels: "automated pr"
