@@ -9,19 +9,23 @@ jq -c '.[]' $CONFIG_FILE | while read -r repo; do
   TARGET_PATH=$(echo $repo | jq -r '.path')
   SCRIPTS=$(echo $repo | jq -r '.scripts[]')
 
+  # 进入目标目录
+  cd $TARGET_PATH || continue
+
   # 克隆仓库
   REPO_NAME=$(basename $SYNC_URL .git)
   git clone $SYNC_URL $REPO_NAME
 
   # 执行脚本
   for SCRIPT in "${SCRIPTS[@]}"; do
-    cd $TARGET_PATH
     eval $SCRIPT
-    cd - > /dev/null
   done
 
   # 删除克隆的仓库
   rm -rf $REPO_NAME
+
+  # 返回上级目录
+  cd - > /dev/null
 
   # 记录更改的文件
   CHANGED_FILES=$(git status --porcelain | awk '{print $2}')
