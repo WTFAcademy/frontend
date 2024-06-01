@@ -1,4 +1,4 @@
-name: Sync Tutorials
+name: Sync Tutorials New
 
 on:
   workflow_dispatch:
@@ -14,17 +14,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Sync WTF Ethers Tutorials
+      - name: Setup Environment
         run: |
-          git clone https://github.com/WTFAcademy/WTF-Ethers.git
-          mkdir -p frontend/docs/ethers-101/
-          cp -r WTF-Ethers/0{1..9}_* frontend/docs/ethers-101/
-          cp -r WTF-Ethers/10_* frontend/docs/ethers-101/
-          rm -rf WTF-Ethers
-          git add frontend/docs/ethers-101/
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git commit -m "Update tutorials" || echo "No changes to commit"
+          sudo apt-get update
+          sudo apt-get install -y jq
+
+      - name: Sync Documentation
+        run: |
+          chmod +x sync-docs.sh
+          ./sync-docs.sh
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
@@ -32,7 +30,11 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}  # 确保使用正确的访问令牌
           commit-message: Update tutorials
           title: "Update Tutorials"
-          body: "This is an automated PR to update tutorials"
+          body: |
+            This is an automated PR to update tutorials.
+            ${{
+              steps.sync-tutorials.outputs.changes
+            }}
           branch: "update-tutorials-${{ github.run_id }}"
           base: "main"
           labels: "automated pr"
