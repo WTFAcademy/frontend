@@ -1,0 +1,50 @@
+name: Sync Tutorials
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'  # 每天运行一次
+
+jobs:
+  sync-tutorials:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Frontend Repo
+        uses: actions/checkout@v4
+        with:
+          repository: 'WTFAcademy/frontend'
+          path: 'frontend'
+          fetch-depth: 0
+
+      - name: Sync WTF Ethers Tutorials
+        run: |
+          git clone https://github.com/WTFAcademy/WTF-Ethers.git
+          cp -r WTF-Ethers/0{1..9}_* frontend/docs/ethers-101/
+          cp -r WTF-Ethers/10_* frontend/docs/ethers-101/
+          rm -rf WTF-Ethers
+        working-directory: frontend
+
+      - name: Set up Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        working-directory: frontend
+
+      - name: Commit and Push Changes
+        run: |
+          git add .
+          git commit -m "Update tutorials"
+          git push origin HEAD:main
+        working-directory: frontend
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          commit-message: Update tutorials
+          title: "Update Tutorials"
+          body: "This is an automated PR to update tutorials"
+          branch: "update-tutorials-${{ github.run_id }}"
+          base: "main"
+          labels: "automated pr"
+        working-directory: frontend
