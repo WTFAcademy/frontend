@@ -22,12 +22,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y jq
 
-
       - name: Run Sync Script
         run: |
           chmod +x sync.sh
           ./sync.sh
-          echo "::set-output name=changes::$ALL_CHANGES"
+          echo "{name}={changes}" >> $(cat temp.txt)
+          rm temp.txt
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
@@ -37,7 +37,7 @@ jobs:
           title: "Update Tutorials"
           body: |
             This is an automated PR to update tutorials.
-            ${{ steps.sync.outputs.changes }} # 输出变更
+            ${{ steps.sync.outputs.changes }}
           branch: "update-tutorials-${{ github.run_id }}"
           base: "main"
           labels: "automated pr"
