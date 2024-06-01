@@ -19,6 +19,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y jq
 
+      - name: Debug Path
+        run: ls -al frontend/scripts/sync
+
       - name: Run Sync Script
         working-directory: frontend/scripts/sync
         run: |
