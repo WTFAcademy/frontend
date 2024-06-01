@@ -56,3 +56,5 @@ if [ -n "$ALL_CHANGES" ]; then
   echo -e $ALL_CHANGES >> changes.txt  # 追加到文件中
   echo $ALL_CHANGES > temp.txt
 fi
+
+ls -al
