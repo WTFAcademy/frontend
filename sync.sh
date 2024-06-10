@@ -43,6 +43,19 @@ jq -c '.[]' $CONFIG_FILE | while read -r repo; do
   fi
 done
 
+# 对Solidity101,102的文件插入脚本
+insert_before="<LessonProcess meta={require('./meta.json')} />\n"
+append_text="<LessonQuizStart meta={require('./meta.json')} />"
+insert_before_target="我最近在重新学"
+
+find "docs/solidity-101" -type f -name "readme.md" | while read -r file; do
+  sed  "/$insert_before_target/i $insert_before" "$file"
+  echo "$append_text" >> "$file"
+
+find "docs/solidity-102" -type f -name "readme.md" | while read -r file; do
+  sed  "/$insert_before_target/i $insert_before" "$file"
+  echo "$append_text" >> "$file"
+
 # 添加更改到 git
 git add docs/
 git config --global user.name 'github-actions[bot]'

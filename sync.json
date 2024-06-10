@@ -47,12 +47,5 @@
     "scripts": [
       "cp -r WTF-Solidity/S{0..9}{0..9}_* ./"
     ]
-  },
-  {
-    "sync": "https://github.com/AmazingAng/WTF-Solidity.git",
-    "path": "docs/solidity-105",
-    "scripts": [
-      "cp -r WTF-Solidity/Topics/Onchain_debug/* ./"
-    ]
   }
 ]
