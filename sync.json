@@ -45,7 +45,8 @@
     "sync": "https://github.com/AmazingAng/WTF-Solidity.git",
     "path": "docs/solidity-104",
     "scripts": [
-      "cp -r WTF-Solidity/S{0..9}{0..9}_* ./"
+      "cp -r WTF-Solidity/S0{1..9}_* ./",
+      "cp -r WTF-Solidity/S1{0..9}_* ./"
     ]
   }
 ]
