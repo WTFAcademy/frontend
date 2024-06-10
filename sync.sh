@@ -44,6 +44,13 @@ jq -c '.[]' $CONFIG_FILE | while read -r repo; do
 done
 
 # 对Solidity101,102的文件插入脚本(使用python更为灵活)
+for file in $(find "docs/solidity-101" -type f -name "readme.md"); do
+  python3 sync-meta.py $file
+done
+
+for file in $(find "docs/solidity-102" -type f -name "readme.md"); do
+  python3 sync-meta.py $file
+done
 
 # 添加更改到 git
 git add docs/
