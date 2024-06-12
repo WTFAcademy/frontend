@@ -93,7 +93,7 @@ const Main = () => {
       );
     }
 
-    return <>按照下面步骤领取技能认证NFT吧！（公测）</>;
+    return <>按照下面步骤领取技能认证NFT吧！</>;
   };
 
   return (

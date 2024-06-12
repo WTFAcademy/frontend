@@ -11,7 +11,7 @@ export const getUserCourseInfo = async (courseId, needClaimId) => {
   if (bindWallet) {
     const tokenInfo = await userTokenInfo(bindWallet);
     const curTokenInfo = get(tokenInfo, "user.created", []).find(
-      item => item.soulId === needClaimId + "",
+      item => item.id === needClaimId + "",
     );
     const hasClaimed = !!curTokenInfo;
     const donationAmount = get(curTokenInfo, "creator.amount", 0);
@@ -28,11 +28,13 @@ export const getUserCourseInfo = async (courseId, needClaimId) => {
   return res;
 };
 
-export const getMintInfoByCourse = courseId => {
+export const getMintInfoByCourse = (courseId: string, nonce: string) => {
   return request
     .post(
       `/user_course/${courseId}/nft_sign`,
-      {},
+      {
+        nonce,
+      },
       {
         turnOnValve: true,
       },
@@ -45,7 +47,7 @@ export const userTokenInfo = async address => {
     query getTokenInfo($address: String!) {
       user(id: $address) {
         created {
-          soulId
+          id
           creator {
             amount
           }

@@ -31,7 +31,7 @@ const ErrorMap = message => {
   return "领取错误，请重试";
 };
 
-const useMint = (onSuccess = tx => {}) => {
+const useMint = (onSuccess = () => {}) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("领取失败，请稍后重试");
@@ -39,27 +39,48 @@ const useMint = (onSuccess = tx => {}) => {
   const { data: signer } = useSigner();
 
   const contract = useContract({
-    address: "0xfd8A6971aCCB1C05a76274C846E5C9fD0c8b82cb",
+    address: "0x2BBE57dA6DFE615B9cE86B2BD149A953af7385d2",
     abi: MinterABI,
     signerOrProvider: signer,
   });
 
-  const mint = async (soulId, signData, amount) => {
-    console.log(soulId, signData, amount);
+  const getNonce = async () => {
+    return await contract.nonces(address);
+  };
+
+  const mint = async (
+    soulId: string,
+    signData: string,
+    amount: number,
+    mintPrice: number,
+    deadline: number,
+  ) => {
     setLoading(true);
+
+    console.log(address, soulId, mintPrice, deadline, signData);
+
     try {
       const gasLimit = await contract.estimateGas.mint(
         address,
         soulId,
+        mintPrice,
+        deadline,
         signData,
         {
           value: ethers.utils.parseEther(amount + ""),
         },
       );
-      const tx = await contract.mint(address, soulId, signData, {
-        value: ethers.utils.parseEther(amount + ""),
-        gasLimit: gasLimit.add(1000),
-      });
+      const tx = await contract.mint(
+        address,
+        soulId,
+        mintPrice,
+        deadline,
+        signData,
+        {
+          value: ethers.utils.parseEther(amount + ""),
+          gasLimit: gasLimit.add(1000),
+        },
+      );
       await tx.wait();
       setLoading(false);
       onSuccess(tx);
@@ -78,6 +99,7 @@ const useMint = (onSuccess = tx => {}) => {
     setError,
     setErrorMessage,
     mint,
+    getNonce,
   };
 };
 

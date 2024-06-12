@@ -11,6 +11,45 @@ export default [
     stateMutability: "nonpayable",
     type: "constructor",
   },
+  { inputs: [], name: "ECDSAInvalidSignature", type: "error" },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "length",
+        type: "uint256",
+      },
+    ],
+    name: "ECDSAInvalidSignatureLength",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "s", type: "bytes32" }],
+    name: "ECDSAInvalidSignatureS",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "account", type: "address" },
+      {
+        internalType: "uint256",
+        name: "currentNonce",
+        type: "uint256",
+      },
+    ],
+    name: "InvalidAccountNonce",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "address", name: "owner", type: "address" }],
+    name: "OwnableInvalidOwner",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "address", name: "account", type: "address" }],
+    name: "OwnableUnauthorizedAccount",
+    type: "error",
+  },
   {
     anonymous: false,
     inputs: [
@@ -33,16 +72,17 @@ export default [
   {
     anonymous: false,
     inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
+      { indexed: true, internalType: "address", name: "to", type: "address" },
       {
         indexed: true,
         internalType: "uint256",
         name: "soulId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "donation",
         type: "uint256",
       },
     ],
@@ -69,25 +109,24 @@ export default [
     type: "event",
   },
   {
+    inputs: [],
+    name: "_cachedChainId",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
-      { internalType: "address", name: "account", type: "address" },
+      { internalType: "address", name: "to", type: "address" },
       {
         internalType: "uint256",
         name: "soulId",
         type: "uint256",
       },
-    ],
-    name: "getMessageHash",
-    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
-    stateMutability: "pure",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "address", name: "account", type: "address" },
+      { internalType: "uint256", name: "mintPrice", type: "uint256" },
       {
         internalType: "uint256",
-        name: "soulId",
+        name: "deadline",
         type: "uint256",
       },
       { internalType: "bytes", name: "signature", type: "bytes" },
@@ -98,16 +137,9 @@ export default [
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "uint256", name: "", type: "uint256" },
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    name: "mintedAddress",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    inputs: [{ internalType: "address", name: "owner", type: "address" }],
+    name: "nonces",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
@@ -116,6 +148,20 @@ export default [
     name: "owner",
     outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "oldOwner", type: "address" },
+      {
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "recover",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -148,20 +194,36 @@ export default [
   },
   {
     inputs: [
+      { internalType: "address", name: "to", type: "address" },
       {
-        internalType: "bytes32",
-        name: "ethSignedMessageHash",
-        type: "bytes32",
+        internalType: "uint256",
+        name: "soulId",
+        type: "uint256",
       },
+      { internalType: "uint256", name: "mintPrice", type: "uint256" },
       {
-        internalType: "bytes",
-        name: "signature",
-        type: "bytes",
+        internalType: "uint256",
+        name: "deadline",
+        type: "uint256",
       },
+      { internalType: "uint256", name: "chainId", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "nonces",
+        type: "uint256",
+      },
+      { internalType: "bytes", name: "signature", type: "bytes" },
     ],
-    name: "verify",
+    name: "verifySignature",
     outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "withdraw",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {

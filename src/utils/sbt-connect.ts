@@ -1,10 +1,39 @@
-import { configureChains, createClient, goerli } from "wagmi";
+import { configureChains, createClient } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import { metaMaskWallet } from "@rainbow-me/rainbowkit/wallets";
 
+const Base = {
+  id: 8453,
+  name: "Base",
+  network: "base",
+  nativeCurrency: {
+    decimals: 18,
+    name: "ETH",
+    symbol: "ETH",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://mainnet.base.org"],
+    },
+    public: {
+      http: ["https://mainnet.base.org"],
+    },
+  },
+  blockExplorers: {
+    etherscan: {
+      name: "BaseScan",
+      url: "https://basescan.org",
+    },
+    default: {
+      name: "BaseScan",
+      url: "https://basescan.org",
+    },
+  },
+};
+
 export const { chains, provider, webSocketProvider } = configureChains(
-  [goerli],
+  [Base],
   [publicProvider()],
 );
 
