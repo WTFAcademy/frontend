@@ -31,6 +31,7 @@ function PersonalInfo() {
   const [github, setGithub] = useState(null);
   const [wallet, setWallet] = useState("");
   const [copy, setCopy] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handleCopy = () => {
     if (!copy) {
@@ -44,7 +45,9 @@ function PersonalInfo() {
 
   useEffect(() => {
     (async () => {
+      setLoading(true); // 开始加载
       await refetch(); // 注意：这看起来像是应该是异步的。此处应做适当处理。
+      setLoading(false); // 加载完成
     })();
   }, []); // 需要确保这里是正确的触发时机
   
@@ -61,7 +64,7 @@ function PersonalInfo() {
   return (
     <div className="flex flex-col flex-shrink-0 w-full p-8 mr-12 overflow-hidden border box-border border-border-input rounded-md lg:w-[280px]">
       <p className="mb-6 text-sm leading-5 text-content-muted">
-        {bio !== null ? (
+        {!loading && bio !== null ? (
           bio
         ) : (
           <Skeleton className="bg-gray-200 w-[210px] h-[20px] rounded-md"></Skeleton>
