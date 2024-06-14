@@ -63,13 +63,13 @@ function PersonalInfo() {
 
   return (
     <div className="flex flex-col flex-shrink-0 w-full p-8 mr-12 overflow-hidden border box-border border-border-input rounded-md lg:w-[280px]">
-      <p className="mb-6 text-sm leading-5 text-content-muted">
+      <div className="mb-6 text-sm leading-5 text-content-muted">
         {!loading && bio !== null ? (
-          bio
+          <p>{bio}</p>
         ) : (
           <Skeleton className="bg-gray-200 w-[210px] h-[20px] rounded-md"></Skeleton>
         )}
-      </p>
+      </div>
       <div className="flex items-center mb-6 text-content-subtle">
         <EthereumIcon />
         <p className="mx-2 ">
