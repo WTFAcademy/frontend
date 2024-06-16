@@ -20,7 +20,8 @@
     "path": "docs/solidity-101",
     "scripts": [
       "cp -r WTF-Solidity/0{1..9}_* ./",
-      "cp -r WTF-Solidity/1{0..5}_* ./"
+      "cp -r WTF-Solidity/1{0..5}_* ./",
+      "python3 ../../sync-meta.py docs/solidity-101"
     ]
   },
   {
@@ -29,7 +30,8 @@
     "scripts": [
       "cp -r WTF-Solidity/1{6..9}_* ./",
       "cp -r WTF-Solidity/2{0..9}_* ./",
-      "cp -r WTF-Solidity/30_* ./"
+      "cp -r WTF-Solidity/30_* ./",
+      "python3 ../../sync-meta.py docs/solidity-102"
     ]
   },
   {
