@@ -11,8 +11,9 @@ def find_readme_files(folder):
 
 
 if __name__ == '__main__':
-    folder = sys.argv[1]
-    files = find_readme_files()
+    folder = os.curdir
+    files = find_readme_files(folder)
+    print(files)
 
     insert_before="<LessonProcess meta={require('./meta.json')} />"
     append_text="<LessonQuizStart meta={require('./meta.json')} />"
@@ -21,16 +22,19 @@ if __name__ == '__main__':
     for file in files:
         with open(file,'r') as fd:
             lines = fd.readlines()
+        # Flag
+        change = False
 
         for i in range(len(lines)):
             if insert_before_target in lines[i]:
+                change = True
                 lines[i] = lines[i].replace(insert_before_target,"{}\n\n{}".format(
                     insert_before,
                     insert_before_target
                 ))
                 break
 
-        lines.append("\n{}".format(append_text))
-
-        with open(file, 'w') as fd:
-            fd.writelines(lines)
+        if change:
+            lines.append("\n{}".format(append_text))
+            with open(file, 'w') as fd:
+                fd.writelines(lines)
