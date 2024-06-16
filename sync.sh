@@ -45,7 +45,7 @@ jq -c '.[]' $CONFIG_FILE | while read -r repo; do
 done
 
 # # 添加更改到 git
-# git add docs/
-# git config --global user.name 'github-actions[bot]'
-# git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-# git commit -m "Update tutorials" || echo "No changes to commit"
+git add docs/
+git config --global user.name 'github-actions[bot]'
+git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+git commit -m "Update tutorials" || echo "No changes to commit"
