@@ -20,7 +20,7 @@ jq -c '.[]' $CONFIG_FILE | while read -r repo; do
 
   # 执行脚本
   while IFS= read -r SCRIPT; do
-    echo "$SCRIPT"
+    # echo "$SCRIPT"
     eval "$SCRIPT"
   done <<< "$SCRIPTS"
 

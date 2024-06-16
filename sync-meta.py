@@ -13,7 +13,7 @@ def find_readme_files(folder):
 if __name__ == '__main__':
     folder = os.curdir
     files = find_readme_files(folder)
-    print(files)
+    # print(files)
 
     insert_before="<LessonProcess meta={require('./meta.json')} />"
     append_text="<LessonQuizStart meta={require('./meta.json')} />"
