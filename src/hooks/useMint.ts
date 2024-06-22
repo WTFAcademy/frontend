@@ -57,8 +57,6 @@ const useMint = (onSuccess = () => {}) => {
   ) => {
     setLoading(true);
 
-    console.log(address, soulId, mintPrice, deadline, signData);
-
     try {
       const gasLimit = await contract.estimateGas.mint(
         address,

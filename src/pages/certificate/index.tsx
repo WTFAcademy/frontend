@@ -110,7 +110,7 @@ const Main = () => {
         <div className="flex flex-col justify-center w-full lg:flex-row">
           <div className="flex flex-col items-center justify-center lg:bg-background-faint rounded-md lg:mr-12 lg:w-[456px] lg:h-[396px]">
             <LoaderImage
-              className="overflow-hidden rounded-xl w-[310px] h-[185px] bg-background-muted md:w-[500px] md:h-[300px] lg:w-[288px] lg:h-auto"
+              className="overflow-hidden rounded-xl w-[310px] bg-background-muted md:w-[500px] lg:w-full lg:h-auto"
               src={nftImage}
             />
             <p className="mt-4 font-medium text-md">NFT Certificate</p>
