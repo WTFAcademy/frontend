@@ -10,6 +10,6 @@ export const CourseIdAndSuffixLinkMap = {
 };
 
 export const CourseIdAndNameMap = {
-  [COURSE_ID_SOLIDITY_101]: "Solidity Intro",
-  [COURSE_ID_SOLIDITY_102]: "Solidity Advanced",
+  [COURSE_ID_SOLIDITY_101]: "Solidity 101",
+  [COURSE_ID_SOLIDITY_102]: "Solidity 102",
 };

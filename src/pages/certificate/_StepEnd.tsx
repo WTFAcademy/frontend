@@ -21,7 +21,7 @@ const StepEnd = (props: { txInfo: any }) => {
   const courseId = get(info, "courseId");
 
   const twLink = useMemo(() => {
-    const text = `I completed the ${CourseIdAndNameMap[courseId]} course at WTF Academy and claimed an on-chain certificate (SBT)! @WTFAcademy_
+    const text = `I completed the ${CourseIdAndNameMap[courseId]} course at WTF Academy and claimed a certificate on @base ! @WTFAcademy_
 
 Join us at https://wtf.academy/${CourseIdAndSuffixLinkMap[courseId]}`;
 
