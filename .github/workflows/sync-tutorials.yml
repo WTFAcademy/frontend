@@ -22,16 +22,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y jq
 
-      - name: Run Sync Script
-        id: sync
-        run: |
-          chmod +x sync.sh
-          ./sync.sh
-          temp=$(cat temp.txt)
-          echo $temp
-          echo "::set-output name=changes::$temp"
-          rm temp.txt
-
       - uses: pnpm/action-setup@v4
         name: Install pnpm
         with:
@@ -46,6 +36,16 @@ jobs:
 
       - name: Install Dependencies
         run: pnpm install
+
+      - name: Run Sync Script
+        id: sync
+        run: |
+          chmod +x sync.sh
+          ./sync.sh
+          temp=$(cat temp.txt)
+          echo $temp
+          echo "::set-output name=changes::$temp"
+          rm temp.txt
 
       - name: Generate Sidebar
         run: npm run generate:sidebar
