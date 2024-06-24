@@ -32,6 +32,14 @@ jobs:
           echo "::set-output name=changes::$temp"
           rm temp.txt
 
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: npm install
+
       - name: Generate Sidebar
         run: npm run generate:sidebar
 
