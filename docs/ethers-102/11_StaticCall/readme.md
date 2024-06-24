@@ -36,7 +36,9 @@ tags:
 
 ## `staticCall`
 
-在`ethers.js`中你可以利用`contract`对象的`staticCall()`来调用以太坊节点的`eth_call`。如果调用成功，则返回`true`；如果失败，则报错并返回失败原因。方法：
+在 ethers.js 中，你可以使用 `contract.函数名.staticCall()` 方法来模拟执行一个可能会改变状态的函数，但不实际向区块链提交这个状态改变。这相当于调用以太坊节点的 `eth_call`。这通常用于模拟状态改变函数的结果。如果函数调用成功，它将返回函数本身的返回值；如果函数调用失败，它将抛出异常。
+
+请注意，这种调用适用于任何函数，无论它在智能合约中是标记为 view/pure 还是普通的状态改变函数。它使你能够安全地预测状态改变操作的结果，而不实际执行这些操作。
 
 ```js
     const tx = await contract.函数名.staticCall( 参数, {override})
@@ -45,8 +47,8 @@ tags:
 
 - 函数名：为模拟调用的函数名。
 - 参数：调用函数的参数。
-- {override}：选填，可包含一下参数：
-    - `from`：执行时的`msg.sender`，也就是你可以模拟任何一个人的调用，比如V神。
+- {override}：选填，可包含以下参数：
+    - `from`：执行时的`msg.sender`，也就是你可以模拟任何一个人的调用，比如Vitalik。
     - `value`：执行时的`msg.value`。
     - `blockTag`：执行时的区块高度。
     - `gasPrice`
@@ -92,24 +94,24 @@ tags:
     ```
     ![钱包DAI余额](img/11-2.png)
 
-4. 用`staticCall`调用`transfer()`函数，将`from`参数填为V神地址，模拟V神转账`10000 DAI`。这笔交易将成功，因为V神钱包有充足的`DAI`。
+4. 用`staticCall`调用`transfer()`函数，将`from`参数填为Vitalik地址，模拟Vitalik转账`10000 DAI`。这笔交易将成功，因为Vitalik钱包有充足的`DAI`。
 
     ```js
-    console.log("\n2.  用staticCall尝试调用transfer转账1 DAI，msg.sender为V神地址")
+    console.log("\n2.  用staticCall尝试调用transfer转账1 DAI，msg.sender为Vitalik地址")
     // 发起交易
-    const tx = await contractDAI.transfer.staticCall("vitalik.eth", ethers.parseEther("10000"), {from: "vitalik.eth"})
+    const tx = await contractDAI.transfer.staticCall("vitalik.eth", ethers.parseEther("1"), {from:  await provider.resolveName("vitalik.eth")})
     console.log(`交易会成功吗？：`, tx)
     ```
-    ![模拟V神转账](img/11-3.png)
+    ![模拟Vitalik转账](img/11-3.png)
 
 4. 用`staticCall`调用`transfer()`函数，将`from`参数填为测试钱包地址，模拟转账`10000 DAI`。这笔交易将失败，报错，并返回原因`Dai/insufficient-balance`。
 
     ```js
-    console.log("\n3.  用staticCall尝试调用transfer转账1 DAI，msg.sender为测试钱包地址")
+    console.log("\n3.  用staticCall尝试调用transfer转账10000 DAI，msg.sender为测试钱包地址")
     const tx2 = await contractDAI.transfer.staticCall("vitalik.eth", ethers.parseEther("10000"), {from: address})
-    console.log(`交易会成功吗？：`, tx)
+    console.log(`交易会成功吗？：`, tx2)
     ```
     ![模拟测试钱包转账](img/11-4.png)
 
 ## 总结
-`ethers.js`将`eth_call`封装在`staticCall`方法中，方便开发者模拟交易的结果，并避免发送可能失败的交易。我们利用`staticCall`模拟了V神和测试钱包的转账。当然，这个方法还有更多用处，比如计算土狗币的交易滑点。开动你的想象力，你会将`staticCall`用在什么地方呢？
+`ethers.js`将`eth_call`封装在`staticCall`方法中，方便开发者模拟交易的结果，并避免发送可能失败的交易。我们利用`staticCall`模拟了Vitalik和测试钱包的转账。当然，这个方法还有更多用处，比如计算土狗币的交易滑点。开动你的想象力，你会将`staticCall`用在什么地方呢？
