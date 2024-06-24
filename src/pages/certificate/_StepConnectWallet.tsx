@@ -15,7 +15,11 @@ type TProps = {
   courseInfo: any;
 };
 
-const isEqualWallet = (addressA, addressB) => {
+const isEqualWallet = (addressA: string, addressB: string) => {
+  if (!addressA) {
+    return false;
+  }
+
   return (
     addressA.toString().toLowerCase() === addressB.toString().toLowerCase()
   );
@@ -57,7 +61,10 @@ const Main = (props: TProps) => {
     !!get(courseInfo, "user_wallet.wallet"),
   );
   const isErrorWallet =
-    connected && isBinding && !isEqualWallet(address, currentBingWallet);
+    connected &&
+    isBinding &&
+    address &&
+    !isEqualWallet(address, currentBingWallet);
   const [bindError, setBindError] = useState(false);
   const githubName = get(user, "username");
 
@@ -118,6 +125,7 @@ const Main = (props: TProps) => {
     if (unsupported) {
       return (
         <Button
+          className="border-[1px] border-border"
           variant={unsupported && !disabled ? "destructive" : "ghost"}
           onClick={openChainModal}
         >
@@ -130,6 +138,7 @@ const Main = (props: TProps) => {
       <>
         {!connected && (
           <Button
+            className="border-[1px] border-border"
             variant={unsupported && !disabled ? "destructive" : "ghost"}
             onClick={openConnectModal}
           >
@@ -138,6 +147,7 @@ const Main = (props: TProps) => {
         )}
         {connected && !isBinding && (
           <Button
+            className="border-[1px] border-border"
             variant={unsupported && !disabled ? "destructive" : "ghost"}
             onClick={handleBinding}
           >
@@ -146,6 +156,7 @@ const Main = (props: TProps) => {
         )}
         {connected && isBinding && isErrorWallet && (
           <Button
+            className="border-[1px] border-border"
             variant={unsupported && !disabled ? "destructive" : "ghost"}
             onClick={openAccountModal}
           >
@@ -158,7 +169,7 @@ const Main = (props: TProps) => {
 
   return (
     <StepCard error={(unsupported || isErrorWallet) && !disabled}>
-      <div className="flex justify-between w-full">
+      <div className="flex justify-between items-center w-full">
         <div className="flex flex-col">
           <span>{leftText}</span>
           {(unsupported || isErrorWallet) && (
