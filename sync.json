@@ -6,5 +6,49 @@
       "cp -r WTF-Ethers/0{1..9}_* ./",
       "cp -r WTF-Ethers/10_* ./"
     ]
+  },
+  {
+    "sync": "https://github.com/WTFAcademy/WTF-Ethers.git",
+    "path": "docs/ethers-102",
+    "scripts": [
+      "cp -r WTF-Ethers/1{1..9}_* ./",
+      "cp -r WTF-Ethers/2{0..6}_* ./"
+    ]
+  },
+  {
+    "sync": "https://github.com/AmazingAng/WTF-Solidity.git",
+    "path": "docs/solidity-101",
+    "scripts": [
+      "cp -r WTF-Solidity/0{1..9}_* ./",
+      "cp -r WTF-Solidity/1{0..5}_* ./",
+      "python3 ../../sync-meta.py"
+    ]
+  },
+  {
+    "sync": "https://github.com/AmazingAng/WTF-Solidity.git",
+    "path": "docs/solidity-102",
+    "scripts": [
+      "cp -r WTF-Solidity/1{6..9}_* ./",
+      "cp -r WTF-Solidity/2{0..9}_* ./",
+      "cp -r WTF-Solidity/30_* ./",
+      "python3 ../../sync-meta.py"
+    ]
+  },
+  {
+    "sync": "https://github.com/AmazingAng/WTF-Solidity.git",
+    "path": "docs/solidity-103",
+    "scripts": [
+      "cp -r WTF-Solidity/3{1..9}_* ./",
+      "cp -r WTF-Solidity/4{0..9}_* ./",
+      "cp -r WTF-Solidity/5{0..7}_* ./"
+    ]
+  },
+  {
+    "sync": "https://github.com/AmazingAng/WTF-Solidity.git",
+    "path": "docs/solidity-104",
+    "scripts": [
+      "cp -r WTF-Solidity/S0{1..9}_* ./",
+      "cp -r WTF-Solidity/S1{0..7}_* ./"
+    ]
   }
 ]

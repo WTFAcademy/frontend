@@ -19,9 +19,10 @@ jq -c '.[]' $CONFIG_FILE | while read -r repo; do
   git clone $SYNC_URL $REPO_NAME
 
   # 执行脚本
-  for SCRIPT in "${SCRIPTS[@]}"; do
-    eval $SCRIPT
-  done
+  while IFS= read -r SCRIPT; do
+    # echo "$SCRIPT"
+    eval "$SCRIPT"
+  done <<< "$SCRIPTS"
 
   # 删除克隆的仓库
   rm -rf $REPO_NAME
@@ -43,8 +44,13 @@ jq -c '.[]' $CONFIG_FILE | while read -r repo; do
   fi
 done
 
-# 添加更改到 git
+# generate new sidebar
+npm run generate:sidebar
+
+# # 添加更改到 git
 git add docs/
+git add changes.txt
+git add sidebar.json
 git config --global user.name 'github-actions[bot]'
 git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 git commit -m "Update tutorials" || echo "No changes to commit"
