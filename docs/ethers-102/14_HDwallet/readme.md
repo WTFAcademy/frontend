@@ -65,31 +65,31 @@ air organ twist rule prison symptom jazz cheap rather dizzy verb glare jeans orb
 
 ## 批量生成钱包
 
-`ethers.js`提供了[HDNode类](https://docs.ethers.org/v6-beta/api/wallet/#HDNodeWallet)，方便开发者使用HD钱包。下面我们利用它从一个助记词批量生成20个钱包。
+`ethers.js`提供了[HDNodeWallet类](https://docs.ethers.org/v6-beta/api/wallet/#HDNodeWallet)，方便开发者使用HD钱包。下面我们利用它从一个助记词批量生成20个钱包。
 
-1. 创建`HDNode`钱包变量，可以看到助记词为`'air organ twist rule prison symptom jazz cheap rather dizzy verb glare jeans orbit weapon universe require tired sing casino business anxiety seminar hunt'`
+1. 创建`baseWallet`钱包变量，可以看到助记词为`'air organ twist rule prison symptom jazz cheap rather dizzy verb glare jeans orbit weapon universe require tired sing casino business anxiety seminar hunt'`
     ```js
     // 生成随机助记词
-    const mnemonic = ethers.Mnemonic.entropyToPhrase(randomBytes(32))
-    // 创建HD钱包
-    const hdNode = ethers.HDNodeWallet.fromPhrase(mnemonic)
-    console.log(hdNode);
+    const mnemonic = ethers.Mnemonic.entropyToPhrase(ethers.randomBytes(32))
+    // 创建HD基钱包
+    // 基路径："m / purpose' / coin_type' / account' / change"
+    const basePath = "44'/60'/0'/0"
+    const baseWallet = ethers.HDNodeWallet.fromPhrase(mnemonic, basePath)
+    console.log(baseWallet);
     ```
-    ![HDNode](img/14-2.png)
+    ![baseWallet](img/14-2.png)
 
 2. 通过HD钱包派生20个钱包。
 
     ```js
     const numWallet = 20
-    // 派生路径：m / purpose' / coin_type' / account' / change / address_index
-    // 我们只需要切换最后一位address_index，就可以从hdNode派生出新钱包
-    let basePath = "m/44'/60'/0'/0";
+    // 派生路径：基路径 + "/ address_index"
+    // 我们只需要提供最后一位address_index的字符串格式，就可以从baseWallet派生出新钱包。V6中不需要重复提供基路径！
     let wallets = [];
     for (let i = 0; i < numWallet; i++) {
-        let hdNodeNew = hdNode.derivePath(basePath + "/" + i);
-        let walletNew = new ethers.Wallet(hdNodeNew.privateKey);
-        console.log(`第${i+1}个钱包地址： ${walletNew.address}`)
-        wallets.push(walletNew);
+        let baseWalletNew = baseWallet.derivePath(i.toString());
+        console.log(`第${i+1}个钱包地址： ${baseWalletNew.address}`)
+        wallets.push(baseWalletNew);
     }
     ```
     ![批量生成钱包](img/14-3.png)

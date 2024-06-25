@@ -9,21 +9,21 @@ tags:
 
 # WTF Solidity 合约安全: S02. 选择器碰撞
 
-我最近在重新学solidity，巩固一下细节，也写一个“WTF Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
+我最近在重新学 Solidity，巩固一下细节，也写一个“WTF Solidity 合约安全”，供小白们使用（编程大佬可以另找教程），每周更新 1-3 讲。
 
-推特：[@0xAA_Science](https://twitter.com/0xAA_Science)
+推特：[@0xAA_Science](https://twitter.com/0xAA_Science)｜[@WTFAcademy_](https://twitter.com/WTFAcademy_)
 
 社区：[Discord](https://discord.gg/5akcruXrsk)｜[微信群](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[官网 wtf.academy](https://wtf.academy)
 
-所有代码和教程开源在github: [github.com/AmazingAng/WTFSolidity](https://github.com/AmazingAng/WTFSolidity)
+所有代码和教程开源在 github: [github.com/AmazingAng/WTF-Solidity](https://github.com/AmazingAng/WTF-Solidity)
 
------
+---
 
 这一讲，我们将介绍选择器碰撞攻击，它是导致跨链桥 Poly Network 被黑的原因之一。在2021年8月，Poly Network在ETH，BSC，和Polygon上的跨链桥合约被盗，损失高达6.11亿美元（[总结](https://rekt.news/zh/polynetwork-rekt/)）。这是2021年最大的区块链黑客事件，也是历史被盗金额榜单上第2名，仅次于 Ronin 桥黑客事件。
 
 ## 选择器碰撞
 
-以太坊智能合约中，函数选择器是函数签名 `"<function name>(<function input types>)"` 的哈希值的前`4`个字节（`8`位十六进制）。当用户调用合约的函数时，`calldata`的前`4`字节就是目标函数的选择器，决定了调用哪个函数。如果你不了解它，可以阅读[WTF Solidity极简教程第29讲：函数选择器](https://github.com/AmazingAng/WTFSolidity/blob/main/29_Selector/readme.md)。
+以太坊智能合约中，函数选择器是函数签名 `"<function name>(<function input types>)"` 的哈希值的前`4`个字节（`8`位十六进制）。当用户调用合约的函数时，`calldata`的前`4`字节就是目标函数的选择器，决定了调用哪个函数。如果你不了解它，可以阅读[WTF Solidity极简教程第29讲：函数选择器](https://github.com/AmazingAng/WTF-Solidity/blob/main/29_Selector/readme.md)。
 
 由于函数选择器只有`4`字节，非常短，很容易被碰撞出来：即我们很容易找到两个不同的函数，但是他们有着相同的函数选择器。比如`transferFrom(address,address,uint256)`和`gasprice_bit_ether(int128)`有着相同的选择器：`0x23b872dd`。当然你也可以写个脚本暴力破解。
 
@@ -88,7 +88,7 @@ Poly Network黑客事件中，黑客碰撞出的`_method`为 `f1121318093`，即
 
 1. 部署`SelectorClash`合约。
 2. 调用`executeCrossChainTx()`，参数填`0x6631313231333138303933`，`0x`，`0x`，`0`，发起攻击。
-3. 查看`solved`变量的值，被修改为`ture`，攻击成功。
+3. 查看`solved`变量的值，被修改为`true`，攻击成功。
 
 ## 总结
 

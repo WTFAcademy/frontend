@@ -64,7 +64,7 @@ interface IERC165 {
     ```js
     //准备 alchemy API 可以参考https://github.com/AmazingAng/WTFSolidity/blob/main/Topics/Tools/TOOL04_Alchemy/readme.md 
     const ALCHEMY_MAINNET_URL = 'https://eth-mainnet.g.alchemy.com/v2/oKmOQKbneVkxgHZfibs-iFhIlIAl6HDN';
-    const provider = new ethers.providers.JsonRpcProvider(ALCHEMY_MAINNET_URL);
+    const provider = new ethers.JsonRpcProvider(ALCHEMY_MAINNET_URL);
     ```
 
 2. 创建`ERC721`合约实例，在`abi`接口中，我们声明要使用的`name()`，`symbol()`，和`supportsInterface()`函数即可。这里我们用的BAYC的合约地址。
@@ -93,7 +93,7 @@ interface IERC165 {
     ```
     ![读取合约名称和代好](img/12-1.png)
 
-4. 利用`ERC165`的`supportsInterface()`函数，识别合约是否为ERC721标准。如果是，则返回`ture`；反之，则报错或返回`false`。
+4. 利用`ERC165`的`supportsInterface()`函数，识别合约是否为ERC721标准。如果是，则返回`true`；反之，则报错或返回`false`。
 
     注意此处的代码中的`selectorERC721`常量被提取出main函数
     ```js
