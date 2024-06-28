@@ -10,10 +10,10 @@ export const getUserInfo = () => {
 
 export const getUserCourse = (i18n = null) => {
   return request
-    .get<unknown, TResult<any>>(
-      "/user/my_course",
-      i18n ? { params: { lan: i18n } } : null,
-    )
+    .get<
+      unknown,
+      TResult<any>
+    >("/user/my_course", i18n ? { params: { lan: i18n } } : null)
     .then(res => res.data);
 };
 
