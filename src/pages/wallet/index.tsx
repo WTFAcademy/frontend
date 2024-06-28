@@ -10,9 +10,6 @@ import LoginEntry from "@site/src/pages/wallet/_LoginEntry";
 function Login() {
   const { siteConfig } = useDocusaurusContext();
   const { isConnected } = useAccount();
-  console.log("123123");
-  console.log(isConnected);
-  console.log("321321");
 
   return (
     <Layout
@@ -26,6 +23,7 @@ function Login() {
           <Translate id="login.intro">登录 WTF 学院</Translate>
         </p>
         <div className="px-10 py-8 mt-8 bg-white rounded-lg shadow-md dark:bg-zinc-900 w-[340px] md:min-w-[340px] md:w-auto">
+          {console.log("isConnected", isConnected)}
           {isConnected ? <ChangeWallet /> : <LoginEntry />}
         </div>
       </div>

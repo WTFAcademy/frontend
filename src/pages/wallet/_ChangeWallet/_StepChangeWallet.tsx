@@ -17,11 +17,8 @@ const formatChainError = (message: string) => {
 };
 
 const StepChangeWallet = () => {
-  const { data: user, isGithubLogin } = useAuth();
+  const { data: user } = useAuth();
   const { address } = useAccount();
-  console.log("address");
-  console.log(address);
-  console.log("address 123");
   const { data: signer } = useSigner();
 
   const githubName = get(user, "user_metadata.user_name"); // TODO(chong) 待使用统一格式USER数据
@@ -62,8 +59,8 @@ const StepChangeWallet = () => {
     <StepCard
       error={isError}
       errorMessage={errorMessage}
-      onClick={() => isGithubLogin && bindWalletMutate()}
-      className={isGithubLogin && "cursor-pointer"}
+      onClick={() => bindWalletMutate()}
+      className={"cursor-pointer"}
     >
       <div className="flex justify-between w-full">
         <div className="flex flex-col">
