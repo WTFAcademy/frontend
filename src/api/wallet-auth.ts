@@ -28,3 +28,9 @@ export const bindWallet = (data: TBindWalletParams) => {
     .post("/wallet/bind", data, { ignore: true })
     .then(res => res.data);
 };
+
+export const changeWallet = (data: TBindWalletParams) => {
+  return request
+    .post("/wallet/change", data, { ignore: true })
+    .then(res => res.data);
+};
