@@ -9,6 +9,7 @@ import { changeWallet } from "@site/src/api/wallet-auth";
 import { useHistory } from "@docusaurus/router";
 import Spinner from "@site/src/components/ui/Spinner";
 import Translate from "@docusaurus/Translate";
+import { toast } from "react-hot-toast";
 
 const formatChainError = (message: string) => {
   if (message.includes("user rejected signing")) {
@@ -17,7 +18,7 @@ const formatChainError = (message: string) => {
 };
 
 const StepChangeWallet = () => {
-  const { data: user } = useAuth();
+  const { data: user, isGithubLogin } = useAuth();
   const { address } = useAccount();
   const { data: signer } = useSigner();
 
@@ -55,11 +56,19 @@ const StepChangeWallet = () => {
     );
   }, [error]);
 
+  const handleOnClick = () => {
+    if (isGithubLogin) {
+      bindWalletMutate();
+    } else {
+      toast.error("Please login with Github first");
+    }
+  };
+
   return (
     <StepCard
       error={isError}
       errorMessage={errorMessage}
-      onClick={() => bindWalletMutate()}
+      onClick={handleOnClick}
       className={"cursor-pointer"}
     >
       <div className="flex justify-between w-full">
