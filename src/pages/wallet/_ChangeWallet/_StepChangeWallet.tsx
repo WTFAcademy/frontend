@@ -21,6 +21,7 @@ const StepChangeWallet = () => {
   const { data: user, isGithubLogin } = useAuth();
   const { address } = useAccount();
   const { data: signer } = useSigner();
+  const userWallet = JSON.parse(localStorage.getItem("WTF_USER")).wallet;
 
   const githubName = get(user, "user_metadata.user_name"); // TODO(chong) 待使用统一格式USER数据
   const history = useHistory();
@@ -58,9 +59,13 @@ const StepChangeWallet = () => {
 
   const handleOnClick = () => {
     if (isGithubLogin) {
-      bindWalletMutate();
+      if (address != userWallet) {
+        bindWalletMutate();
+      } else {
+        toast.error("当前钱包与Github绑定的钱包一致，无需修改");
+      }
     } else {
-      toast.error("Please login with Github first");
+      toast.error("请使用Github登录");
     }
   };
 
