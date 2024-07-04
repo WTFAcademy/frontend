@@ -6,9 +6,13 @@ import Link from "@docusaurus/Link";
 import useAuth from "@site/src/hooks/useAuth";
 import truncation from "@site/src/utils/truncation";
 import { updateUserInfo } from "@site/src/api/user";
+
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import Translate, { translate } from "@docusaurus/Translate";
+
+import HeroiconsCog6Tooth from "@site/src/icons/ChangeWallet";
+import { useHistory } from "@docusaurus/router";
 
 function Settings() {
   const { data } = useAuth();
@@ -19,6 +23,12 @@ function Settings() {
       message: "保存",
     });
   }, []);
+
+  const history = useHistory();
+
+  const handleIconClick = () => {
+    history.push("/wallet");
+  };
 
   const { register, handleSubmit, reset, watch } = useForm({
     defaultValues: {
@@ -184,13 +194,26 @@ function Settings() {
                     </defs>
                   </svg>
                 </div>
-                <div className="flex flex-col w-full">
-                  <h4 className="text-sm font-medium text-content-subtle">
-                    ETH
-                  </h4>
-                  <p className="text-sm text-content-muted">
-                    {truncation(wallet)}
-                  </p>
+                <div className="flex justify-between items-center w-full">
+                  <div>
+                    <h4 className="text-sm font-medium text-content-subtle">
+                      ETH
+                    </h4>
+                    <p className="text-sm text-content-muted">
+                      {truncation(wallet)}
+                    </p>
+                  </div>
+                  {truncation(wallet) !== "***" && (
+                    <div
+                      className="flex items-center gap-1 hover:cursor-pointer "
+                      onClick={handleIconClick}
+                    >
+                      <HeroiconsCog6Tooth className="h-5 w-5 text-gray-500" />
+                      <h4 className="text-sm font-medium text-content-subtle mr-2">
+                        换绑钱包
+                      </h4>
+                    </div>
+                  )}
                 </div>
               </div>
               {/* <RHFInput label={'email'} name={'email'}></RHFInput> */}
