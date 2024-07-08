@@ -86,6 +86,8 @@ tags:
 代码
 ```solidity
     // 地址
+    //一个字节等于8位二进制数，也等于2位十六进制数
+    //以太坊地址存储为20字节值，而且它以十六进制表示，故会表现为40个十六进制数
     address public _address = 0x7A58c0Be72BE218B41C608b7Fe7C5bB630736C71;
     address payable public _address1 = payable(_address); // payable address，可以转账、查余额
     // 地址类型的成员
