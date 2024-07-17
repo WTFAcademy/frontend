@@ -5,9 +5,10 @@ import { StepContext } from "@site/src/components/ui/Stepper/Step";
 import useMint from "@site/src/hooks/useMint";
 import { getMintInfoByCourse } from "@site/src/api/mint-sbt";
 import StepCard from "@site/src/components/StepCard";
-import { ArrowRightCircleIcon, RefreshCwIcon } from "lucide-react";
+import { ArrowRightCircleIcon, RefreshCwIcon, Loader } from "lucide-react";
 import { Input } from "@site/src/components/ui/Input";
 import Spinner from "@site/src/components/ui/Spinner";
+import pRetry from "p-retry";
 
 const StepMint = props => {
   const { next, info } = props;
@@ -28,25 +29,20 @@ const StepMint = props => {
   });
 
   const [donationAmount, setDonationAmount] = useState(0.0069);
+  const [mintInfo, setMintInfo] = useState<null | {
+    address: string;
+    token_id: number;
+    sign: string;
+    nonce: number;
+    deadline: number;
+    mint_price: number;
+    chain_id: number;
+  }>(null);
 
   const startMint = async () => {
     try {
-      const nonce = await getNonce();
-      console.log(nonce);
-      const mintInfoRes = await getMintInfoByCourse(
-        info.courseId,
-        nonce.toNumber(),
-      );
-      if (mintInfoRes?.code !== 0) {
-        setError(true);
-        setErrorMessage("获取mint签名失败");
-        return;
-      }
-
-      console.log(mintInfoRes);
-      const mintInfo = mintInfoRes.data;
       await mint(
-        mintInfo.token_id,
+        mintInfo.token_id.toString(),
         mintInfo.sign,
         donationAmount,
         mintInfo.mint_price,
@@ -63,6 +59,7 @@ const StepMint = props => {
 
   useEffect(() => {
     // TODO: SET MINIMUM DONATION AMOUNT
+    if (mintInfo && donationAmount >= mintInfo.mint_price) return;
     if (donationAmount < 0.0069) {
       setError(true);
       setErrorMessage("最小捐赠额为0.0069 ETH");
@@ -71,17 +68,46 @@ const StepMint = props => {
     }
   }, [donationAmount]);
 
+  useEffect(() => {
+    if (active) {
+      console.log(11, active);
+      pRetry(
+        () => {
+          getNonce().then(nonce => {
+            getMintInfoByCourse(info.courseId, nonce.toNumber()).then(
+              mintInfoRes => {
+                if (mintInfoRes?.code !== 0) {
+                  setError(true);
+                  setErrorMessage("获取mint签名失败");
+                  return;
+                }
+                console.log(mintInfoRes.data);
+                setMintInfo(mintInfoRes.data);
+              },
+            );
+          });
+        },
+        { retries: 5 },
+      );
+    }
+  }, [active]);
+
   return (
     <StepCard error={error} className="h-auto py-4">
       <div className="flex flex-col w-full">
         <div className="flex items-center justify-between">
           <span>领取灵魂绑定NFT</span>
-          {!loading && !error && active && (
-            <ArrowRightCircleIcon
-              className="cursor-pointer text-[24px]"
-              onClick={startMint}
-            />
-          )}
+          {!loading &&
+            !error &&
+            active &&
+            (mintInfo !== null ? (
+              <ArrowRightCircleIcon
+                className="cursor-pointer text-[24px]"
+                onClick={startMint}
+              />
+            ) : (
+              <Loader className="w-4 h-4 animate-spin" />
+            ))}
           {active && loading && <Spinner loading className="w-4 h-4" />}
           {active && error && !loading && (
             <RefreshCwIcon
@@ -104,6 +130,9 @@ const StepMint = props => {
                 </div>
                 <div className="text-xs">
                   {error ? errorMessage : "助力WTF茁壮成长"}
+                  {!error && mintInfo && mintInfo.mint_price === 0
+                    ? "，而您可以免费铸造"
+                    : ""}
                 </div>
               </div>
               <div className="flex items-center">
