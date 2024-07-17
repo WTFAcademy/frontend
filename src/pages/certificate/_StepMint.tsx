@@ -70,22 +70,20 @@ const StepMint = props => {
 
   useEffect(() => {
     if (active) {
-      console.log(11, active);
       pRetry(
-        () => {
-          getNonce().then(nonce => {
-            getMintInfoByCourse(info.courseId, nonce.toNumber()).then(
-              mintInfoRes => {
-                if (mintInfoRes?.code !== 0) {
-                  setError(true);
-                  setErrorMessage("获取mint签名失败");
-                  return;
-                }
-                console.log(mintInfoRes.data);
-                setMintInfo(mintInfoRes.data);
-              },
-            );
-          });
+        async () => {
+          const nonce = await getNonce();
+          const mintInfoRes = await getMintInfoByCourse(
+            info.courseId,
+            nonce.toNumber(),
+          );
+          if (mintInfoRes?.code !== 0) {
+            setError(true);
+            setErrorMessage("获取mint签名失败");
+            return;
+          }
+          console.log(mintInfoRes.data);
+          setMintInfo(mintInfoRes.data);
         },
         { retries: 5 },
       );
