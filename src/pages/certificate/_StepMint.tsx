@@ -104,7 +104,7 @@ const StepMint = props => {
                 onClick={startMint}
               />
             ) : (
-              <Loader className="w-4 h-4 animate-spin" />
+              active && <Loader className="w-4 h-4 animate-spin" />
             ))}
           {active && loading && <Spinner loading className="w-4 h-4" />}
           {active && error && !loading && (
