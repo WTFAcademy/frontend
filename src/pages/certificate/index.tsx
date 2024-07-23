@@ -21,7 +21,7 @@ import StepMint from "@site/src/pages/certificate/_StepMint";
 import StepEnd from "@site/src/pages/certificate/_StepEnd";
 
 const Main = () => {
-  const [activeStep, setActiveStep] = React.useState(2);
+  const [activeStep, setActiveStep] = React.useState(0);
   const [finish, setFinish] = useState(false);
   const [finishTxInfo, setFinishTxInfo] = useState(null);
   const { info, requestInfoLoading } = useContext(CertificateContext);
