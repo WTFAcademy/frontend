@@ -8,7 +8,6 @@ import StepCard from "@site/src/components/StepCard";
 import { ArrowRightCircleIcon, RefreshCwIcon, Loader } from "lucide-react";
 import { Input } from "@site/src/components/ui/Input";
 import Spinner from "@site/src/components/ui/Spinner";
-import pRetry from "p-retry";
 
 const StepMint = props => {
   const { next, info } = props;
@@ -57,6 +56,27 @@ const StepMint = props => {
     }
   };
 
+  const querySign = async () => {
+    setError(false);
+    try {
+      const nonce = await getNonce();
+      const mintInfoRes = await getMintInfoByCourse(
+        info.courseId,
+        nonce.toNumber(),
+      );
+      if (mintInfoRes?.code !== 0) {
+        setError(true);
+        setErrorMessage("获取mint签名失败，请重试！");
+        return;
+      }
+      console.log(mintInfoRes.data);
+      setMintInfo(mintInfoRes.data);
+    } catch (e) {
+      setError(true);
+      setErrorMessage("获取mint签名失败，请重试！");
+    }
+  };
+
   useEffect(() => {
     // TODO: SET MINIMUM DONATION AMOUNT
     if (mintInfo && donationAmount >= mintInfo.mint_price) return;
@@ -70,23 +90,7 @@ const StepMint = props => {
 
   useEffect(() => {
     if (active) {
-      pRetry(
-        async () => {
-          const nonce = await getNonce();
-          const mintInfoRes = await getMintInfoByCourse(
-            info.courseId,
-            nonce.toNumber(),
-          );
-          if (mintInfoRes?.code !== 0) {
-            setError(true);
-            setErrorMessage("获取mint签名失败");
-            return;
-          }
-          console.log(mintInfoRes.data);
-          setMintInfo(mintInfoRes.data);
-        },
-        { retries: 5 },
-      );
+      querySign();
     }
   }, [active]);
 
@@ -109,7 +113,7 @@ const StepMint = props => {
           {active && loading && <Spinner loading className="w-4 h-4" />}
           {active && error && !loading && (
             <RefreshCwIcon
-              onClick={startMint}
+              onClick={querySign}
               className="w-4 h-4 cursor-pointer hover:rotate-[90deg] transition-transform duration-300"
             />
           )}
