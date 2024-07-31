@@ -28,6 +28,10 @@ const ErrorMap = message => {
     return "拒绝交易";
   }
 
+  if (message.includes("insufficient funds")) {
+    return "余额不足";
+  }
+
   return "领取错误，请重试";
 };
 
@@ -86,7 +90,7 @@ const useMint = (onSuccess = () => {}) => {
       console.log(e);
       setLoading(false);
       setError(true);
-      setErrorMessage(ErrorMap(String(e.message)));
+      setErrorMessage(ErrorMap(String(e.data.message)));
     }
   };
 
