@@ -1,8 +1,7 @@
 ---
-title: 看板
+title: WTF-HTML
 ---
 
-# HTML入门
+# Getting Started with HTML
 
-**WTF HTML教程，帮助新人快速入门HTML，并完成一个极简版Uniswap页面。基于[WTF HTML极简教程](https://github.com/WTFAcademy/WTF-HTML)。**
-
+**WTF HTML tutorial helps newcomers quickly get started with HTML and complete a minimalist version of Uniswap page. Based on [WTF HTML minimalist tutorial](https://github.com/WTFAcademy/WTF-HTML). **

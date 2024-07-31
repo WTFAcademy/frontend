@@ -27,7 +27,14 @@ const config = {
     themes: ['solive-docusaurus-theme-code'],
     i18n: {
         defaultLocale: 'zh',
-        locales: ['en', 'zh']
+        locales: ['en', 'zh'],
+        localeConfigs: (
+            zh: {
+                label: 'Chinese',
+            },
+            en: {
+                label: 'English',
+            },
     },
     presets: [
         [
