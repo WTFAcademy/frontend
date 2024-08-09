@@ -5,115 +5,119 @@ tags:
   - frontend
   - web
 ---
-# WTF HTML极简教程: 2. Element
+# WTF HTML Minimalist Tutorial: 2. Element
 
-WTF HTML教程，帮助新人快速入门HTML。
+WTF HTML tutorial helps newbies quickly get started with HTML.
 
-**推特**：[@WTFAcademy_](https://twitter.com/WTFAcademy_)  ｜ [@0xAA_Science](https://twitter.com/0xAA_Science) 
+**Twitter**: [@WTFAcademy_](https://twitter.com/WTFAcademy_) | [@0xAA_Science](https://twitter.com/0xAA_Science)
 
-**WTF Academy社群：** [官网 wtf.academy](https://wtf.academy) | [WTF Solidity教程](https://github.com/AmazingAng/WTFSolidity) | [discord](https://discord.gg/5akcruXrsk) | [微信群申请](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
+**WTF Academy Community:** [Official website wtf.academy](https://wtf.academy) | [WTF Solidity Tutorial](https://github.com/AmazingAng/WTFSolidity) | [discord](https: //discord.gg/5akcruXrsk) | [WeChat group application](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)
 
-所有代码和教程开源在github: [github.com/WTFAcademy/WTF-HTML](https://github.com/WTFAcademy/WTF-HTML)
+All codes and tutorials are open source on github: [github.com/WTFAcademy/WTF-HTML](https://github.com/WTFAcademy/WTF-HTML)
 
 ---
 
-在我们了解了HTML的基础概念后，我们将深入讨论HTML的元素。
+After we understand the basic concepts of HTML, we will discuss the elements of HTML in depth.
 
 
-## 元素的属性
+## Attributes of elements
 
-HTML 元素可以拥有属性（Attribute），它们提供了有关元素的更多信息，或者定义了元素的某些行为。属性总是在开始标签中定义，常常使用 "属性名=属性值" 的形式出现。例如，链接（`a`）元素可以使用 `href` 属性指定链接的目标地址：
+HTML elements can have attributes, which provide more information about the element or define certain behaviors of the element. Properties are always defined in the start tag, often using the form "property name = property value". For example, a link (`a`) element can use the `href` attribute to specify the target address of the link:
 
 ```html
 <a href="https://www.example.com">Visit our website</a>
 ```
 
-浏览器中效果：
+Effect in browser:
 
 <a href="https://www.example.com">Visit our website</a>
 
 
-在上述代码中，`a` 元素的 `href` 属性的值为 `"https://www.example.com"`，这意味着当点击该链接时，浏览器将导航到该 URL。
+In the above code, the value of the `href` attribute of the `a` element is `"https://www.example.com"`, which means that when the link is clicked, the browser will navigate to that URL.
 
-属性应该包含：
+Properties should contain:
 
-1. 在属性与元素名称（或上一个属性，如果有超过一个属性的话）之间的空格符。
-2. 属性的名称，并接上一个等号。
-3. 由引号所包围的属性值。
+1. A space between the attribute and the element name (or the previous attribute if there is more than one attribute).
+2. The name of the attribute, followed by an equal sign.
+3. The attribute value surrounded by quotation marks.
 
-常用的属性：
+Commonly used properties:
 
-1. `id`:为元素提供一个唯一标识符。
-2. `class`：为元素提供一个或多个类名，不同的元素可以添加相同的类名。
-3. `style`:为元素提供内联样式。
+1. `id`: Provide a unique identifier for the element.
+2. `class`: Provide one or more class names for the element. Different elements can add the same class name.
+3. `style`: Provides inline styles for elements.
 
 
-## 嵌套元素
+## Nested elements
 
-HTML 元素可以嵌套在其他元素中。这意味着你可以在一个元素内部放置另一个或多个元素，以创建更复杂的内容结构。例如，你可能会在一个段落元素内部包含一个或多个链接元素：
+HTML elements can be nested within other elements. This means you can place another element or elements inside one element to create more complex content structures. For example, you might include one or more link elements inside a paragraph element:
 
 ```html
 <p>My cat is <strong>very</strong> grumpy.</p>
 ```
-浏览器中效果:
+Effect in browser:
 
 <p>My cat is <strong>very</strong> grumpy.</p>
 
-必须保证元素嵌套次序正确：本例首先使用`<p>`标签，然后是`<strong>`标签，因此要先结束`<strong>`标签，最后再结束`<p>`标签。这样是不对的：
+It is necessary to ensure that the nesting order of elements is correct: in this example, the `<p>` tag is used first, and then the `<strong>` tag, so the `<strong>` tag must be ended first, and then the `<p>` tag. This is not right:
 
 ```html
 <p>My cat is <strong>very grumpy.</p></strong>
 ```
 
-因此元素必须正确地开始和结束，才能清楚地显示出正确的嵌套层次。否则浏览器就得自己猜测，虽然它会竭尽全力，但很大程度不会给你期望的结果。所以一定要避免！
+Effect in browser:
 
-## 空元素
+<p>My cat is <strong>very grumpy.</p></strong>
 
-HTML 中有一些元素没有内容，也不需要结束标签，这些被称为空元素（Empty Elements）。比如 `<br>` 标签插入一个换行，`<img>` 标签用来插入图片。
+Therefore elements must start and end correctly to clearly show the correct nesting level. Otherwise the browser will have to guess on its own, and although it will try its best, it will most likely not give you the results you expect. So be sure to avoid it!
+
+## Empty element
+
+There are some elements in HTML that have no content and do not require closing tags. These are called empty elements. For example, the `<br>` tag inserts a line break, and the `<img>` tag is used to insert an image.
 
 ```html
 <br>
 <img src="image.jpg" alt="My Image">
 ```
 
-## 块级元素
+## Block level elements
 
-块级元素（Block-level Elements）在页面中以块的形式显示，常常用作结构元素。常见的块级元素有：`<div>`、`<p>`、`<h1>`-`<h6>` 和 `<ul>` 等。块级元素的特点是：
+Block-level elements (Block-level Elements) are displayed in the form of blocks on the page and are often used as structural elements. Common block-level elements include: `<div>`, `<p>`, `<h1>`-`<h6>` and `<ul>`, etc. The characteristics of block-level elements are:
 
-1. 独占一行
-2. 元素的宽高可以设置
-3. 默认宽度是它父容器的100%
-4. 与其他块级元素上下堆叠
-
-```html
-<div>我是div</div>
-<div>我也是div</div>
-```
-
-浏览器中效果:
-<div>我是div</div>
-<div>我也是div</div>
-
-
-## 行内元素
-
-行内元素（Inline Elements）不会开始新的一行，它们在文本中流动，仅占据它们包含的内容所需要的宽度。常见的行内元素有：`<span>`、`<a>` 和 `<img>` 等。行内元素的特点是：
-
-1. 可以与相邻的行内元素排列在同一行
-2. 元素的宽高不可设置
-3. 元素宽度会被内容撑开
+1. Own a line
+2. The width and height of the element can be set
+3. The default width is 100% of its parent container
+4. Stacked with other block-level elements
 
 ```html
-<span>我是span</span>
-<span>我也是span</span>
+<div>I am div</div>
+<div>I am also div</div>
 ```
 
-浏览器中效果:
+Effect in browser:
+<div>I am div</div>
+<div>I am also div</div>
 
-<span>我是span</span>
-<span>我也是span</span>
+
+## Inline elements
+
+Inline Elements do not start a new line; they flow within the text, taking up only the width required by the content they contain. Common inline elements include: `<span>`, `<a>` and `<img>`, etc. The characteristics of inline elements are:
+
+1. Can be arranged on the same line as adjacent inline elements
+2. The width and height of the element cannot be set.
+3. The width of the element will be stretched by the content
+
+```html
+<span>I am span</span>
+<span>I am also span</span>
+```
+
+Effect in browser:
+
+<span>I am span</span>
+<span>I am also span</span>
 
 
-## 总结
+## Summary
 
-这一讲我们具体分析了HTML中的元素，包括元素的属性、嵌套元素、空元素、块级元素和行内元素。
+In this lecture, we specifically analyzed the elements in HTML, including element attributes, nested elements, empty elements, block-level elements and inline elements.
