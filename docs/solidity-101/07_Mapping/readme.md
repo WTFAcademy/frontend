@@ -47,7 +47,7 @@ mapping(address => address) public swapPair; // 币对的映射，地址到地�
     mapping(Student => uint) public testVar;
     ```
 
-- **规则2**：映射的存储位置必须是`storage`，因此可以用于合约的状态变量，函数中的`storage`变量和library函数的参数（见[例子](https://github.com/ethereum/solidity/issues/4635)）。不能用于`public`函数的参数或返回结果中，因为`mapping`记录的是一种关系 (key - value pair)。
+- **规则2**：映射的存储位置必须是`storage`，因此可以用于合约的状态变量，函数中的`storage`变量和library函数的参数（见[例子](https://github.com/ethereum/solidity/issues/4635)）。不能用于`public`函数的参数或返回结果中，因为`mapping`记录的是一种关系 (key - value pair)，而不是具体的值。
 
 - **规则3**：如果映射声明为`public`，那么Solidity会自动给你创建一个`getter`函数，可以通过`Key`来查询对应的`Value`。
 
@@ -61,11 +61,11 @@ mapping(address => address) public swapPair; // 币对的映射，地址到地�
 
 ## 映射的原理
 
-- **原理1**: 映射不储存任何键（`Key`）的资讯，也没有length的资讯。
+- **原理1**: 映射不储存任何键（`Key`）的资讯，也没有length的资讯。映射的设计是为了高效地查找值，而不是遍历键。
 
 - **原理2**: 映射使用`keccak256(abi.encodePacked(key, slot))`当成offset存取value，其中`slot`是映射变量定义所在的插槽位置。
 
-- **原理3**: 因为Ethereum会定义所有未使用的空间为0，所以未赋值（`Value`）的键（`Key`）初始值都是各个type的默认值，如uint的默认值是0。
+- **原理3**: 因为Ethereum会定义所有未使用的空间为0，所以未赋值（`Value`）的键（`Key`）初始值都是各个type的默认值，如uint的默认值是0，bool的默认值是false。
 
 ## 在Remix上验证 (以 `Mapping.sol`为例)
 
