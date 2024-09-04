@@ -28,10 +28,13 @@ tags:
 
 ### constant
 
-`constant`变量必须在声明的时候初始化，之后再也不能改变。尝试改变的话，编译不通过。
+- 定义： `constant`变量用在编译时就已知值的变量，这些变量的值在合约部署后不能更改。
+- 使用场景：适用于那些在合约生命周期内始终不变的值，比如数学常数、固定的地址或字符串。
+- 初始化：`constant`变量必须在声明的时候初始化，因为他们的值在编译时就确定了。
+- 存储位置：`constant`变量的值直接嵌入到合约的字节码中。
 
 ``` solidity
-// constant变量必须在声明的时候初始化，之后不能改变
+// constant变量必须在声明的时候初始化，之后不能改变，尝试改变的话，编译不通过。
 uint256 constant CONSTANT_NUM = 10;
 string constant CONSTANT_STRING = "0xAA";
 bytes constant CONSTANT_BYTES = "WTF";
@@ -40,8 +43,10 @@ address constant CONSTANT_ADDRESS = 0x0000000000000000000000000000000000000000;
 
 ### immutable
 
-`immutable`变量可以在声明时或构造函数中初始化，因此更加灵活。在`Solidity v8.0.21`以后，`immutable`变量不需要显式初始化。反之，则需要显式初始化。
-若`immutable`变量既在声明时初始化，又在constructor中初始化，会使用constructor初始化的值。
+- 定义：`immutable`变量用于定义在合约部署时确定的变量。这些变量的值在合约部署后不能更改，但可以在构造函数中进行初始化。
+- 使用场景：适用于那些在合约部署时才能确定的值，比如依赖于部署参数的配置。
+- 初始化：`immutable`变量可以在声明时或构造函数中初始化，因此更加灵活。在`Solidity v8.0.21`以后，`immutable`变量不需要显式初始化。反之，则需要显式初始化。若`immutable`变量既在声明时初始化，又在constructor中初始化，会使用constructor初始化的值。
+- 存储位置：`immutable`变量的值存储在合约的存储中，但在合约生命周期内不可更改。
 
 ``` solidity
 // immutable变量可以在constructor里初始化，之后不能改变

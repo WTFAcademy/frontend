@@ -106,7 +106,7 @@ address payable public _address1 = payable(_address); // payable address，可�
 uint256 public balance = _address1.balance; // balance of address
 ```
 
-### 4. 定长字节数组
+### 4. 字节数组
 
 字节数组分为定长和不定长两种：
 
