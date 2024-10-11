@@ -139,6 +139,14 @@ interface IERC721 is IERC165 {
 ```solidity
 // ERC721接收者接口：合约必须实现这个接口来通过安全转账接收ERC721
 interface IERC721Receiver {
+    /**
+     * @dev 每个 {IERC721} `tokenId` 通过 {IERC721-safeTransferFrom} 由 `operator` 从 `from` 转移到
+     * 该合约时，该函数会被调用。
+     *
+     * 该函数必须返回其 Solidity selector 以确认代币的转账。
+     * 如果返回了其他值，或者 tokenId 接收者没有实现该接口，则转账将被回滚。
+     *
+     */
     function onERC721Received(
         address operator,
         address from,
@@ -209,7 +217,7 @@ import "./IERC721Receiver.sol";
 import "./IERC721Metadata.sol";
 import "./String.sol";
 
-contract ERC721 is IERC721, IERC721Metadata{
+contract ERC721 is IERC721, IERC165, IERC721Metadata{
     using Strings for uint256; // 使用String库，
 
     // Token名称
