@@ -79,7 +79,7 @@ function test() public pure returns(uint256){
 
 3. `immutable`变量初始化之后，尝试改变它的值，会编译不通过并抛出`TypeError: Immutable state variable already initialized.`的错误。
 
-   ![9-3.png](./img/9-3.png)
+   ![9-3.png](./img/9-4.png)
 
 ## 总结
 
