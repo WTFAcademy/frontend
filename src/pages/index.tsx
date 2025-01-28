@@ -7,6 +7,7 @@ import IntroductionSection from "@site/src/pages/home/_IntroductionSection";
 import EventSection from "@site/src/pages/home/_EventSection";
 import SponsorSection from "@site/src/pages/home/_SponsorSection";
 import ContributorSection from "@site/src/pages/home/_ContributorSection";
+import Translate, {translate} from '@docusaurus/Translate'; 
 
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
