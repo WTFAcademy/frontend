@@ -117,8 +117,8 @@ interface IERC721 is IERC165 {
 
 ### IERC721事件
 `IERC721`包含3个事件，其中`Transfer`和`Approval`事件在`ERC20`中也有。
-- `Transfer`事件：在转账时被释放，记录代币的发出地址`from`，接收地址`to`和`tokenid`。
-- `Approval`事件：在授权时释放，记录授权地址`owner`，被授权地址`approved`和`tokenid`。
+- `Transfer`事件：在转账时被释放，记录代币的发出地址`from`，接收地址`to`和`tokenId`。
+- `Approval`事件：在授权时释放，记录授权地址`owner`，被授权地址`approved`和`tokenId`。
 - `ApprovalForAll`事件：在批量授权时释放，记录批量授权的发出地址`owner`，被授权地址`operator`和授权与否的`approved`。
 
 ### IERC721函数
@@ -126,7 +126,7 @@ interface IERC721 is IERC165 {
 - `ownerOf`：返回某`tokenId`的主人`owner`。
 - `transferFrom`：普通转账，参数为转出地址`from`，接收地址`to`和`tokenId`。
 - `safeTransferFrom`：安全转账（如果接收方是合约地址，会要求实现`ERC721Receiver`接口）。参数为转出地址`from`，接收地址`to`和`tokenId`。
-- `approve`：授权另一个地址使用你的NFT。参数为被授权地址`approve`和`tokenId`。
+- `approve`：授权另一个地址使用你的NFT。参数为被授权地址`to`和`tokenId`。
 - `getApproved`：查询`tokenId`被批准给了哪个地址。
 - `setApprovalForAll`：将自己持有的该系列NFT批量授权给某个地址`operator`。
 - `isApprovedForAll`：查询某地址的NFT是否批量授权给了另一个`operator`地址。
@@ -210,7 +210,7 @@ import "./IERC721Metadata.sol";
 import "./String.sol";
 
 contract ERC721 is IERC721, IERC721Metadata{
-    using Strings for uint256; // 使用String库，
+    using Strings for uint256; // 使用Strings库，
 
     // Token名称
     string public override name;
@@ -222,7 +222,7 @@ contract ERC721 is IERC721, IERC721Metadata{
     mapping(address => uint) private _balances;
     // tokenID 到 授权地址 的授权映射
     mapping(uint => address) private _tokenApprovals;
-    //  owner地址。到operator地址 的批量授权映射
+    // owner地址 到 operator地址 的批量授权映射
     mapping(address => mapping(address => bool)) private _operatorApprovals;
 
     // 错误 无效的接收者
@@ -590,7 +590,7 @@ interface ERC721Metadata /* is ERC721 */ {
 IERC721Metadata.name.selector ^ IERC721Metadata.symbol.selector ^ IERC721Metadata.tokenURI.selector
 ```
 
-solamte实现的ERC721.sol是怎么完成这些ERC165要求的特性的呢？
+solmate实现的[ERC721.sol](https://github.com/transmissions11/solmate/blob/main/src/tokens/ERC721.sol)是怎么完成这些ERC165要求的特性的呢？
 
 ```solidity
 function supportsInterface(bytes4 interfaceId) public view virtual returns (bool) {
